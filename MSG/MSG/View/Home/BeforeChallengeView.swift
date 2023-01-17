@@ -9,29 +9,28 @@ import SwiftUI
 
 struct BeforeChallengeView: View {
     var body: some View {
-        NavigationStack{
-            ZStack{ Color("Background").ignoresSafeArea()
-                
-                challengeGroups
-                
+        ZStack{ Color("Background").ignoresSafeArea()
+            
+            challengeGroups
+            
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Text("MSG")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("Font"))
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text("MSG")
-                        .font(.title)
-                        .fontWeight(.bold)
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: Text("프로필뷰")) {
+                    Image(systemName: "person.circle")
+                        .font(.title2)
                         .foregroundColor(Color("Font"))
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: Text("프로필뷰")) {
-                        Image(systemName: "person.circle")
-                            .font(.title2)
-                            .foregroundColor(Color("Font"))
-                    }
-                   
-                }
+                
             }
         }
+        
     }
 }
 

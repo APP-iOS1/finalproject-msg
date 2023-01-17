@@ -21,25 +21,25 @@
 		166009812976313800E6A546 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 166009802976313800E6A546 /* GoogleSignInSwift */; };
 		166009842976315700E6A546 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 166009832976315700E6A546 /* KakaoSDK */; };
 		1660098B29763A9F00E6A546 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1660098A29763A9E00E6A546 /* GoogleService-Info.plist */; };
-		6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C229763B0D00C24D20 /* LoginView.swift */; };
-		6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C6297648CB00C24D20 /* KakaoAppDelegate.swift */; };
-		6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C829764AA500C24D20 /* KakaoSceneDelegate.swift */; };
-		6342C2CB29764EDA00C24D20 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CA29764EDA00C24D20 /* KakaoAuthViewModel.swift */; };
-		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
-		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
 		1660098D29763AD800E6A546 /* MSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098C29763AD800E6A546 /* MSG.swift */; };
 		1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098E2976404400E6A546 /* RealtimeViewModel.swift */; };
 		166009932976685200E6A546 /* FriendSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166009922976685200E6A546 /* FriendSettingView.swift */; };
 		1660099529766FC000E6A546 /* FriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660099429766FC000E6A546 /* FriendView.swift */; };
 		1660099729766FCC00E6A546 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660099629766FCC00E6A546 /* AlertView.swift */; };
 		16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FBE6C52976784D001EC518 /* FriendViewCell.swift */; };
+		3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */; };
+		36B093F92976694F0089E76A /* GameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093F82976694F0089E76A /* GameSettingView.swift */; };
 		36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093FA29766FB30089E76A /* SpendingWritingView.swift */; };
+		36DB97792976526900A0596F /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DB97782976526900A0596F /* ViewModifier.swift */; };
 		4C930D5F29763B4300EE046D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D5E29763B4300EE046D /* HomeView.swift */; };
 		4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6029763CD200EE046D /* AfterChallengeView.swift */; };
 		4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6229763CF000EE046D /* BeforeChallengeView.swift */; };
-		3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */; };
-		36B093F92976694F0089E76A /* GameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093F82976694F0089E76A /* GameSettingView.swift */; };
-		36DB97792976526900A0596F /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DB97782976526900A0596F /* ViewModifier.swift */; };
+		6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C229763B0D00C24D20 /* LoginView.swift */; };
+		6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C6297648CB00C24D20 /* KakaoAppDelegate.swift */; };
+		6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C829764AA500C24D20 /* KakaoSceneDelegate.swift */; };
+		6342C2CB29764EDA00C24D20 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CA29764EDA00C24D20 /* KakaoAuthViewModel.swift */; };
+		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
+		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
 		C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +50,19 @@
 		16600966297630C400E6A546 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16600969297630C400E6A546 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1660098A29763A9E00E6A546 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1660098C29763AD800E6A546 /* MSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MSG.swift; path = MSG/MSG.swift; sourceTree = SOURCE_ROOT; };
+		1660098E2976404400E6A546 /* RealtimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RealtimeViewModel.swift; path = MSG/RealtimeViewModel.swift; sourceTree = SOURCE_ROOT; };
+		166009922976685200E6A546 /* FriendSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSettingView.swift; sourceTree = "<group>"; };
+		1660099429766FC000E6A546 /* FriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendView.swift; sourceTree = "<group>"; };
+		1660099629766FCC00E6A546 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		16FBE6C52976784D001EC518 /* FriendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewCell.swift; sourceTree = "<group>"; };
+		3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingViewModel.swift; sourceTree = "<group>"; };
+		36B093F82976694F0089E76A /* GameSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSettingView.swift; sourceTree = "<group>"; };
+		36B093FA29766FB30089E76A /* SpendingWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingWritingView.swift; sourceTree = "<group>"; };
+		36DB97782976526900A0596F /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
+		4C930D5E29763B4300EE046D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		4C930D6029763CD200EE046D /* AfterChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterChallengeView.swift; sourceTree = "<group>"; };
+		4C930D6229763CF000EE046D /* BeforeChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeChallengeView.swift; sourceTree = "<group>"; };
 		6342C2C229763B0D00C24D20 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		6342C2C42976446600C24D20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6342C2C5297645F100C24D20 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -58,19 +71,6 @@
 		6342C2CA29764EDA00C24D20 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthViewModel.swift; sourceTree = "<group>"; };
 		6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		63BC0F8529767608003F2379 /* MakeProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeProfileView.swift; sourceTree = "<group>"; };
-		1660098C29763AD800E6A546 /* MSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MSG.swift; path = MSG/MSG.swift; sourceTree = SOURCE_ROOT; };
-		1660098E2976404400E6A546 /* RealtimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RealtimeViewModel.swift; path = MSG/RealtimeViewModel.swift; sourceTree = SOURCE_ROOT; };
-		166009922976685200E6A546 /* FriendSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSettingView.swift; sourceTree = "<group>"; };
-		1660099429766FC000E6A546 /* FriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendView.swift; sourceTree = "<group>"; };
-		1660099629766FCC00E6A546 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
-		16FBE6C52976784D001EC518 /* FriendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewCell.swift; sourceTree = "<group>"; };
-		36B093FA29766FB30089E76A /* SpendingWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingWritingView.swift; sourceTree = "<group>"; };
-		4C930D5E29763B4300EE046D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		4C930D6029763CD200EE046D /* AfterChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterChallengeView.swift; sourceTree = "<group>"; };
-		4C930D6229763CF000EE046D /* BeforeChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeChallengeView.swift; sourceTree = "<group>"; };
-		3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingViewModel.swift; sourceTree = "<group>"; };
-		36B093F82976694F0089E76A /* GameSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSettingView.swift; sourceTree = "<group>"; };
-		36DB97782976526900A0596F /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
 		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +94,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1606CB4C297697C3004DD13B /* FriendSetting */ = {
+			isa = PBXGroup;
+			children = (
+				1660099629766FCC00E6A546 /* AlertView.swift */,
+				166009922976685200E6A546 /* FriendSettingView.swift */,
+				1660099429766FC000E6A546 /* FriendView.swift */,
+				16FBE6C52976784D001EC518 /* FriendViewCell.swift */,
+			);
+			path = FriendSetting;
+			sourceTree = "<group>";
+		};
+		1606CB4D297697E2004DD13B /* GameSetting */ = {
+			isa = PBXGroup;
+			children = (
+				36B093F82976694F0089E76A /* GameSettingView.swift */,
+				3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */,
+			);
+			path = GameSetting;
+			sourceTree = "<group>";
+		};
+		1606CB4E297697F9004DD13B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4C930D6029763CD200EE046D /* AfterChallengeView.swift */,
+				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
+				4C930D5E29763B4300EE046D /* HomeView.swift */,
+				36B093FA29766FB30089E76A /* SpendingWritingView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		1606CB4F2976992C004DD13B /* ChallengeRecord */ = {
+			isa = PBXGroup;
+			children = (
+				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
+			);
+			path = ChallengeRecord;
+			sourceTree = "<group>";
+		};
 		16600956297630C300E6A546 = {
 			isa = PBXGroup;
 			children = (
@@ -118,8 +157,6 @@
 				166009852976334600E6A546 /* View */,
 				166009862976334C00E6A546 /* ViewModel */,
 				16600962297630C300E6A546 /* MSGApp.swift */,
-				16600964297630C300E6A546 /* ContentView.swift */,
-				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
 				1660098A29763A9E00E6A546 /* GoogleService-Info.plist */,
 				16600968297630C400E6A546 /* Preview Content */,
@@ -139,17 +176,12 @@
 		166009852976334600E6A546 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				16600964297630C300E6A546 /* ContentView.swift */,
+				1606CB4F2976992C004DD13B /* ChallengeRecord */,
+				1606CB4E297697F9004DD13B /* Home */,
+				1606CB4D297697E2004DD13B /* GameSetting */,
+				1606CB4C297697C3004DD13B /* FriendSetting */,
 				6342C2CE297672C000C24D20 /* Login */,
-				166009922976685200E6A546 /* FriendSettingView.swift */,
-				1660099429766FC000E6A546 /* FriendView.swift */,
-				16FBE6C52976784D001EC518 /* FriendViewCell.swift */,
-				1660099629766FCC00E6A546 /* AlertView.swift */,
-				36B093FA29766FB30089E76A /* SpendingWritingView.swift */,
-				4C930D5E29763B4300EE046D /* HomeView.swift */,
-				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
-				4C930D6029763CD200EE046D /* AfterChallengeView.swift */,
-				36B093F82976694F0089E76A /* GameSettingView.swift */,
-				3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -176,8 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				6342C2C229763B0D00C24D20 /* LoginView.swift */,
-				6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */,
 				63BC0F8529767608003F2379 /* MakeProfileView.swift */,
+				6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
