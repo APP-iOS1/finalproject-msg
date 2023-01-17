@@ -23,7 +23,7 @@ struct BeforeChallengeView: View {
                         .foregroundColor(Color("Font"))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: ProfileView()) {
+                    NavigationLink(destination: Text("프로필뷰")) {
                         Image(systemName: "person.circle")
                             .font(.title2)
                             .foregroundColor(Color("Font"))

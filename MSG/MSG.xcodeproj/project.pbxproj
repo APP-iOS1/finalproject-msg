@@ -24,7 +24,6 @@
 		4C930D5F29763B4300EE046D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D5E29763B4300EE046D /* HomeView.swift */; };
 		4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6029763CD200EE046D /* AfterChallengeView.swift */; };
 		4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6229763CF000EE046D /* BeforeChallengeView.swift */; };
-		4C930D6529763EE200EE046D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6429763EE200EE046D /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +36,6 @@
 		4C930D5E29763B4300EE046D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4C930D6029763CD200EE046D /* AfterChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterChallengeView.swift; sourceTree = "<group>"; };
 		4C930D6229763CF000EE046D /* BeforeChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeChallengeView.swift; sourceTree = "<group>"; };
-		4C930D6429763EE200EE046D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +103,6 @@
 				4C930D5E29763B4300EE046D /* HomeView.swift */,
 				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
 				4C930D6029763CD200EE046D /* AfterChallengeView.swift */,
-				4C930D6429763EE200EE046D /* ProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -215,7 +212,6 @@
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
 				4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */,
 				16600963297630C300E6A546 /* MSGApp.swift in Sources */,
-				4C930D6529763EE200EE046D /* ProfileView.swift in Sources */,
 				4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
