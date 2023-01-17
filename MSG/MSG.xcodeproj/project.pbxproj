@@ -40,6 +40,7 @@
 		3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */; };
 		36B093F92976694F0089E76A /* GameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093F82976694F0089E76A /* GameSettingView.swift */; };
 		36DB97792976526900A0596F /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DB97782976526900A0596F /* ViewModifier.swift */; };
+		C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingViewModel.swift; sourceTree = "<group>"; };
 		36B093F82976694F0089E76A /* GameSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSettingView.swift; sourceTree = "<group>"; };
 		36DB97782976526900A0596F /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
+		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				166009862976334C00E6A546 /* ViewModel */,
 				16600962297630C300E6A546 /* MSGApp.swift */,
 				16600964297630C300E6A546 /* ContentView.swift */,
+				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
 				1660098A29763A9E00E6A546 /* GoogleService-Info.plist */,
 				16600968297630C400E6A546 /* Preview Content */,
@@ -295,6 +298,7 @@
 				36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */,
 				4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */,
 				36DB97792976526900A0596F /* ViewModifier.swift in Sources */,
+				C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */,
 				16600963297630C300E6A546 /* MSGApp.swift in Sources */,
 				4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */,
 			);
