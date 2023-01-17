@@ -13,7 +13,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct YourApp: App {
+struct MSGApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @UIApplicationDelegateAdaptor var kakaoAppDelegate: KakaoAppDelegate
