@@ -16,7 +16,7 @@ struct AfterChallengeView: View {
         formatter.locale = Locale(identifier: "ko_kr")
         formatter.timeZone = TimeZone(abbreviation: "KST")
         //형태 변환
-        formatter.dateFormat = "yyyy년 M월 d일   a h시 m분"
+        formatter.dateFormat = "yyyy년 M월 d일"
         
         return formatter
     }
@@ -28,7 +28,7 @@ struct AfterChallengeView: View {
         
         formatter.locale = Locale(identifier: "ko_kr")
         formatter.timeZone = TimeZone(abbreviation: "KST")
-        formatter.dateFormat = "yyyy년 mm월 d일"
+        formatter.dateFormat = "yyyy년 M월 d일"
         
         let date = formatter.date(from:dateString)!
         
@@ -37,7 +37,7 @@ struct AfterChallengeView: View {
     
     // 챌린지가 끝나는 날을 알려면 이걸 쓰면 되나??
     func isChatTomorrowWithString(dateString: String) -> Bool {
-            let firebaseFormat = "yyyy년 MM월 dd일"
+            let firebaseFormat = "yyyy년 M월 d일"
             let formatter = DateFormatter()
             formatter.dateFormat = firebaseFormat
             formatter.locale = Locale(identifier: "ko")
@@ -62,13 +62,19 @@ struct AfterChallengeView: View {
             }
         
         }
+    
+    @State private var birthDate = Date()
+    
     var body: some View {
         NavigationStack{
             ZStack{
                 Color("Background").ignoresSafeArea()
                 
                 VStack{
-                    
+                    DatePicker(selection: $birthDate, displayedComponents: .date, label: { Text("시작날짜선택")
+                        Text("\(birthDate, formatter: dateFormatter)")
+                    })
+
                     Group{
                         Text(isChatTomorrowWithString(dateString: "2023년 1월 17일") ? "날짜 다름" : "날짜 같음")
                         Text("치킨내기 30일 챌린지!!")
