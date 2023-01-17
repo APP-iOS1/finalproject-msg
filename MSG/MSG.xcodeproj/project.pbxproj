@@ -21,6 +21,8 @@
 		166009812976313800E6A546 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 166009802976313800E6A546 /* GoogleSignInSwift */; };
 		166009842976315700E6A546 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 166009832976315700E6A546 /* KakaoSDK */; };
 		1660098929763A6E00E6A546 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1660098829763A6E00E6A546 /* GoogleService-Info.plist */; };
+		1660098D29763AD800E6A546 /* MSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098C29763AD800E6A546 /* MSG.swift */; };
+		1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098E2976404400E6A546 /* RealtimeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		16600966297630C400E6A546 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16600969297630C400E6A546 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1660098829763A6E00E6A546 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1660098C29763AD800E6A546 /* MSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MSG.swift; path = MSG/MSG.swift; sourceTree = SOURCE_ROOT; };
+		1660098E2976404400E6A546 /* RealtimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RealtimeViewModel.swift; path = MSG/RealtimeViewModel.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,7 @@
 		166009862976334C00E6A546 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				1660098E2976404400E6A546 /* RealtimeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -108,6 +113,7 @@
 		166009872976335A00E6A546 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1660098C29763AD800E6A546 /* MSG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -200,6 +206,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
+				1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */,
+				1660098D29763AD800E6A546 /* MSG.swift in Sources */,
 				16600963297630C300E6A546 /* MSGApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
