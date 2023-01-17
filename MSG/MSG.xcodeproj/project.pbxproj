@@ -20,7 +20,6 @@
 		1660097E297630F600E6A546 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1660097D297630F600E6A546 /* FirebaseStorageCombine-Community */; };
 		166009812976313800E6A546 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 166009802976313800E6A546 /* GoogleSignInSwift */; };
 		166009842976315700E6A546 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 166009832976315700E6A546 /* KakaoSDK */; };
-		1660098929763A6E00E6A546 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1660098829763A6E00E6A546 /* GoogleService-Info.plist */; };
 		1660098D29763AD800E6A546 /* MSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098C29763AD800E6A546 /* MSG.swift */; };
 		1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098E2976404400E6A546 /* RealtimeViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -31,7 +30,6 @@
 		16600964297630C300E6A546 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		16600966297630C400E6A546 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16600969297630C400E6A546 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1660098829763A6E00E6A546 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1660098C29763AD800E6A546 /* MSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MSG.swift; path = MSG/MSG.swift; sourceTree = SOURCE_ROOT; };
 		1660098E2976404400E6A546 /* RealtimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RealtimeViewModel.swift; path = MSG/RealtimeViewModel.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -81,7 +79,6 @@
 				16600962297630C300E6A546 /* MSGApp.swift */,
 				16600964297630C300E6A546 /* ContentView.swift */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
-				1660098829763A6E00E6A546 /* GoogleService-Info.plist */,
 				16600968297630C400E6A546 /* Preview Content */,
 			);
 			path = MSG;
@@ -193,7 +190,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1660096A297630C400E6A546 /* Preview Assets.xcassets in Resources */,
-				1660098929763A6E00E6A546 /* GoogleService-Info.plist in Resources */,
 				16600967297630C400E6A546 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
