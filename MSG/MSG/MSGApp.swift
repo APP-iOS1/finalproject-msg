@@ -22,7 +22,7 @@ struct YourApp: App {
         WindowGroup {
             NavigationView {
 //                ContentView()
-                LoginView()
+                MakeProfileView()
             }
         }
     }

@@ -12,17 +12,21 @@ struct LoginView: View {
     @StateObject var kakaoAuthViewModel: KakaoAuthViewModel = KakaoAuthViewModel()
     @State private var showingSheetView: Bool = false
     
+    private var frameWidth = UIScreen.main.bounds.width
+    private var frameHeight = UIScreen.main.bounds.height
+    
     var body: some View {
         
         ZStack {
             Color("Background")
                 .ignoresSafeArea()
             VStack {
+                // 앱 이름
                 HStack(spacing: 20) {
-                    Image(systemName: "flag.checkered.2.crossed")
+                    Image(systemName: "dpad.left.filled")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 70)
+                        .frame(width: frameHeight / 18)
                     VStack(alignment: .leading) {
                         Text("MSG")
                             .font(.largeTitle.bold())
@@ -30,22 +34,23 @@ struct LoginView: View {
                     }
                 }
                 .padding()
-                .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-                .frame(maxHeight: UIScreen.main.bounds.height / 7)
+                .frame(width: frameWidth, alignment: .leading)
+                .frame(maxHeight: frameHeight / 7)
                 
                 VStack(spacing: 20) {
                     HStack {
                         Text("회원가입")
                             .bold()
                         Divider()
-                            .frame(height: UIScreen.main.bounds.height / 30)
+                            .frame(height: frameHeight / 30)
                         Text("로그인")
                             .bold()
                     }
-                    .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                    .frame(width: frameWidth, alignment: .leading)
                     .padding(.leading)
                     .padding(.leading)
                     
+                    // 로그인
                     Text("애플 로그인")
                         .frame(width: 340, height: 40)
                         .overlay {
@@ -67,8 +72,9 @@ struct LoginView: View {
                     }
                 }
                 .padding(.bottom)
-                .frame(maxHeight: UIScreen.main.bounds.height / 3)
+                .frame(maxHeight: frameHeight / 3)
                 
+                // 개인정보 처리방침
                 HStack {
                     Button {
                         showingSheetView.toggle()
@@ -78,7 +84,7 @@ struct LoginView: View {
                 }
                 .font(.caption)
                 .padding(.top)
-                .frame(maxWidth:  UIScreen.main.bounds.width,maxHeight: UIScreen.main.bounds.height / 5)
+                .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
             }
             .foregroundColor(Color("Font"))
         }

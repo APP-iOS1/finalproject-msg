@@ -10,6 +10,7 @@ import SwiftUI
 struct PrivacyPolicyView: View {
     
     @Environment(\.dismiss) var dismiss
+    private var frameWidth = UIScreen.main.bounds.width
     
     var body: some View {
         ZStack {
@@ -28,7 +29,7 @@ struct PrivacyPolicyView: View {
                     }
                 }
                 .padding()
-                .frame(width: UIScreen.main.bounds.width / 1.01)
+                .frame(width: frameWidth / 1.01)
                 .overlay {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(Color("Font"))
