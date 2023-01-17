@@ -69,6 +69,9 @@
 		16600961297630C300E6A546 /* MSG */ = {
 			isa = PBXGroup;
 			children = (
+				166009872976335A00E6A546 /* Model */,
+				166009852976334600E6A546 /* View */,
+				166009862976334C00E6A546 /* ViewModel */,
 				16600962297630C300E6A546 /* MSGApp.swift */,
 				16600964297630C300E6A546 /* ContentView.swift */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
@@ -83,6 +86,27 @@
 				16600969297630C400E6A546 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		166009852976334600E6A546 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		166009862976334C00E6A546 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		166009872976335A00E6A546 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
