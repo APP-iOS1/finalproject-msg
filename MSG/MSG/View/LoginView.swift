@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @StateObject var kakaoAuthViewModel: KakaoAuthViewModel = KakaoAuthViewModel()
+    
     var body: some View {
         
         ZStack {
@@ -22,15 +24,13 @@ struct LoginView: View {
                         .frame(width: 70)
                     VStack(alignment: .leading) {
                         Text("MSG")
-                            .font(.largeTitle)
+                            .font(.largeTitle.bold())
                         Text("Money Save Game")
                     }
                 }
                 .padding()
                 .frame(width: UIScreen.main.bounds.width, alignment: .leading)
                 .frame(maxHeight: UIScreen.main.bounds.height / 7)
-                
-                
                 
                 VStack(spacing: 20) {
                     HStack {
@@ -57,20 +57,16 @@ struct LoginView: View {
                         .overlay {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke()
-                            
                         }
-                    Text("카카오 로그인")
-                        .frame(width: 340, height: 40)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke()
-                            
-                        }
+                    
+                    Button {
+                        kakaoAuthViewModel.kakaoLogin()
+                    } label: {
+                        Text("카카오 로그인")
+                    }
                 }
                 .padding(.bottom)
                 .frame(maxHeight: UIScreen.main.bounds.height / 3)
-                
-                
                 
                 HStack {
                     Button {
