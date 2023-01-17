@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FriendSettingView: View {
-    @State private var pickerCase: PickerCase = .friend
+    @State private var pickerCase: PickerCase = .alert
     
     enum PickerCase: String,Identifiable, CaseIterable {
         case friend
