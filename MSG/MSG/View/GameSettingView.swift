@@ -14,8 +14,7 @@ struct GameSettingView: View {
     
     var body: some View {
         // ZStack
-
-          ZStack{
+        ZStack{
               Color("Background").ignoresSafeArea()
                         VStack{
                             Spacer()
