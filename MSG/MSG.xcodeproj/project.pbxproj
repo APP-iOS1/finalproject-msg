@@ -21,6 +21,7 @@
 		166009812976313800E6A546 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 166009802976313800E6A546 /* GoogleSignInSwift */; };
 		166009842976315700E6A546 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 166009832976315700E6A546 /* KakaoSDK */; };
 		1660098B29763A9F00E6A546 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1660098A29763A9E00E6A546 /* GoogleService-Info.plist */; };
+		C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		16600966297630C400E6A546 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16600969297630C400E6A546 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1660098A29763A9E00E6A546 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				166009862976334C00E6A546 /* ViewModel */,
 				16600962297630C300E6A546 /* MSGApp.swift */,
 				16600964297630C300E6A546 /* ContentView.swift */,
+				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
 				1660098A29763A9E00E6A546 /* GoogleService-Info.plist */,
 				16600968297630C400E6A546 /* Preview Content */,
@@ -200,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
+				C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */,
 				16600963297630C300E6A546 /* MSGApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
