@@ -8,14 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        
+        ZStack {
+            Color("Background")
+            
+            TabView {
+                LoginView()
+                    .tabItem {
+                        Image(systemName: "dpad.fill")
+                    }
+                PrivacyPolicyView()
+                    .tabItem {
+                        Image(systemName: "archivebox")
+                    }
+                MakeProfileView()
+                    .tabItem {
+                        Image(systemName: "person.2.fill")
+                    }
+                LoginView()
+                    .tabItem {
+                        Image(systemName: "ellipsis.bubble.fill")
+                    }
+            }
+            .foregroundColor(Color("Font"))
         }
-        .padding()
     }
 }
 
