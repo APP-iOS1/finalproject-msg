@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     
     @StateObject var kakaoAuthViewModel: KakaoAuthViewModel = KakaoAuthViewModel()
+    @State private var showingSheetView: Bool = false
     
     var body: some View {
         
@@ -70,28 +71,20 @@ struct LoginView: View {
                 
                 HStack {
                     Button {
-                        
+                        showingSheetView.toggle()
                     } label: {
-                        Text("이용약관")
-                            .bold()
-                    }
-                    
-                    Text("및")
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("개인정보 취급방침")
-                            .bold()
+                        Text("**이용약관** 및 **개인정보 취급방침**")
                     }
                 }
                 .font(.caption)
                 .padding(.top)
-                .frame(maxHeight: UIScreen.main.bounds.height / 5)
+                .frame(maxWidth:  UIScreen.main.bounds.width,maxHeight: UIScreen.main.bounds.height / 5)
             }
-            
+            .foregroundColor(Color("Font"))
         }
-        .foregroundColor(Color("Font"))
+        .fullScreenCover(isPresented: $showingSheetView) {
+            PrivacyPolicyView()
+        }
     }
 }
 
