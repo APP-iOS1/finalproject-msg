@@ -30,8 +30,9 @@ struct MSGApp: App {
                     if AuthApi.isKakaoTalkLoginUrl(url) {
                         _ = AuthController.handleOpenUrl(url: url)
                     }
-                }.environmentObject(viewModel)
-                    .environmentObject(fireStoreViewModel)
+                }
+                .environmentObject(viewModel)
+                .environmentObject(fireStoreViewModel)
             }
 //            AppleContentView()
 //                .environmentObject(AppleUserAuth())

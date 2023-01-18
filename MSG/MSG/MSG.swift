@@ -8,7 +8,7 @@
 import Foundation
 
 //MARK: - 나의 정보들
-struct Msg: Codable, Identifiable {
+struct Msg: Codable, Identifiable, Hashable {
     // 나
     var id: String
     var nickName: String

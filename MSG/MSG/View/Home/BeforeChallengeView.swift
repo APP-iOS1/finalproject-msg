@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BeforeChallengeView: View {
+    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     var body: some View {
         ZStack{ Color("Background").ignoresSafeArea()
             
@@ -67,7 +68,7 @@ extension BeforeChallengeView {
                 }
                 .frame(width: 330)
                 
-                NavigationLink(destination: FriendView()) {
+                NavigationLink(destination: FriendView(fireStoreViewModel: firebaseViewModel)) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point1"))
                         .frame(width: 330, height: 120)
