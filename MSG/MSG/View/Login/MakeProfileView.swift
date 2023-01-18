@@ -18,6 +18,9 @@ struct MakeProfileView: View {
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     
+    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         ZStack {
@@ -73,7 +76,7 @@ struct MakeProfileView: View {
                            let uiImage = UIImage(data: selectedImageData) {
                             Image(uiImage: uiImage)
                                 .resizable()
-//                                .scaledToFit()
+                            //                                .scaledToFit()
                                 .clipShape(Circle())
                                 .frame(width: frameWidth / 2, height: frameHeight / 5)
                         }
@@ -110,7 +113,8 @@ struct MakeProfileView: View {
                 VStack {
                     // 가입버튼
                     Button {
-                        
+                        kakaoAuthViewModel.userNicName = nickNameText
+                        dismiss()
                     } label: {
                         Text("가입완료")
                     }

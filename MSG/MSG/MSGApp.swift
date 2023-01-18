@@ -16,7 +16,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct MSGApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-//    @UIApplicationDelegateAdaptor var kakaoAppDelegate: KakaoAppDelegate
+    //    @UIApplicationDelegateAdaptor var kakaoAppDelegate: KakaoAppDelegate
     init() {
         let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
         KakaoSDK.initSDK(appKey: kakaoAppKey as! String)
@@ -24,15 +24,11 @@ struct MSGApp: App {
     @StateObject var viewModel = KakaoViewModel()
     var body: some Scene {
         WindowGroup {
-//            NavigationView {
-//                ContentView().onOpenURL { url in
-//                    if AuthApi.isKakaoTalkLoginUrl(url) {
-//                        _ = AuthController.handleOpenUrl(url: url)
-//                    }
-//                }.environmentObject(viewModel)
-//            }
-            AppleContentView()
-                .environmentObject(AppleUserAuth())
+            ContentView().onOpenURL { url in
+                if AuthApi.isKakaoTalkLoginUrl(url) {
+                    _ = AuthController.handleOpenUrl(url: url)
+                }
+            }.environmentObject(viewModel)
         }
     }
 }
