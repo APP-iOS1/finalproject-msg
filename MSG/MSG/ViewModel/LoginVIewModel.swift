@@ -38,7 +38,6 @@ class LoginViewModel: ObservableObject {
         // getting Token...
         guard let token = credential.identityToken else {
             print("error with firebase")
-            
             return
         }
         
