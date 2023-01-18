@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     @State private var challengeState: Bool = false
+    @Binding var darkModeEnabled: Bool
     
     var body: some View {
         ZStack{
@@ -26,7 +28,7 @@ struct HomeView: View {
                     .foregroundColor(Color("Font"))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: SettingView()) {
+                NavigationLink(destination: SettingView(darkModeEnabled: $darkModeEnabled)) {
                     Image(systemName: "person.circle")
                         .font(.title2)
                         .foregroundColor(Color("Font"))
@@ -39,6 +41,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(darkModeEnabled: .constant(false))
     }
 }
