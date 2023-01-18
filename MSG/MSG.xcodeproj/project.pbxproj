@@ -55,9 +55,6 @@
 		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
 		C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */; };
 		C0F5FFD22977B9410021FF4F /* AppleUserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */; };
-		C0F5FFD62977BA720021FF4F /* AppleLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFD52977BA720021FF4F /* AppleLoginView.swift */; };
-		C0F5FFD82977BB5B0021FF4F /* AppleTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFD72977BB5B0021FF4F /* AppleTestView.swift */; };
-		C0F5FFDE2977CD410021FF4F /* AppleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFDD2977CD410021FF4F /* AppleContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,9 +100,6 @@
 		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 		C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MSG.entitlements; sourceTree = "<group>"; };
 		C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUserAuth.swift; sourceTree = "<group>"; };
-		C0F5FFD52977BA720021FF4F /* AppleLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginView.swift; sourceTree = "<group>"; };
-		C0F5FFD72977BB5B0021FF4F /* AppleTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTestView.swift; sourceTree = "<group>"; };
-		C0F5FFDD2977CD410021FF4F /* AppleContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppleContentView.swift; path = Model/AppleLogin/AppleContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,7 +204,6 @@
 				166009852976334600E6A546 /* View */,
 				166009862976334C00E6A546 /* ViewModel */,
 				16600962297630C300E6A546 /* MSGApp.swift */,
-				C0F5FFDD2977CD410021FF4F /* AppleContentView.swift */,
 				16573EDA2977AA38001176F6 /* GoogleService-Info.plist */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
 				16600968297630C400E6A546 /* Preview Content */,
@@ -309,8 +302,6 @@
 		C0F5FFCD2977B7DF0021FF4F /* AppleLogin */ = {
 			isa = PBXGroup;
 			children = (
-				C0F5FFD52977BA720021FF4F /* AppleLoginView.swift */,
-				C0F5FFD72977BB5B0021FF4F /* AppleTestView.swift */,
 				C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */,
 			);
 			path = AppleLogin;
@@ -406,18 +397,15 @@
 			files = (
 				6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */,
 				36FA4918297791A100B26A24 /* ChartCellView.swift in Sources */,
-				C0F5FFD82977BB5B0021FF4F /* AppleTestView.swift in Sources */,
 				36C7BB822977B37200A3F999 /* OnBoardView5.swift in Sources */,
 				6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */,
 				63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */,
-				C0F5FFDE2977CD410021FF4F /* AppleContentView.swift in Sources */,
 				16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */,
 				6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */,
 				6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */,
 				16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */,
 				36FA49132977746600B26A24 /* ChartView.swift in Sources */,
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
-				C0F5FFD62977BA720021FF4F /* AppleLoginView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,

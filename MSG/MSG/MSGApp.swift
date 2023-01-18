@@ -29,6 +29,7 @@ struct MSGApp: App {
                     _ = AuthController.handleOpenUrl(url: url)
                 }
             }.environmentObject(viewModel)
+                .environmentObject(AppleUserAuth())
         }
     }
 }

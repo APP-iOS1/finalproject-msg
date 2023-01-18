@@ -9,9 +9,10 @@ import Combine
 
 class AppleUserAuth: ObservableObject {
     
-    @Published var isLogged: Bool = false
+    @Published var isLoggedIn: Bool = false
+    @Published var userNicName: String = ""
     
     func login() {
-        self.isLogged = true
+        self.isLoggedIn = true
     }
 }
