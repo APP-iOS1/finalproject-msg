@@ -15,6 +15,8 @@ struct LoginView: View {
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
     
+    @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
+    
     var body: some View {
         
         ZStack {
@@ -89,6 +91,9 @@ struct LoginView: View {
         }
         .fullScreenCover(isPresented: $showingSheetView) {
             PrivacyPolicyView()
+        }
+        .fullScreenCover(isPresented: $isFirstLaunching) {
+            OnBoardTapView(isFirstLaunching: $isFirstLaunching)
         }
     }
 }
