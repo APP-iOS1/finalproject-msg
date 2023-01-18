@@ -121,16 +121,27 @@ class PostitStore: ObservableObject {
     
     
     //내정보를 저장할 어딘가가 필요하다....
-//    func sendFriendRequest(to: Msg, from: UserInfo) {
-//        databaseReference?
-//            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
-//            "id": from.id,
-//            "userName": from.userName,
-//            "userImage": from.userImage,
-//            "isFriend": from.isFriend,
-//            "isFight": from.isFight,
-//        ])
-//    }
+    func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
+        databaseReference?
+            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
+            "id": from.id,
+            "userName": from.nickName,
+            "userImage": from.profilImage,
+            "isFriend": isFriend,
+            "isFight": false,
+        ])
+    }
+    
+    func sendFightRequest(to: Msg, from: Msg, isFight: Bool) {
+        databaseReference?
+            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
+            "id": from.id,
+            "userName": from.nickName,
+            "userImage": from.profilImage,
+            "isFriend": false,
+            "isFight": isFight,
+        ])
+    }
     
 //    func sendFriendRequest
     

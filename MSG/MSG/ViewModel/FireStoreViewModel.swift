@@ -113,24 +113,38 @@ class FireStoreViewModel: ObservableObject {
 //        //        fetchPostits()
 //    }
     
-    //게임히스토리 가져오기
-    func getGameHistoryList() async -> [String]? {
-        let ref = database.collection("User").document(Auth.auth().currentUser?.uid ?? "")
+    //게임히스토리 가져오기 //g0UxdNp6jHhavijbSJSZ //Auth.auth().currentUser?.uid ?? ""
+    func getGameHistoryList() async -> [String] {
+        print(#function)
+        let ref = database.collection("User").document("g0UxdNp6jHhavijbSJSZ")
         do{
             let snapShot = try await ref.getDocument()
-            guard let docData = snapShot.data() else { return nil }
-            return docData["gameHistory"] as? [String] ?? nil
+            guard let docData = snapShot.data() else { return []}
+            print("docData:",docData["gamehistory"] as? [String] ?? [])
+            let array = docData["gamehistory"] as? [String] ?? []
+            return array
         }catch{
-            return nil
+            print("catched")
+            return []
         }
+        return []
     }
     
     func getGameHistory() async throws {
-        guard let historyList = await getGameHistoryList() else { return }
+        print(#function)
+        let historyList: [String] = try! await getGameHistoryList()
+        print("hisrtoryList:",historyList)
         let ref = database.collection("ChallengeHistory")
         for historyId in historyList{
-            let snapShot = try await ref.document(historyId).collection("유저").document(Auth.auth().currentUser?.uid ?? "").getDocument()
-            let docData = snapShot.data()
+            let snapShot = try await ref.document(historyId).collection("유저").document("김민호").getDocument()
+            if let docData = snapShot.data() {
+                print("docData:",docData)
+                
+                //여기서 받는 타입만 잘 지정해주면 받아와짐
+                let nickName: [String:[String]] = docData["지출"] as? [String:[String]] ?? [:]
+                print(nickName)
+            }
+            
 //            let expenditureArray = docData["expenditureHistory"] as? [String:[String]] ?? [:]
         }
     }
