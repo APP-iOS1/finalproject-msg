@@ -26,7 +26,7 @@ struct HomeView: View {
                     .foregroundColor(Color("Font"))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: Text("프로필뷰")) {
+                NavigationLink(destination: SettingView()) {
                     Image(systemName: "person.circle")
                         .font(.title2)
                         .foregroundColor(Color("Font"))
