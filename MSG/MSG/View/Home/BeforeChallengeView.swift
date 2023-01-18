@@ -14,23 +14,6 @@ struct BeforeChallengeView: View {
             challengeGroups
             
         }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text("MSG")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("Font"))
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: Text("프로필뷰")) {
-                    Image(systemName: "person.circle")
-                        .font(.title2)
-                        .foregroundColor(Color("Font"))
-                }
-                
-            }
-        }
-        
     }
 }
 
@@ -48,7 +31,7 @@ extension BeforeChallengeView {
                     Spacer()
                 }
                 .frame(width: 330)
-                NavigationLink(destination: Text("게임셋팅뷰")) {
+                NavigationLink(destination: GameSettingView()) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point1"))
                         .frame(width: 330, height: 120)
@@ -66,7 +49,7 @@ extension BeforeChallengeView {
                 }
                 .frame(width: 330)
                 
-                NavigationLink(destination: Text("게임셋팅뷰")) {
+                NavigationLink(destination: GameSettingView()) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point2"))
                         .frame(width: 330, height: 120)
@@ -84,7 +67,7 @@ extension BeforeChallengeView {
                 }
                 .frame(width: 330)
                 
-                NavigationLink(destination: Text("친구초대")) {
+                NavigationLink(destination: FriendView()) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point1"))
                         .frame(width: 330, height: 120)

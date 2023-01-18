@@ -11,11 +11,28 @@ struct HomeView: View {
     @State private var challengeState: Bool = false
     
     var body: some View {
-        
-        if challengeState {
-            AfterChallengeView()
-        } else {
-            BeforeChallengeView()
+        ZStack{
+            if challengeState {
+                AfterChallengeView()
+            } else {
+                BeforeChallengeView()
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Text("MSG")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("Font"))
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: Text("프로필뷰")) {
+                    Image(systemName: "person.circle")
+                        .font(.title2)
+                        .foregroundColor(Color("Font"))
+                }
+                
+            }
         }
     }
 }
