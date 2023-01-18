@@ -26,31 +26,7 @@ class FireStoreViewModel: ObservableObject {
         //        postits = []
     }
     
-    
-    //    func fetchPostits() {
-    //        database.collection("Postits")
-    //            .getDocuments { (snapshot, error) in
-    //                self.postits.removeAll()
-    //
-    //                if let snapshot {
-    //                    for document in snapshot.documents {
-    //                        let id: String = document.documentID
-    //
-    //                        let docData = document.data()
-    //                        let user: String = docData["user"] as? String ?? ""
-    //                        let memo: String = docData["memo"] as? String ?? ""
-    //                        let colorIndex: Int = docData["colorIndex"] as? Int ?? 0
-    //                        let createdAt: Double = docData["createdAt"] as? Double ?? 0
-    //
-    //                        let postit: Postit = Postit(id: id, user: user, memo: memo, colorIndex: colorIndex, createdAt: createdAt)
-    //
-    //                        self.postits.append(postit)
-    //                    }
-    //                }
-    //            }
-    //    }
-    
-    
+   
     // MARK: - 유저 정보를 불러오는 함수
     /// userId를 통해, 유저 정보를 가져온다.
     func fetchUserInfo(_ userId: String) async throws -> Msg{
@@ -137,7 +113,7 @@ class FireStoreViewModel: ObservableObject {
         do{
             let snapShot = try await ref.getDocument()
             guard let docData = snapShot.data() else { return []}
-            let array = docData["gamehistory"] as? [String] ?? []
+            let array = docData["gameHistory"] as? [String] ?? []
             return array
         }catch{
             print("catched")

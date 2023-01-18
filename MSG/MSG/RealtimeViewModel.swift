@@ -1,10 +1,3 @@
-//
-//  PostitStore.swift
-//  HelloDemo
-//
-//  Created by Jongwook Park on 2022/12/08.
-//
-
 import Foundation
 import FirebaseDatabase
 import FirebaseAuth
@@ -106,7 +99,6 @@ class PostitStore: ObservableObject {
                         }
                         index += 1
                     }
-                    
                     self.user.insert(postit, at: 0)
                 } catch {
                     print("an error occurred", error)
@@ -143,13 +135,6 @@ class PostitStore: ObservableObject {
             }
     }
     
-    func addPostit(postit: Msg) {
-        databaseReference?.childByAutoId().setValue([
-            "id": postit.id,
-        ])
-    }
-    
-    
     //내정보를 저장할 어딘가가 필요하다....
     func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
         databaseReference?
@@ -174,10 +159,7 @@ class PostitStore: ObservableObject {
     }
     
 //    func sendFriendRequest
-    
-    
-    
-    
+
     func deletePostit(postit: Msg) {
         print("delete id: \(postit.id)")
         databaseReference?.child(postit.id).removeValue()
