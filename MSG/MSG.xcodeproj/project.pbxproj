@@ -165,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				6342C2C42976446600C24D20 /* Info.plist */,
+				167C5C71297773180047D1C7 /* OnBoard */,
 				166009872976335A00E6A546 /* Model */,
 				166009852976334600E6A546 /* View */,
 				166009862976334C00E6A546 /* ViewModel */,
@@ -188,7 +189,6 @@
 		166009852976334600E6A546 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				167C5C71297773180047D1C7 /* OnBoard */,
 				16600964297630C300E6A546 /* ContentView.swift */,
 				1606CB4F2976992C004DD13B /* ChallengeRecord */,
 				1606CB4E297697F9004DD13B /* Home */,
