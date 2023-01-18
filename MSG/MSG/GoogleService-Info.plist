@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>916797790118-q5n8mtcki62hfi8jm6jk1ejp1enubdjq.apps.googleusercontent.com</string>
+	<string>916797790118-6q57dqp9tj5lmt2dv2onan2573dps1c4.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.916797790118-q5n8mtcki62hfi8jm6jk1ejp1enubdjq</string>
+	<string>com.googleusercontent.apps.916797790118-6q57dqp9tj5lmt2dv2onan2573dps1c4</string>
 	<key>API_KEY</key>
 	<string>AIzaSyB-lZP_wTkpG2KBeFCYA-6aG8of2wbxz9A</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>likelion.msg</string>
+	<string>com.likelion.msg.MSG</string>
 	<key>PROJECT_ID</key>
 	<string>moneysavegame</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:916797790118:ios:1f6ef5937cbeda10b32167</string>
+	<string>1:916797790118:ios:0735f18fc8a00ff2b32167</string>
 	<key>DATABASE_URL</key>
 	<string>https://moneysavegame-default-rtdb.firebaseio.com</string>
 </dict>
