@@ -54,7 +54,6 @@
 		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
 		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
 		C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */; };
-		C0F5FFD22977B9410021FF4F /* AppleUserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */; };
 		C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -100,7 +99,6 @@
 		63BC0F8529767608003F2379 /* MakeProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeProfileView.swift; sourceTree = "<group>"; };
 		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 		C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MSG.entitlements; sourceTree = "<group>"; };
-		C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUserAuth.swift; sourceTree = "<group>"; };
 		C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVIewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,7 +250,6 @@
 		166009872976335A00E6A546 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C0F5FFCD2977B7DF0021FF4F /* AppleLogin */,
 				6342C2CF297672D900C24D20 /* KakaoLogin */,
 				1660098C29763AD800E6A546 /* MSG.swift */,
 			);
@@ -300,14 +297,6 @@
 				6342C2C829764AA500C24D20 /* KakaoSceneDelegate.swift */,
 			);
 			path = KakaoLogin;
-			sourceTree = "<group>";
-		};
-		C0F5FFCD2977B7DF0021FF4F /* AppleLogin */ = {
-			isa = PBXGroup;
-			children = (
-				C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */,
-			);
-			path = AppleLogin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -412,7 +401,6 @@
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,
-				C0F5FFD22977B9410021FF4F /* AppleUserAuth.swift in Sources */,
 				36B093F92976694F0089E76A /* GameSettingView.swift in Sources */,
 				C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */,
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
