@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @StateObject var kakaoAuthViewModel: KakaoAuthViewModel = KakaoAuthViewModel()
+    @StateObject var kakaoAuthViewModel: KakaoViewModel = KakaoViewModel()
     @State private var showingSheetView: Bool = false
     
     private var frameWidth = UIScreen.main.bounds.width
@@ -66,8 +66,7 @@ struct LoginView: View {
                         }
                     
                     Button {
-                        kakaoAuthViewModel.kakaoLogin()
-                    } label: {
+                        kakaoAuthViewModel.kakaoLogin()                    } label: {
                         Text("카카오 로그인")
                     }
                 }
