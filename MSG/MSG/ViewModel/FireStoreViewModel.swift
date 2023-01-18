@@ -17,7 +17,7 @@ import SwiftUI
 
 class FireStoreViewModel: ObservableObject {
     @Published var userArray: [Msg] = []
-    
+    @Published var gameHistoryArray : [String] = []
     let database = Firestore.firestore()
     
     init() {
@@ -114,31 +114,26 @@ class FireStoreViewModel: ObservableObject {
 //    }
     
     //게임히스토리 가져오기
-    func getGameHistory() async{
+    func getGameHistoryList() async -> [String]? {
         let ref = database.collection("User").document(Auth.auth().currentUser?.uid ?? "")
-        
-        database
-            .collection("User")
-            .document(Auth.auth().currentUser?.uid ?? "")
-            .getDocument { (snapshot, error) in
-                self.userArray.removeAll()
-                
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        
-                        let docData = document.data()
-                        let nickName: String = docData["nickName"] as? String ?? ""
-                        let game: String = docData["game"] as? String ?? ""
-                        let profilImage: String = docData["profilImage"] as? String ?? ""
-                        
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: [])
-                        self.userArray.append(getUser)
-                    }
-                }
-            }
+        do{
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil }
+            return docData["gameHistory"] as? [String] ?? nil
+        }catch{
+            return nil
+        }
     }
     
+    func getGameHistory() async throws {
+        guard let historyList = await getGameHistoryList() else { return }
+        let ref = database.collection("ChallengeHistory")
+        for historyId in historyList{
+            let snapShot = try await ref.document(historyId).collection("유저").document(Auth.auth().currentUser?.uid ?? "").getDocument()
+            let docData = snapShot.data()
+//            let expenditureArray = docData["expenditureHistory"] as? [String:[String]] ?? [:]
+        }
+    }
     //
     
     
