@@ -77,7 +77,7 @@ struct RecordDetailView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: Text("상세소비내역차트뷰")) {
+                    NavigationLink(destination: ChartView()) {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color("Point2"))
                             .frame(width: 80, height: 45)
