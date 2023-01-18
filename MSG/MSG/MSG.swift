@@ -25,7 +25,7 @@ struct Friend: Codable, Identifiable {
     var game: String
 }
 //MARK: - 게임을 생성할 때 필요함
-struct Challenge: Codable, Identifiable {
+struct Challenge: Codable, Identifiable, Hashable {
     // Game의 ID
     var id: String
     var gameTitle: String
