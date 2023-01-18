@@ -55,6 +55,7 @@
 		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
 		C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */; };
 		C0F5FFD22977B9410021FF4F /* AppleUserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */; };
+		C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 		C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MSG.entitlements; sourceTree = "<group>"; };
 		C0F5FFD12977B9410021FF4F /* AppleUserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUserAuth.swift; sourceTree = "<group>"; };
+		C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVIewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +244,7 @@
 				6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */,
 				1660098E2976404400E6A546 /* RealtimeViewModel.swift */,
 				16573EFE2977D429001176F6 /* FireStoreViewModel.swift */,
+				C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,
 				C0F5FFD22977B9410021FF4F /* AppleUserAuth.swift in Sources */,
 				36B093F92976694F0089E76A /* GameSettingView.swift in Sources */,
+				C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */,
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
 				36C7BB7E2977B37200A3F999 /* OnBoardView4.swift in Sources */,
 				36C7BB7F2977B37200A3F999 /* OnBoardView1.swift in Sources */,

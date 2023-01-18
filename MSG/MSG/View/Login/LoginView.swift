@@ -5,10 +5,7 @@
 //  Created by zooey on 2023/01/17.
 //
 import SwiftUI
-import CryptoKit
 import AuthenticationServices
-import FirebaseAuth
-import GoogleSignIn
 
 struct LoginView: View {
     
@@ -18,53 +15,7 @@ struct LoginView: View {
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
     
-    // 애플 로그인 코드(20~66번줄)
-    @EnvironmentObject var appleUserAuth: AppleUserAuth
-    @State var currentNonce: String?
-    
-    private func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
-        let charset: [Character] =
-        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-        var result = ""
-        var remainingLength = length
-        
-        while remainingLength > 0 {
-            let randoms: [UInt8] = (0 ..< 16).map { _ in
-                var random: UInt8 = 0
-                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                if errorCode != errSecSuccess {
-                    fatalError(
-                        "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
-                    )
-                }
-                return random
-            }
-            
-            randoms.forEach { random in
-                if remainingLength == 0 {
-                    return
-                }
-                
-                if random < charset.count {
-                    result.append(charset[Int(random)])
-                    remainingLength -= 1
-                }
-            }
-        }
-        
-        return result
-    }
-    
-    private func sha256(_ input: String) -> String {
-        let inputData = Data(input.utf8)
-        let hashedData = SHA256.hash(data: inputData)
-        let hashString = hashedData.compactMap {
-            String(format: "%02x", $0)
-        }.joined()
-        
-        return hashString
-    }
+    @StateObject var loginModel: LoginViewModel = .init()
     
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
@@ -104,70 +55,58 @@ struct LoginView: View {
                     .padding(.leading)
                     
                     // 로그인
-                    // 애플 로그인 버튼(106~154번줄)
-                    SignInWithAppleButton(
-                        onRequest: { request in
-                            let nonce = randomNonceString()
-                            currentNonce = nonce
-                            request.requestedScopes = [.fullName, .email]
-                            request.nonce = sha256(nonce)
-                        },
-                        onCompletion: { result in
-                            switch result {
-                            case .success(let authResults):
-                                switch authResults.credential {
-                                case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                                    
-                                    guard let nonce = currentNonce else {
-                                        fatalError("Invalid state: A login callback was received, but no login request was sent.")
-                                    }
-                                    guard let appleIDToken = appleIDCredential.identityToken else {
-                                        fatalError("Invalid state: A login callback was received, but no login request was sent.")
-                                    }
-                                    guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                                        print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                    VStack(spacing: 15) {
+                        // MARK: Custom Apple Sign in Button
+                        CustomButton1()
+                        .overlay {
+                            SignInWithAppleButton{(request) in
+                                
+                                    // requesting paramertes from apple login...
+                                    loginModel.nonce = randomNonceString()
+                                    request.requestedScopes = [.fullName, .email]
+                                    request.nonce = sha256(loginModel.nonce)
+                            } onCompletion: { (result) in
+                                switch result {
+                                case .success(let user):
+                                    print("success")
+                                    guard let credential = user.credential as?
+                                            ASAuthorizationAppleIDCredential else {
+                                        print("error with firebase")
                                         return
                                     }
-                                    
-                                    let credential = OAuthProvider.credential(withProviderID: "apple.com",idToken: idTokenString,rawNonce: nonce)
-                                    Auth.auth().signIn(with: credential) { (authResult, error) in
-                                        if (error != nil) {
-                                            // Error. If error.code == .MissingOrInvalidNonce, make sure
-                                            // you're sending the SHA256-hashed nonce as a hex string with
-                                            // your request to Apple.
-                                            print(error?.localizedDescription as Any)
-                                            return
-                                        }
-                                        print("signed in")
-                                        self.appleUserAuth.login()
-                                    }
-                                    
-                                    print("\(String(describing: Auth.auth().currentUser?.uid))")
-                                default:
-                                    break
-                                    
+                                    loginModel.appleAuthenticate(credential: credential)
+                                case.failure(let error):
+                                    print(error.localizedDescription)
                                 }
-                            default:
-                                break
                             }
+                            .signInWithAppleButtonStyle(.white)
+                            .frame(height: 45)
+                            .blendMode(.overlay)
                         }
-                    )
-                    .frame(width: 280, height: 45, alignment: .center)
-                    
-                    
-                    GoogleSignInButton()
-                        .frame(width: 280, height: 45)
-                        .cornerRadius(9)
-           
-     
-                    
-                    Button {
-                        kakaoAuthViewModel.kakaoLogin()                    } label: {
-                            Image("KakaoIcon")
-                                .resizable()
-                                .frame(width: 280, height: 45)
-                                .cornerRadius(9)
+                        .clipped()
+                        
+                        // MARK: Custom Google Sign in Button
+                        CustomButton1(isGoogle: true)
+                        .overlay {
+                            
                         }
+                        .clipped()
+                        
+                        // MARK: Custom Kakao Sign in Button
+                        CustomButton2()
+                            .overlay{
+                                Button {
+                                    kakaoAuthViewModel.kakaoLogin()
+                                } label: {
+                                    Rectangle()
+                                        .frame(width: 280, height: 45)
+                                        .foregroundColor(.clear)
+                                }
+                            }
+                            .clipped()
+                        
+                    }
+                    
                 }
                 .padding(.bottom)
                 .frame(maxHeight: frameHeight / 3)
@@ -193,22 +132,72 @@ struct LoginView: View {
             OnBoardTapView(isFirstLaunching: $isFirstLaunching)
         }
     }
+    
+    @ViewBuilder
+    // Apple & Google CustomButton
+    func CustomButton1(isGoogle: Bool = false) -> some View {
+        HStack {
+            Group {
+                if isGoogle {
+                    Image("GoogleIcon")
+                        .resizable()
+                } else {
+                    Image(systemName: "applelogo")
+                        .resizable()
+                }
+            }
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 25, height: 25)
+            .frame(height: 45)
+            
+            Text("\(isGoogle ? "Google" : "Apple") Sign in")
+                .font(.callout)
+                .lineLimit(1)
+        }
+        .foregroundColor(isGoogle ? .black : .white)
+        .padding(.horizontal,15)
+        .frame(width: 280, height: 45, alignment: .center)
+        .background {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(isGoogle ? .white : .black)
+        }
+    }
+    
+    // KaKao & Facebook(추후 업데이트 예정) CustomButton
+    func CustomButton2(isKakao: Bool = false) -> some View {
+        HStack {
+            
+            Group {
+                if isKakao {
+                    Image(systemName: "applelogo")
+                        .resizable()
+                } else {
+                    Image("KakaoIcon")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(.black)
+                }
+            }
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 25, height: 25)
+            .frame(height: 45)
+            
+            Text("\(isKakao ? "Facebook" : "Kakao") Sign in")
+                .font(.callout)
+                .lineLimit(1)
+        }
+        .foregroundColor(isKakao ? .white : Color("KakaoFontColor"))
+        .padding(.horizontal,15)
+        .frame(width: 280, height: 45, alignment: .center)
+        .background {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(isKakao ? .blue : Color("KakaoButtonColor"))
+        }
+    }
+    
 }
 
-struct GoogleSignInButton: UIViewRepresentable {
-    @Environment(\.colorScheme) var colorScheme
-    
-    private var button = GIDSignInButton()
-    
-    func makeUIView(context: Context) -> GIDSignInButton {
-        button.colorScheme = colorScheme == .dark ? .dark : .light
-        return button
-    }
-    
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        button.colorScheme = colorScheme == .dark ? .dark : .light
-    }
-}
+
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {

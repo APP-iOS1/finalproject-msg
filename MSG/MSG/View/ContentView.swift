@@ -9,7 +9,6 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
-    @EnvironmentObject var appleUserAuth: AppleUserAuth
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -17,7 +16,7 @@ struct ContentView: View {
             Color("Background")
             NavigationStack {
                 Group {
-                    if kakaoAuthViewModel.isLoggedIn || appleUserAuth.isLoggedIn {
+                    if kakaoAuthViewModel.isLoggedIn {
                         if kakaoAuthViewModel.userNicName.isEmpty {
                             MakeProfileView()
                         } else {
