@@ -31,6 +31,8 @@ struct MSGApp: App {
                     }
                 }.environmentObject(viewModel)
             }
+//            AppleContentView()
+//                .environmentObject(AppleUserAuth())
         }
     }
 }
