@@ -42,7 +42,7 @@ struct ContentView: View {
             }
             .accentColor(Color("Font"))
         }.task {
-            try! await fireStoreViewModel.getGameHistory()
+//            try! await fireStoreViewModel.getGameHistory()
         }
     }
 }

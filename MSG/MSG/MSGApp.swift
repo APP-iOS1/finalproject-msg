@@ -22,6 +22,7 @@ struct MSGApp: App {
         KakaoSDK.initSDK(appKey: kakaoAppKey as! String)
     }
     @StateObject var viewModel = KakaoViewModel()
+    @StateObject var fireStoreViewModel = FireStoreViewModel()
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -30,6 +31,7 @@ struct MSGApp: App {
                         _ = AuthController.handleOpenUrl(url: url)
                     }
                 }.environmentObject(viewModel)
+                    .environmentObject(fireStoreViewModel)
             }
 //            AppleContentView()
 //                .environmentObject(AppleUserAuth())
