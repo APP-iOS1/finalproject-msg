@@ -31,6 +31,7 @@
 		36B093F92976694F0089E76A /* GameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093F82976694F0089E76A /* GameSettingView.swift */; };
 		36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093FA29766FB30089E76A /* SpendingWritingView.swift */; };
 		36DB97792976526900A0596F /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DB97782976526900A0596F /* ViewModifier.swift */; };
+		4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B81822977750C00866E3F /* RecordDetailView.swift */; };
 		36FA49132977746600B26A24 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA49122977746600B26A24 /* ChartView.swift */; };
 		36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA4914297774C500B26A24 /* ProgressBar.swift */; };
 		36FA4918297791A100B26A24 /* ChartCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA4917297791A100B26A24 /* ChartCellView.swift */; };
@@ -63,6 +64,7 @@
 		36B093F82976694F0089E76A /* GameSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSettingView.swift; sourceTree = "<group>"; };
 		36B093FA29766FB30089E76A /* SpendingWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingWritingView.swift; sourceTree = "<group>"; };
 		36DB97782976526900A0596F /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
+		4C5B81822977750C00866E3F /* RecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailView.swift; sourceTree = "<group>"; };
 		36FA49122977746600B26A24 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		36FA4914297774C500B26A24 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		36FA4917297791A100B26A24 /* ChartCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCellView.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
+				4C5B81822977750C00866E3F /* RecordDetailView.swift */,
 			);
 			path = ChallengeRecord;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */,
 				1660098D29763AD800E6A546 /* MSG.swift in Sources */,
 				166009932976685200E6A546 /* FriendSettingView.swift in Sources */,
+				4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */,
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
 				36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */,
 				4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */,
