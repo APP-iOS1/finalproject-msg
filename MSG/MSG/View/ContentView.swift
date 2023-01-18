@@ -10,10 +10,11 @@ import SwiftUI
 struct ContentView: View {
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color("Background")
-                
+        
+        ZStack {
+            Color("Background")
+            
+            NavigationStack {
                 TabView {
                     HomeView()
                         .tabItem {
@@ -26,10 +27,6 @@ struct ContentView: View {
                     FriendSettingView()
                         .tabItem {
                             Image(systemName: "person.2.fill")
-                        }
-                    LoginView()
-                        .tabItem {
-                            Image(systemName: "ellipsis.bubble.fill")
                         }
                 }
                 .foregroundColor(Color("Font"))
