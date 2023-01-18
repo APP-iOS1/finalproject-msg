@@ -10,6 +10,7 @@
 		16573EDB2977AA38001176F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16573EDA2977AA38001176F6 /* GoogleService-Info.plist */; };
 		16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16573EFE2977D429001176F6 /* FireStoreViewModel.swift */; };
 		16573F022977D60B001176F6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 16573F012977D60B001176F6 /* FirebaseFirestore */; };
+		165E321C2977EAF500678A09 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E321B2977EAF500678A09 /* SettingView.swift */; };
 		16600963297630C300E6A546 /* MSGApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16600962297630C300E6A546 /* MSGApp.swift */; };
 		16600965297630C300E6A546 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16600964297630C300E6A546 /* ContentView.swift */; };
 		16600967297630C400E6A546 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16600966297630C400E6A546 /* Assets.xcassets */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		16573EDA2977AA38001176F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16573EFE2977D429001176F6 /* FireStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreViewModel.swift; sourceTree = "<group>"; };
+		165E321B2977EAF500678A09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		1660095F297630C300E6A546 /* MSG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MSG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16600962297630C300E6A546 /* MSGApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSGApp.swift; sourceTree = "<group>"; };
 		16600964297630C300E6A546 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -174,6 +176,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		165E321A2977EAE600678A09 /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				165E321B2977EAF500678A09 /* SettingView.swift */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
 		16600956297630C300E6A546 = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +230,7 @@
 		166009852976334600E6A546 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				165E321A2977EAE600678A09 /* SettingView */,
 				36C7BB762977B37200A3F999 /* OnBoard */,
 				36FA491629778F3200B26A24 /* Chart */,
 				16600964297630C300E6A546 /* ContentView.swift */,
@@ -422,6 +433,7 @@
 				4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */,
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
 				36C7BB7D2977B37200A3F999 /* OnBoardView2.swift in Sources */,
+				165E321C2977EAF500678A09 /* SettingView.swift in Sources */,
 				36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */,
 				4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */,
 				36C7BB812977B37200A3F999 /* OnBoardTapView.swift in Sources */,
