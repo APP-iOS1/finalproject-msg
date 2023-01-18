@@ -24,15 +24,15 @@ struct MSGApp: App {
     @StateObject var viewModel = KakaoViewModel()
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                ContentView().onOpenURL { url in
-                    if AuthApi.isKakaoTalkLoginUrl(url) {
-                        _ = AuthController.handleOpenUrl(url: url)
-                    }
-                }.environmentObject(viewModel)
-            }
-//            AppleContentView()
-//                .environmentObject(AppleUserAuth())
+//            NavigationView {
+//                ContentView().onOpenURL { url in
+//                    if AuthApi.isKakaoTalkLoginUrl(url) {
+//                        _ = AuthController.handleOpenUrl(url: url)
+//                    }
+//                }.environmentObject(viewModel)
+//            }
+            AppleContentView()
+                .environmentObject(AppleUserAuth())
         }
     }
 }

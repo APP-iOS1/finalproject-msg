@@ -61,7 +61,7 @@ struct AppleLoginView: View {
     
     var body: some View {
         ZStack {
-            Color.yellow
+            Color.white
                 .ignoresSafeArea()
             
             SignInWithAppleButton(
@@ -113,6 +113,24 @@ struct AppleLoginView: View {
             )
             .frame(width: 280, height: 45, alignment: .center)
             .padding(EdgeInsets(top: 400, leading: 50, bottom: 20, trailing: 50))
+            
+          
+                Button {
+                   //
+                } label: {
+                        
+                        Image("KakaoIcon")
+                            .resizable()
+                            .frame(width: 280, height: 45)
+                            .cornerRadius(9)
+                      
+                        
+    
+                }
+              
+            
+      
+
         }
     }
 }
