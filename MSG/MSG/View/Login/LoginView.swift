@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @StateObject var kakaoAuthViewModel: KakaoViewModel = KakaoViewModel()
+    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @State private var showingSheetView: Bool = false
     
     private var frameWidth = UIScreen.main.bounds.width

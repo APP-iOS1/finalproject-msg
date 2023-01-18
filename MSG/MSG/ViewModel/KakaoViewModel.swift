@@ -19,7 +19,8 @@ class KakaoViewModel: ObservableObject{
     init() {
         currentUser = Auth.auth().currentUser
     }
-//    @Published var isLoggedIn: Bool = false
+    @Published var isLoggedIn: Bool = false
+    @Published var userNicName: String = ""
     
     func kakaoLogout() async {
         UserApi.shared.logout {(error) in
@@ -31,6 +32,7 @@ class KakaoViewModel: ObservableObject{
                 //self.logStatus = false
                 try? Auth.auth().signOut()
                 self.currentUser = nil
+                self.isLoggedIn = false
             }
         }
     }
@@ -94,6 +96,32 @@ class KakaoViewModel: ObservableObject{
         })
     }
     
+//    func signUpInFirebase() {
+//        UserApi.shared.me() { user, error in
+//            if let error = error {
+//                print("error: \(error.localizedDescription)")
+//            } else {
+//                // 파이어베이스 유저 생성
+//                Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
+//                    if let error = error {
+//                        Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
+//                            if let error = error {
+//                                print("login error: \(error.localizedDescription)")
+//                                return
+//                            } else {
+//                                self.currentUser = result?.user
+//                                print("login success: \(self.currentUser)")
+//                            }
+//                        }
+//                    } else {
+//                        print("success")
+//
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     func signUpInFirebase() {
         UserApi.shared.me() { user, error in
             if let error = error {
@@ -102,19 +130,17 @@ class KakaoViewModel: ObservableObject{
                 // 파이어베이스 유저 생성
                 Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
                     if let error = error {
-                        Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
-                            if let error = error {
-                                print("login error: \(error.localizedDescription)")
-                                return
-                            } else {
-                                self.currentUser = result?.user
-                                print("login success: \(self.currentUser)")
-                            }
-                        }
-                    } else {
-                        print("success")
-                        
+                        print("signup failed")
+                        print("error")
+                        Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))",completion: nil)
+                        print("email:",user?.kakaoAccount?.email ?? "")
+                        self.isLoggedIn = true
+                        print(self.isLoggedIn)
+                    }else {
+                        self.currentUser = result?.user
+                        print("login success: \(self.currentUser)")
                     }
+                    
                 }
             }
         }

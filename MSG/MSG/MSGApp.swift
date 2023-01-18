@@ -24,7 +24,7 @@ struct MSGApp: App {
     @StateObject var viewModel = KakaoViewModel()
     var body: some Scene {
         WindowGroup {
-            LoginView().onOpenURL { url in
+            ContentView().onOpenURL { url in
                 if AuthApi.isKakaoTalkLoginUrl(url) {
                     _ = AuthController.handleOpenUrl(url: url)
                 }
