@@ -9,14 +9,9 @@ import SwiftUI
 import Firebase
 import CryptoKit
 import AuthenticationServices
+import GoogleSignIn
 
 class LoginViewModel: ObservableObject {
-    // MARK: View Properties
-    @Published var mobileNo: String = ""
-    @Published var otpCode: String = ""
-    
-    @Published var CLIENT_CODE: String = ""
-    @Published var showOTPField: Bool = false
     
     //MARK: Error Properties
     @Published var showError: Bool = false
@@ -63,16 +58,46 @@ class LoginViewModel: ObservableObject {
             }
             
             // User Successfully Logged Into Firebase...
-            print("Logged In Success")
+            print("Logged In Success Apple")
             withAnimation(.easeInOut){self.logStatus = true}
         }
         
     }
     
+    // MARK: Logging Google User into Firebase
+    func logGoogleUser(user: GIDGoogleUser) {
+        Task {
+            do {
+                guard let idToken = user.authentication.idToken else { return }
+                let accesToken = user.authentication.accessToken
+                
+                
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accesToken)
+                
+                try await Auth.auth().signIn(with: credential)
+                
+                print("Logged In Success Google")
+                await MainActor.run(body: {
+                    withAnimation(.easeInOut){self.logStatus = true}
+                })
+            } catch {
+                await handleError(error: error)
+            }
+        }
+    }
+}
+
+// MARK: Extensions
+extension UIApplication {
+    func rootController() -> UIViewController {
+        guard let window = connectedScenes.first as? UIWindowScene else {return .init()}
+        guard let viewcontroller = window.windows.last?.rootViewController else {return .init()}
+        
+        return viewcontroller
+    }
 }
 
 // MARK: Apple Sign in Helpers
-
 func sha256(_ input: String) -> String {
   let inputData = Data(input.utf8)
   let hashedData = SHA256.hash(data: inputData)

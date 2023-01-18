@@ -22,7 +22,6 @@
 		1660097A297630F600E6A546 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 16600979297630F600E6A546 /* FirebaseMessaging */; };
 		1660097C297630F600E6A546 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1660097B297630F600E6A546 /* FirebaseStorage */; };
 		1660097E297630F600E6A546 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1660097D297630F600E6A546 /* FirebaseStorageCombine-Community */; };
-		166009812976313800E6A546 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 166009802976313800E6A546 /* GoogleSignInSwift */; };
 		166009842976315700E6A546 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 166009832976315700E6A546 /* KakaoSDK */; };
 		1660098D29763AD800E6A546 /* MSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098C29763AD800E6A546 /* MSG.swift */; };
 		1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660098E2976404400E6A546 /* RealtimeViewModel.swift */; };
@@ -53,6 +52,8 @@
 		6342C2CB29764EDA00C24D20 /* KakaoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */; };
 		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
 		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
+		C025163129789952000E0219 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C025163029789952000E0219 /* GoogleSignIn */; };
+		C025163329789952000E0219 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C025163229789952000E0219 /* GoogleSignInSwift */; };
 		C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */; };
 		C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */; };
 /* End PBXBuildFile section */
@@ -111,12 +112,13 @@
 				1660097E297630F600E6A546 /* FirebaseStorageCombine-Community in Frameworks */,
 				16600976297630F600E6A546 /* FirebaseDatabase in Frameworks */,
 				16573F022977D60B001176F6 /* FirebaseFirestore in Frameworks */,
-				166009812976313800E6A546 /* GoogleSignInSwift in Frameworks */,
 				1660097A297630F600E6A546 /* FirebaseMessaging in Frameworks */,
+				C025163129789952000E0219 /* GoogleSignIn in Frameworks */,
 				16600972297630F600E6A546 /* FirebaseAuth in Frameworks */,
 				16600974297630F600E6A546 /* FirebaseAuthCombine-Community in Frameworks */,
 				1660097C297630F600E6A546 /* FirebaseStorage in Frameworks */,
 				166009842976315700E6A546 /* KakaoSDK in Frameworks */,
+				C025163329789952000E0219 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,9 +325,10 @@
 				16600979297630F600E6A546 /* FirebaseMessaging */,
 				1660097B297630F600E6A546 /* FirebaseStorage */,
 				1660097D297630F600E6A546 /* FirebaseStorageCombine-Community */,
-				166009802976313800E6A546 /* GoogleSignInSwift */,
 				166009832976315700E6A546 /* KakaoSDK */,
 				16573F012977D60B001176F6 /* FirebaseFirestore */,
+				C025163029789952000E0219 /* GoogleSignIn */,
+				C025163229789952000E0219 /* GoogleSignInSwift */,
 			);
 			productName = MSG;
 			productReference = 1660095F297630C300E6A546 /* MSG.app */;
@@ -357,8 +360,8 @@
 			mainGroup = 16600956297630C300E6A546;
 			packageReferences = (
 				16600970297630F600E6A546 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				1660097F2976313800E6A546 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				166009822976315700E6A546 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				C025162F29789952000E0219 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 16600960297630C300E6A546 /* Products */;
 			projectDirPath = "";
@@ -642,20 +645,20 @@
 				minimumVersion = 9.0.0;
 			};
 		};
-		1660097F2976313800E6A546 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
 		166009822976315700E6A546 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
 			requirement = {
 				branch = master;
 				kind = branch;
+			};
+		};
+		C025162F29789952000E0219 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS/";
+			requirement = {
+				kind = exactVersion;
+				version = 6.2.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -701,15 +704,20 @@
 			package = 16600970297630F600E6A546 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
 		};
-		166009802976313800E6A546 /* GoogleSignInSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1660097F2976313800E6A546 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignInSwift;
-		};
 		166009832976315700E6A546 /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 166009822976315700E6A546 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDK;
+		};
+		C025163029789952000E0219 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C025162F29789952000E0219 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		C025163229789952000E0219 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C025162F29789952000E0219 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

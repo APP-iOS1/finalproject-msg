@@ -5,7 +5,12 @@
 //  Created by zooey on 2023/01/17.
 //
 import SwiftUI
+// 애플 로그인
 import AuthenticationServices
+// 구글 로그인
+import GoogleSignIn
+import GoogleSignInSwift
+import Firebase
 
 struct LoginView: View {
     
@@ -15,6 +20,7 @@ struct LoginView: View {
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
     
+    // 애플, 구글 로그인 ViewModel
     @StateObject var loginModel: LoginViewModel = .init()
     
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
@@ -54,7 +60,7 @@ struct LoginView: View {
                     .padding(.leading)
                     .padding(.leading)
                     
-                    // 로그인
+                    // MARK: 로그인 버튼
                     VStack(spacing: 15) {
                         // MARK: Custom Apple Sign in Button
                         CustomButton1()
@@ -87,9 +93,26 @@ struct LoginView: View {
                         
                         // MARK: Custom Google Sign in Button
                         CustomButton1(isGoogle: true)
-                        .overlay {
-                            
-                        }
+                            .overlay {
+                                if let clientID = FirebaseApp.app()?.options.clientID {
+                                    Button {
+                                        GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
+                                            if let error = error {
+                                                print(error.localizedDescription)
+                                                return
+                                            }
+                                            // MARK: Loggin Google User into Firbase
+                                            if let user {
+                                                loginModel.logGoogleUser(user: user)
+                                            }
+                                        }
+                                    } label: {
+                                        Rectangle()
+                                            .frame(width: 280, height: 45)
+                                            .foregroundColor(.clear)
+                                    }
+                                }
+                            }
                         .clipped()
                         
                         // MARK: Custom Kakao Sign in Button
