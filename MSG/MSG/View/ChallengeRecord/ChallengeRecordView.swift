@@ -58,6 +58,7 @@ struct MyList: View {
         
         NavigationLink {
             // 넘어갈 뷰 연결 부분
+            RecordDetailView()
         } label: {
             HStack {
                 

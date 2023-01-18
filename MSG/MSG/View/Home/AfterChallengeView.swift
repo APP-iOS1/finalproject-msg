@@ -87,7 +87,7 @@ struct AfterChallengeView: View {
                 }
                 //MARK: - 상세 소비 내역 확인 네비게이션 링크
                 Group{
-                    NavigationLink(destination: Text("상세 소비 내역 확인하기"), label: {
+                    NavigationLink(destination: ChartView(), label: {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color("Font") , lineWidth: 1)
                             .frame(width: 330, height: 70)
@@ -97,7 +97,7 @@ struct AfterChallengeView: View {
                             .padding(.bottom)
                     })
                     //MARK: - 추가하기 네비게이션 링크
-                    NavigationLink(destination: Text("추가하기"), label: {
+                    NavigationLink(destination: SpendingWritingView(), label: {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color("Font") , lineWidth: 1)
                             .frame(width: 330, height: 70)
@@ -109,22 +109,6 @@ struct AfterChallengeView: View {
                 }
                 .font(.title3.bold())
             }.foregroundColor(Color("Font"))
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text("MSG")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("Font"))
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: Text("프로필뷰")) {
-                    Image(systemName: "person.circle")
-                        .font(.title2)
-                        .foregroundColor(Color("Font"))
-                }
-                
-            }
         }
     }
 }
