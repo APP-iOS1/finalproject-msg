@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FriendViewCell: View {
-    @State var user: String
+    @State var user: Msg
     var body: some View {
         HStack {
             Image("logo")
@@ -16,7 +16,7 @@ struct FriendViewCell: View {
                 .scaledToFit()
                 .clipShape(Circle().inset(by: 5))
                 .frame(width:50, height: 45)
-            Text("돈을아껴17")
+            Text(user.nickName)
             Spacer()
             Button {
                 //
@@ -34,6 +34,6 @@ struct FriendViewCell: View {
 
 struct FriendViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView()
+        FriendView(fireStoreViewModel: FireStoreViewModel())
     }
 }
