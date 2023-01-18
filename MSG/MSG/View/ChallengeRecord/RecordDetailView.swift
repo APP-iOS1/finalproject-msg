@@ -14,6 +14,7 @@ struct RecordDetailView: View {
                 Color("Background").ignoresSafeArea()
                 ScrollView{
                 VStack{
+                    //타이틀, 날짜 그룹
                     Group{
                         HStack{
                             Text("치킨내기! 30만원으로 한달 살기")
@@ -29,6 +30,7 @@ struct RecordDetailView: View {
                         }
                     }.padding(.horizontal)
                      .foregroundColor(Color("Font"))
+                    //챌린지 참여인원에 따른 사용금액 그룹
                     Group{
                         ForEach(0..<5, id: \.self) { _ in
                             HStack{
@@ -45,6 +47,7 @@ struct RecordDetailView: View {
                         
                     }.padding([.vertical, .horizontal])
                      .foregroundColor(Color("Font"))
+                    //가장적게 쓴, 많이 쓴 사람 그룹
                     Group{
                         HStack{
                             Text("가장 적게 쓴 사람")
