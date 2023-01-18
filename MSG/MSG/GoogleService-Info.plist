@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>991368303449-02ieepaht6mpk4qk9uk133ktr9iq3al1.apps.googleusercontent.com</string>
+	<string>916797790118-6q57dqp9tj5lmt2dv2onan2573dps1c4.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.991368303449-02ieepaht6mpk4qk9uk133ktr9iq3al1</string>
+	<string>com.googleusercontent.apps.916797790118-6q57dqp9tj5lmt2dv2onan2573dps1c4</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCMfqFjf2CUKoEETRwlqqsZPJP4obzsSII</string>
+	<string>AIzaSyB-lZP_wTkpG2KBeFCYA-6aG8of2wbxz9A</string>
 	<key>GCM_SENDER_ID</key>
-	<string>991368303449</string>
+	<string>916797790118</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.likelion.MSG</string>
+	<string>com.likelion.msg.MSG</string>
 	<key>PROJECT_ID</key>
-	<string>money-save-game</string>
+	<string>moneysavegame</string>
 	<key>STORAGE_BUCKET</key>
-	<string>money-save-game.appspot.com</string>
+	<string>moneysavegame.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:991368303449:ios:a5400030d68fe693b1b248</string>
+	<string>1:916797790118:ios:0735f18fc8a00ff2b32167</string>
+	<key>DATABASE_URL</key>
+	<string>https://moneysavegame-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
