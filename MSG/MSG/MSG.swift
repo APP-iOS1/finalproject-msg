@@ -7,11 +7,43 @@
 
 import Foundation
 
+//MARK: - 나의 정보들
 struct Msg: Codable, Identifiable {
     // 나
     var id: String
+    var nickName: String
+    var profilImage: String
+    var game: String
+    var gameHistory: [String]
 }
 
+//MARK: - 친구의 정보들
+struct Friend: Codable, Identifiable {
+    var id: String
+    var nickName: String
+    var profilImage: String
+    var game: String
+}
+//MARK: - 게임을 생성할 때 필요함
+struct Challenge: Codable, Identifiable {
+    // Game의 ID
+    var id: String
+    var gameTitle: String
+    var limitMoney: Int
+    var startDate: String
+    var endDate: String
+    var inviteFriend: [String]
+}
+
+//MARK: - 게임에 들어와 유저들의 아이디와 지출내역을 확인
+struct expenditure: Codable, Identifiable {
+    //참석유저 아이디
+    var id: String
+    var expenditureHistory: [String:[String]]
+}
+
+
+//MARK: - RealtimeDB
 struct UserInfo: Codable, Identifiable {
     var id: String
     // 어떤유저한테 초대를 받았는지

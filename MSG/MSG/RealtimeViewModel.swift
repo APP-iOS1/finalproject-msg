@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseDatabase
+import FirebaseAuth
 
 class PostitStore: ObservableObject {
     @Published var msg: [Msg] = []
@@ -16,7 +17,6 @@ class PostitStore: ObservableObject {
             let ref = Database.database()
             .reference()
             .child("msg")
-            .child("-NLxpNi8nQaiTyzooS-N")
         
             return ref
         }()
@@ -119,16 +119,22 @@ class PostitStore: ObservableObject {
         ])
     }
     
-    func addPostit2(postit: Msg, userInfo: UserInfo) {
-        databaseReference?
-            .child("-NLxpNi8nQaiTyzooS-N").childByAutoId().setValue([
-            "id": userInfo.id,
-            "userName": userInfo.userName,
-            "userImage": userInfo.userImage,
-            "isFriend": userInfo.isFriend,
-            "isFight": userInfo.isFight,
-        ])
-    }
+    
+    //내정보를 저장할 어딘가가 필요하다....
+//    func sendFriendRequest(to: Msg, from: UserInfo) {
+//        databaseReference?
+//            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
+//            "id": from.id,
+//            "userName": from.userName,
+//            "userImage": from.userImage,
+//            "isFriend": from.isFriend,
+//            "isFight": from.isFight,
+//        ])
+//    }
+    
+//    func sendFriendRequest
+    
+    
     
     
     func deletePostit(postit: Msg) {
