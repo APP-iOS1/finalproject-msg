@@ -19,6 +19,7 @@ class FireStoreViewModel: ObservableObject {
     @Published var userArray: [Msg] = []
     @Published var gameHistoryArray : [String] = []
     let database = Firestore.firestore()
+    @Published var myInfo: Msg?
     
     init() {
         //        postits = []
@@ -60,6 +61,7 @@ class FireStoreViewModel: ObservableObject {
                       "profilImage": downloadUrl])
         
         //        fetchPostits()
+        myInfo = user
     }
     
     func uploadImageToStorage(userImage: UIImage, user: Msg) {

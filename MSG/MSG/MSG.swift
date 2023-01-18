@@ -44,7 +44,7 @@ struct expenditure: Codable, Identifiable {
 
 
 //MARK: - RealtimeDB
-struct UserInfo: Codable, Identifiable {
+struct UserInfo: Codable, Identifiable, Hashable {
     var id: String
     // 어떤유저한테 초대를 받았는지
     var userName: String
@@ -56,6 +56,15 @@ struct UserInfo: Codable, Identifiable {
     var isFight: Bool
     // 현재 날짜
 //    var InvitedDateAt: Date
+}
+
+extension Encodable {
+    var toDictionary: [String: Any]? {
+        guard let data = try? JSONEncoder().encode(self) else {
+            return nil
+        }
+        return try? JSONSerialization.jsonObject(with: data,options: .allowFragments) as? [String: Any]
+    }
 }
 
 /*

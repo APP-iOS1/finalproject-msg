@@ -23,6 +23,7 @@ struct MSGApp: App {
     }
     @StateObject var viewModel = KakaoViewModel()
     @StateObject var fireStoreViewModel = FireStoreViewModel()
+    @StateObject var realtimeViewModel = PostitStore()
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -33,6 +34,7 @@ struct MSGApp: App {
                 }
                 .environmentObject(viewModel)
                 .environmentObject(fireStoreViewModel)
+                .environmentObject(realtimeViewModel)
             }
 //            AppleContentView()
 //                .environmentObject(AppleUserAuth())

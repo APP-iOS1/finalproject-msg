@@ -10,7 +10,8 @@ struct ContentView: View {
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var fireStoreViewModel = FireStoreViewModel()
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @StateObject var realtimeViewModel = PostitStore()
     var body: some View {
         ZStack {
             Color("Background")

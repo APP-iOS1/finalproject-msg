@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FriendViewCell: View {
     @State var user: Msg
+    @StateObject var realtimeViewModel = PostitStore()
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
         HStack {
             Image("logo")
@@ -20,6 +22,9 @@ struct FriendViewCell: View {
             Spacer()
             Button {
                 //
+                if let myInfo = fireStoreViewModel.myInfo {
+                    realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+                }
             } label: {
                 Text("추가")
                     .foregroundColor(Color("Font"))
