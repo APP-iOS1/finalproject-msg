@@ -11,6 +11,7 @@ struct LoginView: View {
     
     @StateObject var kakaoAuthViewModel: KakaoAuthViewModel = KakaoAuthViewModel()
     @State private var showingSheetView: Bool = false
+    @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
@@ -87,6 +88,9 @@ struct LoginView: View {
                 .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
             }
             .foregroundColor(Color("Font"))
+        }
+        .fullScreenCover(isPresented: $isFirstLaunching) {
+            OnBoardTapView(isFirstLaunching: $isFirstLaunching)
         }
         .fullScreenCover(isPresented: $showingSheetView) {
             PrivacyPolicyView()
