@@ -4,36 +4,43 @@
 //
 //  Created by kimminho on 2023/01/17.
 //
-
 import SwiftUI
 
 struct ContentView: View {
     
+    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color("Background")
-                
-                TabView {
-                    HomeView()
-                        .tabItem {
-                            Image(systemName: "dpad.fill")
+        ZStack {
+            Color("Background")
+            NavigationStack {
+                Group {
+                    if kakaoAuthViewModel.isLoggedIn {
+                        if kakaoAuthViewModel.userNicName.isEmpty {
+                            MakeProfileView()
+                        } else {
+                            TabView {
+                                HomeView()
+                                    .tabItem {
+                                        Image(systemName: "dpad.fill")
+                                    }
+                                ChallengeRecordView()
+                                    .tabItem {
+                                        Image(systemName: "archivebox")
+                                    }
+                                FriendSettingView()
+                                    .tabItem {
+                                        Image(systemName: "person.2.fill")
+                                    }
+                            }
                         }
-                    ChallengeRecordView()
-                        .tabItem {
-                            Image(systemName: "archivebox")
-                        }
-                    FriendSettingView()
-                        .tabItem {
-                            Image(systemName: "person.2.fill")
-                        }
-                    LoginView()
-                        .tabItem {
-                            Image(systemName: "ellipsis.bubble.fill")
-                        }
+                    } else {
+                        LoginView()
+                    }
                 }
-                .foregroundColor(Color("Font"))
             }
+            .accentColor(Color("Font"))
         }
     }
 }

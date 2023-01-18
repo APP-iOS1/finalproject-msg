@@ -1,19 +1,20 @@
-//
+
 //  LoginView.swift
 //  MSG
 //
 //  Created by zooey on 2023/01/17.
 //
-
 import SwiftUI
 
 struct LoginView: View {
     
-    @StateObject var kakaoAuthViewModel: KakaoAuthViewModel = KakaoAuthViewModel()
+    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @State private var showingSheetView: Bool = false
     
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
+    
+    @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
     var body: some View {
         
@@ -66,8 +67,7 @@ struct LoginView: View {
                         }
                     
                     Button {
-                        kakaoAuthViewModel.kakaoLogin()
-                    } label: {
+                        kakaoAuthViewModel.kakaoLogin()                    } label: {
                         Text("카카오 로그인")
                     }
                 }
@@ -90,6 +90,9 @@ struct LoginView: View {
         }
         .fullScreenCover(isPresented: $showingSheetView) {
             PrivacyPolicyView()
+        }
+        .fullScreenCover(isPresented: $isFirstLaunching) {
+            OnBoardTapView(isFirstLaunching: $isFirstLaunching)
         }
     }
 }
