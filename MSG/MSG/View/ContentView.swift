@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         ZStack {
