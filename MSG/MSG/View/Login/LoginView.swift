@@ -5,6 +5,12 @@
 //  Created by zooey on 2023/01/17.
 //
 import SwiftUI
+// 애플 로그인
+import AuthenticationServices
+// 구글 로그인
+import GoogleSignIn
+import GoogleSignInSwift
+import Firebase
 
 struct LoginView: View {
     
@@ -13,6 +19,9 @@ struct LoginView: View {
     
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
+    
+    // 애플, 구글 로그인 ViewModel
+    @StateObject var loginModel: LoginViewModel = .init()
     
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
@@ -51,25 +60,76 @@ struct LoginView: View {
                     .padding(.leading)
                     .padding(.leading)
                     
-                    // 로그인
-                    Text("애플 로그인")
-                        .frame(width: 340, height: 40)
+                    // MARK: 로그인 버튼
+                    VStack(spacing: 15) {
+                        // MARK: Custom Apple Sign in Button
+                        CustomButton1()
                         .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke()
-                            
+                            SignInWithAppleButton{(request) in
+                                
+                                    // requesting paramertes from apple login...
+                                    loginModel.nonce = randomNonceString()
+                                    request.requestedScopes = [.fullName, .email]
+                                    request.nonce = sha256(loginModel.nonce)
+                            } onCompletion: { (result) in
+                                switch result {
+                                case .success(let user):
+                                    print("success")
+                                    guard let credential = user.credential as?
+                                            ASAuthorizationAppleIDCredential else {
+                                        print("error with firebase")
+                                        return
+                                    }
+                                    loginModel.appleAuthenticate(credential: credential)
+                                case.failure(let error):
+                                    print(error.localizedDescription)
+                                }
+                            }
+                            .signInWithAppleButtonStyle(.white)
+                            .frame(height: 45)
+                            .blendMode(.overlay)
                         }
-                    Text("구글 로그인")
-                        .frame(width: 340, height: 40)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke()
-                        }
-                    
-                    Button {
-                        kakaoAuthViewModel.kakaoLogin()                    } label: {
-                        Text("카카오 로그인")
+                        .clipped()
+                        
+                        // MARK: Custom Google Sign in Button
+                        CustomButton1(isGoogle: true)
+                            .overlay {
+                                if let clientID = FirebaseApp.app()?.options.clientID {
+                                    Button {
+                                        GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
+                                            if let error = error {
+                                                print(error.localizedDescription)
+                                                return
+                                            }
+                                            // MARK: Loggin Google User into Firbase
+                                            if let user {
+                                                loginModel.logGoogleUser(user: user)
+                                            }
+                                        }
+                                    } label: {
+                                        Rectangle()
+                                            .frame(width: 280, height: 45)
+                                            .foregroundColor(.clear)
+                                    }
+                                }
+                            }
+                        .clipped()
+                        
+                        // MARK: Custom Kakao Sign in Button
+                        CustomButton2()
+                            .overlay{
+                                Button {
+                                    kakaoAuthViewModel.kakaoLogin()
+                                } label: {
+                                    Rectangle()
+                                        .frame(width: 280, height: 45)
+                                        .foregroundColor(.clear)
+                                }
+                            }
+                            .clipped()
+                        
                     }
+                    
                 }
                 .padding(.bottom)
                 .frame(maxHeight: frameHeight / 3)
@@ -95,7 +155,72 @@ struct LoginView: View {
             OnBoardTapView(isFirstLaunching: $isFirstLaunching)
         }
     }
+    
+    @ViewBuilder
+    // Apple & Google CustomButton
+    func CustomButton1(isGoogle: Bool = false) -> some View {
+        HStack {
+            Group {
+                if isGoogle {
+                    Image("GoogleIcon")
+                        .resizable()
+                } else {
+                    Image(systemName: "applelogo")
+                        .resizable()
+                }
+            }
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 25, height: 25)
+            .frame(height: 45)
+            
+            Text("\(isGoogle ? "Google" : "Apple") Sign in")
+                .font(.callout)
+                .lineLimit(1)
+        }
+        .foregroundColor(isGoogle ? .black : .white)
+        .padding(.horizontal,15)
+        .frame(width: 280, height: 45, alignment: .center)
+        .background {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(isGoogle ? .white : .black)
+        }
+    }
+    
+    // KaKao & Facebook(추후 업데이트 예정) CustomButton
+    func CustomButton2(isKakao: Bool = false) -> some View {
+        HStack {
+            
+            Group {
+                if isKakao {
+                    Image(systemName: "applelogo")
+                        .resizable()
+                } else {
+                    Image("KakaoIcon")
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(.black)
+                }
+            }
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 25, height: 25)
+            .frame(height: 45)
+            
+            Text("\(isKakao ? "Facebook" : "Kakao") Sign in")
+                .font(.callout)
+                .lineLimit(1)
+        }
+        .foregroundColor(isKakao ? .white : Color("KakaoFontColor"))
+        .padding(.horizontal,15)
+        .frame(width: 280, height: 45, alignment: .center)
+        .background {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(isKakao ? .blue : Color("KakaoButtonColor"))
+        }
+    }
+    
 }
+
+
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
