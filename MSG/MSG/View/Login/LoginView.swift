@@ -31,65 +31,65 @@ struct LoginView: View {
             Color("Background")
                 .ignoresSafeArea()
             VStack {
-                // 앱 이름
-                HStack(spacing: 20) {
-                    Image(systemName: "dpad.left.filled")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: frameHeight / 18)
-                    VStack(alignment: .leading) {
-                        Text("MSG")
-                            .font(.largeTitle.bold())
-                        Text("Money Save Game")
-                    }
-                }
-                .padding()
-                .frame(width: frameWidth, alignment: .leading)
-                .frame(maxHeight: frameHeight / 7)
                 
-                VStack(spacing: 20) {
-                    HStack {
-                        Text("회원가입")
-                            .bold()
-                        Divider()
-                            .frame(height: frameHeight / 30)
-                        Text("로그인")
-                            .bold()
+                VStack {
+                    // MARK: 앱 이름
+                    HStack(spacing: 20) {
+                        Image(systemName: "dpad.left.filled")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: frameHeight / 18)
+                        VStack(alignment: .leading) {
+                            Text("MSG")
+                                .font(.largeTitle.bold())
+                            Text("Money Save Game")
+                        }
                     }
-                    .frame(width: frameWidth, alignment: .leading)
-                    .padding(.leading)
-                    .padding(.leading)
+                    .padding()
+                    .frame(width: frameWidth, alignment: .center)
+                    .frame(maxHeight: frameHeight / 7)
                     
                     // MARK: 로그인 버튼
-                    VStack(spacing: 15) {
+                    VStack(spacing: 20) {
+                        // MARK: 로그인
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 280, height:4)
+                                .foregroundColor(Color("Point1"))
+                                .padding(.top,40)
+                            Text("로그인")
+                                .font(.title3)
+                                .bold()
+                        }
+                        
                         // MARK: Custom Apple Sign in Button
                         CustomButton1()
-                        .overlay {
-                            SignInWithAppleButton{(request) in
-                                
+                            .overlay {
+                                SignInWithAppleButton{(request) in
+                                    
                                     // requesting paramertes from apple login...
                                     loginModel.nonce = randomNonceString()
                                     request.requestedScopes = [.fullName, .email]
                                     request.nonce = sha256(loginModel.nonce)
-                            } onCompletion: { (result) in
-                                switch result {
-                                case .success(let user):
-                                    print("success")
-                                    guard let credential = user.credential as?
-                                            ASAuthorizationAppleIDCredential else {
-                                        print("error with firebase")
-                                        return
+                                } onCompletion: { (result) in
+                                    switch result {
+                                    case .success(let user):
+                                        print("success")
+                                        guard let credential = user.credential as?
+                                                ASAuthorizationAppleIDCredential else {
+                                            print("error with firebase")
+                                            return
+                                        }
+                                        loginModel.appleAuthenticate(credential: credential)
+                                    case.failure(let error):
+                                        print(error.localizedDescription)
                                     }
-                                    loginModel.appleAuthenticate(credential: credential)
-                                case.failure(let error):
-                                    print(error.localizedDescription)
                                 }
+                                .signInWithAppleButtonStyle(.white)
+                                .frame(height: 45)
+                                .blendMode(.overlay)
                             }
-                            .signInWithAppleButtonStyle(.white)
-                            .frame(height: 45)
-                            .blendMode(.overlay)
-                        }
-                        .clipped()
+                            .clipped()
                         
                         // MARK: Custom Google Sign in Button
                         CustomButton1(isGoogle: true)
@@ -113,7 +113,7 @@ struct LoginView: View {
                                     }
                                 }
                             }
-                        .clipped()
+                            .clipped()
                         
                         // MARK: Custom Kakao Sign in Button
                         CustomButton2()
@@ -127,24 +127,24 @@ struct LoginView: View {
                                 }
                             }
                             .clipped()
+                    }
+                    .padding(.top, 20)
+                }
+              
                         
-                    }
-                    
-                }
-                .padding(.bottom)
-                .frame(maxHeight: frameHeight / 3)
-                
-                // 개인정보 처리방침
-                HStack {
-                    Button {
-                        showingSheetView.toggle()
-                    } label: {
-                        Text("**이용약관** 및 **개인정보 취급방침**")
-                    }
-                }
-                .font(.caption)
-                .padding(.top)
-                .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
+                        // MARK: 개인정보 처리방침
+                        HStack {
+                            Button {
+                                showingSheetView.toggle()
+                            } label: {
+                                Text("**이용약관** 및 **개인정보 취급방침**")
+                                    .padding(.top, 340)
+                            }
+                        }
+                        .font(.caption)
+                        .padding(.top)
+                        .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
+           
             }
             .foregroundColor(Color("Font"))
         }

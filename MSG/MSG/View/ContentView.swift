@@ -63,8 +63,15 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static let kakaoAuthViewModel = KakaoViewModel()
+    static let fireStoreViewModel = FireStoreViewModel()
+    static let realtimeViewModel = PostitStore()
+    
+    static var previews: some View {
+        ContentView()
+            .environmentObject(kakaoAuthViewModel)
+            .environmentObject(fireStoreViewModel)
+            .environmentObject(realtimeViewModel)
+    }
+}
