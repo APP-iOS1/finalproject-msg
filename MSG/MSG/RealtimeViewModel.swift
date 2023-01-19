@@ -10,6 +10,7 @@ class PostitStore: ObservableObject {
             let ref = Database.database()
             .reference()
             .child(Auth.auth().currentUser?.uid ?? "")
+        
             return ref
         }()
     
