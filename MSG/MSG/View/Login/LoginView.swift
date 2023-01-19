@@ -86,6 +86,7 @@ struct LoginView: View {
                                     }
                                 }
                                 .signInWithAppleButtonStyle(.white)
+                                .cornerRadius(8)
                                 .frame(height: 45)
                                 .blendMode(.overlay)
                             }
@@ -131,7 +132,6 @@ struct LoginView: View {
                     .padding(.top, 20)
                 }
               
-                        
                         // MARK: 개인정보 처리방침
                         HStack {
                             Button {
@@ -157,7 +157,7 @@ struct LoginView: View {
     }
     
     @ViewBuilder
-    // Apple & Google CustomButton
+    // MARK: Apple & Google CustomButton
     func CustomButton1(isGoogle: Bool = false) -> some View {
         HStack {
             Group {
@@ -186,7 +186,7 @@ struct LoginView: View {
         }
     }
     
-    // KaKao & Facebook(추후 업데이트 예정) CustomButton
+    // MARK: KaKao & Facebook(추후 업데이트 예정) CustomButton
     func CustomButton2(isKakao: Bool = false) -> some View {
         HStack {
             
