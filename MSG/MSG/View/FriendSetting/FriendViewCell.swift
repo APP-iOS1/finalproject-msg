@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FriendViewCell: View {
-    @State var user: Msg
+    @State var user: UserInfo
     @EnvironmentObject var realtimeViewModel: PostitStore
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
@@ -18,7 +18,7 @@ struct FriendViewCell: View {
                 .scaledToFit()
                 .clipShape(Circle().inset(by: 5))
                 .frame(width:50, height: 45)
-            Text(user.nickName)
+            Text(user.userName)
             Spacer()
             Button {
                 //

@@ -144,7 +144,7 @@ class PostitStore: ObservableObject {
     }
     
     //내정보를 저장할 어딘가가 필요하다....
-    func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
+    func sendFriendRequest(to: UserInfo, from: Msg, isFriend: Bool) {
         print(#function)
         Database.database()
         .reference()

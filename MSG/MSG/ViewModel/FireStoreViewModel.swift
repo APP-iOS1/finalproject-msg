@@ -16,9 +16,10 @@ import SwiftUI
 
 @MainActor
 class FireStoreViewModel: ObservableObject {
-    @Published var userArray: [Msg] = []
+    @Published var userArray: [UserInfo] = []
     @Published var challengeHistoryArray : [Challenge] = []
     @Published var challengeHistoryUserList : [(userId: String, totalMoney: Int)] = []
+    @Published var myFrinedArray: [UserInfo] = []
     let database = Firestore.firestore()
 
     
@@ -64,9 +65,8 @@ class FireStoreViewModel: ObservableObject {
             }
         }
     }
-    
-    //친구찾기
-    func findFriend() {
+    //모든유저 찾기
+    func findUser() {
         database
             .collection("User")
             .getDocuments { (snapshot, error) in
@@ -77,31 +77,60 @@ class FireStoreViewModel: ObservableObject {
                         let id: String = document.documentID
                         
                         let docData = document.data()
-                        let nickName: String = docData["nickName"] as? String ?? ""
-                        let game: String = docData["game"] as? String ?? ""
-                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let userName: String = docData["userName"] as? String ?? ""
+                        let userImage: String = docData["userImage"] as? String ?? ""
+                        let isFriend: Bool = docData["isFriend"] as? Bool ?? false
+                        let isFight: Bool = docData["isFight"] as? Bool ?? false
                         
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: [])
+                        let getUser: UserInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
                         self.userArray.append(getUser)
                     }
                 }
             }
     }
     
+    //친구찾기
+    func findFriend() {
+        database
+            .collection("User")
+            .document(Auth.auth().currentUser?.uid ?? "")
+            .collection("frined")
+            .getDocuments { (snapshot, error) in
+                self.userArray.removeAll()
+                
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let id: String = document.documentID
+                        
+                        let docData = document.data()
+                        let userName: String = docData["userName"] as? String ?? ""
+                        let userImage: String = docData["userImage"] as? String ?? ""
+                        let isFriend: Bool = docData["isFriend"] as? Bool ?? false
+                        let isFight: Bool = docData["isFight"] as? Bool ?? false
+                        
+                        let getUser: UserInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
+                        self.myFrinedArray.append(getUser)
+                    }
+                }
+            }
+    }
     //친구추가
-    //    func addUserInfo(user: Msg, myInfo: ??) {
-    //        database.collection("User")
-    //            .document(user.id)
-    //            .collection("friend")
-    //            .document(Auth.auth().currentUser?.uid ?? "")
-    //            .setData(["id": Auth.auth().currentUser?.uid ?? "",
-    //                      "nickName": user.nickName,
-    //                      "game": user.game,
-    //                      "gameHistory": user.gameHistory,
-    //                      "profilImage": downloadUrl])
-    //
-    //        //        fetchPostits()
-    //    }
+        func addUserInfo(user: UserInfo) {
+            database.collection("User")
+                .document(Auth.auth().currentUser?.uid ?? "")
+                .collection("friend")
+                .document(user.id)
+                .setData(["id": user.id,
+                          "nickName": user.userName,
+                          "userImage": user.userImage,
+                          "isFriend": user.isFriend,
+                          "isFight": user.isFight,
+//                          "profilImage": downloadUrl
+                         ])
+            myFrinedArray.append(user)
+//            fireStoreViewModel.userArray
+            //        fetchPostits()
+        }
     //게임히스토리 가져오기 //g0UxdNp6jHhavijbSJSZ //Auth.auth().currentUser?.uid ?? ""
     
     // MARK: - 게임 히스토리 ID 목록 가져오기

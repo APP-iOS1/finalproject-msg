@@ -10,6 +10,7 @@ import SwiftUI
 struct AlertView: View {
     @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
     @EnvironmentObject var realtimeViewModel: PostitStore
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
         VStack {
             if realtimeViewModel.user.isEmpty {
@@ -35,7 +36,8 @@ struct AlertView: View {
                         }
                         Spacer()
                         Button {
-                            //
+                            fireStoreViewModel.addUserInfo(user: user)
+                            
                         } label: {
                             Text("확인")
                                 .foregroundColor(Color("Font"))
