@@ -2,6 +2,7 @@ import SwiftUI
 import FirebaseCore
 import KakaoSDKCommon
 import KakaoSDKAuth
+import GoogleSignIn
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -38,6 +39,7 @@ struct MSGApp: App {
             }
 //            AppleContentView()
 //                .environmentObject(AppleUserAuth())
+
         }
     }
 }
