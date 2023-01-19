@@ -48,13 +48,14 @@ class PostitStore: ObservableObject {
     //친구 -> 친구목록
     //받아오기
     func startFetching() {
+        user.removeAll()
         print(#function)
         guard let databaseReference else {
             print("guard문으로 리턴됨")
             return
         }
         databaseReference
-            .observe(.childAdded) { [weak self] snapshot in
+            .observe(.value) { [weak self] snapshot in
                 guard
                     let self = self,
                     var json = snapshot.value as? [String:[String:Any]]
@@ -73,8 +74,8 @@ class PostitStore: ObservableObject {
 //                    if id ==
                    let userInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
                 
-//                    self.user.append(userInfo)
-                    self.user.insert(userInfo, at: 0)
+                    self.user.append(userInfo)
+//                    self.user.insert(userInfo, at: 0)
                 }
 
 //                do {
