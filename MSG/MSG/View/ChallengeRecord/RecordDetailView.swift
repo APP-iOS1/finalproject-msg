@@ -9,10 +9,9 @@ import SwiftUI
 
 struct RecordDetailView: View {
     var body: some View {
-        NavigationStack{
-            ZStack{
-                Color("Background").ignoresSafeArea()
-                ScrollView{
+        ZStack{
+            Color("Background").ignoresSafeArea()
+            ScrollView{
                 VStack{
                     //타이틀, 날짜 그룹
                     Group{
@@ -29,7 +28,7 @@ struct RecordDetailView: View {
                             Spacer()
                         }
                     }.padding(.horizontal)
-                     .foregroundColor(Color("Font"))
+                        .foregroundColor(Color("Font"))
                     //챌린지 참여인원에 따른 사용금액 그룹
                     Group{
                         ForEach(0..<5, id: \.self) { _ in
@@ -46,7 +45,7 @@ struct RecordDetailView: View {
                         }
                         
                     }.padding([.vertical, .horizontal])
-                     .foregroundColor(Color("Font"))
+                        .foregroundColor(Color("Font"))
                     //가장적게 쓴, 많이 쓴 사람 그룹
                     Group{
                         HStack{
@@ -71,22 +70,21 @@ struct RecordDetailView: View {
                     .padding([.vertical, .horizontal], 10)
                     .foregroundColor(Color("Font"))
                     
-                    }
-                    
                 }
+                
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: ChartView()) {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("Point2"))
-                            .frame(width: 80, height: 45)
-                            .overlay {
-                                Text("상세내역")
-                                    .foregroundColor(Color("Font"))
-                                    .font(.subheadline)
-                            }
-                    }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: ChartView()) {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color("Point2"))
+                        .frame(width: 80, height: 45)
+                        .overlay {
+                            Text("상세내역")
+                                .foregroundColor(Color("Font"))
+                                .font(.subheadline)
+                        }
                 }
             }
         }
