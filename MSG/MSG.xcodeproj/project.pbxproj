@@ -44,6 +44,7 @@
 		36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA4914297774C500B26A24 /* ProgressBar.swift */; };
 		36FA4918297791A100B26A24 /* ChartCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA4917297791A100B26A24 /* ChartCellView.swift */; };
 		4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B81822977750C00866E3F /* RecordDetailView.swift */; };
+		4C65CFEC2978D02700BAD069 /* ProgressBar2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C65CFEB2978D02700BAD069 /* ProgressBar2.swift */; };
 		4C930D5F29763B4300EE046D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D5E29763B4300EE046D /* HomeView.swift */; };
 		4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6029763CD200EE046D /* AfterChallengeView.swift */; };
 		4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6229763CF000EE046D /* BeforeChallengeView.swift */; };
@@ -89,6 +90,7 @@
 		36FA4914297774C500B26A24 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		36FA4917297791A100B26A24 /* ChartCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCellView.swift; sourceTree = "<group>"; };
 		4C5B81822977750C00866E3F /* RecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailView.swift; sourceTree = "<group>"; };
+		4C65CFEB2978D02700BAD069 /* ProgressBar2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar2.swift; sourceTree = "<group>"; };
 		4C930D5E29763B4300EE046D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4C930D6029763CD200EE046D /* AfterChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterChallengeView.swift; sourceTree = "<group>"; };
 		4C930D6229763CF000EE046D /* BeforeChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeChallengeView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
 				4C930D5E29763B4300EE046D /* HomeView.swift */,
 				36B093FA29766FB30089E76A /* SpendingWritingView.swift */,
+				4C65CFEB2978D02700BAD069 /* ProgressBar2.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				C0F5FFD62977BA720021FF4F /* AppleLoginView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
+				4C65CFEC2978D02700BAD069 /* ProgressBar2.swift in Sources */,
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,
 				C0F5FFD22977B9410021FF4F /* AppleUserAuth.swift in Sources */,
 				36B093F92976694F0089E76A /* GameSettingView.swift in Sources */,
