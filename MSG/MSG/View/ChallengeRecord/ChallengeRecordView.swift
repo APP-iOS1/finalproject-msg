@@ -9,11 +9,8 @@ import SwiftUI
 
 // 유저의 챌린지 기록 View
 struct ChallengeRecordView: View {
-    
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
-        
-        
-        
         ZStack {
             // 백그라운드
             Color("Background")
@@ -31,8 +28,8 @@ struct ChallengeRecordView: View {
                 // (List에 NavigationLink를 사용하면 꺽쇠 > 버튼은 숨길 수 없어서 List를 사용하지 않음)
                 ScrollView {
                     Section {
-                        ForEach(1...5, id: \.self) { index in
-                            MyList()
+                        ForEach(fireStoreViewModel.challengeHistoryArray, id: \.self) { history in
+                            MyList(challenge: history)
                         }
                     }
                     .listRowBackground(Color("Background"))
@@ -43,12 +40,18 @@ struct ChallengeRecordView: View {
                 } // ScrollView
             } // VStack
         } // ZStack
+        .onAppear{
+            Task{
+                try await fireStoreViewModel.fetchPreviousGameHistory()
+            }
+            
+        }
     }
 }
 
 // 챌린지 리스트 커스텀
 struct MyList: View {
-    
+    var challenge = Challenge(id: "", gameTitle: "", limitMoney: 0, startDate: "", endDate: "", inviteFriend: ["1","2"])
     // 예시 (추후 데이터 연결 시 필요 없음)
     let record = "커플 허리띠 챌린지"
     let twice = "모모, 사나, 미나"
@@ -72,7 +75,7 @@ struct MyList: View {
                     
                     Divider().opacity(0)
                     
-                    Text("\(record)")
+                    Text("\(challenge.gameTitle)")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(Color("Font"))
@@ -80,14 +83,25 @@ struct MyList: View {
                         .lineLimit(1)
                     
                     // 챌린지에 함께한 친구들
-                    Text("참여자 : \(twice)")
-                        .font(.footnote)
-                        .foregroundColor(Color("Font"))
+                    HStack{
+                        Text("참여자 :")
+                            .font(.footnote)
+                            .foregroundColor(Color("Font"))
+                        ForEach(challenge.inviteFriend, id:\.self) { name in
+                            Text("\(name)")
+                                .font(.footnote)
+                                .foregroundColor(Color("Font"))
+                        }
+                    }
+                  
                     
                     // 챌린지 기간(데이터 연결 시에 기간 정렬)
-                    Text("챌린지 기간 : \(time)")
-                        .font(.footnote)
-                        .foregroundColor(Color("Font"))
+                    HStack{
+                        Text("챌린지 기간 : \(challenge.startDate) ~ \(challenge.endDate)")
+                            .font(.footnote)
+                            .foregroundColor(Color("Font"))
+                    }
+                  
                     
                 } // VStack
             } // HStack
@@ -101,5 +115,6 @@ struct MyList: View {
 struct ChallengeRecordView_Previews: PreviewProvider {
     static var previews: some View {
         ChallengeRecordView()
+            .environmentObject(FireStoreViewModel())
     }
 }

@@ -9,29 +9,49 @@ import SwiftUI
 
 struct AlertView: View {
     @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
+    @EnvironmentObject var realtimeViewModel: PostitStore
     var body: some View {
-        List(testArray, id:\.self) {value in
-            HStack {
-                Image("logo")
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(Circle().inset(by: 5))
-                    .frame(width:30, height: 30)
-                Text(value)
-                    .font(.title3)
-                Text("님의 친구 신청")
+        VStack {
+            if realtimeViewModel.user.isEmpty {
                 Spacer()
-                Button {
-                    //
-                } label: {
-                    Text("확인")
-                        .foregroundColor(Color("Font"))
-                }
-                .buttonStyle(.bordered)
-                .background(Color("Point2"))
+                Text("도착한 알람이 없어요~")
+                    .font(.title)
+                Spacer()
+            } else {
+                List(realtimeViewModel.user, id:\.self) { user in
+                    HStack {
+                        Image("logo")
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Circle().inset(by: 5))
+                            .frame(width:30, height: 30)
+                        Text(user.userName)
+                            .font(.title3)
+                        if user.isFight {
+                            Text("님의 대결 신청")
+                        }
+                        else {
+                            Text("님의 친구 신청")
+                        }
+                        Spacer()
+                        Button {
+                            //
+                        } label: {
+                            Text("확인")
+                                .foregroundColor(Color("Font"))
+                        }
+                        .buttonStyle(.bordered)
+                        .background(Color("Point2"))
 
+                    }
+        //            .listRowSeparator(.hidden)
+                }
             }
-//            .listRowSeparator(.hidden)
+
+        }
+        .onAppear {
+            realtimeViewModel.read()
+            print(realtimeViewModel.user)
         }
         .listStyle(.inset)
         .padding(20)

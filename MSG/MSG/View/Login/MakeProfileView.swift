@@ -6,9 +6,10 @@
 //
 import SwiftUI
 import PhotosUI
+import FirebaseAuth
 
 struct MakeProfileView: View {
-    
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var nickNameText: String = ""
     
     private var frameWidth = UIScreen.main.bounds.width
@@ -113,6 +114,7 @@ struct MakeProfileView: View {
                     // 가입버튼
                     Button {
                         kakaoAuthViewModel.userNicName = nickNameText
+                        fireStoreViewModel.addUserInfo(user: Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: []), downloadUrl: "")
                         dismiss()
                     } label: {
                         Text("가입완료")

@@ -15,9 +15,9 @@ struct HomeView: View {
     var body: some View {
         ZStack{
             if challengeState {
-                AfterChallengeView()
+                AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 30000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
             } else {
-                BeforeChallengeView()
+                BeforeChallengeView(challengeState: $challengeState)
             }
         }
         .toolbar {

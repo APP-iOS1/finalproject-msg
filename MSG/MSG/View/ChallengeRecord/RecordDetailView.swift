@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RecordDetailView: View {
+    @State private var userList:[(nickName: String, totalMoney: Int, profileImage: String)] = []
+    @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     var body: some View {
         ZStack{
             Color("Background").ignoresSafeArea()
@@ -31,15 +33,18 @@ struct RecordDetailView: View {
                         .foregroundColor(Color("Font"))
                     //챌린지 참여인원에 따른 사용금액 그룹
                     Group{
-                        ForEach(0..<5, id: \.self) { _ in
+                        ForEach(userList.indices, id: \.self) { index in
                             HStack{
-                                Image(systemName: "person")
-                                    .font(.largeTitle)
-                                    .background(content: {
-                                        Color("Point2")
-                                    })
-                                    .padding(.trailing)
-                                Text("총 250,000원 사용")
+                                VStack{
+                                    Image(systemName: "person")
+                                        .font(.largeTitle)
+                                        .background(content: {
+                                            Color("Point2")
+                                        })
+                                        .padding(.trailing)
+                                    Text("\(userList[index].nickName)")
+                                }
+                                Text("총 \(userList[index].totalMoney)원 사용")
                                 Spacer()
                             }
                         }
@@ -73,18 +78,29 @@ struct RecordDetailView: View {
                 }
                 
             }
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: ChartView()) {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color("Point2"))
-                        .frame(width: 80, height: 45)
-                        .overlay {
-                            Text("상세내역")
-                                .foregroundColor(Color("Font"))
-                                .font(.subheadline)
-                        }
+            .onAppear{
+                Task{
+                    userList.removeAll()
+                    try await firestoreViewModel.fetchChallengeTotalMoney("goodGame")
+                    print(firestoreViewModel.challengeHistoryUserList)
+                    for (user, totalMoney) in firestoreViewModel.challengeHistoryUserList{
+                        let msg = try await firestoreViewModel.fetchUserInfo(user)
+                        userList.append((msg.nickName ,totalMoney ,msg.profilImage))
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: ChartView()) {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color("Point2"))
+                            .frame(width: 80, height: 45)
+                            .overlay {
+                                Text("상세내역")
+                                    .foregroundColor(Color("Font"))
+                                    .font(.subheadline)
+                            }
+                    }
                 }
             }
         }
