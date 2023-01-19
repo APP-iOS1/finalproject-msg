@@ -43,7 +43,7 @@ class PostitStore: ObservableObject {
     }
     
     
-    
+    //친구 -> 친구목록
     //받아오기
     func startFetching() {
         print(#function)
@@ -51,58 +51,72 @@ class PostitStore: ObservableObject {
             print("guard문으로 리턴됨")
             return
         }
-        Database.database()
-        .reference()
+        databaseReference
             .observe(.childAdded) { [weak self] snapshot in
                 guard
                     let self = self,
-                    var json = snapshot.value as? [String: Any]
+                    var json = snapshot.value as? [String:[String:Any]]
                 else {
                     return
                 }
                 
-//                print("Add Observe:",json)
-                json["id"] = snapshot.key
+                print("Add Observe:",json)
+//                json["id"] = snapshot.key
+                Array(json.values).forEach {
+                   let id = $0["id"] as? String ?? ""
+                   let userImage = $0["userImage"] as? String ?? ""
+                   let isFight = $0["isFight"] as? Bool ?? false
+                   let isFriend = $0["isFriend"] as? Bool ?? false
+                   let userName = $0["userName"] as? String ?? ""
+//                    if id ==
+                   let userInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
                 
-                do {
-                    let postitData = try JSONSerialization.data(withJSONObject: json)
-                    let postit = try self.decoder.decode(UserInfo.self, from: postitData)
-                    print("받음:",postit)
-                    self.user.insert(postit, at: 0)
-                } catch {
-                    print("an error occurred", error)
+//                    self.user.append(userInfo)
+                    self.user.insert(userInfo, at: 0)
                 }
+
+//                do {
+//                    let postitData = try JSONSerialization.data(withJSONObject: json)
+//                    print("add postitData:",postitData)
+//                    let postit = try self.decoder.decode(UserInfo.self, from: postitData)
+//                    print("받음:",postit)
+//                    self.user.insert(postit, at: 0)
+//                } catch {
+//                    print("AddError")
+//                    print("an error occurred", error)
+//                }
         }
         
         databaseReference
             .observe(.childChanged) { [weak self] snapshot in
                 guard
                     let self = self,
-                    var json = snapshot.value as? [String: Any]
+                    var json = snapshot.value as? [String:[String:Any]]
                 else {
                     return
                 }
                 print("Changed Observe:",json)
-                json["id"] = snapshot.key
+//                json["id"] = snapshot.key
                 
-                do {
-                    let postitData = try JSONSerialization.data(withJSONObject: json)
-                    print("change의 do문:",postitData)
-                    let postit = try self.decoder.decode(UserInfo.self, from: postitData)
-                    print(postit)
-                    
-                    var index = 0
-                    for postitItem in self.user {
-                        if (postit.id == postitItem.id) {
-                            print(postitItem.id)
-                            self.user.remove(at: index)
-                        }
-                        index += 1
-                    }
-                    self.user.insert(postit, at: 0)
-                } catch {
-                    print("an error occurred", error)
-                }
+//                do {
+//                    let postitData = try JSONSerialization.data(withJSONObject: json)
+//                    print("change의 do문:",postitData)
+//                    let postit = try self.decoder.decode(UserInfo.self, from: postitData)
+//                    print(postit)
+//
+//                    var index = 0
+//                    for postitItem in self.user {
+//                        if (postit.id == postitItem.id) {
+//                            print(postitItem.id)
+//                            self.user.remove(at: index)
+//                        }
+//                        index += 1
+//                    }
+//                    self.user.insert(postit, at: 0)
+//                } catch {
+//                    print("ChangeError")
+//                    print("an error occurred", error)
+//                }
         }
         
         databaseReference
@@ -131,6 +145,7 @@ class PostitStore: ObservableObject {
                         index += 1
                     }
                 } catch {
+                    print("removeError")
                     print("an error occurred", error)
                 }
             }

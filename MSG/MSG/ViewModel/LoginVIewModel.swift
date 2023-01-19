@@ -57,6 +57,7 @@ class LoginViewModel: ObservableObject {
             }
             
             // User Successfully Logged Into Firebase...
+            
             print("Logged In Success Apple")
             withAnimation(.easeInOut){self.logStatus = true}
         }
