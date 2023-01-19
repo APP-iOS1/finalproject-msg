@@ -20,7 +20,7 @@ class FireStoreViewModel: ObservableObject {
     @Published var challengeHistoryArray : [Challenge] = []
     @Published var challengeHistoryUserList : [(userId: String, totalMoney: Int)] = []
     let database = Firestore.firestore()
-    @Published var myInfo: Msg?
+
     
     init() {
         //        postits = []
@@ -49,8 +49,7 @@ class FireStoreViewModel: ObservableObject {
                       "game": user.game,
                       "gameHistory": user.gameHistory,
                       "profileImage": downloadUrl])
-        
-        myInfo = user
+
     }
     
     func uploadImageToStorage(userImage: UIImage, user: Msg) {

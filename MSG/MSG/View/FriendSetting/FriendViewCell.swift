@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FriendViewCell: View {
     @State var user: Msg
-    @StateObject var realtimeViewModel = PostitStore()
+    @EnvironmentObject var realtimeViewModel: PostitStore
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
         HStack {
@@ -22,7 +22,7 @@ struct FriendViewCell: View {
             Spacer()
             Button {
                 //
-                if let myInfo = fireStoreViewModel.myInfo {
+                if let myInfo = realtimeViewModel.myInfo {
                     realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
                 }
             } label: {

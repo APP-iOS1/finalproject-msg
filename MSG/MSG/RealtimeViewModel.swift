@@ -5,6 +5,7 @@ import FirebaseAuth
 class PostitStore: ObservableObject {
     @Published var msg: [Msg] = []
     @Published var user: [UserInfo] = []
+    @Published var myInfo: Msg?
 
     private lazy var databaseReference: DatabaseReference? = {
             let ref = Database.database()
@@ -154,6 +155,7 @@ class PostitStore: ObservableObject {
     
     //내정보를 저장할 어딘가가 필요하다....
     func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
+        print(#function)
         Database.database()
         .reference()
             .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
