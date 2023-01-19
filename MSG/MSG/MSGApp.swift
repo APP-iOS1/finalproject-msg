@@ -23,14 +23,23 @@ struct MSGApp: App {
         KakaoSDK.initSDK(appKey: kakaoAppKey as! String)
     }
     @StateObject var viewModel = KakaoViewModel()
+    @StateObject var fireStoreViewModel = FireStoreViewModel()
+    @StateObject var realtimeViewModel = PostitStore()
     var body: some Scene {
         WindowGroup {
-            ContentView().onOpenURL { url in
-                if AuthApi.isKakaoTalkLoginUrl(url) {
-                    _ = AuthController.handleOpenUrl(url: url)
+            NavigationView {
+                ContentView().onOpenURL { url in
+                    if AuthApi.isKakaoTalkLoginUrl(url) {
+                        _ = AuthController.handleOpenUrl(url: url)
+                    }
                 }
-            }.environmentObject(viewModel)
-          
+                .environmentObject(viewModel)
+                .environmentObject(fireStoreViewModel)
+                .environmentObject(realtimeViewModel)
+            }
+//            AppleContentView()
+//                .environmentObject(AppleUserAuth())
+
         }
     }
 }

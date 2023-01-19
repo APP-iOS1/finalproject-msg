@@ -9,17 +9,7 @@ import SwiftUI
 
 struct AfterChallengeView: View {
     
-    var dateFormatter : DateFormatter {
-        let formatter = DateFormatter()
-        
-        //한국 시간으로 표시
-        formatter.locale = Locale(identifier: "ko_kr")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        //형태 변환
-        formatter.dateFormat = "yyyy년 M월 d일"
-        
-        return formatter
-    }
+    let challenge: Challenge
     
     func dateCheck(startDate: String) -> Date {
         let formatter = DateFormatter()
@@ -28,7 +18,7 @@ struct AfterChallengeView: View {
         
         formatter.locale = Locale(identifier: "ko_kr")
         formatter.timeZone = TimeZone(abbreviation: "KST")
-        formatter.dateFormat = "yyyy년 M월 d일"
+        formatter.dateFormat = "yyyy년M월d일"
         
         let date = formatter.date(from:dateString)!
         
@@ -36,17 +26,17 @@ struct AfterChallengeView: View {
     }
     
     // 챌린지가 끝나는 날을 알려면 이걸 쓰면 되나??
-    func isChatTomorrowWithString(dateString: String) -> Bool {
-        let firebaseFormat = "yyyy년 M월 d일"
+    func isChatTomorrowWithString(startDate: String, endDate: String) -> Bool {
+        let firebaseFormat = "yyyy년M월d일"
         let formatter = DateFormatter()
         formatter.dateFormat = firebaseFormat
         formatter.locale = Locale(identifier: "ko")
         formatter.timeZone = TimeZone(abbreviation: "KST")
         
-        guard let tempDate1 = formatter.date(from: "2023년 1월 17일") else {
+        guard let tempDate1 = formatter.date(from: endDate) else {
             return false
         }
-        guard let tempDate2 = formatter.date(from: dateString) else {
+        guard let tempDate2 = formatter.date(from: startDate) else {
             return false
         }
         
@@ -64,33 +54,59 @@ struct AfterChallengeView: View {
     }
     
     @State private var birthDate = Date()
-    
+    var frameWidth = UIScreen.main.bounds.width
+    var frameHeight = UIScreen.main.bounds.height
     var body: some View {
         ZStack{
             Color("Background").ignoresSafeArea()
             
             VStack{
-                DatePicker(selection: $birthDate, displayedComponents: .date, label: { Text("시작날짜선택")
-                    Text("\(birthDate, formatter: dateFormatter)")
-                })
                 
                 Group{
-                    Text(isChatTomorrowWithString(dateString: "2023년 1월 17일") ? "날짜 다름" : "날짜 같음")
-                    Text("치킨내기 30일 챌린지!!")
-                    Image(systemName: "gamecontroller")
-                        .frame(width: 300, height: 300)
-                    Text("지금까지 12,310원 사용")
+                    HStack{
+                        Text("치킨내기 14일 챌린지!!")
+                            .font(.title2.bold())
+                        Spacer()
+                    }
+                    HStack{
+                        Text("제한 금액 : \(challenge.limitMoney)원")
+                            .font(.title3.bold())
+                        Spacer()
+                    }
+                    HStack{
+                        Text("\(challenge.startDate) ~ \(challenge.endDate)")
+                            .fontWeight(.medium)
+                            .padding(.bottom)
+                        Spacer()
+                    }
+                }.padding(1)
+                
+                Group{
+                    //                    Text(isChatTomorrowWithString(startDate: challenge.startDate, endDate: challenge.endDate) ? "날짜 다름" : "날짜 같음")
                     
-                    Text(dateCheck(startDate: "2023년 01월 12일"), style: .offset) //시작날짜~오늘날짜 계산
-                    Text(Date(), style: .relative) // 지금으로부터 시간
-                    Text(Date(), style: .offset) // 지금으로부터 지난 날짜
-                }
+                    ProgressBar2()
+                    
+                    HStack{
+                        Text("지금까지")
+                        Text("75,500원")
+                            .underline()
+                        Text("사용")
+                        
+                    }
+                    .padding(.top)
+                    
+                    VStack{
+                        //챌린지 시작날짜~오늘날짜 계산
+                        Text(dateCheck(startDate: challenge.startDate), style: .offset)
+                    }
+                }.font(.title3.bold())
+                    .padding(5)
                 //MARK: - 상세 소비 내역 확인 네비게이션 링크
                 Group{
                     NavigationLink(destination: ChartView(), label: {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color("Font") , lineWidth: 1)
-                            .frame(width: 330, height: 70)
+                            .frame(width: frameWidth / 1.18, height: frameHeight / 14.5)
                             .overlay {
                                 Text("상세 소비 내역 확인하기")
                             }
@@ -100,22 +116,26 @@ struct AfterChallengeView: View {
                     NavigationLink(destination: SpendingWritingView(), label: {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color("Font") , lineWidth: 1)
-                            .frame(width: 330, height: 70)
+                            .frame(width: frameWidth / 1.18, height: frameHeight / 14.5)
                             .overlay {
                                 Text("추가하기")
                             }
                     })
-                    
+                    Spacer()
                 }
                 .font(.title3.bold())
+                Spacer()
             }.foregroundColor(Color("Font"))
+                .padding(frameHeight / 17)
+            
+            
         }
     }
 }
 
 struct AfterChallengeView_Previews: PreviewProvider {
     static var previews: some View {
-        AfterChallengeView()
+        AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 300000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
     }
 }
 
@@ -132,3 +152,20 @@ struct AfterChallengeView_Previews: PreviewProvider {
 //
 //        return date
 //    }
+
+
+//                    Text(Date(), style: .relative) // 지금으로부터 시간
+//                    Text(Date(), style: .offset) // 지금으로부터 지난 날짜
+
+//var dateFormatter : DateFormatter {
+//        let formatter = DateFormatter()
+//
+//        //한국 시간으로 표시
+//        formatter.locale = Locale(identifier: "ko_kr")
+//        formatter.timeZone = TimeZone(abbreviation: "KST")
+//        //형태 변환
+//        formatter.dateFormat = "yyyy년M월d일"
+//
+//        return formatter
+//    }
+//

@@ -9,8 +9,14 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
+
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @StateObject var realtimeViewModel = PostitStore()
+
+    @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     
+
     var body: some View {
         ZStack {
             Color("Background")
@@ -21,7 +27,7 @@ struct ContentView: View {
                             MakeProfileView()
                         } else {
                             TabView {
-                                HomeView()
+                                HomeView(darkModeEnabled: $darkModeEnabled)
                                     .tabItem {
                                         Image(systemName: "dpad.fill")
                                     }
@@ -41,12 +47,19 @@ struct ContentView: View {
                 }
             }
             .accentColor(Color("Font"))
+        }.task {
+//            try! await fireStoreViewModel.getGameHistory()
+        }
+        .onAppear {
+            SystemThemeManager
+                .shared
+                .handleTheme(darkMode: darkModeEnabled)
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

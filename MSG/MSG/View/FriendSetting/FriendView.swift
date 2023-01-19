@@ -8,20 +8,21 @@
 import SwiftUI
 
 struct FriendView: View {
+    @StateObject var fireStoreViewModel: FireStoreViewModel
     @State private var text: String = ""
     @State private var testArray: [String] = ["김민호","김철수","김뽀삐"]
-    var filterUser: [String] {
+    var filterUser: [Msg] {
         if text.isEmpty {
             //검색을 하지 않았다면 친구목록을 보여주어야 함
-            return testArray
+            return fireStoreViewModel.userArray
         } else {
-            return testArray.filter {$0.localizedStandardContains(text)}
+            return fireStoreViewModel.userArray.filter {$0.nickName.localizedStandardContains(text)}
         }
     }
     var body: some View {
         NavigationView {
-            List(filterUser,id:\.self) {name in
-                FriendViewCell(user: name)
+            List(filterUser,id:\.self) {value in
+                FriendViewCell(user: value)
                     .frame(height: 50)
                     .listRowSeparator(.hidden)
             }

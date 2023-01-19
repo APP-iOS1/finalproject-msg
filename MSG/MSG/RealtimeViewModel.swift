@@ -1,10 +1,3 @@
-//
-//  PostitStore.swift
-//  HelloDemo
-//
-//  Created by Jongwook Park on 2022/12/08.
-//
-
 import Foundation
 import FirebaseDatabase
 import FirebaseAuth
@@ -25,9 +18,39 @@ class PostitStore: ObservableObject {
     private let decoder = JSONDecoder()
     
     
+    func read() {
+        user.removeAll()
+        Database.database()
+        .reference()
+        .child("msg")
+        .child(Auth.auth().currentUser?.uid ?? "")
+        .observeSingleEvent(of: .value, with: { snapshot in
+                guard let dict = snapshot.value as? [String:[String:Any]] else {
+                    print("Error")
+                    return
+                }
+            print(dict)
+                Array(dict.values).forEach {
+                   let id = $0["id"] as? String ?? ""
+                   let userImage = $0["userImage"] as? String ?? ""
+                   let isFight = $0["isFight"] as? Bool ?? false
+                   let isFriend = $0["isFriend"] as? Bool ?? false
+                   let userName = $0["userName"] as? String ?? ""
+                   let userInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
+                
+                    self.user.append(userInfo)
+                }
+            print(self.user)
+        })
+    }
+    
+    
+    
     //받아오기
     func startFetching() {
+        print(#function)
         guard let databaseReference else {
+            print("guard문으로 리턴됨")
             return
         }
         
@@ -76,7 +99,6 @@ class PostitStore: ObservableObject {
                         }
                         index += 1
                     }
-                    
                     self.user.insert(postit, at: 0)
                 } catch {
                     print("an error occurred", error)
@@ -113,30 +135,31 @@ class PostitStore: ObservableObject {
             }
     }
     
-    func addPostit(postit: Msg) {
-        databaseReference?.childByAutoId().setValue([
-            "id": postit.id,
+    //내정보를 저장할 어딘가가 필요하다....
+    func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
+        databaseReference?
+            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
+            "id": from.id,
+            "userName": from.nickName,
+            "userImage": from.profilImage,
+            "isFriend": isFriend,
+            "isFight": false,
         ])
     }
     
-    
-    //내정보를 저장할 어딘가가 필요하다....
-//    func sendFriendRequest(to: Msg, from: UserInfo) {
-//        databaseReference?
-//            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
-//            "id": from.id,
-//            "userName": from.userName,
-//            "userImage": from.userImage,
-//            "isFriend": from.isFriend,
-//            "isFight": from.isFight,
-//        ])
-//    }
+    func sendFightRequest(to: Msg, from: Msg, isFight: Bool) {
+        databaseReference?
+            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
+            "id": from.id,
+            "userName": from.nickName,
+            "userImage": from.profilImage,
+            "isFriend": false,
+            "isFight": isFight,
+        ])
+    }
     
 //    func sendFriendRequest
-    
-    
-    
-    
+
     func deletePostit(postit: Msg) {
         print("delete id: \(postit.id)")
         databaseReference?.child(postit.id).removeValue()

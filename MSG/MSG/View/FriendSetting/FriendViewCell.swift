@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct FriendViewCell: View {
-    @State var user: String
+    @State var user: Msg
+    @StateObject var realtimeViewModel = PostitStore()
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
         HStack {
             Image("logo")
@@ -16,10 +18,13 @@ struct FriendViewCell: View {
                 .scaledToFit()
                 .clipShape(Circle().inset(by: 5))
                 .frame(width:50, height: 45)
-            Text("돈을아껴17")
+            Text(user.nickName)
             Spacer()
             Button {
                 //
+                if let myInfo = fireStoreViewModel.myInfo {
+                    realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+                }
             } label: {
                 Text("추가")
                     .foregroundColor(Color("Font"))
@@ -34,6 +39,6 @@ struct FriendViewCell: View {
 
 struct FriendViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView()
+        FriendView(fireStoreViewModel: FireStoreViewModel())
     }
 }

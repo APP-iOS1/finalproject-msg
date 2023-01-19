@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct BeforeChallengeView: View {
+
+    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
+    @Binding var challengeState: Bool
+    var frameWidth = UIScreen.main.bounds.width
+    var frameHeight = UIScreen.main.bounds.height
     var body: some View {
         ZStack{ Color("Background").ignoresSafeArea()
             
@@ -22,7 +27,10 @@ extension BeforeChallengeView {
     private var challengeGroups: some View {
         VStack{
             //개인 챌랜지 시작하기
+            Spacer()
+                .frame(width: frameWidth / 1, height: frameHeight / 20)
             Group{
+                
                 HStack{
                     Text("개인 챌랜지 시작하기")
                         .fontWeight(.bold)
@@ -30,11 +38,11 @@ extension BeforeChallengeView {
                         .padding(.bottom, -1)
                     Spacer()
                 }
-                .frame(width: 330)
-                NavigationLink(destination: GameSettingView()) {
+                .frame(width: frameWidth / 1.23)
+                NavigationLink(destination: GameSettingView()){
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point1"))
-                        .frame(width: 330, height: 120)
+                        .frame(width: frameWidth / 1.21, height: frameHeight / 7)
                         .padding(.bottom, 30)
                 }
             }
@@ -47,12 +55,12 @@ extension BeforeChallengeView {
                         .fontWeight(.bold)
                     Spacer()
                 }
-                .frame(width: 330)
+                .frame(width: frameWidth / 1.23)
                 
                 NavigationLink(destination: GameSettingView()) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point2"))
-                        .frame(width: 330, height: 120)
+                        .frame(width: frameWidth / 1.21, height: frameHeight / 7)
                         .padding(.bottom, 30)
                 }
             }
@@ -65,21 +73,23 @@ extension BeforeChallengeView {
                         .fontWeight(.bold)
                     Spacer()
                 }
-                .frame(width: 330)
+                .frame(width: frameWidth / 1.23)
                 
-                NavigationLink(destination: FriendView()) {
+                NavigationLink(destination: FriendView(fireStoreViewModel: firebaseViewModel)) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point1"))
-                        .frame(width: 330, height: 120)
+                        .frame(width: frameWidth / 1.21, height: frameHeight / 7)
                         .padding(.bottom, 30)
                 }
             }
+            Spacer()
+               
         }
     }
 }
 
 struct BeforeChallengeView_Previews: PreviewProvider {
     static var previews: some View {
-        BeforeChallengeView()
+        BeforeChallengeView(challengeState: .constant(true))
     }
 }

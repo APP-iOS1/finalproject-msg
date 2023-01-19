@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     @State private var challengeState: Bool = false
+    @Binding var darkModeEnabled: Bool
     
     var body: some View {
         ZStack{
             if challengeState {
-                AfterChallengeView()
+                AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 30000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
             } else {
-                BeforeChallengeView()
+                BeforeChallengeView(challengeState: $challengeState)
             }
         }
         .toolbar {
@@ -26,7 +28,7 @@ struct HomeView: View {
                     .foregroundColor(Color("Font"))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: SettingView()) {
+                NavigationLink(destination: SettingView(darkModeEnabled: $darkModeEnabled)) {
                     Image(systemName: "person.circle")
                         .font(.title2)
                         .foregroundColor(Color("Font"))
@@ -39,6 +41,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(darkModeEnabled: .constant(false))
     }
 }

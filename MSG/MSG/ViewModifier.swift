@@ -7,3 +7,4 @@ struct TextViewModifier: ViewModifier{
             .foregroundColor(Color("Font"))
     }
 }
+
