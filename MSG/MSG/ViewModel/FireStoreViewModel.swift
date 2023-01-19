@@ -109,7 +109,8 @@ class FireStoreViewModel: ObservableObject {
     /// 현재 유저가 진행했던 챌린지 ID리스트 가저오기
     func fetchGameHistoryList() async -> [String]? {
         print(#function)
-        let ref = database.collection("User").document(Auth.auth().currentUser?.uid ?? "")
+        guard let userId = Auth.auth().currentUser?.uid else{ return nil }
+        let ref = database.collection("User").document(userId)
         do{
             let snapShot = try await ref.getDocument()
             guard let docData = snapShot.data() else { return []}
@@ -119,7 +120,6 @@ class FireStoreViewModel: ObservableObject {
             print("catched")
             return []
         }
-        return []
     }
     
     
@@ -165,8 +165,9 @@ class FireStoreViewModel: ObservableObject {
     /// 해당 챌린지의 상세 소비 내역 불러오기
     func getGameHistory(_ challengeId: String) async throws {
         print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
         let ref = database.collection("ChallengeHistory")
-        let snapShot = try await ref.document(challengeId).collection("유저").document(Auth.auth().currentUser?.uid ?? "").getDocument()
+        let snapShot = try await ref.document(challengeId).collection("유저").document(userId).getDocument()
         if let docData = snapShot.data() {
             print("docData:",docData)
             let nickName: [String:[String]] = docData["지출"] as? [String:[String]] ?? [:]

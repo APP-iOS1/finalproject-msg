@@ -7,45 +7,16 @@ class PostitStore: ObservableObject {
     @Published var user: [UserInfo] = []
 
     private lazy var databaseReference: DatabaseReference? = {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil}
             let ref = Database.database()
             .reference()
-            .child(Auth.auth().currentUser?.uid ?? "")
-        
+            .child(uid)
             return ref
         }()
     
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-    
-    
-    func read() {
-        user.removeAll()
-        Database.database()
-        .reference()
-        .child("msg")
-        .child(Auth.auth().currentUser?.uid ?? "")
-        .observeSingleEvent(of: .value, with: { snapshot in
-                guard let dict = snapshot.value as? [String:[String:Any]] else {
-                    print("Error")
-                    return
-                }
-            print(dict)
-                Array(dict.values).forEach {
-                   let id = $0["id"] as? String ?? ""
-                   let userImage = $0["userImage"] as? String ?? ""
-                   let isFight = $0["isFight"] as? Bool ?? false
-                   let isFriend = $0["isFriend"] as? Bool ?? false
-                   let userName = $0["userName"] as? String ?? ""
-                   let userInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
-                
-                    self.user.append(userInfo)
-                }
-            print(self.user)
-        })
-    }
-    
-    
-    
+        
     //받아오기
     func startFetching() {
         print(#function)
