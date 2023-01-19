@@ -10,7 +10,8 @@ struct ContentView: View {
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @StateObject var realtimeViewModel = PostitStore()
     var body: some View {
         ZStack {
             Color("Background")
@@ -41,6 +42,8 @@ struct ContentView: View {
                 }
             }
             .accentColor(Color("Font"))
+        }.task {
+//            try! await fireStoreViewModel.getGameHistory()
         }
     }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BeforeChallengeView: View {
+
+    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     @Binding var challengeState: Bool
     var frameWidth = UIScreen.main.bounds.width
     var frameHeight = UIScreen.main.bounds.height
@@ -73,7 +75,7 @@ extension BeforeChallengeView {
                 }
                 .frame(width: frameWidth / 1.23)
                 
-                NavigationLink(destination: FriendView()) {
+                NavigationLink(destination: FriendView(fireStoreViewModel: firebaseViewModel)) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point1"))
                         .frame(width: frameWidth / 1.21, height: frameHeight / 7)

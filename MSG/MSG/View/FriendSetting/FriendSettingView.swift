@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FriendSettingView: View {
     @State private var pickerCase: PickerCase = .alert
+    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     
     enum PickerCase: String,Identifiable, CaseIterable {
         case friend
@@ -26,11 +27,16 @@ struct FriendSettingView: View {
 
             switch pickerCase {
             case .friend:
-                FriendView()
+                FriendView(fireStoreViewModel: firebaseViewModel)
             case .alert:
                 AlertView()
             }
-        }.frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+        }
+        .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+        .onAppear {
+            firebaseViewModel.findFriend()
+        }
+        
     }
 }
 
