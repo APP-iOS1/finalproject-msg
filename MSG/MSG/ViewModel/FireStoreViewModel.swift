@@ -29,10 +29,10 @@ class FireStoreViewModel: ObservableObject {
    
     // MARK: - 유저 정보를 불러오는 함수
     /// userId를 통해, 유저 정보를 가져온다.
-    func fetchUserInfo(_ userId: String) async throws -> Msg{
+    func fetchUserInfo(_ userId: String) async throws -> Msg? {
         let ref = database.collection("User").document(userId)
         let snapshot = try await ref.getDocument()
-        guard let docData = snapshot.data() else { fatalError() }
+        guard let docData = snapshot.data() else { return nil }
         let nickName = docData["nickName"] as? String ?? ""
         let profileImage = docData["profileImage"] as? String ?? ""
         let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: "", gameHistory: [])
@@ -41,6 +41,7 @@ class FireStoreViewModel: ObservableObject {
     
     //프로필설정을 마치고 완료버튼을 눌렀을 때 발동
     func addUserInfo(user: Msg, downloadUrl: String) {
+        print(#function)
         database.collection("User")
             .document(Auth.auth().currentUser?.uid ?? "")
             .setData(["id": Auth.auth().currentUser?.uid ?? "",
@@ -49,7 +50,6 @@ class FireStoreViewModel: ObservableObject {
                       "gameHistory": user.gameHistory,
                       "profileImage": downloadUrl])
         
-        //        fetchPostits()
         myInfo = user
     }
     

@@ -7,8 +7,9 @@
 import SwiftUI
 
 struct SettingView: View {
-    
-    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var loginViewModel: LoginViewModel
+
     @Binding var darkModeEnabled: Bool
     
     var frameWidth = UIScreen.main.bounds.width
@@ -84,7 +85,8 @@ struct SettingView: View {
                     Text("친구 초대")
                     
                     Button {
-                        
+                        loginViewModel.signout()
+                        self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("로그아웃")
                     }

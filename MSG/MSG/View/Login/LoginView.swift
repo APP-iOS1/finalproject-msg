@@ -14,14 +14,14 @@ import Firebase
 
 struct LoginView: View {
     
+    @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @State private var showingSheetView: Bool = false
-    
+
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
     
-    // 애플, 구글 로그인 ViewModel
-    @StateObject var loginModel: LoginViewModel = .init()
+    // 애플, 구글 로그인 ViewMode
     
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
@@ -66,11 +66,10 @@ struct LoginView: View {
                         CustomButton1()
                         .overlay {
                             SignInWithAppleButton{(request) in
-                                
                                     // requesting paramertes from apple login...
-                                    loginModel.nonce = randomNonceString()
+                                loginViewModel.nonce = randomNonceString()
                                     request.requestedScopes = [.fullName, .email]
-                                    request.nonce = sha256(loginModel.nonce)
+                                    request.nonce = sha256(loginViewModel.nonce)
                             } onCompletion: { (result) in
                                 switch result {
                                 case .success(let user):
@@ -80,7 +79,7 @@ struct LoginView: View {
                                         print("error with firebase")
                                         return
                                     }
-                                    loginModel.appleAuthenticate(credential: credential)
+                                    loginViewModel.appleAuthenticate(credential: credential)
                                 case.failure(let error):
                                     print(error.localizedDescription)
                                 }
@@ -103,7 +102,7 @@ struct LoginView: View {
                                             }
                                             // MARK: Loggin Google User into Firbase
                                             if let user {
-                                                loginModel.logGoogleUser(user: user)
+                                                loginViewModel.logGoogleUser(user: user)
                                             }
                                         }
                                     } label: {
@@ -119,7 +118,7 @@ struct LoginView: View {
                         CustomButton2()
                             .overlay{
                                 Button {
-                                    kakaoAuthViewModel.kakaoLogin()
+                                    loginViewModel.kakaoLogin()
                                 } label: {
                                     Rectangle()
                                         .frame(width: 280, height: 45)

@@ -9,7 +9,7 @@ class PostitStore: ObservableObject {
     private lazy var databaseReference: DatabaseReference? = {
             let ref = Database.database()
             .reference()
-            .child("msg")
+            .child(Auth.auth().currentUser?.uid ?? "")
         
             return ref
         }()
@@ -137,15 +137,16 @@ class PostitStore: ObservableObject {
     
     //내정보를 저장할 어딘가가 필요하다....
     func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
-        databaseReference?
-            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
-            "id": from.id,
-            "userName": from.nickName,
-            "userImage": from.profilImage,
-            "isFriend": isFriend,
-            "isFight": false,
-        ])
-    }
+            Database.database()
+            .reference()
+                .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
+                "id": from.id,
+                "userName": from.nickName,
+                "userImage": from.profilImage,
+                "isFriend": isFriend,
+                "isFight": false,
+            ])
+        }
     
     func sendFightRequest(to: Msg, from: Msg, isFight: Bool) {
         databaseReference?
