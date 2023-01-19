@@ -1,12 +1,12 @@
 //
-//  SettignView.swift
+//  SettingView.swift
 //  MSG
 //
 //  Created by zooey on 2023/01/18.
 //
 import SwiftUI
 
-struct SettignView: View {
+struct SettingView: View {
     
     @State private var currentMode: ColorScheme = .light
     @State private var isToggleOn: Bool = false
@@ -31,6 +31,6 @@ struct SettignView: View {
 
 struct SettignView_Previews: PreviewProvider {
     static var previews: some View {
-        SettignView()
+        SettingView()
     }
 }
