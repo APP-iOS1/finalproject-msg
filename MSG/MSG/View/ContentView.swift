@@ -9,13 +9,18 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
-
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @StateObject var realtimeViewModel = PostitStore()
-
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     
+    // 탭바
+    init() {
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().isTranslucent = true
+        UITabBar.appearance().backgroundColor = UIColor(Color("Background"))
+    }
 
     var body: some View {
         ZStack {

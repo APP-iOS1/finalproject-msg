@@ -213,7 +213,6 @@
 				166009852976334600E6A546 /* View */,
 				166009862976334C00E6A546 /* ViewModel */,
 				16600962297630C300E6A546 /* MSGApp.swift */,
-				C0F5FFDD2977CD410021FF4F /* AppleContentView.swift */,
 				36DB97782976526900A0596F /* ViewModifier.swift */,
 				16573EDA2977AA38001176F6 /* GoogleService-Info.plist */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
