@@ -9,8 +9,7 @@ class PostitStore: ObservableObject {
     private lazy var databaseReference: DatabaseReference? = {
             let ref = Database.database()
             .reference()
-            .child("msg")
-        
+            .child(Auth.auth().currentUser?.uid ?? "")
             return ref
         }()
     
@@ -22,7 +21,6 @@ class PostitStore: ObservableObject {
         user.removeAll()
         Database.database()
         .reference()
-        .child("msg")
         .child(Auth.auth().currentUser?.uid ?? "")
         .observeSingleEvent(of: .value, with: { snapshot in
                 guard let dict = snapshot.value as? [String:[String:Any]] else {
@@ -53,8 +51,8 @@ class PostitStore: ObservableObject {
             print("guard문으로 리턴됨")
             return
         }
-        
-        databaseReference
+        Database.database()
+        .reference()
             .observe(.childAdded) { [weak self] snapshot in
                 guard
                     let self = self,
@@ -63,6 +61,7 @@ class PostitStore: ObservableObject {
                     return
                 }
                 
+//                print("Add Observe:",json)
                 json["id"] = snapshot.key
                 
                 do {
@@ -83,11 +82,12 @@ class PostitStore: ObservableObject {
                 else {
                     return
                 }
-                
+                print("Changed Observe:",json)
                 json["id"] = snapshot.key
                 
                 do {
                     let postitData = try JSONSerialization.data(withJSONObject: json)
+                    print("change의 do문:",postitData)
                     let postit = try self.decoder.decode(UserInfo.self, from: postitData)
                     print(postit)
                     
@@ -113,11 +113,12 @@ class PostitStore: ObservableObject {
                 else {
                     return
                 }
-                
+                print("Delete Observe:",json)
                 json["id"] = snapshot.key
                 
                 do {
                     let postitData = try JSONSerialization.data(withJSONObject: json)
+                    print("remove의 do문:",postitData)
                     let postit = try self.decoder.decode(UserInfo.self, from: postitData)
                     print(postit)
                     
@@ -137,7 +138,8 @@ class PostitStore: ObservableObject {
     
     //내정보를 저장할 어딘가가 필요하다....
     func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
-        databaseReference?
+        Database.database()
+        .reference()
             .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
             "id": from.id,
             "userName": from.nickName,
@@ -148,7 +150,8 @@ class PostitStore: ObservableObject {
     }
     
     func sendFightRequest(to: Msg, from: Msg, isFight: Bool) {
-        databaseReference?
+        Database.database()
+        .reference()
             .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
             "id": from.id,
             "userName": from.nickName,
