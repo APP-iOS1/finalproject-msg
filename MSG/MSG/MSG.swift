@@ -13,8 +13,10 @@ struct Msg: Codable, Identifiable, Hashable {
     var id: String
     var nickName: String
     var profilImage: String
+    //현재 진행중인 게임 id
     var game: String
     var gameHistory: [String]
+    var friend: [String]
 }
 
 //MARK: - 친구의 정보들
@@ -44,19 +46,19 @@ struct expenditure: Codable, Identifiable {
 
 
 //MARK: - RealtimeDB
-struct UserInfo: Codable, Identifiable, Hashable {
-    var id: String
-    // 어떤유저한테 초대를 받았는지
-    var userName: String
-    //유저의 프로필 사진
-    var userImage: String
-    // 친구초대일 때
-    var isFriend: Bool
-    // 대결신청일 때
-    var isFight: Bool
-    // 현재 날짜
-//    var InvitedDateAt: Date
-}
+//struct UserInfo: Codable, Identifiable, Hashable {
+//    var id: String
+//    // 어떤유저한테 초대를 받았는지
+//    var userName: String
+//    //유저의 프로필 사진
+//    var userImage: String
+//    // 친구초대일 때
+//    var isFriend: Bool
+//    // 대결신청일 때
+//    var isFight: Bool
+//    // 현재 날짜
+////    var InvitedDateAt: Date
+//}
 
 extension Encodable {
     var toDictionary: [String: Any]? {

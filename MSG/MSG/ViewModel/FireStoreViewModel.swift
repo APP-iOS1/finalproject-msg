@@ -16,10 +16,12 @@ import SwiftUI
 
 @MainActor
 class FireStoreViewModel: ObservableObject {
-    @Published var userArray: [UserInfo] = []
+    //전체유저
+    @Published var userArray: [Msg] = []
     @Published var challengeHistoryArray : [Challenge] = []
     @Published var challengeHistoryUserList : [(userId: String, totalMoney: Int)] = []
-    @Published var myFrinedArray: [UserInfo] = []
+    //내친구
+    @Published var myFrinedArray: [Msg] = []
     let database = Firestore.firestore()
 
     
@@ -36,7 +38,10 @@ class FireStoreViewModel: ObservableObject {
         guard let docData = snapshot.data() else { return nil }
         let nickName = docData["nickName"] as? String ?? ""
         let profileImage = docData["profileImage"] as? String ?? ""
-        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: "", gameHistory: [])
+        let game = docData["game"] as? String ?? ""
+        let gameHistory = docData["gameHistory"] as? [String] ?? []
+        let friend = docData["gameHistory"] as? [String] ?? []
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: "", gameHistory: [], friend: [])
         return userInfo
     }
     
@@ -49,7 +54,9 @@ class FireStoreViewModel: ObservableObject {
                       "nickName": user.nickName,
                       "game": user.game,
                       "gameHistory": user.gameHistory,
-                      "profileImage": downloadUrl])
+                      "friend": user.friend,
+                      "profileImage": downloadUrl,
+                     ])
 
     }
     
@@ -67,23 +74,25 @@ class FireStoreViewModel: ObservableObject {
     }
     //모든유저 찾기
     func findUser() {
+        print(#function)
+        self.userArray.removeAll()
         database
             .collection("User")
             .getDocuments { (snapshot, error) in
-                self.userArray.removeAll()
-                
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID
                         
                         let docData = document.data()
-                        let userName: String = docData["userName"] as? String ?? ""
-                        let userImage: String = docData["userImage"] as? String ?? ""
-                        let isFriend: Bool = docData["isFriend"] as? Bool ?? false
-                        let isFight: Bool = docData["isFight"] as? Bool ?? false
-                        
-                        let getUser: UserInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
+                        let nickName: String = docData["nickName"] as? String ?? ""
+                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let game: String = docData["game"] as? String ?? ""
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+                        let friend: [String] = docData["friend"] as? [String] ?? []
+                                                
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         self.userArray.append(getUser)
+                        print("findUser:",self.userArray)
                     }
                 }
             }
@@ -103,29 +112,31 @@ class FireStoreViewModel: ObservableObject {
                         let id: String = document.documentID
                         
                         let docData = document.data()
-                        let userName: String = docData["userName"] as? String ?? ""
-                        let userImage: String = docData["userImage"] as? String ?? ""
-                        let isFriend: Bool = docData["isFriend"] as? Bool ?? false
-                        let isFight: Bool = docData["isFight"] as? Bool ?? false
-                        
-                        let getUser: UserInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
+                        let nickName: String = docData["nickName"] as? String ?? ""
+                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let game: String = docData["game"] as? String ?? ""
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+                        let friend: [String] = docData["friend"] as? [String] ?? []
+                                                
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
+                        print("findUser:",self.myFrinedArray)
                         self.myFrinedArray.append(getUser)
                     }
                 }
             }
     }
     //친구추가
-        func addUserInfo(user: UserInfo) {
+        func addUserInfo(user: Msg) {
             database.collection("User")
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("friend")
                 .document(user.id)
                 .setData(["id": user.id,
-                          "nickName": user.userName,
-                          "userImage": user.userImage,
-                          "isFriend": user.isFriend,
-                          "isFight": user.isFight,
-//                          "profilImage": downloadUrl
+                          "nickName": user.nickName,
+                          "profilImage": user.profilImage,
+                          "game": user.game,
+                          "gameHistory": user.gameHistory,
+                          "friend": user.friend,
                          ])
             myFrinedArray.append(user)
 //            fireStoreViewModel.userArray

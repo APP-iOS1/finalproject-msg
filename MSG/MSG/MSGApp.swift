@@ -25,7 +25,7 @@ struct MSGApp: App {
     @StateObject var loginViewModel = LoginViewModel()
     @StateObject var viewModel = KakaoViewModel()
     @StateObject var fireStoreViewModel = FireStoreViewModel()
-    @StateObject var realtimeViewModel = PostitStore()
+    @StateObject var realtimeViewModel = RealtimeViewModel()
     var body: some Scene {
         WindowGroup {
             ContentView().onOpenURL { url in
