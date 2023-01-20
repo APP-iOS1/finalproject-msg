@@ -39,9 +39,6 @@ struct MSGApp: App {
                 .environmentObject(fireStoreViewModel)
                 .environmentObject(realtimeViewModel)
             }
-//            AppleContentView()
-//                .environmentObject(AppleUserAuth())
-
         }
     }
 }
