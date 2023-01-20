@@ -35,6 +35,7 @@ struct FriendViewCell: View {
                 }
                 .background(Color("Point2"))
                 .cornerRadius(5)
+                .padding(.trailing)
                 //            .opacity(친구일때만 표시 아닐때는 미표시)
             }
             .foregroundColor(Color("Font"))
