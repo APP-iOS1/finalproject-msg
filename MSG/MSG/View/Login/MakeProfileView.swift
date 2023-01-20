@@ -9,6 +9,7 @@ import PhotosUI
 import FirebaseAuth
 
 struct MakeProfileView: View {
+    @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var nickNameText: String = ""
     
@@ -19,8 +20,7 @@ struct MakeProfileView: View {
     @State private var selectedImageData: Data? = nil
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
-    @Environment(\.dismiss) var dismiss
-    
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
         ZStack {
@@ -114,8 +114,11 @@ struct MakeProfileView: View {
                     // 가입버튼
                     Button {
                         kakaoAuthViewModel.userNicName = nickNameText
-                        fireStoreViewModel.addUserInfo(user: Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: []), downloadUrl: "")
-                        dismiss()
+                        let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: [])
+                        loginViewModel.currentUserProfile = userProfile
+                        fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
+                        self.presentationMode.wrappedValue.dismiss()
+                        print("버튼 탭드")
                     } label: {
                         Text("가입완료")
                     }

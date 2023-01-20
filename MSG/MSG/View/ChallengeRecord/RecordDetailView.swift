@@ -84,8 +84,9 @@ struct RecordDetailView: View {
                     try await firestoreViewModel.fetchChallengeTotalMoney("goodGame")
                     print(firestoreViewModel.challengeHistoryUserList)
                     for (user, totalMoney) in firestoreViewModel.challengeHistoryUserList{
-                        let msg = try await firestoreViewModel.fetchUserInfo(user)
-                        userList.append((msg.nickName ,totalMoney ,msg.profilImage))
+                        if let msg = try await firestoreViewModel.fetchUserInfo(user){
+                            userList.append((msg.nickName ,totalMoney ,msg.profilImage))
+                        }
                     }
                 }
             }

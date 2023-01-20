@@ -22,6 +22,7 @@ struct MSGApp: App {
         let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
         KakaoSDK.initSDK(appKey: kakaoAppKey as! String)
     }
+    @StateObject var loginViewModel = LoginViewModel()
     @StateObject var viewModel = KakaoViewModel()
     @StateObject var fireStoreViewModel = FireStoreViewModel()
     @StateObject var realtimeViewModel = PostitStore()
@@ -33,11 +34,12 @@ struct MSGApp: App {
                     }
                 }
                 .environmentObject(viewModel)
+                .environmentObject(loginViewModel)
                 .environmentObject(fireStoreViewModel)
                 .environmentObject(realtimeViewModel)
-//            AppleContentView()
-//                .environmentObject(AppleUserAuth())
 
+
+            }
         }
     }
 }
