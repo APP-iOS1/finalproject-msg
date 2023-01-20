@@ -31,8 +31,8 @@ class LoginViewModel: ObservableObject {
     
     func signout(){
         do{
-         
          try Auth.auth().signOut()
+         withAnimation(.easeInOut){self.logStatus = false}
             currentUser = nil
             
         }catch{
@@ -88,9 +88,7 @@ class LoginViewModel: ObservableObject {
                 guard let idToken = user.authentication.idToken else { return }
                 let accesToken = user.authentication.accessToken
                 
-                
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accesToken)
-                
                 try await Auth.auth().signIn(with: credential)
                 self.currentUser = Auth.auth().currentUser
                 print("Logged In Success Google")
@@ -189,10 +187,12 @@ class LoginViewModel: ObservableObject {
                         print("error")
                         Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
                             self.currentUser = result?.user
+                            withAnimation(.easeInOut){self.logStatus = true}
                         }
                         print("email:",user?.kakaoAccount?.email ?? "")
                     }else {
                         self.currentUser = result?.user
+                        withAnimation(.easeInOut){self.logStatus = true}
                     }
                     
                 }

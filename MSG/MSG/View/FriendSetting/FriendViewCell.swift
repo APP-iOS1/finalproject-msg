@@ -9,8 +9,8 @@ import SwiftUI
 
 struct FriendViewCell: View {
 
-    @State var user: UserInfo
-    @EnvironmentObject var realtimeViewModel: PostitStore
+    @State var user: Msg
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
     var body: some View {      
@@ -23,7 +23,7 @@ struct FriendViewCell: View {
                     .scaledToFit()
                     .clipShape(Circle())
                     .frame(height: 60)
-                Text(user.userName)
+                Text(user.nickName)
                 Spacer()
                 Button {
                     if let myInfo = realtimeViewModel.myInfo {
@@ -35,6 +35,7 @@ struct FriendViewCell: View {
                 }
                 .background(Color("Point2"))
                 .cornerRadius(5)
+                .padding(.trailing)
                 //            .opacity(친구일때만 표시 아닐때는 미표시)
             }
             .foregroundColor(Color("Font"))

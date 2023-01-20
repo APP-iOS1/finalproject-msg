@@ -11,8 +11,6 @@ struct HomeView: View {
     
     let msg: Msg
     
-    @Binding var darkModeEnabled: Bool
-    
     var body: some View {
         ZStack{
             if !msg.game.isEmpty {
@@ -21,22 +19,22 @@ struct HomeView: View {
                 BeforeChallengeView()
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text("MSG")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("Font"))
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: SettingView(darkModeEnabled: $darkModeEnabled)) {
-                    Image(systemName: "person.circle")
-                        .font(.title2)
-                        .foregroundColor(Color("Font"))
-                }
-                
-            }
-        }
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                Text("MSG")
+//                    .font(.title)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(Color("Font"))
+//            }
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                NavigationLink(destination: SettingView(darkModeEnabled: $darkModeEnabled)) {
+//                    Image(systemName: "person.circle")
+//                        .font(.title2)
+//                        .foregroundColor(Color("Font"))
+//                }
+//
+//            }
+//        }
     }
 }
 

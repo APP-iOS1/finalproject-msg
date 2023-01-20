@@ -12,7 +12,7 @@ struct ContentView: View {
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @EnvironmentObject var realtimeViewModel: PostitStore
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @State private var checked: Msg?
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     
@@ -40,14 +40,22 @@ struct ContentView: View {
                                 HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: []), darkModeEnabled: $darkModeEnabled)
                                     .tabItem {
                                         Image(systemName: "dpad.fill")
+                                        Text("도전")
                                     }
                                 ChallengeRecordView()
                                     .tabItem {
                                         Image(systemName: "archivebox")
+                                        Text("기록")
                                     }
                                 FriendSettingView()
                                     .tabItem {
                                         Image(systemName: "person.2.fill")
+                                        Text("친구")
+                                    }
+                                SettingView(darkModeEnabled: $darkModeEnabled)
+                                    .tabItem {
+                                        Image(systemName: "gearshape")
+                                        Text("설정")
                                     }
                             }
                             .onAppear {
@@ -89,7 +97,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static let kakaoAuthViewModel = KakaoViewModel()
     static let fireStoreViewModel = FireStoreViewModel()
-    static let realtimeViewModel = PostitStore()
+    static let realtimeViewModel = RealtimeViewModel()
     
     static var previews: some View {
         ContentView()
