@@ -41,35 +41,21 @@ struct AlertView: View {
                             }
                             Spacer()
                             Button {
-                                //
+                                fireStoreViewModel.addUserInfo(user: user)
+                                
                             } label: {
                                 Text("확인")
-                                    .foregroundColor(Color("Background"))
-                                
+                                    .foregroundColor(Color("Font"))
                             }
-                            .padding(.all, 9)
+                            .buttonStyle(.bordered)
                             .background(Color("Point2"))
-                            .cornerRadius(10)
-                        }
-                        else {
-                            Text("님의 친구 신청")
-                        }
-                        Spacer()
-                        Button {
-                            fireStoreViewModel.addUserInfo(user: user)
                             
-                        } label: {
-                            Text("확인")
-                                .foregroundColor(Color("Font"))
+                            .listRowBackground(Color("Background"))
+                            .listRowSeparator(.hidden)
                         }
-                        .buttonStyle(.bordered)
-                        .background(Color("Point2"))
-
-                        .listRowBackground(Color("Background"))
-                        .listRowSeparator(.hidden)
+                        .scrollContentBackground(.hidden)
+                        .listStyle(.plain)
                     }
-                    .scrollContentBackground(.hidden)
-                    .listStyle(.plain)
                 }
             }
             .foregroundColor(Color("Font"))

@@ -72,7 +72,7 @@ struct LoginView: View {
                                 loginViewModel.nonce = randomNonceString()
                                     request.requestedScopes = [.fullName, .email]
 
-                                    request.nonce = sha256(loginModel.nonce)
+                                    request.nonce = sha256(loginViewModel.nonce)
                                 } onCompletion: { (result) in
                                     switch result {
                                     case .success(let user):
@@ -82,7 +82,7 @@ struct LoginView: View {
                                             print("error with firebase")
                                             return
                                         }
-                                        loginModel.appleAuthenticate(credential: credential)
+                                        loginViewModel.appleAuthenticate(credential: credential)
                                     case.failure(let error):
                                         print(error.localizedDescription)
                                     }
@@ -141,7 +141,7 @@ struct LoginView: View {
                                 showingSheetView.toggle()
                             } label: {
                                 Text("**이용약관** 및 **개인정보 취급방침**")
-                                    .padding(.top, 340)
+//                                    .padding(.top, 340)
                             }
                         }
                         .font(.caption)
