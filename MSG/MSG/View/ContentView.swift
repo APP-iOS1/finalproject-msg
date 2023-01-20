@@ -37,17 +37,25 @@ struct ContentView: View {
                             
                         } else {
                             TabView {
-                                HomeView(darkModeEnabled: $darkModeEnabled)
+                                HomeView()
                                     .tabItem {
                                         Image(systemName: "dpad.fill")
+                                        Text("도전")
                                     }
                                 ChallengeRecordView()
                                     .tabItem {
                                         Image(systemName: "archivebox")
+                                        Text("기록")
                                     }
                                 FriendSettingView()
                                     .tabItem {
                                         Image(systemName: "person.2.fill")
+                                        Text("친구")
+                                    }
+                                SettingView(darkModeEnabled: $darkModeEnabled)
+                                    .tabItem {
+                                        Image(systemName: "gearshape")
+                                        Text("설정")
                                     }
                             }
                             .onAppear {
