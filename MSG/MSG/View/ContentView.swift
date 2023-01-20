@@ -12,7 +12,7 @@ struct ContentView: View {
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @StateObject var realtimeViewModel = PostitStore()
+    @EnvironmentObject var realtimeViewModel: PostitStore
     @State private var checked: Msg?
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     
@@ -49,6 +49,9 @@ struct ContentView: View {
                                     .tabItem {
                                         Image(systemName: "person.2.fill")
                                     }
+                            }
+                            .onAppear {
+                                realtimeViewModel.myInfo = loginViewModel.currentUserProfile
                             }
                         }
                     } else {

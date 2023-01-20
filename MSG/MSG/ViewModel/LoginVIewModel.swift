@@ -74,6 +74,7 @@ class LoginViewModel: ObservableObject {
             }
             self.currentUser = result?.user
             // User Successfully Logged Into Firebase...
+            
             print("Logged In Success Apple")
             withAnimation(.easeInOut){self.logStatus = true}
         }

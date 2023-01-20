@@ -11,7 +11,10 @@ struct AlertView: View {
     
     @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
     @EnvironmentObject var realtimeViewModel: PostitStore
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+
     
+
     var body: some View {
         
         ZStack {
@@ -48,6 +51,20 @@ struct AlertView: View {
                             .background(Color("Point2"))
                             .cornerRadius(10)
                         }
+                        else {
+                            Text("님의 친구 신청")
+                        }
+                        Spacer()
+                        Button {
+                            fireStoreViewModel.addUserInfo(user: user)
+                            
+                        } label: {
+                            Text("확인")
+                                .foregroundColor(Color("Font"))
+                        }
+                        .buttonStyle(.bordered)
+                        .background(Color("Point2"))
+
                         .listRowBackground(Color("Background"))
                         .listRowSeparator(.hidden)
                     }

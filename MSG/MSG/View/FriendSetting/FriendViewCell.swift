@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct FriendViewCell: View {
-    
-    @State var user: Msg
-    @StateObject var realtimeViewModel = PostitStore()
+
+    @State var user: UserInfo
+    @EnvironmentObject var realtimeViewModel: PostitStore
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
-    var body: some View {
-        
+    var body: some View {      
         ZStack {
             Color("Background")
                 .ignoresSafeArea()
@@ -24,10 +23,10 @@ struct FriendViewCell: View {
                     .scaledToFit()
                     .clipShape(Circle())
                     .frame(height: 60)
-                Text(user.nickName)
+                Text(user.userName)
                 Spacer()
                 Button {
-                    if let myInfo = fireStoreViewModel.myInfo {
+                    if let myInfo = realtimeViewModel.myInfo {
                         realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
                     }
                 } label: {
