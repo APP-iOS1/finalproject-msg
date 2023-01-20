@@ -23,6 +23,9 @@ class FireStoreViewModel: ObservableObject {
     //내친구
     @Published var myFrinedArray: [Msg] = []
     let database = Firestore.firestore()
+    // 챌린지
+    var newSingleGameId: String = ""
+    @Published var singleGameList: [Challenge] = []
     
     
     init() {
@@ -217,6 +220,21 @@ class FireStoreViewModel: ObservableObject {
             print(nickName)
         }
     }
+    
+    // MARK: - 싱글게임 추가 함수
+    func addSingleGame(_ singleGame: Challenge) {
+        print(#function)
+        database.collection("Challenge").document(singleGame.id).setData([
+            "id": singleGame.id,
+            "gameTitle": singleGame.gameTitle,
+            "limitMoney": singleGame.limitMoney,
+            "startDate": singleGame.startDate,
+            "endDate": singleGame.endDate,
+            "inviteFriend": singleGame.inviteFriend
+        ])
+        self.newSingleGameId = singleGame.id
+        singleGameList.append(singleGame)
+    }
 }
 //
 
@@ -228,3 +246,12 @@ class FireStoreViewModel: ObservableObject {
 //        fetchPostits()
 //    }
 
+//struct Challenge: Codable, Identifiable, Hashable {
+//    // Game의 ID
+//    var id: String
+//    var gameTitle: String
+//    var limitMoney: Int
+//    var startDate: String
+//    var endDate: String
+//    var inviteFriend: [String]
+//}
