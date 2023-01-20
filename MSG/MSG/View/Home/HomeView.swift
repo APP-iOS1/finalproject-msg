@@ -40,6 +40,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: []), darkModeEnabled: .constant(false))
+        HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: [], friend: []))
     }
 }
