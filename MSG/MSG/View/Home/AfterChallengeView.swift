@@ -57,78 +57,82 @@ struct AfterChallengeView: View {
     var frameWidth = UIScreen.main.bounds.width
     var frameHeight = UIScreen.main.bounds.height
     var body: some View {
-        ZStack{
-            Color("Background").ignoresSafeArea()
-            
-            VStack{
-                
-                Group{
-                    HStack{
-                        Text("치킨내기 14일 챌린지!!")
-                            .font(.title2.bold())
-                        Spacer()
-                    }
-                    HStack{
-                        Text("제한 금액 : \(challenge.limitMoney)원")
-                            .font(.title3.bold())
-                        Spacer()
-                    }
-                    HStack{
-                        Text("\(challenge.startDate) ~ \(challenge.endDate)")
-                            .fontWeight(.medium)
-                            .padding(.bottom)
-                        Spacer()
-                    }
-                }.padding(1)
-                
-                Group{
-                    //                    Text(isChatTomorrowWithString(startDate: challenge.startDate, endDate: challenge.endDate) ? "날짜 다름" : "날짜 같음")
+      
+            ZStack{
+                Color("Background").ignoresSafeArea()
+                ScrollView{
+                VStack{
                     
-                    ProgressBar2()
+                    Group{
+                        HStack{
+                            Text("치킨내기 14일 챌린지!!")
+                                .font(.title2.bold())
+                            Spacer()
+                        }
+                        HStack{
+                            Text("제한 금액 : \(challenge.limitMoney)원")
+                                .font(.title3.bold())
+                            Spacer()
+                        }
+                        HStack{
+                            Text("\(challenge.startDate) ~ \(challenge.endDate)")
+                                .fontWeight(.medium)
+                                .padding(.bottom)
+                            Spacer()
+                        }
+                    }.padding(1)
                     
-                    HStack{
-                        Text("지금까지")
-                        Text("75,500원")
-                            .underline()
-                        Text("사용")
+                    Group{
+                        //                    Text(isChatTomorrowWithString(startDate: challenge.startDate, endDate: challenge.endDate) ? "날짜 다름" : "날짜 같음")
                         
+                        ProgressBar2(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
+//                        ProgressBar2(expend: expenditure(id: "", expenditureHistory: ["식비" : ["김밥천국 3000원"]]))
+                        HStack{
+                            Text("지금까지")
+                            Text("75,500원")
+                                .underline()
+                            Text("사용")
+                            
+                        }
+                        .padding(.top)
+                        
+                        VStack{
+                            //챌린지 시작날짜~오늘날짜 계산
+                            Text(dateCheck(startDate: challenge.startDate), style: .offset)
+                        }
+                    }.font(.title3.bold())
+                        .padding(5)
+                    //MARK: - 상세 소비 내역 확인 네비게이션 링크
+                    Group{
+                        NavigationLink(destination: ChartView(), label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color("Font") , lineWidth: 1)
+                                .frame(width: frameWidth / 1.18, height: frameHeight / 14.5)
+                                .overlay {
+                                    Text("상세 소비 내역 확인하기")
+                                }
+                                .padding(.bottom, 1)
+                        })
+                        //MARK: - 추가하기 네비게이션 링크
+                        NavigationLink(destination: SpendingWritingView(), label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color("Font") , lineWidth: 1)
+                                .frame(width: frameWidth / 1.18, height: frameHeight / 14.5)
+                                .overlay {
+                                    Text("추가하기")
+                                }
+                        })
+                        Spacer()
                     }
-                    .padding(.top)
-                    
-                    VStack{
-                        //챌린지 시작날짜~오늘날짜 계산
-                        Text(dateCheck(startDate: challenge.startDate), style: .offset)
-                    }
-                }.font(.title3.bold())
-                    .padding(5)
-                //MARK: - 상세 소비 내역 확인 네비게이션 링크
-                Group{
-                    NavigationLink(destination: ChartView(), label: {
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color("Font") , lineWidth: 1)
-                            .frame(width: frameWidth / 1.18, height: frameHeight / 14.5)
-                            .overlay {
-                                Text("상세 소비 내역 확인하기")
-                            }
-                            .padding(.bottom)
-                    })
-                    //MARK: - 추가하기 네비게이션 링크
-                    NavigationLink(destination: SpendingWritingView(), label: {
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color("Font") , lineWidth: 1)
-                            .frame(width: frameWidth / 1.18, height: frameHeight / 14.5)
-                            .overlay {
-                                Text("추가하기")
-                            }
-                    })
+                    .font(.title3.bold())
                     Spacer()
-                }
-                .font(.title3.bold())
-                Spacer()
-            }.foregroundColor(Color("Font"))
-                .padding(frameHeight / 17)
-            
-            
+                }.foregroundColor(Color("Font"))
+                        .padding(.horizontal)
+                
+                
+            }
+                .padding()
+                
         }
     }
 }

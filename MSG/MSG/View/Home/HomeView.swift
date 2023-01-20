@@ -9,15 +9,16 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State private var challengeState: Bool = false
+    let msg: Msg
+    
     @Binding var darkModeEnabled: Bool
     
     var body: some View {
         ZStack{
-            if challengeState {
+            if !msg.game.isEmpty {
                 AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 30000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
             } else {
-                BeforeChallengeView(challengeState: $challengeState)
+                BeforeChallengeView()
             }
         }
         .toolbar {
@@ -41,6 +42,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(darkModeEnabled: .constant(false))
+        HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: []), darkModeEnabled: .constant(false))
     }
 }

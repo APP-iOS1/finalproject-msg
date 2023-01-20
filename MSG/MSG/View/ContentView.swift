@@ -37,7 +37,7 @@ struct ContentView: View {
                             
                         } else {
                             TabView {
-                                HomeView(darkModeEnabled: $darkModeEnabled)
+                                HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: []), darkModeEnabled: $darkModeEnabled)
                                     .tabItem {
                                         Image(systemName: "dpad.fill")
                                     }
