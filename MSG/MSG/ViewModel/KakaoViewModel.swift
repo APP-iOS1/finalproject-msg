@@ -95,32 +95,6 @@ class KakaoViewModel: ObservableObject{
         })
     }
     
-//    func signUpInFirebase() {
-//        UserApi.shared.me() { user, error in
-//            if let error = error {
-//                print("error: \(error.localizedDescription)")
-//            } else {
-//                // 파이어베이스 유저 생성
-//                Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
-//                    if let error = error {
-//                        Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
-//                            if let error = error {
-//                                print("login error: \(error.localizedDescription)")
-//                                return
-//                            } else {
-//                                self.currentUser = result?.user
-//                                print("login success: \(self.currentUser)")
-//                            }
-//                        }
-//                    } else {
-//                        print("success")
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
     func signUpInFirebase() {
         UserApi.shared.me() { user, error in
             if let error = error {
