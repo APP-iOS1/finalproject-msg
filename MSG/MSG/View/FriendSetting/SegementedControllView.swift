@@ -1,5 +1,5 @@
 //
-//  SegementedControlView.swift
+//  SegementedControllView.swift
 //  MSG
 //
 //  Created by zooey on 2023/01/19.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SegementedControlView: View {
+struct SegementedControllView: View {
     
     @Binding var selection: Int
     @State private var frames = Array<CGRect>(repeating: .zero, count: 20)
