@@ -57,7 +57,7 @@ class FireStoreViewModel: ObservableObject {
                       "friend": user.friend,
                       "profileImage": downloadUrl,
                      ])
-
+        
     }
     
     func uploadImageToStorage(userImage: UIImage, user: Msg) {
@@ -90,10 +90,10 @@ class FireStoreViewModel: ObservableObject {
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
-                                                
+                        
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         self.userArray.append(getUser)
-//                        print("findUser:",self.userArray)
+                        //                        print("findUser:",self.userArray)
                     }
                 }
             }
@@ -121,7 +121,7 @@ class FireStoreViewModel: ObservableObject {
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
-                                                
+                        
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         print("findFriend:",self.myFrinedArray)
                         self.myFrinedArray.append(getUser)
@@ -134,28 +134,29 @@ class FireStoreViewModel: ObservableObject {
     func fetchFriend() {
         
     }
-
-    //나의 친구목록으로 친구추가
-        func addUserInfo(user: Msg) {
-            print(#function)
-            database.collection("User")
-                .document(Auth.auth().currentUser?.uid ?? "")
-                .collection("friend")
-                .document(user.id)
-                .setData(["id": user.id,
-                          "nickName": user.nickName,
-                          "profilImage": user.profilImage,
-                          "game": user.game,
-                          "gameHistory": user.gameHistory,
-                          "friend": user.friend,
-                         ])
-            print("user:\(user.id)")
-            print(Auth.auth().currentUser?.uid ?? "")
-//            fireStoreViewModel.userArray
-            //        fetchPostits()
-        }
     
-    //친구의 목록에도 친구추가
+    // MARK: - 친구추가
+    /// 내 친구목록에 추가합니다.
+    func addUserInfo(user: Msg) {
+        print(#function)
+        database.collection("User")
+            .document(Auth.auth().currentUser?.uid ?? "")
+            .collection("friend")
+            .document(user.id)
+            .setData(["id": user.id,
+                      "nickName": user.nickName,
+                      "profilImage": user.profilImage,
+                      "game": user.game,
+                      "gameHistory": user.gameHistory,
+                      "friend": user.friend,
+                     ])
+        print("user:\(user.id)")
+        print(Auth.auth().currentUser?.uid ?? "")
+        //            fireStoreViewModel.userArray
+        //        fetchPostits()
+    }
+    // MARK: - 친구추가
+    /// 친구의 목록에도 나를추가
     func addUserInfo2(user: Msg, myInfo: Msg) {
         print(#function)
         database.collection("User")
@@ -171,10 +172,33 @@ class FireStoreViewModel: ObservableObject {
                      ])
         print("user:\(user.id)")
         print(Auth.auth().currentUser?.uid ?? "")
-//            fireStoreViewModel.userArray
+        //            fireStoreViewModel.userArray
         //        fetchPostits()
     }
     //게임히스토리 가져오기 //g0UxdNp6jHhavijbSJSZ //Auth.auth().currentUser?.uid ?? ""
+    
+    // MARK: - 지출 추가
+    func addExpenditure(user: Msg, myInfo: Msg) {
+        print(#function)
+        database.collection("Challenge")
+            .document("") //게임의 아이디값
+            .collection("expenditure")
+            .document("") // 나의 아이디값
+            .setData(["id": UUID().uuidString,
+                      "nickName": myInfo.nickName,
+                      "totalMoney": myInfo.nickName,
+                      "addDay": myInfo.nickName,
+                      "expenditureHistory": myInfo.profilImage,
+                     ])
+    }
+//    struct expenditure: Codable, Identifiable {
+//        //참석유저 아이디
+//        var id: String
+//        var totalMoney: Int
+//        var addDay: Date
+//        var expenditureHistory: [String:[String]]
+//    }
+    
     
     // MARK: - 게임 히스토리 ID 목록 가져오기
     /// 현재 유저가 진행했던 챌린지 ID리스트 가저오기
