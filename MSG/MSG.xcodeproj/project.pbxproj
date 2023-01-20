@@ -273,8 +273,8 @@
 		36C7BB762977B37200A3F999 /* OnBoard */ = {
 			isa = PBXGroup;
 			children = (
-				36C7BB772977B37200A3F999 /* OnBoardView2.swift */,
 				36C7BB782977B37200A3F999 /* OnBoardView4.swift */,
+				36C7BB772977B37200A3F999 /* OnBoardView2.swift */,
 				36C7BB792977B37200A3F999 /* OnBoardView1.swift */,
 				36C7BB7A2977B37200A3F999 /* OnBoardView3.swift */,
 				36C7BB7B2977B37200A3F999 /* OnBoardTapView.swift */,
