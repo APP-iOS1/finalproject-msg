@@ -10,8 +10,7 @@ import SwiftUI
 struct BeforeChallengeView: View {
 
     @EnvironmentObject var firebaseViewModel: FireStoreViewModel
-    @Binding var challengeState: Bool
-    @State private var soloChallenge: Bool = false
+ 
     var frameWidth = UIScreen.main.bounds.width
     var frameHeight = UIScreen.main.bounds.height
     var body: some View {
@@ -40,7 +39,7 @@ extension BeforeChallengeView {
                     Spacer()
                 }
                 .frame(width: frameWidth / 1.23)
-                NavigationLink(destination: GameSettingView()){
+                NavigationLink(destination: SoloGameSettingView()){
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point1"))
                         .frame(width: frameWidth / 1.21, height: frameHeight / 7)
@@ -58,10 +57,10 @@ extension BeforeChallengeView {
                                 } .foregroundColor(Color("Font2"))
                             }
                         }
+                        
                 }.padding(.bottom, 30)
-                    .onTapGesture {
-                        self.soloChallenge = true
-                    }
+                
+                
             }
             //함께하는 챌랜지 시작하기
             Group{
@@ -92,6 +91,7 @@ extension BeforeChallengeView {
                                 } .foregroundColor(Color("Font2"))
                             }
                         }
+                        
                         .padding(.bottom, 30)
                 }
             }
@@ -105,6 +105,6 @@ extension BeforeChallengeView {
 
 struct BeforeChallengeView_Previews: PreviewProvider {
     static var previews: some View {
-        BeforeChallengeView(challengeState: .constant(true))
+        BeforeChallengeView()
     }
 }
