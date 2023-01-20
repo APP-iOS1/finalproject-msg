@@ -28,7 +28,6 @@ struct MSGApp: App {
     @StateObject var realtimeViewModel = PostitStore()
     var body: some Scene {
         WindowGroup {
-            NavigationView {
                 ContentView().onOpenURL { url in
                     if AuthApi.isKakaoTalkLoginUrl(url) {
                         _ = AuthController.handleOpenUrl(url: url)
@@ -38,10 +37,9 @@ struct MSGApp: App {
                 .environmentObject(loginViewModel)
                 .environmentObject(fireStoreViewModel)
                 .environmentObject(realtimeViewModel)
-            }
-//            AppleContentView()
-//                .environmentObject(AppleUserAuth())
 
+
+            }
         }
     }
 }

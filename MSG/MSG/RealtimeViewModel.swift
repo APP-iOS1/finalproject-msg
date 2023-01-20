@@ -8,10 +8,10 @@ class PostitStore: ObservableObject {
     @Published var myInfo: Msg?
 
     private lazy var databaseReference: DatabaseReference? = {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil}
             let ref = Database.database()
             .reference()
-            .child(Auth.auth().currentUser?.uid ?? "")
-        
+            .child(uid)
             return ref
         }()
     
@@ -46,6 +46,7 @@ class PostitStore: ObservableObject {
     
     
     //친구 -> 친구목록
+  
     //받아오기
     func startFetching() {
 

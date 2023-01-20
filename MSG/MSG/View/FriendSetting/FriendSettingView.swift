@@ -8,35 +8,29 @@
 import SwiftUI
 
 struct FriendSettingView: View {
-    @State private var pickerCase: PickerCase = .alert
-    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     
-    enum PickerCase: String,Identifiable, CaseIterable {
-        case friend
-        case alert
-        var id: String { self.rawValue }
-    }
+    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
+    @State var selection: Int = 0
+    let titles: [String] = ["친구", "알람"]
+    
     var body: some View {
-        VStack {
-            Picker("gender",selection: $pickerCase) {
-                ForEach(PickerCase.allCases) {myCase in
-                    Text(myCase.rawValue.capitalized).tag(myCase)
+        
+        ZStack {
+            Color("Background")
+                .ignoresSafeArea()
+            VStack {
+                SegementedControllView(selection: $selection, titles: titles, selectedItemColor: Color("Point2"), backgroundColor: Color(.clear), selectedItemFontColor: Color("Font"))
+                
+                if selection == 0 {
+                    FriendView(fireStoreViewModel: firebaseViewModel)
+                } else {
+                    AlertView()
                 }
             }
-            .pickerStyle(SegmentedPickerStyle())
-
-            switch pickerCase {
-            case .friend:
-                FriendView(fireStoreViewModel: firebaseViewModel)
-            case .alert:
-                AlertView()
-            }
         }
-        .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
         .onAppear {
             firebaseViewModel.findFriend()
         }
-        
     }
 }
 
@@ -45,3 +39,4 @@ struct FriendSettingView_Previews: PreviewProvider {
         FriendSettingView()
     }
 }
+
