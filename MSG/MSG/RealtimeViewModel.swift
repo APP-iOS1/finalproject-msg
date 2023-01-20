@@ -17,11 +17,7 @@ class RealtimeViewModel: ObservableObject {
     
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-    
-    
 
-    
-    
     //친구 -> 친구목록
   
     //받아오기

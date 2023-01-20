@@ -23,13 +23,13 @@ class FireStoreViewModel: ObservableObject {
     //내친구
     @Published var myFrinedArray: [Msg] = []
     let database = Firestore.firestore()
-
+    
     
     init() {
         //        postits = []
     }
     
-   
+    
     // MARK: - 유저 정보를 불러오는 함수
     /// userId를 통해, 유저 정보를 가져온다.
     func fetchUserInfo(_ userId: String) async throws -> Msg? {
@@ -72,6 +72,7 @@ class FireStoreViewModel: ObservableObject {
             }
         }
     }
+    
     //모든유저 찾기
     func findUser() {
         print(#function)
@@ -82,7 +83,6 @@ class FireStoreViewModel: ObservableObject {
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID
-                        
                         let docData = document.data()
                         let nickName: String = docData["nickName"] as? String ?? ""
                         let profilImage: String = docData["profilImage"] as? String ?? ""
@@ -98,11 +98,14 @@ class FireStoreViewModel: ObservableObject {
             }
     }
     
-    //친구찾기
+    
+    // MARK: - 친구 목록 가져오기
     func findFriend() {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return  }
         database
             .collection("User")
-            .document(Auth.auth().currentUser?.uid ?? "")
+            .document(userId)
             .collection("frined")
             .getDocuments { (snapshot, error) in
                 self.userArray.removeAll()
@@ -125,6 +128,7 @@ class FireStoreViewModel: ObservableObject {
                 }
             }
     }
+
     //친구추가
         func addUserInfo(user: Msg) {
             database.collection("User")

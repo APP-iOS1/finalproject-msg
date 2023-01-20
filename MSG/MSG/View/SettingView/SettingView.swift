@@ -7,7 +7,6 @@
 import SwiftUI
 
 struct SettingView: View {
-    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var loginViewModel: LoginViewModel
 
     @Binding var darkModeEnabled: Bool
@@ -86,7 +85,6 @@ struct SettingView: View {
                     
                     Button {
                         loginViewModel.signout()
-                        self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("로그아웃")
                     }
