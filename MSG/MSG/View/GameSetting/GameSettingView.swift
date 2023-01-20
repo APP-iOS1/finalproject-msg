@@ -115,6 +115,7 @@ struct SoloGameSettingView: View {
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     private let dateFormatter = DateFormatter()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -174,8 +175,8 @@ struct SoloGameSettingView: View {
                             // MARK: - 초대장 보내기 - [Button]
                             Button {
                                 let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate.timeIntervalSince1970), endDate:  String(gameSettingViewModel.endDate.timeIntervalSince1970), inviteFriend: [])
-                                fireStoreViewModel.addSingleGame(singGame)
-                                
+                                fireStoreViewModel.makeSingleGame(singGame)
+                                dismiss()
                             } label: {
                                 Text("시작하기")
                                     .foregroundColor(Color("Font"))

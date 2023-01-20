@@ -11,19 +11,19 @@ struct AfterChallengeView: View {
     
     let challenge: Challenge
     
-    func dateCheck(startDate: String) -> Date {
-        let formatter = DateFormatter()
-        
-        let dateString = startDate  //여기에다가 챌린지 시작날짜 받으면 괜찮지 않을까??
-        
-        formatter.locale = Locale(identifier: "ko_kr")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        formatter.dateFormat = "yyyy년M월d일"
-        
-        let date = formatter.date(from:dateString)!
-        
-        return date
-    }
+//    func dateCheck(startDate: String) -> Date {
+//        let formatter = DateFormatter()
+//
+//        let dateString = startDate  //여기에다가 챌린지 시작날짜 받으면 괜찮지 않을까??
+//
+//        formatter.locale = Locale(identifier: "ko_kr")
+//        formatter.timeZone = TimeZone(abbreviation: "KST")
+//        formatter.dateFormat = "yyyy년M월d일"
+//
+//        let date = formatter.date(from:dateString)!
+//
+//        return date
+//    }
     
     // 챌린지가 끝나는 날을 알려면 이걸 쓰면 되나??
     func isChatTomorrowWithString(startDate: String, endDate: String) -> Bool {
@@ -65,10 +65,11 @@ struct AfterChallengeView: View {
                     
                     Group{
                         HStack{
-                            Text("치킨내기 14일 챌린지!!")
+                            Text(challenge.gameTitle)
                                 .font(.title2.bold())
                             Spacer()
                         }
+                        
                         HStack{
                             Text("제한 금액 : \(challenge.limitMoney)원")
                                 .font(.title3.bold())
@@ -98,7 +99,7 @@ struct AfterChallengeView: View {
                         
                         VStack{
                             //챌린지 시작날짜~오늘날짜 계산
-                            Text(dateCheck(startDate: challenge.startDate), style: .offset)
+//                            Text(dateCheck(startDate: challenge.startDate), style: .offset)
                         }
                     }.font(.title3.bold())
                         .padding(5)

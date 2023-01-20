@@ -26,6 +26,7 @@ class FireStoreViewModel: ObservableObject {
     // 챌린지
     var newSingleGameId: String = ""
     @Published var singleGameList: [Challenge] = []
+    @Published var currentGame: Challenge?
     
     
     init() {
@@ -60,7 +61,7 @@ class FireStoreViewModel: ObservableObject {
                       "friend": user.friend,
                       "profileImage": downloadUrl,
                      ])
-
+        
     }
     
     func uploadImageToStorage(userImage: UIImage, user: Msg) {
@@ -92,7 +93,7 @@ class FireStoreViewModel: ObservableObject {
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
-                                                
+                        
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         self.userArray.append(getUser)
                         print("findUser:",self.userArray)
@@ -123,7 +124,7 @@ class FireStoreViewModel: ObservableObject {
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
-                                                
+                        
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         print("findUser:",self.myFrinedArray)
                         self.myFrinedArray.append(getUser)
@@ -131,24 +132,24 @@ class FireStoreViewModel: ObservableObject {
                 }
             }
     }
-
+    
     //친구추가
-        func addUserInfo(user: Msg) {
-            database.collection("User")
-                .document(Auth.auth().currentUser?.uid ?? "")
-                .collection("friend")
-                .document(user.id)
-                .setData(["id": user.id,
-                          "nickName": user.nickName,
-                          "profilImage": user.profilImage,
-                          "game": user.game,
-                          "gameHistory": user.gameHistory,
-                          "friend": user.friend,
-                         ])
-            myFrinedArray.append(user)
-//            fireStoreViewModel.userArray
-            //        fetchPostits()
-        }
+    func addUserInfo(user: Msg) {
+        database.collection("User")
+            .document(Auth.auth().currentUser?.uid ?? "")
+            .collection("friend")
+            .document(user.id)
+            .setData(["id": user.id,
+                      "nickName": user.nickName,
+                      "profilImage": user.profilImage,
+                      "game": user.game,
+                      "gameHistory": user.gameHistory,
+                      "friend": user.friend,
+                     ])
+        myFrinedArray.append(user)
+        //            fireStoreViewModel.userArray
+        //        fetchPostits()
+    }
     //게임히스토리 가져오기 //g0UxdNp6jHhavijbSJSZ //Auth.auth().currentUser?.uid ?? ""
     
     // MARK: - 게임 히스토리 ID 목록 가져오기
@@ -235,23 +236,57 @@ class FireStoreViewModel: ObservableObject {
         self.newSingleGameId = singleGame.id
         singleGameList.append(singleGame)
     }
+    
+    // MARK: - User game에 String 추가하는 함수
+    func updateUserGame(gameId: String) {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
+        database.collection("User").document(userId).updateData([
+            "game": gameId
+        ])
+    }
+    
+    // MARK: - SingleGame + User game에 String 추가하는 함수
+    func makeSingleGame(_ singleGame: Challenge) {
+        addSingleGame(singleGame)
+        updateUserGame(gameId: singleGame.id)
+        currentGame = singleGame
+    }
+    
+    // MARK: - User game에 String 가져오는 함수
+    func fetchGameId() async -> String? {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return nil }
+        let ref = database.collection("User").document(userId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil }
+            let gameId = docData["game"] as? String ?? ""
+            return gameId
+        } catch {
+            print("catched")
+            return nil
+        }
+    }
+    
+    // MARK: - Challenge Collection에서 진행중인 게임 정보 가져오기
+    func fetchGame() async {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return }
+        let ref = database.collection("Challenge").document(gameId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return }
+            let id = docData["id"] as? String ?? ""
+            let gameTitle = docData["gameTitle"] as? String ?? ""
+            let limitMoney = docData["limitMoney"] as? Int ?? 0
+            let startDate = docData["startDate"] as? String ?? ""
+            let endDate = docData["endDate"] as? String ?? ""
+            let inviteFriend = docData["inviteFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            self.currentGame = challenge
+        } catch {
+            print("catched")
+        }
+    }
 }
-//
-
-
-
-//    func removePostit(_ postit: Postit) {
-//        database.collection("Postits")
-//            .document(postit.id).delete()
-//        fetchPostits()
-//    }
-
-//struct Challenge: Codable, Identifiable, Hashable {
-//    // Game의 ID
-//    var id: String
-//    var gameTitle: String
-//    var limitMoney: Int
-//    var startDate: String
-//    var endDate: String
-//    var inviteFriend: [String]
-//}
