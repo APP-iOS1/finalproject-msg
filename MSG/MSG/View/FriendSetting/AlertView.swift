@@ -10,7 +10,7 @@ import SwiftUI
 struct AlertView: View {
     
     @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
-    @EnvironmentObject var realtimeViewModel: PostitStore
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
 
     
@@ -31,9 +31,9 @@ struct AlertView: View {
                                 .scaledToFit()
                                 .clipShape(Circle().inset(by: 5))
                                 .frame(width:90)
-                            Text(user.userName)
+                            Text(user.nickName)
                                 .font(.title3)
-                            if user.isFight {
+                            if user.friend.contains(realtimeViewModel.myInfo!.id) {
                                 Text("님의 대결 신청")
                             }
                             else {

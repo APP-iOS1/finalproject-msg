@@ -12,13 +12,12 @@ struct FriendView: View {
     @State private var text: String = ""
     @State private var testArray: [String] = ["김민호","김철수","김뽀삐"]
 
-    var filterUser: [UserInfo] {
-
+    var filterUser: [Msg] {
         if text.isEmpty {
             //검색을 하지 않았다면 친구목록을 보여주어야 함
             return fireStoreViewModel.myFrinedArray
         } else {
-            return fireStoreViewModel.userArray.filter {$0.userName.localizedStandardContains(text)}
+            return fireStoreViewModel.userArray.filter {$0.nickName.localizedStandardContains(text)}
         }
     }
     
