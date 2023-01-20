@@ -11,6 +11,7 @@ struct BeforeChallengeView: View {
 
     @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     @Binding var challengeState: Bool
+    @State private var soloChallenge: Bool = false
     var frameWidth = UIScreen.main.bounds.width
     var frameHeight = UIScreen.main.bounds.height
     var body: some View {
@@ -32,7 +33,7 @@ extension BeforeChallengeView {
             Group{
                 
                 HStack{
-                    Text("개인 챌랜지 시작하기")
+                    Text("개인 챌린지 시작하기")
                         .fontWeight(.bold)
                         .foregroundColor(Color("Font"))
                         .padding(.bottom, -1)
@@ -41,15 +42,32 @@ extension BeforeChallengeView {
                 .frame(width: frameWidth / 1.23)
                 NavigationLink(destination: GameSettingView()){
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color("Point1"))
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color("Point3"), Color("Point1"), Color("Point2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+//                        .fill(Color("Point1"))
+                    
                         .frame(width: frameWidth / 1.21, height: frameHeight / 7)
-                        .padding(.bottom, 30)
-                }
+                        .overlay {
+                            HStack{
+                                Image(systemName: "rosette")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(Color("Point2"))
+                                    .frame(width: frameWidth / 13, height: frameHeight / 13)
+                                VStack(alignment: .leading){
+                                    Text("꼭 필요한 습관").font(.title3).bold()
+                                    Text("꾸준한 습관으로 커다란 결과를!")
+                                } .foregroundColor(Color("Font2"))
+                            }
+                        }
+                }.padding(.bottom, 30)
+                    .onTapGesture {
+                        self.soloChallenge = true
+                    }
             }
             //함께하는 챌랜지 시작하기
             Group{
                 HStack{
-                    Text("함께하는 챌랜지 시작하기")
+                    Text("함께하는 챌린지 시작하기")
                         .foregroundColor(Color("Font"))
                         .padding(.bottom, -1)
                         .fontWeight(.bold)
@@ -59,8 +77,22 @@ extension BeforeChallengeView {
                 
                 NavigationLink(destination: GameSettingView()) {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color("Point2"))
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color("Point2"), Color("Point2"), Color("Point3")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+//                        .fill(Color("Point2"))
                         .frame(width: frameWidth / 1.21, height: frameHeight / 7)
+                        .overlay {
+                            HStack{
+                                Image(systemName: "chart.xyaxis.line")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(Color("Point1"))
+                                    .frame(width: frameWidth / 13, height: frameHeight / 13)
+                                VStack(alignment: .leading){
+                                    Text("함께하는 성장").font(.title3).bold()
+                                    Text("목표를 정하고, 서로 체크해요!")
+                                } .foregroundColor(Color("Font2"))
+                            }
+                        }
                         .padding(.bottom, 30)
                 }
             }
@@ -77,8 +109,22 @@ extension BeforeChallengeView {
                 
                 NavigationLink(destination: FriendView(fireStoreViewModel: firebaseViewModel)) {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color("Point1"))
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color("Point2"), Color("Point1"), Color("Point3")]), startPoint: .leading, endPoint: .topTrailing))
+//                        .fill(Color("Point1"))
                         .frame(width: frameWidth / 1.21, height: frameHeight / 7)
+                        .overlay {
+                            HStack{
+                                Image(systemName: "envelope.open.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(Color("Point1"))
+                                    .frame(width: frameWidth / 13, height: frameHeight / 13)
+                                VStack(alignment: .leading){
+                                    Text("도전장 보내기").font(.title3).bold()
+                                    Text("함께 목표에 달성할 친구를 초대해요!")
+                                } .foregroundColor(Color("Font2"))
+                            }
+                        }
                         .padding(.bottom, 30)
                 }
             }
