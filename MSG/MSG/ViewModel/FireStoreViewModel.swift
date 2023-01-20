@@ -21,13 +21,13 @@ class FireStoreViewModel: ObservableObject {
     @Published var challengeHistoryUserList : [(userId: String, totalMoney: Int)] = []
     @Published var myFrinedArray: [UserInfo] = []
     let database = Firestore.firestore()
-
+    
     
     init() {
         //        postits = []
     }
     
-   
+    
     // MARK: - 유저 정보를 불러오는 함수
     /// userId를 통해, 유저 정보를 가져온다.
     func fetchUserInfo(_ userId: String) async throws -> Msg? {
@@ -50,7 +50,7 @@ class FireStoreViewModel: ObservableObject {
                       "game": user.game,
                       "gameHistory": user.gameHistory,
                       "profileImage": downloadUrl])
-
+        
     }
     
     func uploadImageToStorage(userImage: UIImage, user: Msg) {
@@ -65,23 +65,21 @@ class FireStoreViewModel: ObservableObject {
             }
         }
     }
+    
     //모든유저 찾기
     func findUser() {
         database
             .collection("User")
             .getDocuments { (snapshot, error) in
                 self.userArray.removeAll()
-                
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID
-                        
                         let docData = document.data()
                         let userName: String = docData["userName"] as? String ?? ""
                         let userImage: String = docData["userImage"] as? String ?? ""
                         let isFriend: Bool = docData["isFriend"] as? Bool ?? false
                         let isFight: Bool = docData["isFight"] as? Bool ?? false
-                        
                         let getUser: UserInfo = UserInfo(id: id, userName: userName, userImage: userImage, isFriend: isFriend, isFight: isFight)
                         self.userArray.append(getUser)
                     }
@@ -89,11 +87,14 @@ class FireStoreViewModel: ObservableObject {
             }
     }
     
-    //친구찾기
+    
+    // MARK: - 친구 목록 가져오기
     func findFriend() {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return  }
         database
             .collection("User")
-            .document(Auth.auth().currentUser?.uid ?? "")
+            .document(userId)
             .collection("frined")
             .getDocuments { (snapshot, error) in
                 self.userArray.removeAll()
@@ -114,24 +115,22 @@ class FireStoreViewModel: ObservableObject {
                 }
             }
     }
-    //친구추가
-        func addUserInfo(user: UserInfo) {
-            database.collection("User")
-                .document(Auth.auth().currentUser?.uid ?? "")
-                .collection("friend")
-                .document(user.id)
-                .setData(["id": user.id,
-                          "nickName": user.userName,
-                          "userImage": user.userImage,
-                          "isFriend": user.isFriend,
-                          "isFight": user.isFight,
-//                          "profilImage": downloadUrl
-                         ])
-            myFrinedArray.append(user)
-//            fireStoreViewModel.userArray
-            //        fetchPostits()
-        }
-    //게임히스토리 가져오기 //g0UxdNp6jHhavijbSJSZ //Auth.auth().currentUser?.uid ?? ""
+    // MARK: - 유저 정보 추가하기
+    /// 친구추가 시, friend 컬렉션에 유저데이터 추가
+    func addUserInfo(user: UserInfo) {
+        database.collection("User")
+            .document(Auth.auth().currentUser?.uid ?? "")
+            .collection("friend")
+            .document(user.id)
+            .setData(["id": user.id,
+                      "nickName": user.userName,
+                      "userImage": user.userImage,
+                      "isFriend": user.isFriend,
+                      "isFight": user.isFight,
+                      //                          "profilImage": downloadUrl
+                     ])
+        myFrinedArray.append(user)
+    }
     
     // MARK: - 게임 히스토리 ID 목록 가져오기
     /// 현재 유저가 진행했던 챌린지 ID리스트 가저오기
