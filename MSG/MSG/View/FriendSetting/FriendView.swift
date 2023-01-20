@@ -34,14 +34,23 @@ struct FriendView: View {
                 }
                 .padding(.vertical)
                 .padding(.horizontal)
-                List(filterUser,id:\.self) {value in
-                    FriendViewCell(user: value)
-                        .frame(height: 50)
-                        .listRowBackground(Color("Background"))
-                        .listRowSeparator(.hidden)
+                
+                ScrollView {
+                    ForEach(filterUser) { user in
+                        FriendViewCell(user: user)
+                            .frame(height: 60)
+                            .listRowBackground(Color("Background"))
+                            .listRowSeparator(.hidden)
+                    }
                 }
-                .scrollContentBackground(.hidden)
-                .listStyle(.plain)
+//                List(filterUser,id:\.self) {value in
+//                    FriendViewCell(user: value)
+//                        .frame(height: 50)
+//                        .listRowBackground(Color("Background"))
+//                        .listRowSeparator(.hidden)
+//                }
+//                .scrollContentBackground(.hidden)
+//                .listStyle(.plain)
             }
         }
         .onAppear {
