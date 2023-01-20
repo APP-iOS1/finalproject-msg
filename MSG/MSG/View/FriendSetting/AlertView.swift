@@ -12,9 +12,7 @@ struct AlertView: View {
     @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
     @EnvironmentObject var realtimeViewModel: PostitStore
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-
     
-
     var body: some View {
         
         ZStack {
@@ -49,13 +47,12 @@ struct AlertView: View {
                             }
                             .buttonStyle(.bordered)
                             .background(Color("Point2"))
-                            
-                            .listRowBackground(Color("Background"))
-                            .listRowSeparator(.hidden)
                         }
-                        .scrollContentBackground(.hidden)
-                        .listStyle(.plain)
+                        .listRowBackground(Color("Background"))
+                        .listRowSeparator(.hidden)
                     }
+                    .scrollContentBackground(.hidden)
+                    .listStyle(.plain)
                 }
             }
             .foregroundColor(Color("Font"))
