@@ -50,7 +50,7 @@ struct AlertView: View {
 
         }
         .onAppear {
-            realtimeViewModel.read()
+            realtimeViewModel.startFetching()
             print(realtimeViewModel.user)
         }
         .listStyle(.inset)
