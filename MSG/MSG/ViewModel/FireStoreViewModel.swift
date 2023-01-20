@@ -93,7 +93,7 @@ class FireStoreViewModel: ObservableObject {
                                                 
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         self.userArray.append(getUser)
-                        print("findUser:",self.userArray)
+//                        print("findUser:",self.userArray)
                     }
                 }
             }
@@ -107,14 +107,14 @@ class FireStoreViewModel: ObservableObject {
         database
             .collection("User")
             .document(userId)
-            .collection("frined")
+            .collection("friend")
             .getDocuments { (snapshot, error) in
                 self.userArray.removeAll()
                 
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID
-                        
+                        print("id:\(id)")
                         let docData = document.data()
                         let nickName: String = docData["nickName"] as? String ?? ""
                         let profilImage: String = docData["profilImage"] as? String ?? ""
@@ -123,15 +123,21 @@ class FireStoreViewModel: ObservableObject {
                         let friend: [String] = docData["friend"] as? [String] ?? []
                                                 
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
-                        print("findUser:",self.myFrinedArray)
+                        print("findFriend:",self.myFrinedArray)
                         self.myFrinedArray.append(getUser)
                     }
+                    self.myFrinedArray = Array(Set(self.myFrinedArray))
                 }
             }
     }
+    
+    func fetchFriend() {
+        
+    }
 
-    //친구추가
+    //나의 친구목록으로 친구추가
         func addUserInfo(user: Msg) {
+            print(#function)
             database.collection("User")
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("friend")
@@ -143,10 +149,31 @@ class FireStoreViewModel: ObservableObject {
                           "gameHistory": user.gameHistory,
                           "friend": user.friend,
                          ])
-            myFrinedArray.append(user)
+            print("user:\(user.id)")
+            print(Auth.auth().currentUser?.uid ?? "")
 //            fireStoreViewModel.userArray
             //        fetchPostits()
         }
+    
+    //친구의 목록에도 친구추가
+    func addUserInfo2(user: Msg, myInfo: Msg) {
+        print(#function)
+        database.collection("User")
+            .document(user.id)
+            .collection("friend")
+            .document(Auth.auth().currentUser?.uid ?? "")
+            .setData(["id": myInfo.id,
+                      "nickName": myInfo.nickName,
+                      "profilImage": myInfo.profilImage,
+                      "game": myInfo.game,
+                      "gameHistory": myInfo.gameHistory,
+                      "friend": myInfo.friend,
+                     ])
+        print("user:\(user.id)")
+        print(Auth.auth().currentUser?.uid ?? "")
+//            fireStoreViewModel.userArray
+        //        fetchPostits()
+    }
     //게임히스토리 가져오기 //g0UxdNp6jHhavijbSJSZ //Auth.auth().currentUser?.uid ?? ""
     
     // MARK: - 게임 히스토리 ID 목록 가져오기

@@ -41,6 +41,10 @@ struct AlertView: View {
                             Spacer()
                             Button {
                                 fireStoreViewModel.addUserInfo(user: user)
+                                if let myInfo = realtimeViewModel.myInfo {
+                                    fireStoreViewModel.addUserInfo2(user: user, myInfo: myInfo)
+                                    
+                                }
                                 
                             } label: {
                                 Text("확인")

@@ -28,9 +28,6 @@ struct FriendSettingView: View {
                 }
             }
         }
-        .onAppear {
-            firebaseViewModel.findFriend()
-        }
     }
 }
 

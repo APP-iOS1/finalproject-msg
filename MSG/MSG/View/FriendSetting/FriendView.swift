@@ -54,6 +54,7 @@ struct FriendView: View {
         }
         .onAppear {
             fireStoreViewModel.findUser()
+            fireStoreViewModel.findFriend()
             print("내친구:",fireStoreViewModel.myFrinedArray)
             print("모든유저:",fireStoreViewModel.userArray)
         }
