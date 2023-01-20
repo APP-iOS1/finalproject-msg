@@ -2,9 +2,9 @@ import Foundation
 import FirebaseDatabase
 import FirebaseAuth
 
-class PostitStore: ObservableObject {
-    @Published var msg: [Msg] = []
-    @Published var user: [UserInfo] = []
+class RealtimeViewModel: ObservableObject {
+    @Published var user: [Msg] = []
+//    @Published var user: [UserInfo] = []
     @Published var myInfo: Msg?
 
     private lazy var databaseReference: DatabaseReference? = {
@@ -17,7 +17,7 @@ class PostitStore: ObservableObject {
     
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-        
+
     //친구 -> 친구목록
   
     //받아오기
@@ -43,7 +43,7 @@ class PostitStore: ObservableObject {
                 do {
                     let postitData = try JSONSerialization.data(withJSONObject: json)
                     print("add postitData:",postitData)
-                    let postit = try self.decoder.decode(UserInfo.self, from: postitData)
+                    let postit = try self.decoder.decode(Msg.self, from: postitData)
                     print("받음:",postit)
                     self.user.insert(postit, at: 0)
                     self.user = Array(Set(self.user))
@@ -67,7 +67,7 @@ class PostitStore: ObservableObject {
                 do {
                     let postitData = try JSONSerialization.data(withJSONObject: json)
                     print("change의 do문:",postitData)
-                    let postit = try self.decoder.decode(UserInfo.self, from: postitData)
+                    let postit = try self.decoder.decode(Msg.self, from: postitData)
                     print(postit)
 
                     var index = 0
@@ -99,14 +99,14 @@ class PostitStore: ObservableObject {
                 do {
                     let postitData = try JSONSerialization.data(withJSONObject: json)
                     print("remove의 do문:",postitData)
-                    let postit = try self.decoder.decode(UserInfo.self, from: postitData)
+                    let postit = try self.decoder.decode(Msg.self, from: postitData)
                     print(postit)
                     
                     var index = 0
-                    for postitItem in self.msg {
+                    for postitItem in self.user {
                         if (postit.id == postitItem.id) {
                             print(postitItem.id)
-                            self.msg.remove(at: index)
+                            self.user.remove(at: index)
                         }
                         index += 1
                     }
@@ -118,17 +118,19 @@ class PostitStore: ObservableObject {
     }
     
     //내정보를 저장할 어딘가가 필요하다....
-    func sendFriendRequest(to: UserInfo, from: Msg, isFriend: Bool) {
+    func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
         print(#function)
+        let dict: [String: Any] = [
+            "id": from.id,// ㅇ
+            "nickName": from.nickName, //ㅇ
+            "profilImage": from.profilImage, //ㅇ
+            "game": from.game, //ㅇ
+            "gameHistory": from.gameHistory,
+            "friend": from.friend,
+        ]
         Database.database()
         .reference()
-            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
-            "id": from.id,
-            "userName": from.nickName,
-            "userImage": from.profilImage,
-            "isFriend": isFriend,
-            "isFight": false,
-        ])
+            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue(dict)
     }
     
     func sendFightRequest(to: Msg, from: Msg, isFight: Bool) {
