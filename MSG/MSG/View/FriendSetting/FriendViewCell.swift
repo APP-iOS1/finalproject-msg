@@ -28,6 +28,7 @@ struct FriendViewCell: View {
                 Button {
                     if let myInfo = realtimeViewModel.myInfo {
                         realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+                        print(myInfo)
                     }
                 } label: {
                     Text("추가")
@@ -47,6 +48,6 @@ struct FriendViewCell: View {
 
 struct FriendViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView(fireStoreViewModel: FireStoreViewModel())
+        FriendView()
     }
 }

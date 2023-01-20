@@ -74,6 +74,7 @@ class FireStoreViewModel: ObservableObject {
     }
     
     //모든유저 찾기
+    @MainActor
     func findUser() {
         print(#function)
         self.userArray.removeAll()

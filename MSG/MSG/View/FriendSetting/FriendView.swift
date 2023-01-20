@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FriendView: View {
-    @StateObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var text: String = ""
     @State private var testArray: [String] = ["김민호","김철수","김뽀삐"]
 
@@ -54,8 +54,8 @@ struct FriendView: View {
         }
         .onAppear {
             fireStoreViewModel.findUser()
-            print(fireStoreViewModel.myFrinedArray)
-            print(fireStoreViewModel.userArray)
+            print("내친구:",fireStoreViewModel.myFrinedArray)
+            print("모든유저:",fireStoreViewModel.userArray)
         }
         .foregroundColor(Color("Font"))
     }
@@ -63,6 +63,6 @@ struct FriendView: View {
 
 struct FriendView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView(fireStoreViewModel: FireStoreViewModel())
+        FriendView()
     }
 }

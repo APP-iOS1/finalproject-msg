@@ -31,11 +31,12 @@ struct AlertView: View {
                                 .frame(width:90)
                             Text(user.nickName)
                                 .font(.title3)
-                            if user.friend.contains(realtimeViewModel.myInfo!.id) {
-                                Text("님의 대결 신청")
-                            }
-                            else {
-                                Text("님의 친구 신청")
+                            if let userFriend = user.friend {
+                                if userFriend.contains(realtimeViewModel.myInfo!.id) {
+                                    Text("님의 대결 신청")
+                                } else {
+                                    Text("님의 친구 신청")
+                                }
                             }
                             Spacer()
                             Button {
