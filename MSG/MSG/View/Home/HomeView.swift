@@ -9,14 +9,20 @@ import SwiftUI
 
 struct HomeView: View {
     
-    let msg: Msg
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
     var body: some View {
-        ZStack{
-            if !msg.game.isEmpty {
-                AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 30000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
+        
+        ZStack {
+            if let game = fireStoreViewModel.currentGame {
+                AfterChallengeView(challenge: game)
             } else {
                 BeforeChallengeView()
+            }
+        }
+        .onAppear {
+            Task {
+                await fireStoreViewModel.fetchGame()
             }
         }
 //        .toolbar {
@@ -38,8 +44,8 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: [], friend: []))
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//    }
+//}

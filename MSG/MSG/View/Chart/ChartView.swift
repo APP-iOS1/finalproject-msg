@@ -13,9 +13,8 @@ struct ChartView: View {
     @State private var selection: String = ""
     var body: some View {
         ZStack{
-            Color.yellow
-                .opacity(0.1)
-                .edgesIgnoringSafeArea(.all)
+            Color("Background")
+                .ignoresSafeArea()
             
             VStack(){
                 //원형바

@@ -13,21 +13,22 @@ struct AfterChallengeView: View {
     
     func dateCheck(startDate: String) -> Date {
         let formatter = DateFormatter()
-        
+
         let dateString = startDate  //여기에다가 챌린지 시작날짜 받으면 괜찮지 않을까??
-        
+
         formatter.locale = Locale(identifier: "ko_kr")
         formatter.timeZone = TimeZone(abbreviation: "KST")
         formatter.dateFormat = "yyyy년M월d일"
-        
-        let date = formatter.date(from:dateString)!
-        
+
+        let date = formatter.date(from: dateString) ?? Date()
+
         return date
     }
     
     // 챌린지가 끝나는 날을 알려면 이걸 쓰면 되나??
     func isChatTomorrowWithString(startDate: String, endDate: String) -> Bool {
-        let firebaseFormat = "yyyy년M월d일"
+        
+        let firebaseFormat = "yyyy년 MM월 dd일"
         let formatter = DateFormatter()
         formatter.dateFormat = firebaseFormat
         formatter.locale = Locale(identifier: "ko")
@@ -65,17 +66,18 @@ struct AfterChallengeView: View {
                     
                     Group{
                         HStack{
-                            Text("치킨내기 14일 챌린지!!")
+                            Text(challenge.gameTitle)
                                 .font(.title2.bold())
                             Spacer()
                         }
+                        
                         HStack{
                             Text("제한 금액 : \(challenge.limitMoney)원")
                                 .font(.title3.bold())
                             Spacer()
                         }
                         HStack{
-                            Text("\(challenge.startDate) ~ \(challenge.endDate)")
+                            Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
                                 .fontWeight(.medium)
                                 .padding(.bottom)
                             Spacer()

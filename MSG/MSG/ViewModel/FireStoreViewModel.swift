@@ -23,6 +23,10 @@ class FireStoreViewModel: ObservableObject {
     //내친구
     @Published var myFrinedArray: [Msg] = []
     let database = Firestore.firestore()
+    // 챌린지
+    var newSingleGameId: String = ""
+    @Published var singleGameList: [Challenge] = []
+    @Published var currentGame: Challenge?
     
     
     init() {
@@ -93,7 +97,7 @@ class FireStoreViewModel: ObservableObject {
                         
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         self.userArray.append(getUser)
-                        //                        print("findUser:",self.userArray)
+                        print("findUser:",self.userArray)
                     }
                 }
             }
@@ -269,14 +273,72 @@ class FireStoreViewModel: ObservableObject {
             print(nickName)
         }
     }
+    
+    // MARK: - 싱글게임 추가 함수
+    func addSingleGame(_ singleGame: Challenge) {
+        print(#function)
+        database.collection("Challenge").document(singleGame.id).setData([
+            "id": singleGame.id,
+            "gameTitle": singleGame.gameTitle,
+            "limitMoney": singleGame.limitMoney,
+            "startDate": singleGame.startDate,
+            "endDate": singleGame.endDate,
+            "inviteFriend": singleGame.inviteFriend
+        ])
+        self.newSingleGameId = singleGame.id
+        singleGameList.append(singleGame)
+    }
+    
+    // MARK: - User game에 String 추가하는 함수
+    func updateUserGame(gameId: String) {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
+        database.collection("User").document(userId).updateData([
+            "game": gameId
+        ])
+    }
+    
+    // MARK: - SingleGame + User game에 String 추가하는 함수
+    func makeSingleGame(_ singleGame: Challenge) {
+        addSingleGame(singleGame)
+        updateUserGame(gameId: singleGame.id)
+        currentGame = singleGame
+    }
+    
+    // MARK: - User game에 String 가져오는 함수
+    func fetchGameId() async -> String? {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return nil }
+        let ref = database.collection("User").document(userId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil }
+            let gameId = docData["game"] as? String ?? ""
+            return gameId
+        } catch {
+            print("catched")
+            return nil
+        }
+    }
+    
+    // MARK: - Challenge Collection에서 진행중인 게임 정보 가져오기
+    func fetchGame() async {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return }
+        let ref = database.collection("Challenge").document(gameId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return }
+            let id = docData["id"] as? String ?? ""
+            let gameTitle = docData["gameTitle"] as? String ?? ""
+            let limitMoney = docData["limitMoney"] as? Int ?? 0
+            let startDate = docData["startDate"] as? String ?? ""
+            let endDate = docData["endDate"] as? String ?? ""
+            let inviteFriend = docData["inviteFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            self.currentGame = challenge
+        } catch {
+            print("catched")
+        }
+    }
 }
-//
-
-
-
-//    func removePostit(_ postit: Postit) {
-//        database.collection("Postits")
-//            .document(postit.id).delete()
-//        fetchPostits()
-//    }
-
