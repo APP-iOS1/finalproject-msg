@@ -83,6 +83,7 @@ struct GameSettingView: View {
                                 })
                                 .sheet(isPresented: $findFriendToggle) {
                                     //
+                                    FriendView(findFriendToggle: $findFriendToggle)
                                 }
                                 Spacer()
                             }

@@ -10,6 +10,7 @@ import SwiftUI
 struct FriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @StateObject var friendViewModel = FriendViewModel()
+    @Binding var findFriendToggle: Bool
     
 }
 
@@ -20,12 +21,14 @@ extension FriendView {
             Color("Background")
                 .ignoresSafeArea()
             VStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                    TextField("친구 찾기", text: $friendViewModel.text)
+                if !findFriendToggle {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        TextField("친구 찾기", text: $friendViewModel.text)
+                    }
+                    .padding(.vertical)
+                    .padding(.horizontal)
                 }
-                .padding(.vertical)
-                .padding(.horizontal)
                 
                 ScrollView {
                     ForEach(friendViewModel.searchUserArray) { user in
@@ -33,6 +36,9 @@ extension FriendView {
                             .frame(height: 60)
                             .listRowBackground(Color("Background"))
                             .listRowSeparator(.hidden)
+                    }
+                    .onTapGesture {
+                        findFriendToggle = false
                     }
                 }
 //                List(filterUser,id:\.self) {value in
@@ -54,6 +60,6 @@ extension FriendView {
 
 struct FriendView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView()
+        FriendView(findFriendToggle: .constant(false))
     }
 }

@@ -40,18 +40,7 @@ struct FriendViewCell: View {
                     .background(Color("Point2"))
                     .cornerRadius(5)
                     .padding(.trailing)
-                }else {
-                    Button {
-                        //
-                    } label: {
-                        Text("대결")
-                            .foregroundColor(Color("Background"))
-                    }
-                    .background(Color("Point2"))
-                    .cornerRadius(5)
-                    .padding(.trailing)
                 }
-                //            .opacity(친구일때만 표시 아닐때는 미표시)
             }
             .foregroundColor(Color("Font"))
             .buttonStyle(.bordered)
@@ -62,6 +51,6 @@ struct FriendViewCell: View {
 
 struct FriendViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView()
+        FriendView(findFriendToggle: .constant(true))
     }
 }
