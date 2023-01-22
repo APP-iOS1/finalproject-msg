@@ -13,6 +13,7 @@ import Combine
 class FriendViewModel: ObservableObject {
     @Published var searchUserArray: [Msg] = []
     @Published var myFrinedArray: [Msg] = []
+    @Published var inviteFriendArray: [Msg] = []
     @Published var text = ""
     
     let database = Firestore.firestore()

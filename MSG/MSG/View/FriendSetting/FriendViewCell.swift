@@ -49,6 +49,16 @@ struct FriendViewCell: View {
                     Image(systemName: checked ? "checkmark.square.fill" : "square")
                         .onTapGesture {
                             self.checked.toggle()
+                            if checked {
+                                realtimeViewModel.inviteFriendArray.append(user)
+                                print(realtimeViewModel.inviteFriendArray)
+                                print(realtimeViewModel.inviteFriendArray.firstIndex(of: user))
+                            } else {
+//                                friendViewModel
+                                realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendArray.firstIndex(of: user)!)
+                                print(realtimeViewModel.inviteFriendArray)
+                            }
+                            
                         }
                 }
             }

@@ -6,6 +6,8 @@ class RealtimeViewModel: ObservableObject {
     @Published var user: [Msg] = []
 //    @Published var user: [UserInfo] = []
     @Published var myInfo: Msg?
+    // 초대메세지를 보낼 친구들의 배열
+    @Published var inviteFriendArray: [Msg] = []
 
     private lazy var databaseReference: DatabaseReference? = {
         guard let uid = Auth.auth().currentUser?.uid else { return nil}
@@ -133,23 +135,33 @@ class RealtimeViewModel: ObservableObject {
             .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue(dict)
     }
     
-    func sendFightRequest(to: Msg, from: Msg, isFight: Bool) {
-        Database.database()
-        .reference()
-            .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue([
-            "id": from.id,
-            "userName": from.nickName,
-            "userImage": from.profilImage,
-            "isFriend": false,
-            "isFight": isFight,
-        ])
+    func sendFightRequest(to: [Msg], from: Msg, isFight: Bool) {
+        for friend in to {
+            
+            let dict: [String: Any] = [
+                "id": from.id,// ㅇ
+                "nickName": from.nickName, //ㅇ
+                "profilImage": from.profilImage, //ㅇ
+                "game": from.game, //ㅇ
+                "gameHistory": from.gameHistory,
+                "friend": from.friend,
+            ]
+            
+            Database.database()
+            .reference()
+                .child(friend.id).child(Auth.auth().currentUser?.uid ?? "").setValue(dict)
+        }
     }
     
 //    func sendFriendRequest
 
-    func deletePostit(postit: Msg) {
-        print("delete id: \(postit.id)")
-        databaseReference?.child(postit.id).removeValue()
+    func acceptAddFriend(friend: Msg) {
+        print("add Friend id: \(friend.id)")
+        Database.database()
+            .reference()
+            .child(Auth.auth().currentUser?.uid ?? "")
+            .child(friend.id)
+            .removeValue()
     }
     
     func stopFetching() {

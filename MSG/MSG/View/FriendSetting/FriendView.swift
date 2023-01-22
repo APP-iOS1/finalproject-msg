@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @StateObject var friendViewModel = FriendViewModel()
     @Binding var findFriendToggle: Bool
     @State var checked = false
@@ -43,12 +44,16 @@ extension FriendView {
                     
                     VStack {
                         Button {
+                            if let myInfo = realtimeViewModel.myInfo {
+                                realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                                print(myInfo)
+                            }
                             findFriendToggle = false
                         } label: {
                             Text("초대하기")
                             .foregroundColor(Color("Background"))
                         }
-                        .background(checked ? Color("Point2") : Color("Point1")) 
+                        .background(checked ? Color("Point2") : Color("Point1"))
                         .cornerRadius(5)
                         .padding(.trailing)
                         .disabled(!checked)

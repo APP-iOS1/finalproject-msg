@@ -43,7 +43,7 @@ struct AlertView: View {
                                 fireStoreViewModel.addUserInfo(user: user)
                                 if let myInfo = realtimeViewModel.myInfo {
                                     fireStoreViewModel.addUserInfo2(user: user, myInfo: myInfo)
-                                    
+                                    realtimeViewModel.acceptAddFriend(friend: user)
                                 }
                                 
                             } label: {
