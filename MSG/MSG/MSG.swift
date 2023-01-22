@@ -15,8 +15,8 @@ struct Msg: Codable, Identifiable, Hashable {
     var profilImage: String
     //현재 진행중인 게임 id
     var game: String
-    var gameHistory: [String]
-    var friend: [String]
+    var gameHistory: [String]?
+    var friend: [String]?
 }
 
 //MARK: - 친구의 정보들

@@ -8,19 +8,11 @@
 import SwiftUI
 
 struct FriendView: View {
-    @StateObject var fireStoreViewModel: FireStoreViewModel
-    @State private var text: String = ""
-    @State private var testArray: [String] = ["김민호","김철수","김뽀삐"]
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @StateObject var friendViewModel = FriendViewModel()
+}
 
-    var filterUser: [Msg] {
-        if text.isEmpty {
-            //검색을 하지 않았다면 친구목록을 보여주어야 함
-            return fireStoreViewModel.myFrinedArray
-        } else {
-            return fireStoreViewModel.userArray.filter {$0.nickName.localizedStandardContains(text)}
-        }
-    }
-    
+extension FriendView {
     var body: some View {
         
         ZStack {
@@ -29,13 +21,13 @@ struct FriendView: View {
             VStack {
                 HStack {
                     Image(systemName: "magnifyingglass")
-                    TextField("친구 찾기", text: $text)
+                    TextField("친구 찾기", text: $friendViewModel.text)
                 }
                 .padding(.vertical)
                 .padding(.horizontal)
                 
                 ScrollView {
-                    ForEach(filterUser) { user in
+                    ForEach(friendViewModel.searchUserArray) { user in
                         FriendViewCell(user: user)
                             .frame(height: 60)
                             .listRowBackground(Color("Background"))
@@ -53,9 +45,7 @@ struct FriendView: View {
             }
         }
         .onAppear {
-            fireStoreViewModel.findUser()
-            print(fireStoreViewModel.myFrinedArray)
-            print(fireStoreViewModel.userArray)
+            friendViewModel.findFriend()
         }
         .foregroundColor(Color("Font"))
     }
@@ -63,6 +53,6 @@ struct FriendView: View {
 
 struct FriendView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView(fireStoreViewModel: FireStoreViewModel())
+        FriendView()
     }
 }

@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct SpendingWritingView: View {
+    @EnvironmentObject var loginViewModel: LoginViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var selection: Int = 0
     
     @State private var consumeTag = ""
     @State private var consumeMoney = ""
+    
+    private func convertTextLogic(tag: String, money: String) -> String {
+        return tag + "_" + money
+    }
     
     var body: some View {
         ZStack{
@@ -94,7 +100,8 @@ struct SpendingWritingView: View {
                     
                     Spacer()
                     Button {
-                        
+                        let convert = convertTextLogic(tag: consumeTag, money: consumeMoney)
+                        fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!, categoryAndExpenditure: convert)
                     } label: {
                         Text("추가하기")
                             .foregroundColor(Color("Font"))
