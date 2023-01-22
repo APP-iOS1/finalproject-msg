@@ -325,9 +325,12 @@ class FireStoreViewModel: ObservableObject {
     func fetchGame() async {
         print(#function)
         guard let gameId = await fetchGameId() else { return }
+        // == Document Empty 예상 발생지 ==
         let ref = database.collection("Challenge").document(gameId)
         do {
+            print("do 문에 들어왔습니다")
             let snapShot = try await ref.getDocument()
+            print("정상적이라면 여기까지 출력이 됩니다")
             guard let docData = snapShot.data() else { return }
             let id = docData["id"] as? String ?? ""
             let gameTitle = docData["gameTitle"] as? String ?? ""
