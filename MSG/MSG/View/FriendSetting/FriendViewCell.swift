@@ -13,6 +13,9 @@ struct FriendViewCell: View {
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @ObservedObject var friendViewModel: FriendViewModel
+    @Binding var findFriendToggle: Bool
+    @Binding var checked: Bool
+    
     
     var body: some View {      
         ZStack {
@@ -40,6 +43,13 @@ struct FriendViewCell: View {
                     .background(Color("Point2"))
                     .cornerRadius(5)
                     .padding(.trailing)
+                }
+                
+                if findFriendToggle {
+                    Image(systemName: checked ? "checkmark.square.fill" : "square")
+                        .onTapGesture {
+                            self.checked.toggle()
+                        }
                 }
             }
             .foregroundColor(Color("Font"))

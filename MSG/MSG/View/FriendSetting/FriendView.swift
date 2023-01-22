@@ -11,6 +11,7 @@ struct FriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @StateObject var friendViewModel = FriendViewModel()
     @Binding var findFriendToggle: Bool
+    @State var checked = false
     
 }
 
@@ -32,13 +33,26 @@ extension FriendView {
                 
                 ScrollView {
                     ForEach(friendViewModel.searchUserArray) { user in
-                        FriendViewCell(user: user, friendViewModel: friendViewModel)
+                        FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
                             .frame(height: 60)
                             .listRowBackground(Color("Background"))
                             .listRowSeparator(.hidden)
                     }
-                    .onTapGesture {
-                        findFriendToggle = false
+                }
+                if findFriendToggle {
+                    
+                    VStack {
+                        Button {
+                            findFriendToggle = false
+                        } label: {
+                            Text("초대하기")
+                            .foregroundColor(Color("Background"))
+                        }
+                        .background(checked ? Color("Point2") : Color("Point1")) 
+                        .cornerRadius(5)
+                        .padding(.trailing)
+                        .disabled(!checked)
+
                     }
                 }
 //                List(filterUser,id:\.self) {value in

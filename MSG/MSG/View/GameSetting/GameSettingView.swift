@@ -84,6 +84,8 @@ struct GameSettingView: View {
                                 .sheet(isPresented: $findFriendToggle) {
                                     //
                                     FriendView(findFriendToggle: $findFriendToggle)
+                                        .presentationDetents([.height(350)])
+                                        .presentationDragIndicator(.visible)
                                 }
                                 Spacer()
                             }
