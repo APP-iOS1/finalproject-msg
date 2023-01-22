@@ -44,10 +44,6 @@ extension FriendView {
                     
                     VStack {
                         Button {
-                            if let myInfo = realtimeViewModel.myInfo {
-                                realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
-                                print(myInfo)
-                            }
                             findFriendToggle = false
                         } label: {
                             Text("초대하기")
