@@ -45,7 +45,7 @@ class FireStoreViewModel: ObservableObject {
         let game = docData["game"] as? String ?? ""
         let gameHistory = docData["gameHistory"] as? [String] ?? []
         let friend = docData["gameHistory"] as? [String] ?? []
-        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: "", gameHistory: [], friend: [])
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: [], friend: [])
         return userInfo
     }
     
