@@ -12,6 +12,7 @@ struct FriendViewCell: View {
     @State var user: Msg
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @ObservedObject var friendViewModel: FriendViewModel
     
     var body: some View {      
         ZStack {
@@ -25,18 +26,31 @@ struct FriendViewCell: View {
                     .frame(height: 60)
                 Text(user.nickName)
                 Spacer()
-                Button {
-                    if let myInfo = realtimeViewModel.myInfo {
-                        realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
-                        print(myInfo)
+                
+                if !friendViewModel.myFrinedArray.contains(user) {
+                    Button {
+                        if let myInfo = realtimeViewModel.myInfo {
+                            realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+                            print(myInfo)
+                        }
+                    } label: {
+                        Text("추가")
+                            .foregroundColor(Color("Background"))
                     }
-                } label: {
-                    Text("추가")
-                        .foregroundColor(Color("Background"))
+                    .background(Color("Point2"))
+                    .cornerRadius(5)
+                    .padding(.trailing)
+                }else {
+                    Button {
+                        //
+                    } label: {
+                        Text("대결")
+                            .foregroundColor(Color("Background"))
+                    }
+                    .background(Color("Point2"))
+                    .cornerRadius(5)
+                    .padding(.trailing)
                 }
-                .background(Color("Point2"))
-                .cornerRadius(5)
-                .padding(.trailing)
                 //            .opacity(친구일때만 표시 아닐때는 미표시)
             }
             .foregroundColor(Color("Font"))

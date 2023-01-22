@@ -11,7 +11,8 @@ struct GameSettingView: View {
     
     //
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
-    
+    @EnvironmentObject var friendViewModel: FriendViewModel
+    @State private var findFriendToggle: Bool = false
     
     var body: some View {
         ZStack {
@@ -71,7 +72,7 @@ struct GameSettingView: View {
                             // MARK: - 친구찾기 - [Button]
                             HStack{
                                 Button(action: {
-                                    
+                                    findFriendToggle = true
                                 }, label: {
                                     HStack{
                                         Text("친구찾기")
@@ -80,6 +81,9 @@ struct GameSettingView: View {
                                     .modifier(TextViewModifier())
                                     
                                 })
+                                .sheet(isPresented: $findFriendToggle) {
+                                    //
+                                }
                                 Spacer()
                             }
                             .padding()

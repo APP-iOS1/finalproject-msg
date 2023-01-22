@@ -10,6 +10,7 @@ import SwiftUI
 struct FriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @StateObject var friendViewModel = FriendViewModel()
+    
 }
 
 extension FriendView {
@@ -28,7 +29,7 @@ extension FriendView {
                 
                 ScrollView {
                     ForEach(friendViewModel.searchUserArray) { user in
-                        FriendViewCell(user: user)
+                        FriendViewCell(user: user, friendViewModel: friendViewModel)
                             .frame(height: 60)
                             .listRowBackground(Color("Background"))
                             .listRowSeparator(.hidden)
