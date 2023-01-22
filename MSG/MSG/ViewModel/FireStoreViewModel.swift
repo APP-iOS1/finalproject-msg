@@ -182,19 +182,19 @@ class FireStoreViewModel: ObservableObject {
     //게임히스토리 가져오기 //g0UxdNp6jHhavijbSJSZ //Auth.auth().currentUser?.uid ?? ""
     
     // MARK: - 지출 추가
-    func addExpenditure(user: Msg, myInfo: Msg) {
+    // user에 currentUserProfile 대입 => 내정보
+    func addExpenditure(user: Msg,categoryAndExpenditure: String) {
         print(#function)
         database.collection("Challenge")
-            .document("") //게임의 아이디값
+            .document(user.game) //게임의 아이디값
             .collection("expenditure")
-            .document("") // 나의 아이디값
-            .setData(["id": UUID().uuidString,
-                      "nickName": myInfo.nickName,
-                      "totalMoney": myInfo.nickName,
-                      "addDay": myInfo.nickName,
-                      "expenditureHistory": myInfo.profilImage,
+            .document(user.id) // 나의 아이디값
+            .setData(["id": user.id,
+                      "addDay": Date(),
+                      "expenditureHistory": categoryAndExpenditure,
                      ])
     }
+//    currentUserProfile
 //    struct expenditure: Codable, Identifiable {
 //        //참석유저 아이디
 //        var id: String
