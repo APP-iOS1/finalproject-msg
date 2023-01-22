@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161286B7297D227800BC3BDF /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161286B6297D227800BC3BDF /* FriendViewModel.swift */; };
 		16573EDB2977AA38001176F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16573EDA2977AA38001176F6 /* GoogleService-Info.plist */; };
 		16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16573EFE2977D429001176F6 /* FireStoreViewModel.swift */; };
 		16573F022977D60B001176F6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 16573F012977D60B001176F6 /* FirebaseFirestore */; };
@@ -64,6 +65,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161286B6297D227800BC3BDF /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		16573EDA2977AA38001176F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16573EFE2977D429001176F6 /* FireStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreViewModel.swift; sourceTree = "<group>"; };
 		165E321B2977EAF500678A09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				1660099429766FC000E6A546 /* FriendView.swift */,
 				16FBE6C52976784D001EC518 /* FriendViewCell.swift */,
 				634CE3F6297920D500358E32 /* SegementedControllView.swift */,
+				161286B6297D227800BC3BDF /* FriendViewModel.swift */,
 			);
 			path = FriendSetting;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */,
 				6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */,
 				6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */,
+				161286B7297D227800BC3BDF /* FriendViewModel.swift in Sources */,
 				16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */,
 				36FA49132977746600B26A24 /* ChartView.swift in Sources */,
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
