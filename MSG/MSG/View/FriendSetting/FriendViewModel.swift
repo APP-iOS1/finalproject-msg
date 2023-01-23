@@ -13,6 +13,7 @@ import Combine
 class FriendViewModel: ObservableObject {
     @Published var searchUserArray: [Msg] = []
     @Published var myFrinedArray: [Msg] = []
+    @Published var inviteFriendArray: [Msg] = []
     @Published var text = ""
     
     let database = Firestore.firestore()
@@ -49,7 +50,7 @@ class FriendViewModel: ObservableObject {
                         let friend: [String] = docData["friend"] as? [String] ?? []
                         
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
-                        if nickName.contains(text) {
+                        if nickName.contains(text) && (id != Auth.auth().currentUser?.uid) {
                             self.searchUserArray.append(getUser)
                         }
                         print("findUser:",self.searchUserArray)

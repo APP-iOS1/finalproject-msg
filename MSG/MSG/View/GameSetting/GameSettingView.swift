@@ -11,7 +11,10 @@ struct GameSettingView: View {
     
     //
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
-    
+    @EnvironmentObject var friendViewModel: FriendViewModel
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
+    @State private var findFriendToggle: Bool = false
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -71,7 +74,7 @@ struct GameSettingView: View {
                             // MARK: - 친구찾기 - [Button]
                             HStack{
                                 Button(action: {
-                                    
+                                    findFriendToggle = true
                                 }, label: {
                                     HStack{
                                         Text("친구찾기")
@@ -80,6 +83,12 @@ struct GameSettingView: View {
                                     .modifier(TextViewModifier())
                                     
                                 })
+                                .sheet(isPresented: $findFriendToggle) {
+                                    //
+                                    FriendView(findFriendToggle: $findFriendToggle)
+                                        .presentationDetents([.height(350)])
+                                        .presentationDragIndicator(.visible)
+                                }
                                 Spacer()
                             }
                             .padding()
@@ -89,7 +98,11 @@ struct GameSettingView: View {
                             
                             // MARK: - 초대장 보내기 - [Button]
                             Button {
-                                
+                                if let myInfo = realtimeViewModel.myInfo {
+                                    realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                                    print(myInfo)
+                                    dismiss()
+                                }
                             } label: {
                                 Text("초대장 보내기")
                                     .foregroundColor(Color("Font"))
