@@ -1,5 +1,5 @@
 //
-//  ProgressBar2.swift
+//  MultiGameProgressBar.swift
 //  MSG
 //
 //  Created by 정소희 on 2023/01/19.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProgressBar2: View {
+struct MultiGameProgressBar: View {
     
     //    @State private var progress:[Float] = [25000, 20000, 45000, 13500, 20000]
     //    @State private var percentArr:[(to: Float, from: Float, percent: Float)] = [(0.0,0.0,0.0), (0.0,0.0,0.0),(0.0,0.0,0.0),(0.0,0.0,0.0),(0.0,0.0,0.0)]
@@ -166,7 +166,7 @@ var stats_Data = [
 
 struct ProgressBar2_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressBar2(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.blue))
+        MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.blue))
 //        ProgressBar2(expend: expenditure(id: "", expenditureHistory: ["식비" : ["김밥천국 3000원"]]))
     }
 }

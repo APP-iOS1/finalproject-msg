@@ -85,10 +85,12 @@ struct AfterChallengeView: View {
                     }.padding(1)
                     
                     Group{
-                        //                    Text(isChatTomorrowWithString(startDate: challenge.startDate, endDate: challenge.endDate) ? "날짜 다름" : "날짜 같음")
-                        
-                        ProgressBar2(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
-//                        ProgressBar2(expend: expenditure(id: "", expenditureHistory: ["식비" : ["김밥천국 3000원"]]))
+                        // 싱글게임 멀티게임 다르게 보여주기
+                        if challenge.inviteFriend.isEmpty {
+                            SingleGameProgressBar()
+                        } else {
+                            MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
+                        }
                         HStack{
                             Text("지금까지")
                             Text("75,500원")
