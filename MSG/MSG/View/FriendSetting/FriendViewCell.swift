@@ -37,7 +37,18 @@ struct FriendViewCell: View {
                 .background(Color("Point2"))
                 .cornerRadius(5)
                 .padding(.trailing)
-                //            .opacity(친구일때만 표시 아닐때는 미표시)
+                
+                Button {
+                    if user.game.isEmpty {
+                        
+                    }
+                } label: {
+                    user.game.isEmpty ? Text("대결 신청") : Text("대결 중")
+                }
+                .foregroundColor(Color("Background"))
+                .background(Color("Point2"))
+                .cornerRadius(5)
+                .padding(.trailing)
             }
             .foregroundColor(Color("Font"))
             .buttonStyle(.bordered)
@@ -51,3 +62,7 @@ struct FriendViewCell_Previews: PreviewProvider {
         FriendView()
     }
 }
+
+//var actionButtonTitle: String {
+//    return friend.isCurrentUser ? "대결 신청" : "대결 중"
+//}
