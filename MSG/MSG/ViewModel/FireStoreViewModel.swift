@@ -37,6 +37,7 @@ class FireStoreViewModel: ObservableObject {
     // MARK: - 유저 정보를 불러오는 함수
     /// userId를 통해, 유저 정보를 가져온다.
     func fetchUserInfo(_ userId: String) async throws -> Msg? {
+        guard Auth.auth().currentUser != nil else { return nil }
         let ref = database.collection("User").document(userId)
         let snapshot = try await ref.getDocument()
         guard let docData = snapshot.data() else { return nil }
