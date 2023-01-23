@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct FriendViewCell: View {
-
+    
     @State var user: Msg
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
-    var body: some View {      
+    var body: some View {
         ZStack {
             Color("Background")
                 .ignoresSafeArea()
@@ -49,6 +49,7 @@ struct FriendViewCell: View {
                 .background(user.game.isEmpty ? Color("Point2") : .gray)
                 .cornerRadius(5)
                 .padding(.trailing)
+                .disabled(!user.game.isEmpty)
             }
             .foregroundColor(Color("Font"))
             .buttonStyle(.bordered)
