@@ -25,31 +25,33 @@ struct FriendViewCell: View {
                     .frame(height: 60)
                 Text(user.nickName)
                 Spacer()
-                Button {
-                    if let myInfo = realtimeViewModel.myInfo {
-                        realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
-                        print(myInfo)
+                if fireStoreViewModel.myFrinedArray.contains(user) {
+                    Button {
+                        if user.game.isEmpty {
+                            
+                        }
+                    } label: {
+                        user.game.isEmpty ? Text("대결 신청") : Text("대결 중")
                     }
-                } label: {
-                    Text("추가")
-                        .foregroundColor(Color("Background"))
-                }
-                .background(Color("Point2"))
-                .cornerRadius(5)
-                .padding(.trailing)
-                
-                Button {
-                    if user.game.isEmpty {
-                        
+                    .foregroundColor(Color("Background"))
+                    .background(user.game.isEmpty ? Color("Point2") : .gray)
+                    .cornerRadius(5)
+                    .padding(.trailing)
+                    .disabled(!user.game.isEmpty)
+                } else {
+                    Button {
+                        if let myInfo = realtimeViewModel.myInfo {
+                            realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+                            print(myInfo)
+                        }
+                    } label: {
+                        Text("추가")
+                            .foregroundColor(Color("Background"))
                     }
-                } label: {
-                    user.game.isEmpty ? Text("대결 신청") : Text("대결 중")
+                    .background(Color("Point2"))
+                    .cornerRadius(5)
+                    .padding(.trailing)
                 }
-                .foregroundColor(Color("Background"))
-                .background(user.game.isEmpty ? Color("Point2") : .gray)
-                .cornerRadius(5)
-                .padding(.trailing)
-                .disabled(!user.game.isEmpty)
             }
             .foregroundColor(Color("Font"))
             .buttonStyle(.bordered)
