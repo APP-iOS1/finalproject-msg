@@ -114,7 +114,7 @@ struct MakeProfileView: View {
                     // 가입버튼
                     Button {
                         kakaoAuthViewModel.userNicName = nickNameText
-                        let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
+                        let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: [""], friend: [""])
                         loginViewModel.currentUserProfile = userProfile
                         fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
                         self.presentationMode.wrappedValue.dismiss()
