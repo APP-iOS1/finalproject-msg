@@ -11,13 +11,11 @@ struct SpendingWritingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var selection: Int = 0
-    
-    @State private var consumeTag = ""
     @State private var consumeTilte = ""
     @State private var consumeMoney = ""
     
-    private func convertTextLogic(tag: String, money: String) -> String {
-        return tag + "_" + money
+    private func convertTextLogic(title: String, money: String) -> String {
+        return title + "_" + money
     }
     
     var body: some View {
@@ -108,8 +106,11 @@ struct SpendingWritingView: View {
                     
                     Spacer()
                     Button {
-                        let convert = convertTextLogic(tag: consumeTag, money: consumeMoney)
-                        fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!, categoryAndExpenditure: convert)
+                        let convert = convertTextLogic(title: consumeTilte, money: consumeMoney)
+                        fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!, expenditure: Expenditure(id: UUID().uuidString, tag: selection, expenditureHistory: convert))
+                        selection = 0
+                        consumeTilte = ""
+                        consumeMoney = ""
                     } label: {
                         Text("추가하기")
                             .foregroundColor(Color("Background"))
