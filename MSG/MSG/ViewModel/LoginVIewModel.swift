@@ -33,6 +33,7 @@ class LoginViewModel: ObservableObject {
         do{
          try Auth.auth().signOut()
          withAnimation(.easeInOut){self.logStatus = false}
+            self.currentUserProfile = nil
             currentUser = nil
             
         }catch{
