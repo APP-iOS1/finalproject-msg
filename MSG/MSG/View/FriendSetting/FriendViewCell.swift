@@ -46,7 +46,7 @@ struct FriendViewCell: View {
                     user.game.isEmpty ? Text("대결 신청") : Text("대결 중")
                 }
                 .foregroundColor(Color("Background"))
-                .background(Color("Point2"))
+                .background(user.game.isEmpty ? Color("Point2") : .gray)
                 .cornerRadius(5)
                 .padding(.trailing)
             }
