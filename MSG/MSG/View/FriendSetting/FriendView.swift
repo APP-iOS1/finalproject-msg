@@ -9,7 +9,11 @@ import SwiftUI
 
 struct FriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @StateObject var friendViewModel = FriendViewModel()
+    @Binding var findFriendToggle: Bool
+    @State var checked = false
+    
 }
 
 extension FriendView {
@@ -19,19 +23,37 @@ extension FriendView {
             Color("Background")
                 .ignoresSafeArea()
             VStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                    TextField("친구 찾기", text: $friendViewModel.text)
+                if !findFriendToggle {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        TextField("친구 찾기", text: $friendViewModel.text)
+                    }
+                    .padding(.vertical)
+                    .padding(.horizontal)
                 }
-                .padding(.vertical)
-                .padding(.horizontal)
                 
                 ScrollView {
                     ForEach(friendViewModel.searchUserArray) { user in
-                        FriendViewCell(user: user)
+                        FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
                             .frame(height: 60)
                             .listRowBackground(Color("Background"))
                             .listRowSeparator(.hidden)
+                    }
+                }
+                if findFriendToggle {
+                    
+                    VStack {
+                        Button {
+                            findFriendToggle = false
+                        } label: {
+                            Text("초대하기")
+                            .foregroundColor(Color("Background"))
+                        }
+                        .background(checked ? Color("Point2") : Color("Point1"))
+                        .cornerRadius(5)
+                        .padding(.trailing)
+                        .disabled(!checked)
+
                     }
                 }
 //                List(filterUser,id:\.self) {value in
@@ -53,6 +75,6 @@ extension FriendView {
 
 struct FriendView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView()
+        FriendView(findFriendToggle: .constant(false))
     }
 }

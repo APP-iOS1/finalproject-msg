@@ -22,7 +22,7 @@ struct FriendSettingView: View {
                 SegementedControllView(selection: $selection, titles: titles, selectedItemColor: Color("Point2"), backgroundColor: Color(.clear), selectedItemFontColor: Color("Font"))
                 
                 if selection == 0 {
-                    FriendView()
+                    FriendView(findFriendToggle: .constant(false))
                 } else {
                     AlertView()
                 }
