@@ -41,7 +41,6 @@ struct Challenge: Codable, Identifiable, Hashable {
 struct Expenditure: Codable, Identifiable {
     //참석유저 아이디
     var id: String
-    var tag: Int
     var expenditureHistory: String
 }
 

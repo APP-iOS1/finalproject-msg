@@ -18,6 +18,8 @@ struct SpendingWritingView: View {
         return title + "_" + money
     }
     
+    let tagArray: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
+    
     var body: some View {
         ZStack{
             Color("Background").ignoresSafeArea()
@@ -107,7 +109,8 @@ struct SpendingWritingView: View {
                     Spacer()
                     Button {
                         let convert = convertTextLogic(title: consumeTilte, money: consumeMoney)
-                        fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!, expenditure: Expenditure(id: UUID().uuidString, tag: selection, expenditureHistory: convert))
+                        fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,
+                                                          tagName: tagArray[selection], convert: convert)
                         selection = 0
                         consumeTilte = ""
                         consumeMoney = ""

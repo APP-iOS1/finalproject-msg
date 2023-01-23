@@ -27,7 +27,7 @@ class FireStoreViewModel: ObservableObject {
     var newSingleGameId: String = ""
     @Published var singleGameList: [Challenge] = []
     @Published var currentGame: Challenge?
-    @Published var expenditureList: [Expenditure] = []
+    @Published var expenditureList: [String:[String]] = [:]
     
     init() {
         //        postits = []
@@ -184,18 +184,22 @@ class FireStoreViewModel: ObservableObject {
     
     // MARK: - 지출 추가
     // user에 currentUserProfile 대입 => 내정보
-    func addExpenditure(user: Msg, expenditure: Expenditure) {
+    func addExpenditure(user: Msg, tagName: String, convert: String) {
         print(#function)
+        if let _ = expenditureList[tagName]{
+            expenditureList[tagName]!.append(convert)
+            print(expenditureList)
+        }else{
+            expenditureList[tagName] = [convert]
+        }
         database.collection("Challenge")
             .document(user.game) //게임의 아이디값
             .collection("expenditure")
-            .document(expenditure.id) // 나의 아이디값
-            .setData(["id": expenditure.id,
+            .document(user.id) // 나의 아이디값
+            .setData(["id": user.id,
                       "addDay": Date(),
-                      "tag": expenditure.tag,
-                      "expenditureHistory": expenditure.expenditureHistory
+                      "expenditureHistory": expenditureList
                      ])
-        expenditureList.append(expenditure)
     }
 //    currentUserProfile
 //    struct Expenditure: Codable, Identifiable {
