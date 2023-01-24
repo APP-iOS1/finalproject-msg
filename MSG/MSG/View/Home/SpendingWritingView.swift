@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct SpendingWritingView: View {
+    
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var selection: Int = 0
     @State private var consumeTilte = ""
     @State private var consumeMoney = ""
     
-    private func convertTextLogic(title: String, money: String) -> String {
-        return title + "_" + money
+    private func convertTextLogic(title: String, money: String, date: Date) -> String {
+        return title + "_" + money + "_" + date.toString()
     }
     
     let tagArray: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
@@ -108,7 +109,7 @@ struct SpendingWritingView: View {
                     
                     Spacer()
                     Button {
-                        let convert = convertTextLogic(title: consumeTilte, money: consumeMoney)
+                        let convert = convertTextLogic(title: consumeTilte, money: consumeMoney, date: Date())
                         fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,
                                                           tagName: tagArray[selection], convert: convert)
                         selection = 0
