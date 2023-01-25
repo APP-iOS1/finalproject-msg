@@ -370,4 +370,18 @@ class FireStoreViewModel: ObservableObject {
             "profileImage": myInfo.profilImage
         ])
     }
+    func addChallengeHistory(endGameData: Challenge?) {
+        
+        guard let endGameData else { return }
+        database.collection("ChallengeHistory")
+            .document(endGameData.id) //게임id
+            .setData([
+                "id": endGameData.id,
+                "gameTitle": endGameData.gameTitle,
+                "startDate": endGameData.startDate,
+                "endDate": endGameData.endDate,
+                "limitMoney": endGameData.limitMoney,
+                "inviteFriend": endGameData.inviteFriend
+        ])
+    }
 }

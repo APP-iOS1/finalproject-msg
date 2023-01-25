@@ -40,7 +40,7 @@ struct HomeView: View {
                 print("멈췄습니다!")
                 Task {
                     await fireStoreViewModel.addGameHistory()
-                    guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
+                    fireStoreViewModel.addChallengeHistory(endGameData: game)
                 }
             }
         }
