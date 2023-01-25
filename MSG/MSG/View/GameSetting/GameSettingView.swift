@@ -13,6 +13,7 @@ struct GameSettingView: View {
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var friendViewModel: FriendViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
+    @EnvironmentObject var firestoreViewModel: FireStoreViewModel
     @State private var findFriendToggle: Bool = false
     @Environment(\.dismiss) var dismiss
     
@@ -84,10 +85,17 @@ struct GameSettingView: View {
                                     
                                 })
                                 .sheet(isPresented: $findFriendToggle) {
-                                    //
                                     FriendView(findFriendToggle: $findFriendToggle)
                                         .presentationDetents([.height(350)])
                                         .presentationDragIndicator(.visible)
+                                }
+                                ForEach(realtimeViewModel.inviteFriendArray,id:\.self) { friend in
+                                    ZStack{
+                                        VStack{
+                                            Image(systemName: "plus")
+                                            Text("\(friend.nickName)")
+                                        }
+                                    }
                                 }
                                 Spacer()
                             }
@@ -98,11 +106,20 @@ struct GameSettingView: View {
                             
                             // MARK: - 초대장 보내기 - [Button]
                             Button {
-                                if let myInfo = realtimeViewModel.myInfo {
-                                    realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
-                                    print(myInfo)
-                                    dismiss()
-                                }
+                                    Task{
+                                        let challenge = Challenge(
+                                            id: UUID().uuidString,
+                                            gameTitle: gameSettingViewModel.title,
+                                            limitMoney: Int(gameSettingViewModel.targetMoney)!,
+                                            startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
+                                            endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
+                                            inviteFriend: realtimeViewModel.inviteFriendIdArray)
+                                        await firestoreViewModel.addMultiGame(challenge)
+                                        guard let myInfo = firestoreViewModel.myInfo else { return }
+                                        print("myInfo: \(myInfo)")
+                                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                                        dismiss()
+                                    }
                             } label: {
                                 Text("초대장 보내기")
                                     .foregroundColor(Color("Font"))
@@ -188,7 +205,7 @@ struct SoloGameSettingView: View {
                             // MARK: - 초대장 보내기 - [Button]
                             Button {
                                 let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate.timeIntervalSince1970), endDate:  String(gameSettingViewModel.endDate.timeIntervalSince1970), inviteFriend: [])
-                                fireStoreViewModel.makeSingleGame(singGame)
+                                Task { await fireStoreViewModel.makeSingleGame(singGame) }
                                 dismiss()
                             } label: {
                                 Text("시작하기")

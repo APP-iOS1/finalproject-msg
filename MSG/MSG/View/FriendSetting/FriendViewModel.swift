@@ -13,6 +13,7 @@ import Combine
 class FriendViewModel: ObservableObject {
     @Published var searchUserArray: [Msg] = []
     @Published var myFrinedArray: [Msg] = []
+
     @Published var inviteFriendArray: [Msg] = []
     @Published var text = ""
     
@@ -70,7 +71,6 @@ class FriendViewModel: ObservableObject {
             .document(userId)
             .collection("friend")
             .getDocuments { (snapshot, error) in
-//                self.userArray.removeAll()
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID
