@@ -40,7 +40,8 @@ struct HomeView: View {
                 print("멈췄습니다!")
                 Task {
                     await fireStoreViewModel.addGameHistory()
-                    fireStoreViewModel.addChallengeHistory(endGameData: game)
+                    await fireStoreViewModel.addChallengeHistory(endGameData: game)
+                    fireStoreViewModel.currentGame = nil
                 }
             }
         }

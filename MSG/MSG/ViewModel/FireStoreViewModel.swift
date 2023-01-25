@@ -370,10 +370,10 @@ class FireStoreViewModel: ObservableObject {
             "profileImage": myInfo.profilImage
         ])
     }
-    func addChallengeHistory(endGameData: Challenge?) {
+    func addChallengeHistory(endGameData: Challenge?) async{
         
         guard let endGameData else { return }
-        database.collection("ChallengeHistory")
+        try! await database.collection("ChallengeHistory")
             .document(endGameData.id) //게임id
             .setData([
                 "id": endGameData.id,
