@@ -356,7 +356,9 @@ class FireStoreViewModel: ObservableObject {
         let endGame = myInfo.game
         guard let myHistory = myInfo.gameHistory else{ return }
         var history = myHistory
-        history.append(endGame)
+        if !endGame.isEmpty{
+            history.append(endGame)
+        }
         
 //        myHistory.append(myGame)
         // 불러온 배열에 내 게임id를 append해줘야 함
