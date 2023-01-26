@@ -75,6 +75,10 @@ extension GameSettingView {
                                                 .foregroundColor(Color("Font"))
                                             DatePicker("", selection: $gameSettingViewModel.startDate, in: Date.now...,displayedComponents: .date)
                                                 .frame(width: frameWidth / 5)
+                                                .id(gameSettingViewModel.startDate)
+                                                .onChange(of: gameSettingViewModel.startDate) { _ in
+                                                    gameSettingViewModel.startDate += 1
+                                                }
                                             
                                         }
                                         Spacer()
@@ -85,6 +89,10 @@ extension GameSettingView {
                                                 .foregroundColor(Color("Font"))
                                             DatePicker("", selection: $gameSettingViewModel.endDate,in:gameSettingViewModel.startDate... , displayedComponents: .date)
                                                 .frame(width: frameWidth / 5)
+                                                .id(gameSettingViewModel.endDate)
+                                                .onChange(of: gameSettingViewModel.endDate) { _ in
+                                                    gameSettingViewModel.endDate += 1
+                                                }
                                             
                                         }
                                         .padding(.trailing)
@@ -283,6 +291,10 @@ struct SoloGameSettingView: View {
                                                 .foregroundColor(Color("Font"))
                                             DatePicker("", selection: $gameSettingViewModel.startDate, in: Date.now...,displayedComponents: .date)
                                                 .frame(width: frameWidth / 5)
+                                                .id(gameSettingViewModel.startDate)
+                                                .onChange(of: gameSettingViewModel.startDate) { _ in
+                                                    gameSettingViewModel.startDate += 1
+                                                }
                                             
                                         }
                                         Spacer()
@@ -293,6 +305,10 @@ struct SoloGameSettingView: View {
                                                 .foregroundColor(Color("Font"))
                                             DatePicker("", selection: $gameSettingViewModel.endDate,in:gameSettingViewModel.startDate... , displayedComponents: .date)
                                                 .frame(width: frameWidth / 5)
+                                                .id(gameSettingViewModel.endDate)
+                                                .onChange(of: gameSettingViewModel.endDate) { _ in
+                                                    gameSettingViewModel.endDate += 1
+                                                }
                                             
                                         }
                                         .padding(.trailing)
