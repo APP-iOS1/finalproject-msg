@@ -29,8 +29,10 @@
 		166009932976685200E6A546 /* FriendSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166009922976685200E6A546 /* FriendSettingView.swift */; };
 		1660099529766FC000E6A546 /* FriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660099429766FC000E6A546 /* FriendView.swift */; };
 		1660099729766FCC00E6A546 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660099629766FCC00E6A546 /* AlertView.swift */; };
+		16C6753629822E420028A608 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6753529822E420028A608 /* Extension+Color.swift */; };
 		16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FBE6C52976784D001EC518 /* FriendViewCell.swift */; };
 		3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */; };
+		367D709D2980C6890011E601 /* GameRequestAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367D709C2980C6890011E601 /* GameRequestAlertView.swift */; };
 		36B093F92976694F0089E76A /* GameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093F82976694F0089E76A /* GameSettingView.swift */; };
 		36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093FA29766FB30089E76A /* SpendingWritingView.swift */; };
 		36C7BB7D2977B37200A3F999 /* OnBoardView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C7BB772977B37200A3F999 /* OnBoardView2.swift */; };
@@ -43,6 +45,8 @@
 		36FA49132977746600B26A24 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA49122977746600B26A24 /* ChartView.swift */; };
 		36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA4914297774C500B26A24 /* ProgressBar.swift */; };
 		36FA4918297791A100B26A24 /* ChartCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA4917297791A100B26A24 /* ChartCellView.swift */; };
+		4C407A74297A5B1900877360 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C407A73297A5B1900877360 /* LocalNotification.swift */; };
+		4C407A76297A5B4B00877360 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C407A75297A5B4B00877360 /* NotificationManager.swift */; };
 		4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B81822977750C00866E3F /* RecordDetailView.swift */; };
 		4C65CFEC2978D02700BAD069 /* MultiGameProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C65CFEB2978D02700BAD069 /* MultiGameProgressBar.swift */; };
 		4C930D5F29763B4300EE046D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D5E29763B4300EE046D /* HomeView.swift */; };
@@ -80,8 +84,10 @@
 		166009922976685200E6A546 /* FriendSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSettingView.swift; sourceTree = "<group>"; };
 		1660099429766FC000E6A546 /* FriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendView.swift; sourceTree = "<group>"; };
 		1660099629766FCC00E6A546 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		16C6753529822E420028A608 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		16FBE6C52976784D001EC518 /* FriendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewCell.swift; sourceTree = "<group>"; };
 		3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingViewModel.swift; sourceTree = "<group>"; };
+		367D709C2980C6890011E601 /* GameRequestAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRequestAlertView.swift; sourceTree = "<group>"; };
 		36B093F82976694F0089E76A /* GameSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSettingView.swift; sourceTree = "<group>"; };
 		36B093FA29766FB30089E76A /* SpendingWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingWritingView.swift; sourceTree = "<group>"; };
 		36C7BB772977B37200A3F999 /* OnBoardView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoardView2.swift; sourceTree = "<group>"; };
@@ -94,6 +100,8 @@
 		36FA49122977746600B26A24 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		36FA4914297774C500B26A24 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		36FA4917297791A100B26A24 /* ChartCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCellView.swift; sourceTree = "<group>"; };
+		4C407A73297A5B1900877360 /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
+		4C407A75297A5B4B00877360 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4C5B81822977750C00866E3F /* RecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailView.swift; sourceTree = "<group>"; };
 		4C65CFEB2978D02700BAD069 /* MultiGameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiGameProgressBar.swift; sourceTree = "<group>"; };
 		4C930D5E29763B4300EE046D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -148,6 +156,7 @@
 				16FBE6C52976784D001EC518 /* FriendViewCell.swift */,
 				634CE3F6297920D500358E32 /* SegementedControllView.swift */,
 				161286B6297D227800BC3BDF /* FriendViewModel.swift */,
+				367D709C2980C6890011E601 /* GameRequestAlertView.swift */,
 			);
 			path = FriendSetting;
 			sourceTree = "<group>";
@@ -265,7 +274,9 @@
 				C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */,
 				631032482978273300F3A463 /* SystemThemeManager.swift */,
 				6310324A2978322900F3A463 /* Extension+NavigationController.swift */,
+				4C407A75297A5B4B00877360 /* NotificationManager.swift */,
 				63EC446E297A8366008A7FDE /* Extension+String.swift */,
+				16C6753529822E420028A608 /* Extension+Color.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -275,6 +286,7 @@
 			children = (
 				6342C2CF297672D900C24D20 /* KakaoLogin */,
 				1660098C29763AD800E6A546 /* MSG.swift */,
+				4C407A73297A5B1900877360 /* LocalNotification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -425,6 +437,7 @@
 				63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */,
 				16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */,
 				36FA49132977746600B26A24 /* ChartView.swift in Sources */,
+				367D709D2980C6890011E601 /* GameRequestAlertView.swift in Sources */,
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
@@ -434,6 +447,7 @@
 				C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */,
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
 				36C7BB7E2977B37200A3F999 /* OnBoardView4.swift in Sources */,
+				4C407A76297A5B4B00877360 /* NotificationManager.swift in Sources */,
 				36C7BB7F2977B37200A3F999 /* OnBoardView1.swift in Sources */,
 				6342C2CB29764EDA00C24D20 /* KakaoViewModel.swift in Sources */,
 				1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */,
@@ -442,9 +456,11 @@
 				4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */,
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
 				36C7BB7D2977B37200A3F999 /* OnBoardView2.swift in Sources */,
+				4C407A74297A5B1900877360 /* LocalNotification.swift in Sources */,
 				165E321C2977EAF500678A09 /* SettingView.swift in Sources */,
 				36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */,
 				4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */,
+				16C6753629822E420028A608 /* Extension+Color.swift in Sources */,
 				36C7BB812977B37200A3F999 /* OnBoardTapView.swift in Sources */,
 				36DB97792976526900A0596F /* ViewModifier.swift in Sources */,
 				6310324B2978322900F3A463 /* Extension+NavigationController.swift in Sources */,

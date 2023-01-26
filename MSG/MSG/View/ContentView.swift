@@ -13,9 +13,11 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
+    @EnvironmentObject var notiManager: NotificationManager
     @State private var checked: Msg?
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     
+    @State var email: String = ""
     // 탭바
     init() {
         UITabBar.appearance().shadowImage = UIImage()
@@ -42,6 +44,11 @@ struct ContentView: View {
                                         Image(systemName: "dpad.fill")
                                         Text("도전")
                                     }
+                                    .onAppear{
+                                        Task{
+                                            try? await notiManager.requestAuthorization()
+                                        }
+                                    }
                                 ChallengeRecordView()
                                     .tabItem {
                                         Image(systemName: "archivebox")
@@ -64,6 +71,7 @@ struct ContentView: View {
                         }
                     } else {
                         LoginView()
+                            
                     }
                 }
                 // (1) -> 로그인 상태가 유지된 경우, 현재 curre
@@ -85,11 +93,14 @@ struct ContentView: View {
             .accentColor(Color("Font"))
         }.task {
 //            try! await fireStoreViewModel.getGameHistory()
+           
+            
         }
         .onAppear {
             SystemThemeManager
                 .shared
                 .handleTheme(darkMode: darkModeEnabled)
+            
         }
     }
 }
@@ -104,5 +115,6 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(kakaoAuthViewModel)
             .environmentObject(fireStoreViewModel)
             .environmentObject(realtimeViewModel)
+            .environmentObject(NotificationManager())
     }
 }

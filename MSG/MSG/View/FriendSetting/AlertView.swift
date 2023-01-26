@@ -63,7 +63,7 @@ struct AlertView: View {
             .foregroundColor(Color("Font"))
         }
         .onAppear {
-            realtimeViewModel.startFetching()
+            realtimeViewModel.fetchFriendRequest()
             print(realtimeViewModel.user)
         }
     }

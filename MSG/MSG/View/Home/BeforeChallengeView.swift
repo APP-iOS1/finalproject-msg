@@ -64,6 +64,7 @@ extension BeforeChallengeView {
             }
             //함께하는 챌랜지 시작하기
             Group{
+                
                 HStack{
                     Text("함께하는 챌린지 시작하기")
                         .foregroundColor(Color("Font"))
@@ -72,7 +73,7 @@ extension BeforeChallengeView {
                     Spacer()
                 }
                 .frame(width: frameWidth / 1.23)
-                
+               
                 NavigationLink(destination: GameSettingView()) {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("Point2"))
@@ -94,11 +95,15 @@ extension BeforeChallengeView {
                         
                         .padding(.bottom, 30)
                 }
+                
             }
 
             Spacer()
                 .frame(width: frameWidth / 1, height: frameHeight / 7)
                
+        }
+        .onAppear{
+            firebaseViewModel.findFriend()
         }
     }
 }

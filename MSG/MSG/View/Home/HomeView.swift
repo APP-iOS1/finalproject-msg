@@ -11,6 +11,7 @@ import FirebaseAuth
 struct HomeView: View {
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
@@ -26,6 +27,21 @@ struct HomeView: View {
                 guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
                 if !(user.game.isEmpty) {
                     await fireStoreViewModel.fetchGame()
+                }
+            }
+        }
+        .onReceive(timer) { _ in
+            guard let game = fireStoreViewModel.currentGame  else { return }
+            print("끝나는시간:",game.endDate)
+            let now = Date().timeIntervalSinceNow
+            print("현재시간:", now)
+            if Date().timeIntervalSince1970 > Double(game.endDate)!{
+                self.timer.upstream.connect().cancel()
+                print("멈췄습니다!")
+                Task {
+                    await fireStoreViewModel.addGameHistory()
+                    await fireStoreViewModel.addChallengeHistory(endGameData: game)
+                    fireStoreViewModel.currentGame = nil
                 }
             }
         }
