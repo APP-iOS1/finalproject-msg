@@ -11,7 +11,7 @@ struct FriendSettingView: View {
     
     @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     @State var selection: Int = 0
-    let titles: [String] = ["친구", "알람"]
+    let titles: [String] = ["친구", "친구요청", "도전장"]
     
     var body: some View {
         
@@ -23,8 +23,10 @@ struct FriendSettingView: View {
                 
                 if selection == 0 {
                     FriendView(findFriendToggle: .constant(false))
-                } else {
+                } else if selection == 1 {
                     AlertView()
+                } else{
+                    GameRequestAlertView()
                 }
             }
         }
