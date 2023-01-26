@@ -17,6 +17,8 @@ struct GameSettingView: View {
     @State private var findFriendToggle: Bool = false
     @Environment(\.dismiss) var dismiss
     
+    @State private var datePickerId: Int = 0
+    
     var body: some View {
         ZStack {
               Color("Background").ignoresSafeArea()
@@ -59,14 +61,21 @@ struct GameSettingView: View {
                                             .modifier(TextViewModifier())
                                         DatePicker("", selection: $gameSettingViewModel.startDate, in: Date.now...,displayedComponents: .date)
                                             .frame(width: 110)
+                                            .id(gameSettingViewModel.startDate)
+                                            .onChange(of: gameSettingViewModel.startDate) { _ in
+                                                gameSettingViewModel.startDate += 1
+                                            }
                                         
                                     }
                                     VStack{
                                         Text("종료")
                                             .modifier(TextViewModifier())
                                         DatePicker("", selection: $gameSettingViewModel.endDate,in:gameSettingViewModel.startDate... , displayedComponents: .date)
-                                        
                                             .frame(width: 110)
+                                            .id(gameSettingViewModel.endDate)
+                                            .onChange(of: gameSettingViewModel.endDate) { _ in
+                                                gameSettingViewModel.endDate += 1
+                                            }
                                     }
                                 }
                             }
@@ -147,6 +156,8 @@ struct SoloGameSettingView: View {
     private let dateFormatter = DateFormatter()
     @Environment(\.dismiss) var dismiss
     
+    @State private var datePickerId: Int = 0
+    
     var body: some View {
         ZStack {
               Color("Background").ignoresSafeArea()
@@ -189,14 +200,21 @@ struct SoloGameSettingView: View {
                                             .modifier(TextViewModifier())
                                         DatePicker("", selection: $gameSettingViewModel.startDate, in: Date.now...,displayedComponents: .date)
                                             .frame(width: 110)
+                                            .id(gameSettingViewModel.startDate)
+                                            .onChange(of: gameSettingViewModel.startDate) { _ in
+                                                gameSettingViewModel.startDate += 1
+                                            }
                                         
                                     }
                                     VStack{
                                         Text("종료")
                                             .modifier(TextViewModifier())
                                         DatePicker("", selection: $gameSettingViewModel.endDate,in:gameSettingViewModel.startDate... , displayedComponents: .date)
-                                        
                                             .frame(width: 110)
+                                            .id(gameSettingViewModel.endDate)
+                                            .onChange(of: gameSettingViewModel.endDate) { _ in
+                                                gameSettingViewModel.endDate += 1
+                                            }
                                     }
                                 }
                             }
@@ -206,7 +224,7 @@ struct SoloGameSettingView: View {
                             Button {
 
                                 let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate.timeIntervalSince1970), endDate:  String(gameSettingViewModel.endDate.timeIntervalSince1970 + 10), inviteFriend: [])
-                                fireStoreViewModel.makeSingleGame(singGame)
+                               // fireStoreViewModel.makeSingleGame(singGame)
 
                                 dismiss()
                             } label: {
