@@ -38,10 +38,10 @@ struct Challenge: Codable, Identifiable, Hashable {
 }
 
 //MARK: - 게임에 들어와 유저들의 아이디와 지출내역을 확인
-struct expenditure: Codable, Identifiable {
+struct Expenditure: Codable, Identifiable {
     //참석유저 아이디
     var id: String
-    var expenditureHistory: [String:[String]]
+    var expenditureHistory: [String: [String]]
 }
 
 

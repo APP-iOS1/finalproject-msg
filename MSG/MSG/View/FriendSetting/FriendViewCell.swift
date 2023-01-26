@@ -78,6 +78,7 @@ struct FriendViewCell: View {
                         .onTapGesture {
                             self.checked.toggle()
                             if checked {
+                                realtimeViewModel.inviteFriendIdArray.append(user.id)
                                 realtimeViewModel.inviteFriendArray.append(user)
                                 print(realtimeViewModel.inviteFriendArray)
                                 print(realtimeViewModel.inviteFriendArray.firstIndex(of: user))
