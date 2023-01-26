@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct GameSettingView: View {
-    
-    //
     @EnvironmentObject var notiManager: NotificationManager
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
     @State private var isShowingAlert: Bool = false
@@ -17,15 +15,19 @@ struct GameSettingView: View {
     var frameHeight = UIScreen.main.bounds.height
     @EnvironmentObject var friendViewModel: FriendViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
-    @EnvironmentObject var firestoreViewModel: FireStoreViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var findFriendToggle: Bool = false
     @Environment(\.dismiss) var dismiss
+}
+
+
+extension GameSettingView {
     
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
             VStack{
-               // Spacer()
+                // Spacer()
                 
                 // MARK: - 챌린지 주제- [TextField]
                 HStack{
@@ -56,8 +58,8 @@ struct GameSettingView: View {
                 // MARK: - 챌린지 기간 - [DatePicker]
                 VStack{
                     HStack{
-                            Text("챌린지 기간 설정")
-                                .modifier(TextViewModifier())
+                        Text("챌린지 기간 설정")
+                            .modifier(TextViewModifier())
                         Spacer()
                     }
                     .padding(.leading)
@@ -75,9 +77,9 @@ struct GameSettingView: View {
                                                 .frame(width: frameWidth / 5)
                                             
                                         }
-                                       Spacer()
+                                        Spacer()
                                             .frame(width: frameWidth / 5)
-                                       
+                                        
                                         VStack{
                                             Text("종료")
                                                 .foregroundColor(Color("Font"))
@@ -93,14 +95,14 @@ struct GameSettingView: View {
 //
 //                        }
 //                    }
-//                
+//
 //                }
 //                .padding(.bottom ,50)
-//                
+//
 //                // MARK: - 친구찾기 - [Button]
 //                HStack{
 //                    Button(action: {
-//                        
+//
 //                    }, label: {
 //                       // HStack{
 //                            RoundedRectangle(cornerRadius: 10)
@@ -112,7 +114,7 @@ struct GameSettingView: View {
                                 Button(action: {
                                     findFriendToggle = true
                                 }, label: {
-
+                                    
                                     HStack{
                                         Text("친구찾기")
                                         Image(systemName: "magnifyingglass")
@@ -124,14 +126,14 @@ struct GameSettingView: View {
 //                    Spacer()
 //                }
 //                .padding([.leading, .bottom])
-//                
+//
 //                VStack{
-//                    
+//
 //                    Button(action: {
-//                        
+//
 //                        isShowingAlert = true
-//                        
-//                        
+//
+//
 //                    }) {
 //                        RoundedRectangle(cornerRadius: 10)
 //                            .fill(Color("Point2"))
@@ -163,66 +165,69 @@ struct GameSettingView: View {
                             
                             // MARK: - 초대장 보내기 - [Button]
                             Button {
-                                    Task{
-                                        let challenge = Challenge(
-                                            id: UUID().uuidString,
-                                            gameTitle: gameSettingViewModel.title,
-                                            limitMoney: Int(gameSettingViewModel.targetMoney)!,
-                                            startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
-                                            endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
-                                            inviteFriend: realtimeViewModel.inviteFriendIdArray)
-                                        await firestoreViewModel.addMultiGame(challenge)
-                                        guard let myInfo = firestoreViewModel.myInfo else { return }
-                                        print("myInfo: \(myInfo)")
-                                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
-                                        dismiss()
-                                    }
+                                Task{
+                                    let challenge = Challenge(
+                                        id: UUID().uuidString,
+                                        gameTitle: gameSettingViewModel.title,
+                                        limitMoney: Int(gameSettingViewModel.targetMoney)!,
+                                        startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
+                                        endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
+                                        inviteFriend: realtimeViewModel.inviteFriendIdArray)
+                                    await fireStoreViewModel.addMultiGame(challenge)
+                                    guard let myInfo = fireStoreViewModel.myInfo else { return }
+                                    print("myInfo: \(myInfo)")
+                                    realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                                    dismiss()
+                                }
                             } label: {
-
+                                
                                 Text("초대장 보내기")
                                     .foregroundColor(Color("Background"))
                             }
+                            
+                        }
                         
                     }
-                    
-                }
-                .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
-                    Button("시작하기") {
-                        Task{
-                            if !notiManager.isGranted {
-                                notiManager.openSetting()
-                            } else {
-                                print("도전장 보내짐?")
-                                let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
-                                
-                                await notiManager.schedule(localNotification: localNotification)
-                                await notiManager.getPendingRequests()
+                    .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
+                        Button("시작하기") {
+                            Task{
+                                if !notiManager.isGranted {
+                                    notiManager.openSetting()
+                                } else {
+                                    print("도전장 보내짐?")
+                                    let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
+                                    
+                                    await notiManager.schedule(localNotification: localNotification)
+                                    await notiManager.getPendingRequests()
+                                }
                             }
                         }
-                    }
-                    Button("취소하기") {
-                       // dismiss()
-                    }
-                }, message: {
-                    if notiManager.isGranted {
-                        Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
-                    }
-                })
-                Spacer()
+                        Button("취소하기") {
+                            // dismiss()
+                        }
+                    }, message: {
+                        if notiManager.isGranted {
+                            Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
+                        }
+                    })
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .navigationTitle("글쓰기")
+                
+                
             }
-            .padding(.horizontal)
-            .navigationTitle("글쓰기")
-           
-           
-        }
-        
-        .onAppear{
-            fireStoreViewModel.findFriend()
+            
+            .onAppear{
+                fireStoreViewModel.findFriend()
+                
+                
+            }
+            
             
         }
-       
-        
     }
+    
 }
 
 struct SoloGameSettingView: View {
@@ -235,7 +240,7 @@ struct SoloGameSettingView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     private let dateFormatter = DateFormatter()
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
@@ -272,8 +277,8 @@ struct SoloGameSettingView: View {
                 // MARK: - 챌린지 기간 - [DatePicker]
                 VStack{
                     HStack{
-                            Text("챌린지 기간 설정")
-                                .modifier(TextViewModifier())
+                        Text("챌린지 기간 설정")
+                            .modifier(TextViewModifier())
                         Spacer()
                     }
                     .padding(.leading)
@@ -281,7 +286,7 @@ struct SoloGameSettingView: View {
                         HStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color("Point1"), lineWidth: 1)
-                              //  .fill(Color("Point1"))
+                            //  .fill(Color("Point1"))
                                 .frame(width: 330, height: 120)
                                 .overlay {
                                     HStack{
@@ -292,9 +297,9 @@ struct SoloGameSettingView: View {
                                                 .frame(width: frameWidth / 5)
                                             
                                         }
-                                       Spacer()
+                                        Spacer()
                                             .frame(width: frameWidth / 5)
-                                       
+                                        
                                         VStack{
                                             Text("종료")
                                                 .foregroundColor(Color("Font"))
@@ -307,65 +312,68 @@ struct SoloGameSettingView: View {
                                     .foregroundColor(Color("Background"))
                                 }
                             
-// 엘리코드
-//                        }
-//                    }
-//                
-//                }
-//                .padding()
-//                .padding(.bottom ,50)
-//                
-//                // MARK: - 시작하기 - [Button]
-//               VStack{
-//                    Button(action: {
-//                        isShowingAlert = true
-//                    }) {
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .fill(Color("Point2"))
-//                            .frame(width: 330,height: 60)
-//                            .overlay {
+                            // 엘리코드
+                            //                        }
+                            //                    }
+                            //
+                            //                }
+                            //                .padding()
+                            //                .padding(.bottom ,50)
+                            //
+                            //                // MARK: - 시작하기 - [Button]
+                            //               VStack{
+                            //                    Button(action: {
+                            //                        isShowingAlert = true
+                            //                    }) {
+                            //                        RoundedRectangle(cornerRadius: 10)
+                            //                            .fill(Color("Point2"))
+                            //                            .frame(width: 330,height: 60)
+                            //                            .overlay {
                             // MARK: - 초대장 보내기 - [Button]
                             Button {
-
+                                
                                 let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate.timeIntervalSince1970), endDate:  String(gameSettingViewModel.endDate.timeIntervalSince1970 + 10), inviteFriend: [])
-                                fireStoreViewModel.makeSingleGame(singGame)
-
+                                Task {
+                                    await fireStoreViewModel.makeSingleGame(singGame)
+                                }
+                                
                                 dismiss()
                             } label: {
                                 Text("시작하기")
                                     .foregroundColor(Color("Background"))
                             }
+                        }
+                        Spacer()
                     }
-                    Spacer()
-                }
-//                .disabled(!gameSettingViewModel.isGameSettingValid)
-                
-                .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
-                    Button("시작하기") {
-                        Task{
-                            if !notiManager.isGranted {
-                                notiManager.openSetting()
-                            } else {
-                                print("도전장 보내짐")
-                                let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
-                                
-                                await notiManager.schedule(localNotification: localNotification)
-                                await notiManager.getPendingRequests()
+                    //                .disabled(!gameSettingViewModel.isGameSettingValid)
+                    
+                    .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
+                        Button("시작하기") {
+                            Task{
+                                if !notiManager.isGranted {
+                                    notiManager.openSetting()
+                                } else {
+                                    print("도전장 보내짐")
+                                    let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
+                                    
+                                    await notiManager.schedule(localNotification: localNotification)
+                                    await notiManager.getPendingRequests()
+                                }
                             }
                         }
-                    }
-                    Button("취소하기") {
-                     //   dismiss()
-                    }
-                }, message: {
-                    if notiManager.isGranted {
-                        Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
-                    }
-                })
+                        Button("취소하기") {
+                            //   dismiss()
+                        }
+                    }, message: {
+                        if notiManager.isGranted {
+                            Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
+                        }
+                    })
+                }
+                
+                .navigationTitle("글쓰기")
+                
             }
-            
-            .navigationTitle("글쓰기")
-            
         }
     }
 }
