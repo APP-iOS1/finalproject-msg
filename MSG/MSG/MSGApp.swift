@@ -3,6 +3,7 @@ import FirebaseCore
 import KakaoSDKCommon
 import KakaoSDKAuth
 import GoogleSignIn
+import UserNotifications
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -26,6 +27,7 @@ struct MSGApp: App {
     @StateObject var viewModel = KakaoViewModel()
     @StateObject var fireStoreViewModel = FireStoreViewModel()
     @StateObject var realtimeViewModel = RealtimeViewModel()
+    @StateObject var notiManager: NotificationManager = NotificationManager()
     var body: some Scene {
         WindowGroup {
             ContentView().onOpenURL { url in
@@ -37,9 +39,11 @@ struct MSGApp: App {
             .environmentObject(loginViewModel)
             .environmentObject(fireStoreViewModel)
             .environmentObject(realtimeViewModel)
+            .environmentObject(notiManager)
             
             
         }
     }
     
 }
+
