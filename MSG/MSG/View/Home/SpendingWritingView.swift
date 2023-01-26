@@ -8,21 +8,27 @@
 import SwiftUI
 
 struct SpendingWritingView: View {
-    @State private var selection: Int = 0
     
-    @State private var consumeTag = ""
+    @EnvironmentObject var loginViewModel: LoginViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @State private var selection: Int = 0
+    @State private var consumeTilte = ""
     @State private var consumeMoney = ""
+    
+    private func convertTextLogic(title: String, money: String, date: Date) -> String {
+        return title + "_" + money + "_" + date.toString()
+    }
+    
+    let tagArray: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
     
     var body: some View {
         ZStack{
             Color("Background").ignoresSafeArea()
             VStack{
                 Group{
-          
                     Spacer()
                     HStack{
                         Text("소비 날짜")
-                            .foregroundColor(Color("Font"))
                         Text("|")
                         Text("2023/01/17")
                         Spacer()
@@ -31,37 +37,20 @@ struct SpendingWritingView: View {
                     
                     HStack{
                         Text("소비 태그")
-                            .foregroundColor(Color("Font"))
                         Text("|")
-                            .foregroundColor(Color("Font"))
-         
                         VStack{
-                                if selection == 5 {
-                                
-                                        ZStack{
-                                            TextField("태그를 입력해주세요", text: $consumeTag)
-                                                .padding(.leading, 16)
-                                                .padding(.trailing, 16)
-                                            Button {
-                                                    selection = 0
-                                            } label: {
-                                                Image(systemName: "arrow.triangle.2.circlepath")
-                                            }.offset(x:110)
-                                            
-                                        }
-                                } else{
-                                    Picker("한국어",selection: $selection) {
-                                        Text("식비").tag(0)
-                                        Text("교통비").tag(1)
-                                        Text("경조사").tag(2)
-                                        Text("생활용품").tag(3)
-                                        Text("기타").tag(4)
-                                        Text("직접입력").tag(5)
-                                    }
-                                    .pickerStyle(.menu)
-                                    .accentColor(Color("Font"))
-                                }
-         
+                            Picker("한국어",selection: $selection) {
+                                Text("식비").tag(0)
+                                Text("교통비").tag(1)
+                                Text("쇼핑").tag(2)
+                                Text("의료").tag(3)
+                                Text("주거").tag(4)
+                                Text("여가").tag(5)
+                                Text("금융").tag(6)
+                                Text("기타").tag(7)
+                            }
+                            .pickerStyle(.menu)
+                            //                            .accentColor(Color("Font"))
                             
                             Rectangle()
                                 .frame(height:1)
@@ -69,20 +58,23 @@ struct SpendingWritingView: View {
                                 .padding(.leading, 16)
                                 .padding(.trailing, 16)
                         }
-                        
                     }
                     .padding()
                     
                     HStack{
-                        Text("금액")
-                            .foregroundColor(Color("Font"))
+                        Text("상세 내용")
                         Text("|")
-                            .foregroundColor(Color("Font"))
                         VStack{
-                            TextField("", text: $consumeMoney)
-                                .padding(.leading, 16)
-                                .padding(.trailing, 16)
-                                
+                            HStack {
+                                TextField("", text: $consumeTilte)
+                                    .padding(.leading, 16)
+                                    .padding(.trailing, 16)
+                                Button {
+                                    consumeTilte = ""
+                                } label: {
+                                    Image(systemName: "eraser")
+                                }
+                            }
                             Rectangle()
                                 .frame(height:1)
                                 .foregroundColor(Color("Point2"))
@@ -92,20 +84,49 @@ struct SpendingWritingView: View {
                     }
                     .padding()
                     
+                    HStack{
+                        Text("금액")
+                        Text("|")
+                        VStack{
+                            HStack {
+                                TextField("", text: $consumeMoney)
+                                    .padding(.leading, 16)
+                                    .padding(.trailing, 16)
+                                Button {
+                                    consumeMoney = ""
+                                } label: {
+                                    Image(systemName: "eraser")
+                                }
+                            }
+                            Rectangle()
+                                .frame(height:1)
+                                .foregroundColor(Color("Point2"))
+                                .padding(.leading, 16)
+                                .padding(.trailing, 29)
+                        }
+                    }
+                    .padding()
+                    
                     Spacer()
                     Button {
-                        
+                        let convert = convertTextLogic(title: consumeTilte, money: consumeMoney, date: Date())
+                        fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,
+                                                          tagName: tagArray[selection], convert: convert)
+                        selection = 0
+                        consumeTilte = ""
+                        consumeMoney = ""
                     } label: {
                         Text("추가하기")
-                            .foregroundColor(Color("Font"))
-                    }
-                    .frame(width: 300,height: 40)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 20).stroke(Color("Point2"), lineWidth: 2)
+                            .foregroundColor(Color("Background"))
+                            .padding(.horizontal, 100)
+                            .padding(.vertical, 8)
+                            .background(Color("Point2"))
+                            .cornerRadius(10)
                     }
                     Spacer()
                 }
             }
+            .foregroundColor(Color("Font"))
         }
     }
 }

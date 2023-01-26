@@ -39,7 +39,7 @@ struct ContentView: View {
                             
                         } else {
                             TabView {
-                                HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: [], friend: []))
+                                HomeView()
                                     .tabItem {
                                         Image(systemName: "dpad.fill")
                                         Text("도전")

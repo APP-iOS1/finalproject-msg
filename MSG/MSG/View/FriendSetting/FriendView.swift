@@ -8,38 +8,52 @@
 import SwiftUI
 
 struct FriendView: View {
-    @StateObject var fireStoreViewModel: FireStoreViewModel
-    @State private var text: String = ""
-    @State private var testArray: [String] = ["김민호","김철수","김뽀삐"]
-
-    var filterUser: [Msg] {
-        if text.isEmpty {
-            //검색을 하지 않았다면 친구목록을 보여주어야 함
-            return fireStoreViewModel.myFrinedArray
-        } else {
-            return fireStoreViewModel.userArray.filter {$0.nickName.localizedStandardContains(text)}
-        }
-    }
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
+    @StateObject var friendViewModel = FriendViewModel()
+    @Binding var findFriendToggle: Bool
+    @State var checked = false
     
+}
+
+extension FriendView {
     var body: some View {
         
         ZStack {
             Color("Background")
                 .ignoresSafeArea()
             VStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                    TextField("친구 찾기", text: $text)
+                if !findFriendToggle {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        TextField("친구 찾기", text: $friendViewModel.text)
+                    }
+                    .padding(.vertical)
+                    .padding(.horizontal)
                 }
-                .padding(.vertical)
-                .padding(.horizontal)
                 
                 ScrollView {
-                    ForEach(filterUser) { user in
-                        FriendViewCell(user: user)
+                    ForEach(friendViewModel.searchUserArray) { user in
+                        FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
                             .frame(height: 60)
                             .listRowBackground(Color("Background"))
                             .listRowSeparator(.hidden)
+                    }
+                }
+                if findFriendToggle {
+                    
+                    VStack {
+                        Button {
+                            findFriendToggle = false
+                        } label: {
+                            Text("초대하기")
+                            .foregroundColor(Color("Background"))
+                        }
+                        .background(checked ? Color("Point2") : Color("Point1"))
+                        .cornerRadius(5)
+                        .padding(.trailing)
+                        .disabled(!checked)
+
                     }
                 }
 //                List(filterUser,id:\.self) {value in
@@ -53,9 +67,7 @@ struct FriendView: View {
             }
         }
         .onAppear {
-            fireStoreViewModel.findUser()
-            print(fireStoreViewModel.myFrinedArray)
-            print(fireStoreViewModel.userArray)
+            friendViewModel.findFriend()
         }
         .foregroundColor(Color("Font"))
     }
@@ -63,6 +75,6 @@ struct FriendView: View {
 
 struct FriendView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView(fireStoreViewModel: FireStoreViewModel())
+        FriendView(findFriendToggle: .constant(false))
     }
 }

@@ -11,7 +11,7 @@ struct FriendSettingView: View {
     
     @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     @State var selection: Int = 0
-    let titles: [String] = ["친구", "알람"]
+    let titles: [String] = ["친구", "친구요청", "도전장"]
     
     var body: some View {
         
@@ -22,14 +22,13 @@ struct FriendSettingView: View {
                 SegementedControllView(selection: $selection, titles: titles, selectedItemColor: Color("Point2"), backgroundColor: Color(.clear), selectedItemFontColor: Color("Font"))
                 
                 if selection == 0 {
-                    FriendView(fireStoreViewModel: firebaseViewModel)
-                } else {
+                    FriendView(findFriendToggle: .constant(false))
+                } else if selection == 1 {
                     AlertView()
+                } else{
+                    GameRequestAlertView()
                 }
             }
-        }
-        .onAppear {
-            firebaseViewModel.findFriend()
         }
     }
 }

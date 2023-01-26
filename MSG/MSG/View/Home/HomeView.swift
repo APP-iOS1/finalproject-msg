@@ -6,17 +6,43 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct HomeView: View {
     
-    let msg: Msg
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        ZStack{
-            if !msg.game.isEmpty {
-                AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 30000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
+        
+        ZStack {
+            if let game = fireStoreViewModel.currentGame {
+                AfterChallengeView(challenge: game)
             } else {
                 BeforeChallengeView()
+            }
+        }
+        .onAppear {
+            Task {
+                guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
+                if !(user.game.isEmpty) {
+                    await fireStoreViewModel.fetchGame()
+                }
+            }
+        }
+        .onReceive(timer) { _ in
+            guard let game = fireStoreViewModel.currentGame  else { return }
+            print("끝나는시간:",game.endDate)
+            let now = Date().timeIntervalSinceNow
+            print("현재시간:", now)
+            if Date().timeIntervalSince1970 > Double(game.endDate)!{
+                self.timer.upstream.connect().cancel()
+                print("멈췄습니다!")
+                Task {
+                    await fireStoreViewModel.addGameHistory()
+                    await fireStoreViewModel.addChallengeHistory(endGameData: game)
+                    fireStoreViewModel.currentGame = nil
+                }
             }
         }
 //        .toolbar {
@@ -38,8 +64,8 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView(msg: Msg(id: "", nickName: "", profilImage: "", game: "", gameHistory: [], friend: []))
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//    }
+//}

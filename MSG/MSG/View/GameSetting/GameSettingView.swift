@@ -12,12 +12,14 @@ struct GameSettingView: View {
     //
     @EnvironmentObject var notiManager: NotificationManager
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
-    @ObservedObject private var fireStoreViewModel = FireStoreViewModel()
-    @Environment(\.dismiss) private var dismiss
     @State private var isShowingAlert: Bool = false
-    
     var frameWidth = UIScreen.main.bounds.width
     var frameHeight = UIScreen.main.bounds.height
+    @EnvironmentObject var friendViewModel: FriendViewModel
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
+    @EnvironmentObject var firestoreViewModel: FireStoreViewModel
+    @State private var findFriendToggle: Bool = false
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -88,45 +90,95 @@ struct GameSettingView: View {
                                     .foregroundColor(Color("Background"))
                                 }
                             
-                        }
-                    }
-                
-                }
-                .padding(.bottom ,50)
-                
-                // MARK: - 친구찾기 - [Button]
-                HStack{
-                    Button(action: {
-                        
-                    }, label: {
-                       // HStack{
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color("Point2"))
-                                .frame(width: 330,height: 60)
-                                .overlay {
+//
+//                        }
+//                    }
+//                
+//                }
+//                .padding(.bottom ,50)
+//                
+//                // MARK: - 친구찾기 - [Button]
+//                HStack{
+//                    Button(action: {
+//                        
+//                    }, label: {
+//                       // HStack{
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .fill(Color("Point2"))
+//                                .frame(width: 330,height: 60)
+//                                .overlay {
+                            // MARK: - 친구찾기 - [Button]
+                            HStack{
+                                Button(action: {
+                                    findFriendToggle = true
+                                }, label: {
+
                                     HStack{
                                         Text("친구찾기")
                                         Image(systemName: "magnifyingglass")
                                     }
-                                    .foregroundColor(Color("Background"))
+// 엘리 코드
+//                                    .foregroundColor(Color("Background"))
+//                                }
+//                    })
+//                    Spacer()
+//                }
+//                .padding([.leading, .bottom])
+//                
+//                VStack{
+//                    
+//                    Button(action: {
+//                        
+//                        isShowingAlert = true
+//                        
+//                        
+//                    }) {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .fill(Color("Point2"))
+//                            .frame(width: 330,height: 60)
+//                            .overlay {
+
+                                    .modifier(TextViewModifier())
+                                    
+                                })
+                                .sheet(isPresented: $findFriendToggle) {
+                                    FriendView(findFriendToggle: $findFriendToggle)
+                                        .presentationDetents([.height(350)])
+                                        .presentationDragIndicator(.visible)
                                 }
-                    })
-                    Spacer()
-                }
-                .padding([.leading, .bottom])
-                
-                VStack{
-                    
-                    Button(action: {
-                        
-                        isShowingAlert = true
-                        
-                        
-                    }) {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("Point2"))
-                            .frame(width: 330,height: 60)
-                            .overlay {
+                                ForEach(realtimeViewModel.inviteFriendArray,id:\.self) { friend in
+                                    ZStack{
+                                        VStack{
+                                            Image(systemName: "plus")
+                                            Text("\(friend.nickName)")
+                                        }
+                                    }
+                                }
+                                Spacer()
+                            }
+                            .padding()
+                            Spacer()
+                                .frame(height: 180)
+                            
+                            
+                            // MARK: - 초대장 보내기 - [Button]
+                            Button {
+                                    Task{
+                                        let challenge = Challenge(
+                                            id: UUID().uuidString,
+                                            gameTitle: gameSettingViewModel.title,
+                                            limitMoney: Int(gameSettingViewModel.targetMoney)!,
+                                            startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
+                                            endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
+                                            inviteFriend: realtimeViewModel.inviteFriendIdArray)
+                                        await firestoreViewModel.addMultiGame(challenge)
+                                        guard let myInfo = firestoreViewModel.myInfo else { return }
+                                        print("myInfo: \(myInfo)")
+                                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                                        dismiss()
+                                    }
+                            } label: {
+
                                 Text("초대장 보내기")
                                     .foregroundColor(Color("Background"))
                             }
@@ -174,15 +226,16 @@ struct GameSettingView: View {
 }
 
 struct SoloGameSettingView: View {
+    
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
-
-    @Environment(\.dismiss) private var dismiss
     @State private var isShowingAlert: Bool = false
-    
     var frameWidth = UIScreen.main.bounds.width
     var frameHeight = UIScreen.main.bounds.height
-     
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    private let dateFormatter = DateFormatter()
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
@@ -254,22 +307,31 @@ struct SoloGameSettingView: View {
                                     .foregroundColor(Color("Background"))
                                 }
                             
-                        }
-                    }
-                
-                }
-                .padding()
-                .padding(.bottom ,50)
-                
-                // MARK: - 시작하기 - [Button]
-                VStack{
-                    Button(action: {
-                        isShowingAlert = true
-                    }) {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("Point2"))
-                            .frame(width: 330,height: 60)
-                            .overlay {
+// 엘리코드
+//                        }
+//                    }
+//                
+//                }
+//                .padding()
+//                .padding(.bottom ,50)
+//                
+//                // MARK: - 시작하기 - [Button]
+//               VStack{
+//                    Button(action: {
+//                        isShowingAlert = true
+//                    }) {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .fill(Color("Point2"))
+//                            .frame(width: 330,height: 60)
+//                            .overlay {
+                            // MARK: - 초대장 보내기 - [Button]
+                            Button {
+
+                                let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate.timeIntervalSince1970), endDate:  String(gameSettingViewModel.endDate.timeIntervalSince1970 + 10), inviteFriend: [])
+                                fireStoreViewModel.makeSingleGame(singGame)
+
+                                dismiss()
+                            } label: {
                                 Text("시작하기")
                                     .foregroundColor(Color("Background"))
                             }
