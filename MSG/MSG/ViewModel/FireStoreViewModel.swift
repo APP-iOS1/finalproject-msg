@@ -17,6 +17,7 @@ import SwiftUI
 @MainActor
 class FireStoreViewModel: ObservableObject {
     //전체유저
+    @Published var myInfo: Msg?
     @Published var userArray: [Msg] = []
     @Published var challengeHistoryArray : [Challenge] = []
     @Published var challengeHistoryUserList : [(userId: String, totalMoney: Int)] = []
@@ -34,9 +35,46 @@ class FireStoreViewModel: ObservableObject {
     }
     
     
+    // MARK: - 멀티 게임 생성
+    func addMultiGame(_ challenge: Challenge) async {
+        print(#function)
+        await updateUserGame(gameId: challenge.id)
+        let ref = database.collection("Challenge").document(challenge.id)
+        do{
+            try await ref.setData([
+                    "id": challenge.id,
+                    "gameTitle": challenge.gameTitle,
+                    "limitMoney": challenge.limitMoney,
+                    "startDate": challenge.startDate,
+                    "endDate": challenge.endDate,
+                    "inviteFriend": challenge.inviteFriend
+            ])
+            self.currentGame = challenge
+        }catch{
+            print("게임 추가 에러..")
+        }
+        
+    }
+    
+    // MARK: - 게임 수락 시, invite목록에 추가하기 (1) Challenge
+    func acceptGame(_ gameId: String) async {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return  }
+        let ref = database.collection("User").document(userId)
+        do{
+            try await ref.updateData([
+                "game" : gameId
+            ])
+            print("game에 참여하였습니다!")
+        }catch{
+            print("에러")
+            
+        }
+    }
     // MARK: - 유저 정보를 불러오는 함수
     /// userId를 통해, 유저 정보를 가져온다.
     func fetchUserInfo(_ userId: String) async throws -> Msg? {
+        print(#function)
         guard (Auth.auth().currentUser != nil) else { return nil}
         let ref = database.collection("User").document(userId)
         let snapshot = try await ref.getDocument()
@@ -46,7 +84,7 @@ class FireStoreViewModel: ObservableObject {
         let game = docData["game"] as? String ?? ""
         let gameHistory = docData["gameHistory"] as? [String] ?? []
         let friend = docData["gameHistory"] as? [String] ?? []
-        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: [], friend: [])
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
         return userInfo
     }
     
@@ -62,7 +100,6 @@ class FireStoreViewModel: ObservableObject {
                       "friend": user.friend,
                       "profileImage": downloadUrl,
                      ])
-        
     }
     
     func uploadImageToStorage(userImage: UIImage, user: Msg) {
@@ -201,6 +238,7 @@ class FireStoreViewModel: ObservableObject {
                       "expenditureHistory": expenditureList
                      ])
     }
+
 //    currentUserProfile
 //    struct Expenditure: Codable, Identifiable {
 //        //참석유저 아이디
@@ -317,18 +355,22 @@ class FireStoreViewModel: ObservableObject {
     }
     
     // MARK: - User game에 String 추가하는 함수
-    func updateUserGame(gameId: String) {
+    func updateUserGame(gameId: String) async {
         print(#function)
         guard let userId = Auth.auth().currentUser?.uid else{ return }
-        database.collection("User").document(userId).updateData([
-            "game": gameId
-        ])
+        do{
+            try await database.collection("User").document(userId).updateData([ "game": gameId ])
+            self.myInfo = try await fetchUserInfo(userId)
+            print("Game등록완료")
+        }catch{
+            print("미등록")
+        }
     }
     
     // MARK: - SingleGame + User game에 String 추가하는 함수
-    func makeSingleGame(_ singleGame: Challenge) {
+    func makeSingleGame(_ singleGame: Challenge) async {
         addSingleGame(singleGame)
-        updateUserGame(gameId: singleGame.id)
+        await updateUserGame(gameId: singleGame.id)
         currentGame = singleGame
     }
     
