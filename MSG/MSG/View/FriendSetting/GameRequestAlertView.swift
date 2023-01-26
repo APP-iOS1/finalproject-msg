@@ -18,7 +18,10 @@ struct GameRequestAlertView: View {
             }
             ForEach(realtimeViewModel.requsetGameArr){ sendUser in
                 HStack{
-                    Text("\(sendUser.nickName)")
+                    VStack{
+                        Image(systemName: "person.circle")
+                        Text("\(sendUser.nickName)")
+                    }
                     Button {
                         Task{
                             await firestoreViewModel.acceptGame(sendUser.game)
