@@ -83,7 +83,7 @@ class FireStoreViewModel: ObservableObject {
         let profileImage = docData["profileImage"] as? String ?? ""
         let game = docData["game"] as? String ?? ""
         let gameHistory = docData["gameHistory"] as? [String] ?? []
-        let friend = docData["gameHistory"] as? [String] ?? []
+        let friend = docData["friend"] as? [String] ?? []
         let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
         return userInfo
     }
@@ -280,6 +280,7 @@ class FireStoreViewModel: ObservableObject {
             guard let docData = snapShot.data() else { return []}
             let array = docData["gameHistory"] as? [String] ?? []
             return array
+            print(array)
         }catch{
             print("catched")
             return []
@@ -304,7 +305,9 @@ class FireStoreViewModel: ObservableObject {
             let endDate = docData["endDate"] as? String ?? ""
             let inviteFriend = docData["inviteFriend"] as? [String] ?? []
             let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            print("challenge출력확인:", challenge)
             challengeHistoryArray.append(challenge)
+            print("array출력확인:",challengeHistoryArray)
         }
     }
     
@@ -412,5 +415,41 @@ class FireStoreViewModel: ObservableObject {
         } catch {
             print("catched")
         }
+    }
+    
+    //MARK: - 진행이 끝난 게임을 gameHistory에 담아주는 함수
+    func addGameHistory() async {
+        // 히스토리의 배열을 불러와야하고
+        guard let myInfo = try! await fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
+        let endGame = myInfo.game
+        guard let myHistory = myInfo.gameHistory else{ return }
+        var history = myHistory
+        if !endGame.isEmpty{
+            history.append(endGame)
+        }
+        
+//        myHistory.append(myGame)
+        // 불러온 배열에 내 게임id를 append해줘야 함
+        try! await database.collection("User").document(myInfo.id).setData([
+            "id": myInfo.id,
+            "game": "",
+            "gameHistory": history,
+            "nickName": myInfo.nickName,
+            "profileImage": myInfo.profilImage
+        ])
+    }
+    func addChallengeHistory(endGameData: Challenge?) async{
+        
+        guard let endGameData else { return }
+        try! await database.collection("ChallengeHistory")
+            .document(endGameData.id) //게임id
+            .setData([
+                "id": endGameData.id,
+                "gameTitle": endGameData.gameTitle,
+                "startDate": endGameData.startDate,
+                "endDate": endGameData.endDate,
+                "limitMoney": endGameData.limitMoney,
+                "inviteFriend": endGameData.inviteFriend
+        ])
     }
 }

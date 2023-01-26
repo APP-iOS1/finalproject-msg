@@ -135,7 +135,9 @@ struct AfterChallengeView: View {
                 }.foregroundColor(Color("Font"))
                     .padding(.horizontal)
             }
-            .padding()
+
+                .padding()
+
         }
     }
 }
