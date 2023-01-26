@@ -227,7 +227,7 @@ class FireStoreViewModel: ObservableObject {
             self.expenditure = expenditure
             print(expenditure)
         } catch {
-            
+            print("catched")
         }
     }
     
