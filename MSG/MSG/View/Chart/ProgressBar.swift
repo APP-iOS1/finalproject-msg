@@ -9,10 +9,12 @@ import SwiftUI
 
 struct ProgressBar: View {
     
-    @State private var progress:[Float] = [25000, 40000, 45000, 13500]
-    @State private var percentArr:[(to: Float, from: Float, percent: Float)] = [(0.0,0.0,0.0), (0.0,0.0,0.0),(0.0,0.0,0.0),(0.0,0.0,0.0)]
-    @State var totalMoney:Float = 123500
-    @State private var colorArr:[Color] = [.red, .blue, .green, .brown]
+    @State private var progress:[Float] = [25000, 40000, 45000, 13500, 12000, 30000, 34000, 15000]
+    @State private var percentArr:[(to: Float, from: Float, percent: Float)] = [(0.0,0.0,0.0), (0.0,0.0,0.0),(0.0,0.0,0.0),(0.0,0.0,0.0),(0.0,0.0,0.0), (0.0,0.0,0.0),(0.0,0.0,0.0),(0.0,0.0,0.0)]
+    @State var totalMoney: Float = 214500
+    @State private var colorArr:[Color] = [Color("Chart1"), Color("Chart2"), Color("Chart3"), Color("Chart4"), Color("Chart5"), Color("Chart6"), Color("Chart7"),Color("Chart8")]
+    
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
     var body: some View {
         ZStack{
