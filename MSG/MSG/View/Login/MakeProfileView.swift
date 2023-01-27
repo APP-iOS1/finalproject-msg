@@ -21,6 +21,9 @@ struct MakeProfileView: View {
     
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.presentationMode) var presentationMode
+    
+    @State private var showingAlert1 = false
+    @State private var showingAlert2 = false
     var body: some View {
         
         ZStack {
@@ -94,16 +97,50 @@ struct MakeProfileView: View {
                     
                     HStack {
                         TextField("닉네임을 입력하세요", text: $nickNameText)
-                        Button {
+                        
+                        // 닉네임 미입력할 경우
+                        if nickNameText.isEmpty {
+                            Button {
+                                showingAlert1 = true
+                            } label: {
+                                Text("중복 확인")
+                            }
+                            .frame(width: frameWidth / 5 ,height: frameHeight / 24)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke()
+                            }
+                            .alert(Text("중복 확인"), isPresented: $showingAlert1) {
+                                Button("확인") {}
+                                   } message: {
+                                           Text("닉네임을 입력하세요.")
+                                   }
                             
-                        } label: {
-                            Text("중복 확인")
+                        // 닉네임 입력할 경우 (닉네임 중복 체크)
+                        } else {
+                            Button {
+                                showingAlert1 = true
+                                fireStoreViewModel.nickNameCheck(nickName: nickNameText)
+                            } label: {
+                                Text("중복 확인")
+                            }
+                            .frame(width: frameWidth / 5 ,height: frameHeight / 24)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke()
+                            }
+                            .alert(Text("중복 확인"), isPresented: $showingAlert1) {
+                                Button("확인") {}
+                                   } message: {
+                                       if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
+                                           Text("중복된 닉네임입니다.")
+                                       } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
+                                           Text("사용 가능한 닉네임입니다.")
+                                       }
+                                   }
                         }
-                        .frame(width: frameWidth / 5 ,height: frameHeight / 24)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke()
-                        }
+                      
+                         
                     }
                     .padding(.leading)
                     .padding(.trailing)
@@ -111,23 +148,59 @@ struct MakeProfileView: View {
                 .frame(height: frameHeight / 5)
                 
                 VStack {
+                    
                     // 가입버튼
-                    Button {
-                        kakaoAuthViewModel.userNicName = nickNameText
-                        let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
-                        loginViewModel.currentUserProfile = userProfile
-                        fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
-                        self.presentationMode.wrappedValue.dismiss()
-                        print("버튼 탭드")
-                    } label: {
-                        Text("가입완료")
+                    // 닉네임 미입력할 경우
+                    if nickNameText.isEmpty {
+                        Button {
+                            showingAlert2 = true
+                        } label: {
+                            Text("가입완료")
+                        }
+                        .alert(Text("닉네임 확인"), isPresented: $showingAlert2) {
+                            Button("확인") {}
+                               } message: {
+                                   Text("닉네임을 확인하세요.")
+                               }
+                    // 닉네임 중복할 경우
+                    } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
+                        Button {
+                            showingAlert2 = true
+                        } label: {
+                            Text("가입완료")
+                        }
+                        .alert(Text("닉네임 확인"), isPresented: $showingAlert2) {
+                            Button("확인") {}
+                               } message: {
+                                       Text("닉네임 중복 확인을 하세요.")
+                               }
+                    // 닉네임이 중복하지 않을 경우
+                    } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
+                        Button {
+                            kakaoAuthViewModel.userNicName = nickNameText
+                            let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
+                            loginViewModel.currentUserProfile = userProfile
+                            fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
+                            self.presentationMode.wrappedValue.dismiss()
+                            print("버튼 탭드")
+                        } label: {
+                            Text("가입완료")
+                        }
                     }
+                    
+                    
+                    
+                    
                 }
                 .frame(width: frameWidth / 1.6,height: frameHeight / 17)
                 .overlay {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke()
                 }
+                
+                
+                
+                
             }
         }
         .foregroundColor(Color("Font"))
