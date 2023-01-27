@@ -22,8 +22,6 @@ struct MakeProfileView: View {
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var showingAlert1 = false
-    @State private var showingAlert2 = false
     var body: some View {
         
         ZStack {
@@ -98,117 +96,105 @@ struct MakeProfileView: View {
                     HStack {
                         TextField("닉네임을 입력하세요", text: $nickNameText)
                         
-                        // MARK: 닉네임 중복 확인 버튼
-                        Button {
-                            showingAlert1 = true
-                        } label: {
-                            Text("중복 확인")
-                        }
-                        .frame(width: frameWidth / 5 ,height: frameHeight / 24)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke()
-                        }
-                        .alert(Text("중복 확인"), isPresented: $showingAlert1) {
-                            Button("확인") {}
-                        } message: {
-                            
+                        // MARK: 닉네임 체크 이미지
+                        HStack {
                             // 닉네임 미입력
                             if nickNameText.isEmpty {
-                                Text("닉네임을 입력하세요.")
+                                Image(systemName: "multiply.circle.fill")
+                                    .foregroundColor(.red)
                                 
-                            // 닉네임 6자리 이하 입력
+                                // 닉네임 6자리 이하 입력
                             } else if nickNameText.range(of: ".{7,100}$", options: .regularExpression) != nil {
-                                Text("6자리 이하로 입력하세요")
+                                Image(systemName: "multiply.circle.fill")
+                                    .foregroundColor(.red)
                             } else {
                                 
                                 // 중복된 닉네임 입력
                                 if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
-                                    Text("중복된 닉네임입니다.")
+                                    Image(systemName: "multiply.circle.fill")
+                                        .foregroundColor(.red)
                                     
-                                // 사용 가능 닉네임 입력
+                                    // 사용 가능 닉네임 입력
                                 } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
-                                    Text("사용 가능한 닉네임입니다.")
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.blue)
                                 }
                             }
-                        } // alert
+                        } // HStack: 닉네임 체크 이미지
                         
-                    }
+                    } // HStack
                     .padding(.leading)
                     .padding(.trailing)
+                    
+                    // MARK: 닉네임 체크 텍스트
+                    HStack {
+                        // 닉네임 미입력
+                        if nickNameText.isEmpty {
+                            Text("닉네임을 입력하세요.")
+                                .font(.subheadline)
+                            // 닉네임 6자리 이하 입력
+                        } else if nickNameText.range(of: ".{7,100}$", options: .regularExpression) != nil {
+                            Text("6자리 이하로 입력하세요")
+                                .font(.subheadline)
+                        } else {
+                            
+                            // 중복된 닉네임 입력
+                            if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
+                                Text("중복된 닉네임입니다.")
+                                    .font(.subheadline)
+                                
+                                // 사용 가능 닉네임 입력
+                            } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
+                                Text("사용 가능한 닉네임입니다.")
+                                    .font(.subheadline)
+                            }
+                        }
+                        Spacer()
+                        
+                    } // HStack: 닉네임 체크 텍스트
+                    .padding(.leading)
                 }
                 .frame(height: frameHeight / 5)
                 
+                
+                
+                // MARK: 가입 완료 버튼
                 VStack {
-
-                    // MARK: 가입 완료 버튼
                     Button {
-                        showingAlert2 = true
-                    } label: {
-                        Text("가입완료")
-                    }
-                    .alert(Text("가입 확인"), isPresented: $showingAlert2) {
-                        
-                            // 닉네임 미입력
+                        // 닉네임 미입력
                         if nickNameText.isEmpty {
-                            Button("확인") {}
                             
                             // 닉네임 6자리 이하 입력
                         } else if nickNameText.range(of: ".{7,100}$", options: .regularExpression) != nil {
-                            Button("확인") {}
-                        } else {
                             
+                        } else {
                             // 중복된 닉네임 입력
                             if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
-                                Button("확인") {}
                                 
-                                // 사용 가능 닉네임 입력
+                                // 사용 가능 닉네임 입력 (최종 체크 가입완료)
                             } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
-                                Button("취소") {}
-                                
-                                Button("확인") {
-                                    kakaoAuthViewModel.userNicName = nickNameText
-                                    let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
-                                    loginViewModel.currentUserProfile = userProfile
-                                    fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
-                                    self.presentationMode.wrappedValue.dismiss()
-                                }
+                                kakaoAuthViewModel.userNicName = nickNameText
+                                let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
+                                loginViewModel.currentUserProfile = userProfile
+                                fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
+                                self.presentationMode.wrappedValue.dismiss()
                             }
                         }
-                        
-                    } message: {
-                        
-                        // 닉네임 미입력
-                        if nickNameText.isEmpty {
-                            Text("닉네임을 확인하세요.")
-                            
-                        // 닉네임 6자리 이하 입력
-                        } else if nickNameText.range(of: ".{7,100}$", options: .regularExpression) != nil {
-                            Text("닉네임을 확인하세요.")
-                        } else {
-                            
-                            // 중복된 닉네임 입력
-                            if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
-                                Text("닉네임을 확인하세요.")
-                                
-                            // 사용 가능 닉네임 입력
-                            } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
-                                Text("가입하시겠습니까?")
-                            }
-                        }
+                    } label: {
+                        Text("가입완료")
                     }
-                    
-                }
+                } // VStack: 가입 완료 버튼
                 .frame(width: frameWidth / 1.6,height: frameHeight / 17)
                 .overlay {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke()
                 }
-                
             }
+            
         }
         .foregroundColor(Color("Font"))
     }
+      
 }
 
 struct MakeProfileView_Previews: PreviewProvider {
