@@ -14,7 +14,6 @@ struct AfterChallengeView: View {
     func parsingExpenditure(expenditure: [String:[String]]) {
         print(#function)
         fireStoreViewModel.totalMoney = 0
-//        guard let expenditure else {return}
         for (_ , key) in expenditure {
             for moneyHistory in key {
                 for i in moneyHistory.components(separatedBy: "_") {
@@ -102,7 +101,7 @@ struct AfterChallengeView: View {
                     Group{
                         // 싱글게임 멀티게임 다르게 보여주기
                         if challenge.inviteFriend.isEmpty {
-                            SingleGameProgressBar()
+                            SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
                         } else {
                             MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
                         }
