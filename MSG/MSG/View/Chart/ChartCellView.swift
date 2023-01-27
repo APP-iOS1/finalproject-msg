@@ -12,6 +12,14 @@ struct ChartCellView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @Binding var selection: String
     
+    // 숫자 세자리씩 끊는 함수
+    func numberFormatter(number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        return numberFormatter.string(from: NSNumber(value: number))!
+    }
+    
     var body: some View {
         ForEach(Array((fireStoreViewModel.expenditure?.expenditureHistory.keys.enumerated())!), id: \.element) { index, key in
             ForEach((fireStoreViewModel.expenditure?.expenditureHistory[key])!, id: \.self) { value in
@@ -32,7 +40,39 @@ struct ChartCellView: View {
                             HStack{
                                 Text("\(consume[0])")
                                 Spacer()
-                                Text("- \(consume[1])")
+//                                Text("- \(consume[1])")
+                                Text("- \(numberFormatter(number: Int(consume[1])!))원")
+                            }
+                            .bold()
+                            
+                            HStack{
+                                Text("소비태그: \(key)")
+                                    .font(.subheadline)
+                                Spacer()
+                                Text("\(time[0]):\(time[1])")
+                                    .font(.subheadline)
+                            }
+                        }
+                        .padding()
+                    }
+                    .padding([.leading, .trailing], 20)
+                }
+                else if selection.isEmpty {
+                    HStack{
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(Color("Point1"))
+                            .frame(width: 12, height: 12)
+                        
+                        VStack(spacing: 5){
+                            HStack {
+                                Text("\(date[0])")
+                                Spacer()
+                            }
+                            HStack{
+                                Text("\(consume[0])")
+                                Spacer()
+//                                Text("- \(consume[1])")
+                                Text("- \(numberFormatter(number: Int(consume[1])!))원")
                             }
                             .bold()
                             
