@@ -98,49 +98,41 @@ struct MakeProfileView: View {
                     HStack {
                         TextField("닉네임을 입력하세요", text: $nickNameText)
                         
-                        // 닉네임 미입력할 경우
-                        if nickNameText.isEmpty {
-                            Button {
-                                showingAlert1 = true
-                            } label: {
-                                Text("중복 확인")
-                            }
-                            .frame(width: frameWidth / 5 ,height: frameHeight / 24)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke()
-                            }
-                            .alert(Text("중복 확인"), isPresented: $showingAlert1) {
-                                Button("확인") {}
-                                   } message: {
-                                           Text("닉네임을 입력하세요.")
-                                   }
-                            
-                        // 닉네임 입력할 경우 (닉네임 중복 체크)
-                        } else {
-                            Button {
-                                showingAlert1 = true
-                                fireStoreViewModel.nickNameCheck(nickName: nickNameText)
-                            } label: {
-                                Text("중복 확인")
-                            }
-                            .frame(width: frameWidth / 5 ,height: frameHeight / 24)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke()
-                            }
-                            .alert(Text("중복 확인"), isPresented: $showingAlert1) {
-                                Button("확인") {}
-                                   } message: {
-                                       if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
-                                           Text("중복된 닉네임입니다.")
-                                       } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
-                                           Text("사용 가능한 닉네임입니다.")
-                                       }
-                                   }
+                        // MARK: 닉네임 중복 확인 버튼
+                        Button {
+                            showingAlert1 = true
+                        } label: {
+                            Text("중복 확인")
                         }
-                      
-                         
+                        .frame(width: frameWidth / 5 ,height: frameHeight / 24)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke()
+                        }
+                        .alert(Text("중복 확인"), isPresented: $showingAlert1) {
+                            Button("확인") {}
+                        } message: {
+                            
+                            // 닉네임 미입력
+                            if nickNameText.isEmpty {
+                                Text("닉네임을 입력하세요.")
+                                
+                            // 닉네임 6자리 이하 입력
+                            } else if nickNameText.range(of: ".{7,100}$", options: .regularExpression) != nil {
+                                Text("6자리 이하로 입력하세요")
+                            } else {
+                                
+                                // 중복된 닉네임 입력
+                                if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
+                                    Text("중복된 닉네임입니다.")
+                                    
+                                // 사용 가능 닉네임 입력
+                                } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
+                                    Text("사용 가능한 닉네임입니다.")
+                                }
+                            }
+                        } // alert
+                        
                     }
                     .padding(.leading)
                     .padding(.trailing)
@@ -148,48 +140,63 @@ struct MakeProfileView: View {
                 .frame(height: frameHeight / 5)
                 
                 VStack {
-                    
-                    // 가입버튼
-                    // 닉네임 미입력할 경우
-                    if nickNameText.isEmpty {
-                        Button {
-                            showingAlert2 = true
-                        } label: {
-                            Text("가입완료")
-                        }
-                        .alert(Text("닉네임 확인"), isPresented: $showingAlert2) {
+
+                    // MARK: 가입 완료 버튼
+                    Button {
+                        showingAlert2 = true
+                    } label: {
+                        Text("가입완료")
+                    }
+                    .alert(Text("가입 확인"), isPresented: $showingAlert2) {
+                        
+                            // 닉네임 미입력
+                        if nickNameText.isEmpty {
                             Button("확인") {}
-                               } message: {
-                                   Text("닉네임을 확인하세요.")
-                               }
-                    // 닉네임 중복할 경우
-                    } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
-                        Button {
-                            showingAlert2 = true
-                        } label: {
-                            Text("가입완료")
-                        }
-                        .alert(Text("닉네임 확인"), isPresented: $showingAlert2) {
+                            
+                            // 닉네임 6자리 이하 입력
+                        } else if nickNameText.range(of: ".{7,100}$", options: .regularExpression) != nil {
                             Button("확인") {}
-                               } message: {
-                                       Text("닉네임 중복 확인을 하세요.")
-                               }
-                    // 닉네임이 중복하지 않을 경우
-                    } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
-                        Button {
-                            kakaoAuthViewModel.userNicName = nickNameText
-                            let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
-                            loginViewModel.currentUserProfile = userProfile
-                            fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
-                            self.presentationMode.wrappedValue.dismiss()
-                            print("버튼 탭드")
-                        } label: {
-                            Text("가입완료")
+                        } else {
+                            
+                            // 중복된 닉네임 입력
+                            if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
+                                Button("확인") {}
+                                
+                                // 사용 가능 닉네임 입력
+                            } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
+                                Button("취소") {}
+                                
+                                Button("확인") {
+                                    kakaoAuthViewModel.userNicName = nickNameText
+                                    let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
+                                    loginViewModel.currentUserProfile = userProfile
+                                    fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }
+                            }
+                        }
+                        
+                    } message: {
+                        
+                        // 닉네임 미입력
+                        if nickNameText.isEmpty {
+                            Text("닉네임을 확인하세요.")
+                            
+                        // 닉네임 6자리 이하 입력
+                        } else if nickNameText.range(of: ".{7,100}$", options: .regularExpression) != nil {
+                            Text("닉네임을 확인하세요.")
+                        } else {
+                            
+                            // 중복된 닉네임 입력
+                            if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == false {
+                                Text("닉네임을 확인하세요.")
+                                
+                            // 사용 가능 닉네임 입력
+                            } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
+                                Text("가입하시겠습니까?")
+                            }
                         }
                     }
-                    
-                    
-                    
                     
                 }
                 .frame(width: frameWidth / 1.6,height: frameHeight / 17)
@@ -197,9 +204,6 @@ struct MakeProfileView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke()
                 }
-                
-                
-                
                 
             }
         }
