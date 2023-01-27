@@ -11,10 +11,11 @@ struct AfterChallengeView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     let challenge: Challenge
     
-    func parsingExpenditure(expenditure: Expenditure?) {
+    func parsingExpenditure(expenditure: [String:[String]]) {
         print(#function)
-        guard let expenditure else {return}
-        for (_ , key) in expenditure.expenditureHistory {
+        fireStoreViewModel.totalMoney = 0
+//        guard let expenditure else {return}
+        for (_ , key) in expenditure {
             for moneyHistory in key {
                 for i in moneyHistory.components(separatedBy: "_") {
                     if let money = Int(i) {
@@ -154,9 +155,9 @@ struct AfterChallengeView: View {
                 .padding()
 
         }
-        .onAppear {
-            parsingExpenditure(expenditure: fireStoreViewModel.expenditure)
-        }
+        .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
+            parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
+        })
     }
 }
 
