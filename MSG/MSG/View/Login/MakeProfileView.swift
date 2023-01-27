@@ -189,7 +189,6 @@ struct MakeProfileView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke()
                 }
-            
             }
             
         }
