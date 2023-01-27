@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct AfterChallengeView: View {
-    
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     let challenge: Challenge
+    
+    func parsingExpenditure(expenditure: Expenditure?) {
+        print(#function)
+        guard let expenditure else {return}
+        for (_ , key) in expenditure.expenditureHistory {
+            for moneyHistory in key {
+                for i in moneyHistory.components(separatedBy: "_") {
+                    if let money = Int(i) {
+                        fireStoreViewModel.totalMoney += money
+                        print(money)
+                    }
+                }
+            }
+        }
+    }
     
     func dateCheck(startDate: String) -> Date {
         let formatter = DateFormatter()
@@ -92,7 +107,7 @@ struct AfterChallengeView: View {
                         }
                         HStack{
                             Text("지금까지")
-                            Text("75,500원")
+                            Text("\(fireStoreViewModel.totalMoney)원")
                                 .underline()
                             Text("사용")
                             
@@ -139,11 +154,14 @@ struct AfterChallengeView: View {
                 .padding()
 
         }
+        .onAppear {
+            parsingExpenditure(expenditure: fireStoreViewModel.expenditure)
+        }
     }
 }
 
-struct AfterChallengeView_Previews: PreviewProvider {
-    static var previews: some View {
-        AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 300000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
-    }
-}
+//struct AfterChallengeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 300000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
+//    }
+//}

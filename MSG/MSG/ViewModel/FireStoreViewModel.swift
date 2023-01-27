@@ -30,6 +30,7 @@ class FireStoreViewModel: ObservableObject {
     @Published var currentGame: Challenge?
     @Published var expenditureList: [String: [String]] = [:]
     @Published var expenditure: Expenditure?
+    @Published var totalMoney = 0
     init() {
         //        postits = []
     }
@@ -237,6 +238,7 @@ class FireStoreViewModel: ObservableObject {
                       "addDay": Date(),
                       "expenditureHistory": expenditureList
                      ])
+        print(expenditureList)
     }
 
 //    currentUserProfile
@@ -262,6 +264,7 @@ class FireStoreViewModel: ObservableObject {
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
             let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
+            self.expenditureList = expenditure.expenditureHistory
             self.expenditure = expenditure
             print(expenditure)
         } catch {
