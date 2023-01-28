@@ -26,7 +26,7 @@ struct LoginView: View {
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
     var body: some View {
-        
+
         ZStack {
             Color("Background")
                 .ignoresSafeArea()
