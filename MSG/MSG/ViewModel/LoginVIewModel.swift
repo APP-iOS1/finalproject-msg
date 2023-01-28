@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 import CryptoKit
 import AuthenticationServices
 import GoogleSignIn
@@ -18,21 +19,40 @@ import FirebaseAuth
 class LoginViewModel: ObservableObject {
     
     //MARK: Error Properties
-
+    
     @Published var currentUserProfile: Msg? = nil
     @Published var showError: Bool = false
     @Published var errorMessege: String = ""
     @Published var currentUser = Auth.auth().currentUser
     // MARK: App Log Status
     @AppStorage("log_status") var logStatus: Bool = false
-    
+
     // MARK: Apple Sign in Properties
     @Published var nonce: String = ""
     
+    
+    // MARK: - UserProfile 유무 판별함수
+    /// 로그인 후, 해당 유저의 프로필이 등록되어있는지 확인하는 함수
+    func fetchUserInfo(_ userId: String) async throws -> Msg? {
+        guard (Auth.auth().currentUser != nil) else { return nil}
+        let ref = Firestore.firestore().collection("User").document(userId)
+        let snapshot = try await ref.getDocument()
+        guard let docData = snapshot.data() else { return nil }
+        let nickName = docData["nickName"] as? String ?? ""
+        let profileImage = docData["profileImage"] as? String ?? ""
+        let game = docData["game"] as? String ?? ""
+        let gameHistory = docData["gameHistory"] as? [String] ?? []
+        let friend = docData["gameHistory"] as? [String] ?? []
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
+        return userInfo
+    }
+    
+    
+    
     func signout(){
         do{
-         try Auth.auth().signOut()
-         withAnimation(.easeInOut){self.logStatus = false}
+            try Auth.auth().signOut()
+            withAnimation(.easeInOut){self.logStatus = false}
             self.currentUserProfile = nil
             currentUser = nil
             
@@ -52,8 +72,7 @@ class LoginViewModel: ObservableObject {
     }
     
     // MARK: Apple Sign in API
-    func appleAuthenticate(credential: ASAuthorizationAppleIDCredential) {
-        
+    func appleAuthenticate(credential: ASAuthorizationAppleIDCredential) async {
         // getting Token...
         guard let token = credential.identityToken else {
             print("error with firebase")
@@ -67,17 +86,13 @@ class LoginViewModel: ObservableObject {
         }
         
         let firebaseCredential = OAuthProvider.credential(withProviderID: "apple.com", idToken: tokenString, rawNonce: nonce)
-    
-        Auth.auth().signIn(with: firebaseCredential) { (result, err) in
-            if let error = err {
-                print(error.localizedDescription)
-                return
-            }
-            self.currentUser = result?.user
-            // User Successfully Logged Into Firebase...
-            
-            print("Logged In Success Apple")
+        do {
+            let authResult = try await Auth.auth().signIn(with: firebaseCredential)
+            self.currentUserProfile =  try await fetchUserInfo(authResult.user.uid)
+            self.currentUser = authResult.user
             withAnimation(.easeInOut){self.logStatus = true}
+        }catch{
+            print("appleLogin Fail..!")
         }
         
     }
@@ -88,10 +103,10 @@ class LoginViewModel: ObservableObject {
             do {
                 guard let idToken = user.authentication.idToken else { return }
                 let accesToken = user.authentication.accessToken
-                
                 let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accesToken)
-                try await Auth.auth().signIn(with: credential)
-                self.currentUser = Auth.auth().currentUser
+                let authResult = try await Auth.auth().signIn(with: credential)
+                self.currentUserProfile = try await fetchUserInfo(authResult.user.uid)
+                self.currentUser = authResult.user
                 print("Logged In Success Google")
                 await MainActor.run(body: {
                     withAnimation(.easeInOut){self.logStatus = true}
@@ -183,45 +198,38 @@ class LoginViewModel: ObservableObject {
             } else {
                 // 파이어베이스 유저 생성
                 Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
-                    if let error = error {
-                        print("signup failed")
-                        print("error")
-                        Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))") { result, error in
-                            self.currentUser = result?.user
-                            withAnimation(.easeInOut){self.logStatus = true}
-                        }
-                        print("email:",user?.kakaoAccount?.email ?? "")
-                    }else {
-                        self.currentUser = result?.user
+                    Task{
+                        let authResult = try await Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email ?? "")!, password: "\(String(describing: user?.id))")
+                        self.currentUserProfile = try await self.fetchUserInfo(_: authResult.user.uid)
+                        self.currentUser = authResult.user
                         withAnimation(.easeInOut){self.logStatus = true}
                     }
-                    
                 }
             }
         }
     }
-    
-    func unlinkKakao(){
-        UserApi.shared.unlink {(error) in
-            if let error = error {
-                print(error)
-            }
-            else {
-                print("unlink() success.")
-            }
-        }
-    }
-    
-    // 로그인후 유저 정보 입력
-    func inputUserInfo() {
-        UserApi.shared.me() { user, error in
-            if let error = error {
-                print("유저 정보 에러 :\(error)")
-            }
-        }
-    }
-    
 }
+
+func unlinkKakao(){
+    UserApi.shared.unlink {(error) in
+        if let error = error {
+            print(error)
+        }
+        else {
+            print("unlink() success.")
+        }
+    }
+}
+
+// 로그인후 유저 정보 입력
+func inputUserInfo() {
+    UserApi.shared.me() { user, error in
+        if let error = error {
+            print("유저 정보 에러 :\(error)")
+        }
+    }
+}
+
 
 // MARK: Extensions
 extension UIApplication {
@@ -235,45 +243,45 @@ extension UIApplication {
 
 // MARK: Apple Sign in Helpers
 func sha256(_ input: String) -> String {
-  let inputData = Data(input.utf8)
-  let hashedData = SHA256.hash(data: inputData)
-  let hashString = hashedData.compactMap {
-    return String(format: "%02x", $0)
-  }.joined()
-
-  return hashString
+    let inputData = Data(input.utf8)
+    let hashedData = SHA256.hash(data: inputData)
+    let hashString = hashedData.compactMap {
+        return String(format: "%02x", $0)
+    }.joined()
+    
+    return hashString
 }
 
 func randomNonceString(length: Int = 32) -> String {
-  precondition(length > 0)
-  let charset: Array<Character> =
-      Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-  var result = ""
-  var remainingLength = length
-
-  while remainingLength > 0 {
-    let randoms: [UInt8] = (0 ..< 16).map { _ in
-      var random: UInt8 = 0
-      let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-      if errorCode != errSecSuccess {
-        fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
-      }
-      return random
+    precondition(length > 0)
+    let charset: Array<Character> =
+    Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+    var result = ""
+    var remainingLength = length
+    
+    while remainingLength > 0 {
+        let randoms: [UInt8] = (0 ..< 16).map { _ in
+            var random: UInt8 = 0
+            let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+            if errorCode != errSecSuccess {
+                fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+            }
+            return random
+        }
+        
+        randoms.forEach { random in
+            if remainingLength == 0 {
+                return
+            }
+            
+            if random < charset.count {
+                result.append(charset[Int(random)])
+                remainingLength -= 1
+            }
+        }
     }
-
-    randoms.forEach { random in
-      if remainingLength == 0 {
-        return
-      }
-
-      if random < charset.count {
-        result.append(charset[Int(random)])
-        remainingLength -= 1
-      }
-    }
-  }
-
-  return result
+    
+    return result
 }
 
 

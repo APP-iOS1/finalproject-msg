@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProgressBar: View {
     
+
     @Binding var progress:[(tag:String, money:Float)]
     @Binding var percentArr:[(to: Float, from: Float, percent: Float)]
     @Binding var totalMoney: Float
@@ -16,6 +17,7 @@ struct ProgressBar: View {
     @State private var selectMoney = 0
     @State private var selectPercent = 0
     @State private var bright:Double = 0.0
+
     @State private var colorArr:[Color] = [Color("Chart1"), Color("Chart2"), Color("Chart3"), Color("Chart4"), Color("Chart5"), Color("Chart6"), Color("Chart7"),Color("Chart8")]
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
@@ -28,6 +30,7 @@ struct ProgressBar: View {
                 .opacity(0.3)
                 .foregroundColor(Color.red)
                 .frame(width: 250,height: 250)
+
             VStack{
                 if selection == "" {
                     Text("\(Int(totalMoney))원")
