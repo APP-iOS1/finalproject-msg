@@ -31,6 +31,8 @@ class FireStoreViewModel: ObservableObject {
     @Published var expenditureList: [String: [String]] = [:]
     @Published var expenditure: Expenditure?
     @Published var totalMoney = 0
+    @Published var nickNameCheck = false
+    
     init() {
         //        postits = []
     }
@@ -87,6 +89,24 @@ class FireStoreViewModel: ObservableObject {
         let friend = docData["friend"] as? [String] ?? []
         let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
         return userInfo
+    }
+    
+    // 프로필 닉네임 중복 체크
+    func nickNameCheck(nickName: String) -> Bool {
+        
+        let ref = database.collection("User")
+        
+        let query = ref.whereField("nickName", isEqualTo: nickName)
+        query.getDocuments() { (querySnapshot, err) in
+            
+            if querySnapshot!.documents.isEmpty {
+                self.nickNameCheck = true
+            } else {
+                self.nickNameCheck = false
+            }
+        }
+        
+        return nickNameCheck
     }
     
     //프로필설정을 마치고 완료버튼을 눌렀을 때 발동

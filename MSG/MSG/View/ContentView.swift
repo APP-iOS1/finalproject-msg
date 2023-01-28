@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    //** 코어데이터 -> 로그인 처리 **
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
@@ -39,7 +39,6 @@ struct ContentView: View {
                                     .deferredRendering(for: 0.5
                                 )
                             }
-                            
                         } else {
                             TabView {
                                 HomeView()
@@ -77,18 +76,10 @@ struct ContentView: View {
                             
                     }
                 }
-                // (1) -> 로그인 상태가 유지된 경우, 현재 curre
                 .onAppear{
                     if loginViewModel.currentUser != nil {
                         Task{
                                 loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(_: loginViewModel.currentUser!.uid)
-                        }
-                    }
-                }
-                .onChange(of: loginViewModel.currentUser) { user in
-                    if let user {
-                        Task{
-                            loginViewModel.currentUserProfile  = try await fireStoreViewModel.fetchUserInfo(_: user.uid)
                         }
                     }
                 }

@@ -116,7 +116,8 @@ struct AfterChallengeView: View {
                         
                         VStack{
                             //챌린지 시작날짜~오늘날짜 계산
-                            Text(dateCheck(startDate: challenge.startDate), style: .offset)
+//                            Text(dateCheck(startDate: challenge.startDate), style: .offset)
+                            CountDownView(endDate: Double(challenge.endDate)!)
                         }
                     }.font(.title3.bold())
                         .padding(5)

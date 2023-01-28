@@ -53,7 +53,6 @@ struct OnBoardView4: View {
                     .resizable()
                     .frame(width:220, height: 280)
                     .cornerRadius(8)
-                    .shadow(radius: 10)
                     .padding(.bottom, 130)
              
             }
