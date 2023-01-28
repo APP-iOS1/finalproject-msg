@@ -30,6 +30,9 @@ class FireStoreViewModel: ObservableObject {
     @Published var currentGame: Challenge?
     @Published var expenditureList: [String: [String]] = [:]
     @Published var expenditure: Expenditure?
+    @Published var totalMoney = 0
+    @Published var nickNameCheck = false
+    
     init() {
         //        postits = []
     }
@@ -86,6 +89,24 @@ class FireStoreViewModel: ObservableObject {
         let friend = docData["friend"] as? [String] ?? []
         let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
         return userInfo
+    }
+    
+    // 프로필 닉네임 중복 체크
+    func nickNameCheck(nickName: String) -> Bool {
+        
+        let ref = database.collection("User")
+        
+        let query = ref.whereField("nickName", isEqualTo: nickName)
+        query.getDocuments() { (querySnapshot, err) in
+            
+            if querySnapshot!.documents.isEmpty {
+                self.nickNameCheck = true
+            } else {
+                self.nickNameCheck = false
+            }
+        }
+        
+        return nickNameCheck
     }
     
     //프로필설정을 마치고 완료버튼을 눌렀을 때 발동
@@ -237,6 +258,7 @@ class FireStoreViewModel: ObservableObject {
                       "addDay": Date(),
                       "expenditureHistory": expenditureList
                      ])
+        print(expenditureList)
     }
 
 //    currentUserProfile
@@ -255,15 +277,14 @@ class FireStoreViewModel: ObservableObject {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(userId)
         do {
-            print("뿌뿌 여기까지 들어와따 ")
             let snapShot = try await ref.getDocument()
-            print("이거는 어떻게 된걸까요?")
             guard let docData = snapShot.data() else { return print("실패해쒀")}
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
             let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
+            self.expenditureList = expenditure.expenditureHistory
             self.expenditure = expenditure
-            print(expenditure)
+            print(expenditureList)
         } catch {
             print("catched")
         }

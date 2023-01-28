@@ -21,16 +21,22 @@ struct OnBoardTapView: View {
             ZStack {
                 TabView(selection: $count,
                         content: {
-                    OnBoardView1()
-                        .tag(1)
-                    OnBoardView2()
-                        .tag(2)
-                    OnBoardView3()
-                        .tag(3)
-                    OnBoardView4()
-                        .tag(4)
-                    OnBoardView5()
-                        .tag(5)
+                    if count == 1 {
+                        OnBoardView1()
+                            .tag(1)
+                    } else if count == 2 {
+                        OnBoardView2()
+                            .tag(2)
+                    } else if count == 3 {
+                        OnBoardView3()
+                            .tag(3)
+                    } else if count == 4 {
+                        OnBoardView4()
+                            .tag(4)
+                    } else if count == 5 {
+                        OnBoardView5()
+                            .tag(5)
+                    }
                 })
                 .ignoresSafeArea()
                 .onReceive(timer, perform: { _ in

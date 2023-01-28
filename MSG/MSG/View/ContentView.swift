@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    //** 코어데이터 -> 로그인 처리 **
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
@@ -35,8 +35,10 @@ struct ContentView: View {
                         if loginViewModel.currentUserProfile == nil {
                             withAnimation {
                                 MakeProfileView()
+                                // MakeProfileView를 지연 시킴
+                                    .deferredRendering(for: 0.5
+                                )
                             }
-                            
                         } else {
                             TabView {
                                 HomeView()
@@ -74,18 +76,10 @@ struct ContentView: View {
                             
                     }
                 }
-                // (1) -> 로그인 상태가 유지된 경우, 현재 curre
                 .onAppear{
                     if loginViewModel.currentUser != nil {
                         Task{
                                 loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(_: loginViewModel.currentUser!.uid)
-                        }
-                    }
-                }
-                .onChange(of: loginViewModel.currentUser) { user in
-                    if let user {
-                        Task{
-                            loginViewModel.currentUserProfile  = try await fireStoreViewModel.fetchUserInfo(_: user.uid)
                         }
                     }
                 }
@@ -116,5 +110,46 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(fireStoreViewModel)
             .environmentObject(realtimeViewModel)
             .environmentObject(NotificationManager())
+    }
+}
+
+
+// MARK: 123번 ~ 161번 지연 시키는 ViewModifier
+private struct DeferredViewModifier: ViewModifier {
+
+    // MARK: API
+
+    let threshold: Double
+
+    // MARK: - ViewModifier
+
+    func body(content: Content) -> some View {
+        _content(content)
+            .onAppear {
+               DispatchQueue.main.asyncAfter(deadline: .now() + threshold) {
+                   self.shouldRender = true
+               }
+            }
+    }
+
+    // MARK: - Private
+
+    @ViewBuilder
+    private func _content(_ content: Content) -> some View {
+        if shouldRender {
+            content
+        } else {
+            content
+                .hidden()
+        }
+    }
+
+    @State
+    private var shouldRender = false
+}
+
+extension View {
+    func deferredRendering(for seconds: Double) -> some View {
+        modifier(DeferredViewModifier(threshold: seconds))
     }
 }
