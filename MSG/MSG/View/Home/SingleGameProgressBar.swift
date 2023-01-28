@@ -10,6 +10,9 @@ import SwiftUI
 struct SingleGameProgressBar: View {
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject var loginViewModel: LoginViewModel
+    @Binding var percentage: Int
+    let limitMoney: Int
 
     var body: some View {
         
@@ -17,21 +20,23 @@ struct SingleGameProgressBar: View {
             Circle()
                 .stroke(Color.gray.opacity(0.2), lineWidth: 30)
             Circle()
-                .trim(from: 0.0, to: 0.3)
+                .trim(from: 0.0, to: Double(percentage) / Double(limitMoney))
                 .stroke(style: StrokeStyle(lineWidth: 30.0, lineCap: .round, lineJoin: .round))
                 .foregroundColor(Color("Point2"))
                 .rotationEffect(Angle(degrees: 270.0))
              
             //                    .animation(.linear)
             VStack {
-                Text("주희")
-                Text("20%")
+                Text(loginViewModel.currentUserProfile!.nickName)
+//                Text("\(Double(percentage) / Double(limitMoney))%")
+                Text("\(String(format:"%.1f",Double(percentage) / Double(limitMoney) * 100))%")
             }
         }
         .frame(width: UIScreen.main.bounds.width / 1.6)
         .onAppear {
             Task {
                 await fireStoreViewModel.fetchExpenditure()
+                print("percengate:\(self.percentage), limitMoney:\(self.limitMoney)")
             }
         }
     }
@@ -39,6 +44,6 @@ struct SingleGameProgressBar: View {
 
 struct GameProgressBarView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleGameProgressBar()
+        SingleGameProgressBar(percentage: .constant(Int(0.3)), limitMoney: 0)
     }
 }

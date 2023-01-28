@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct AfterChallengeView: View {
-    
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     let challenge: Challenge
+    
+    func parsingExpenditure(expenditure: [String:[String]]) {
+        print(#function)
+        fireStoreViewModel.totalMoney = 0
+        for (_ , key) in expenditure {
+            for moneyHistory in key {
+                for i in moneyHistory.components(separatedBy: "_") {
+                    if let money = Int(i) {
+                        fireStoreViewModel.totalMoney += money
+                        print(money)
+                    }
+                }
+            }
+        }
+    }
     
     func dateCheck(startDate: String) -> Date {
         let formatter = DateFormatter()
@@ -86,13 +101,13 @@ struct AfterChallengeView: View {
                     Group{
                         // 싱글게임 멀티게임 다르게 보여주기
                         if challenge.inviteFriend.isEmpty {
-                            SingleGameProgressBar()
+                            SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
                         } else {
                             MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
                         }
                         HStack{
                             Text("지금까지")
-                            Text("75,500원")
+                            Text("\(fireStoreViewModel.totalMoney)원")
                                 .underline()
                             Text("사용")
                             
@@ -140,11 +155,14 @@ struct AfterChallengeView: View {
                 .padding()
 
         }
+        .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
+            parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
+        })
     }
 }
 
-struct AfterChallengeView_Previews: PreviewProvider {
-    static var previews: some View {
-        AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 300000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
-    }
-}
+//struct AfterChallengeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 300000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
+//    }
+//}

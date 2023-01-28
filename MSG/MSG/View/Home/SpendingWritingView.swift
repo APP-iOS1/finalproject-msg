@@ -12,8 +12,10 @@ struct SpendingWritingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var selection: Int = 0
-    @State private var consumeTilte = ""
-    @State private var consumeMoney = ""
+//    @State private var consumeTilte = ""
+//    @State private var consumeMoney = ""
+    @ObservedObject var spendingViewModel = SpendingWriteViewModel()
+    @State private var isValid = false
     
     private func convertTextLogic(title: String, money: String, date: Date) -> String {
         return title + "_" + money + "_" + date.toString()
@@ -66,11 +68,11 @@ struct SpendingWritingView: View {
                         Text("|")
                         VStack{
                             HStack {
-                                TextField("", text: $consumeTilte)
+                                TextField("", text: $spendingViewModel.consumeTitle)
                                     .padding(.leading, 16)
                                     .padding(.trailing, 16)
                                 Button {
-                                    consumeTilte = ""
+                                    spendingViewModel.consumeTitle = ""
                                 } label: {
                                     Image(systemName: "eraser")
                                 }
@@ -89,11 +91,11 @@ struct SpendingWritingView: View {
                         Text("|")
                         VStack{
                             HStack {
-                                TextField("", text: $consumeMoney)
+                                TextField("", text: $spendingViewModel.consumeMoney)
                                     .padding(.leading, 16)
                                     .padding(.trailing, 16)
                                 Button {
-                                    consumeMoney = ""
+                                    spendingViewModel.consumeMoney = ""
                                 } label: {
                                     Image(systemName: "eraser")
                                 }
@@ -109,13 +111,13 @@ struct SpendingWritingView: View {
                     
                     Spacer()
                     Button {
-                        let convert = convertTextLogic(title: consumeTilte, money: consumeMoney, date: Date())
+                        let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
                         fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,
                                                           tagName: tagArray[selection], convert: convert)
                         selection = 0
-                        consumeTilte = ""
-                        consumeMoney = ""
-                    } label: {
+                        spendingViewModel.consumeTitle = ""
+                        spendingViewModel.consumeMoney = ""
+                    }label: {
                         Text("추가하기")
                             .foregroundColor(Color("Background"))
                             .padding(.horizontal, 100)
@@ -123,8 +125,10 @@ struct SpendingWritingView: View {
                             .background(Color("Point2"))
                             .cornerRadius(10)
                     }
+                    .disabled(!self.isValid)
                     Spacer()
                 }
+                .onReceive(self.spendingViewModel.isGameSettingValidPublisher, perform: {self.isValid = $0})
             }
             .foregroundColor(Color("Font"))
         }

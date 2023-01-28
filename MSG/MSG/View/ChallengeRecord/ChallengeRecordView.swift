@@ -51,17 +51,14 @@ struct ChallengeRecordView: View {
 
 // 챌린지 리스트 커스텀
 struct MyList: View {
-    var challenge = Challenge(id: "", gameTitle: "", limitMoney: 0, startDate: "", endDate: "", inviteFriend: ["1","2"])
+    @State var challenge: Challenge
     // 예시 (추후 데이터 연결 시 필요 없음)
-    let record = "커플 허리띠 챌린지"
-    let twice = "모모, 사나, 미나"
-    let time = "2022.12.01 ~ 2022.12.31"
     
     var body: some View {
         
         NavigationLink {
             // 넘어갈 뷰 연결 부분
-            RecordDetailView()
+            RecordDetailView(challenge: $challenge)
         } label: {
             HStack {
                 
@@ -83,14 +80,16 @@ struct MyList: View {
                         .lineLimit(1)
                     
                     // 챌린지에 함께한 친구들
-                    HStack{
-                        Text("참여자 :")
-                            .font(.footnote)
-                            .foregroundColor(Color("Font"))
-                        ForEach(challenge.inviteFriend, id:\.self) { name in
-                            Text("\(name)")
+                    if !challenge.inviteFriend.isEmpty {
+                        HStack{
+                            Text("참여자 :")
                                 .font(.footnote)
                                 .foregroundColor(Color("Font"))
+                            ForEach(challenge.inviteFriend, id:\.self) { name in
+                                Text("\(name)")
+                                    .font(.footnote)
+                                    .foregroundColor(Color("Font"))
+                            }
                         }
                     }
                   

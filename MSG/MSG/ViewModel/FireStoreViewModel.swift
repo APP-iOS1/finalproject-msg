@@ -30,7 +30,7 @@ class FireStoreViewModel: ObservableObject {
     @Published var currentGame: Challenge?
     @Published var expenditureList: [String: [String]] = [:]
     @Published var expenditure: Expenditure?
-    
+    @Published var totalMoney = 0
     @Published var nickNameCheck = false
     
     init() {
@@ -258,6 +258,7 @@ class FireStoreViewModel: ObservableObject {
                       "addDay": Date(),
                       "expenditureHistory": expenditureList
                      ])
+        print(expenditureList)
     }
 
 //    currentUserProfile
@@ -276,15 +277,14 @@ class FireStoreViewModel: ObservableObject {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(userId)
         do {
-            print("뿌뿌 여기까지 들어와따 ")
             let snapShot = try await ref.getDocument()
-            print("이거는 어떻게 된걸까요?")
             guard let docData = snapShot.data() else { return print("실패해쒀")}
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
             let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
+            self.expenditureList = expenditure.expenditureHistory
             self.expenditure = expenditure
-            print(expenditure)
+            print(expenditureList)
         } catch {
             print("catched")
         }
