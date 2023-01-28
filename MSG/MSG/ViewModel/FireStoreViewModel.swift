@@ -35,8 +35,33 @@ class FireStoreViewModel: ObservableObject {
     
     init() {
         //        postits = []
+        
     }
     
+    
+    
+    // MARK: - 초대받은 챌린지 정보 가져오기
+    /// 초대받은 챌린지의 정보를 가져오는 함수
+    func fetchChallengeInformation(_ challengeId: String) async -> Challenge? {
+        print(#function)
+        let ref = database.collection("Challenge").document(challengeId)
+        do{
+            let document =  try await ref.getDocument()
+            guard let docData = document.data() else { return nil}
+            let id = docData["id"] as? String ?? ""
+            let gameTitle = docData["gameTitle"] as? String ?? ""
+            let limitMoney = docData["limitMoney"] as? Int ?? 0
+            let startDate = docData["startDate"] as? String ?? ""
+            let endDate = docData["endDate"] as? String ?? ""
+            let inviteFriend = docData["inviteFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle:gameTitle , limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            return challenge
+        } catch{
+                print("Error")
+            return nil
+        }
+        
+    }
     
     // MARK: - 멀티 게임 생성
     func addMultiGame(_ challenge: Challenge) async {
@@ -58,7 +83,7 @@ class FireStoreViewModel: ObservableObject {
         }
         
     }
-    
+
     // MARK: - 게임 수락 시, invite목록에 추가하기 (1) Challenge
     func acceptGame(_ gameId: String) async {
         print(#function)
@@ -153,7 +178,6 @@ class FireStoreViewModel: ObservableObject {
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
-                        
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
                         self.userArray.append(getUser)
                         print("findUser:",self.userArray)

@@ -27,15 +27,33 @@ var category: [Category] = [
 
 struct ChartView: View {
     
-    @State private var progressValue: [Float] = [10000, 50000, 60000, 3500]
+    @State private var progressValue: [(tag: String, money: Float)] = []
     @State private var consumeTags: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
+    @State private var percentArr:[(to: Float, from: Float, percent: Float)] = []
     @State private var selection: String = ""
-    
+    @State private var totalMoney: Float = 0
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
     private func totalMoney(title: String, money: String, date: Date) -> String {
         return title + "_" + money + "_" + date.toString()
     }
+    
+    private func makeProgressValue(_ expenditureHistory: [String:[String]]) -> [(tag: String,money: Float)]{
+        var progressArr : [(tag: String,money: Float)] = []
+        print("pArr\(progressArr)")
+        for (tag, expenditure) in expenditureHistory{
+            var sum:Float = 0
+            for string in expenditure {
+                let stringArr = string.components(separatedBy: "_")
+                let money = stringArr[1]
+                sum += Float(money)!
+            }
+            progressArr.append((tag: tag, money: sum))
+        }
+        print("\(progressArr)")
+        return progressArr
+    }
+
     
     var body: some View {
         ZStack{
@@ -44,7 +62,7 @@ struct ChartView: View {
             
             VStack{
                 //원형바
-                ProgressBar()
+                ProgressBar(progress: $progressValue, percentArr: $percentArr, totalMoney: $totalMoney, selection: $selection)
                     .padding(40)
                 
                 // 태그 별 선택
@@ -86,6 +104,16 @@ struct ChartView: View {
                 }
             }
             .foregroundColor(Color("Font"))
+        }
+        .onAppear{
+            Task{
+                await fireStoreViewModel.fetchExpenditure()
+                //
+                guard let expenditureHistory = fireStoreViewModel.expenditure else{ return }
+                self.progressValue = self.makeProgressValue(expenditureHistory.expenditureHistory)
+                for expenditure in progressValue{ totalMoney += expenditure.money}
+                percentArr = Array(repeating: (0,0,0), count: progressValue.count)
+            }
         }
     }
 }
