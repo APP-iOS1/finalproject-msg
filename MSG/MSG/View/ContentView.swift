@@ -36,10 +36,8 @@ struct ContentView: View {
                             withAnimation {
                                 MakeProfileView()
                                 // MakeProfileView를 지연 시킴
-                                    .deferredRendering(for: 0.5
-                                )
+                                    .deferredRendering(for: 0.5)
                             }
-                            
                         } else {
                             TabView {
                                 HomeView()
