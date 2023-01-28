@@ -64,15 +64,12 @@ struct LoginView: View {
                         
                         // MARK: Custom Apple Sign in Button
                         CustomButton1()
-
                             .overlay {
-                                SignInWithAppleButton{(request) in
+                                SignInWithAppleButton { request in
+                                    loginViewModel.nonce = randomNonceString()
+                                        request.requestedScopes = [.fullName, .email]
+                                        request.nonce = sha256(loginViewModel.nonce)
                                     
-                                    // requesting paramertes from apple login...
-                                loginViewModel.nonce = randomNonceString()
-                                    request.requestedScopes = [.fullName, .email]
-
-                                    request.nonce = sha256(loginViewModel.nonce)
                                 } onCompletion: { (result) in
                                     switch result {
                                     case .success(let user):
@@ -82,11 +79,10 @@ struct LoginView: View {
                                             print("error with firebase")
                                             return
                                         }
-                                        loginViewModel.appleAuthenticate(credential: credential)
+                                        Task { await loginViewModel.appleAuthenticate(credential: credential) }
                                     case.failure(let error):
                                         print(error.localizedDescription)
                                     }
-
                                 }
                                 .signInWithAppleButtonStyle(.white)
                                 .cornerRadius(8)
