@@ -18,13 +18,6 @@ struct GameRequestAlertView: View {
                 Color("Background").ignoresSafeArea()
                 if realtimeViewModel.requsetGameArr.isEmpty{
                     Text("비어있습니다.")
-                    Button {
-                        isPresent = true
-                    } label: {
-                        Text("눌러줘")
-                    }
-                    
-                    
                 }
                 ForEach(realtimeViewModel.requsetGameArr){ sendUser in
                     HStack{
