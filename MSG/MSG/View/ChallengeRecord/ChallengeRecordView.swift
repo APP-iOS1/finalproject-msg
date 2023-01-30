@@ -16,12 +16,15 @@ struct ChallengeRecordView: View {
             Color("Background")
                 .ignoresSafeArea()
             
-            VStack(alignment: .leading) {
+            VStack {
                 
                 // 타이틀
-                Text("챌린지 기록")
+                HStack {
+                    Text("챌린지 기록")
+                    Spacer()
+                }
                     .foregroundColor(Color("Font"))
-                    .font(.title.bold())
+                    .font(.title3.bold())
                     .padding()
                 
                 // 챌린지 기록 리스트
@@ -63,48 +66,42 @@ struct MyList: View {
             HStack {
                 
                 Image(systemName: "magazine.fill")
-                    .font(.system(size: 40))
-                    .foregroundColor(Color("Font"))
-                    .frame(width: 60)
-                    .padding()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40)
+                    .padding([.trailing], 20)
                 
-                VStack(alignment: .leading, spacing: 0){
-                    
-                    Divider().opacity(0)
+                VStack(alignment: .leading){
                     
                     Text("\(challenge.gameTitle)")
                         .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundColor(Color("Font"))
                         .padding(.bottom, 10)
                         .lineLimit(1)
                     
                     // 챌린지에 함께한 친구들
                     if !challenge.inviteFriend.isEmpty {
-                        HStack{
+                        VStack(alignment: .leading) {
                             Text("참여자 :")
-                                .font(.footnote)
-                                .foregroundColor(Color("Font"))
                             ForEach(challenge.inviteFriend, id:\.self) { name in
                                 Text("\(name)")
-                                    .font(.footnote)
-                                    .foregroundColor(Color("Font"))
                             }
                         }
+                        .font(.footnote)
                     }
                   
                     
                     // 챌린지 기간(데이터 연결 시에 기간 정렬)
-                    HStack{
-                        Text("챌린지 기간 : \(challenge.startDate) ~ \(challenge.endDate)")
-                            .font(.footnote)
-                            .foregroundColor(Color("Font"))
+                    VStack(alignment: .leading) {
+                            Text("챌린지 기간 : ")
+                            Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
                     }
-                  
+                    .font(.footnote)
                     
                 } // VStack
             } // HStack
             .frame(width: 350,height: 110, alignment: .center)
+            .foregroundColor(Color("Font"))
             .background(Color("Point2"))
             .cornerRadius(10)
         } // NavigationLink

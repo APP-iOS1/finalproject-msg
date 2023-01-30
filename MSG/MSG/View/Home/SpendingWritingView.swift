@@ -111,12 +111,13 @@ struct SpendingWritingView: View {
                     
                     Spacer()
                     Button {
-                        let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
-                        fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,
-                                                          tagName: tagArray[selection], convert: convert)
-                        selection = 0
-                        spendingViewModel.consumeTitle = ""
-                        spendingViewModel.consumeMoney = ""
+                        Task{
+                            let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
+                            await fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
+                            selection = 0
+                            spendingViewModel.consumeTitle = ""
+                            spendingViewModel.consumeMoney = ""
+                        }
                     }label: {
                         Text("추가하기")
                             .foregroundColor(Color("Background"))
