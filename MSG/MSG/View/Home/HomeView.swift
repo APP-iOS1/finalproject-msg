@@ -21,7 +21,7 @@ struct HomeView: View {
                 if game.waitingFriend.isEmpty {
                     AfterChallengeView(challenge: game)
                 } else {
-                    WaitingView(waitingFriend: game.waitingFriend, allowFriend: game.inviteFriend)
+                    WaitingView(game: game)
                 }
             } else {
                 BeforeChallengeView()

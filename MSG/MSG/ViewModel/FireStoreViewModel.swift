@@ -19,6 +19,8 @@ class FireStoreViewModel: ObservableObject {
     //전체유저
     @Published var myInfo: Msg?
     @Published var userArray: [Msg] = []
+    @Published var invitedArray: [Msg] = []
+    @Published var waitingArray: [Msg] = []
     @Published var challengeHistoryArray : [Challenge] = []
     @Published var challengeHistoryUserList : [(userId: String, totalMoney: Int)] = []
     //내친구
@@ -189,6 +191,37 @@ class FireStoreViewModel: ObservableObject {
             }
     }
     
+    func findUser(inviteId: [String], waitingId: [String]) {
+        print(#function)
+        self.invitedArray.removeAll()
+        self.waitingArray.removeAll()
+        database
+            .collection("User")
+            .getDocuments { (snapshot, error) in
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let id: String = document.documentID
+                        let docData = document.data()
+                        let nickName: String = docData["nickName"] as? String ?? ""
+                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let game: String = docData["game"] as? String ?? ""
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+                        let friend: [String] = docData["friend"] as? [String] ?? []
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
+                        for i in inviteId {
+                            if getUser.id == i {
+                                self.invitedArray.append(getUser)
+                            }
+                        }
+                        for i in waitingId {
+                            if getUser.id == i {
+                                self.waitingArray.append(getUser)
+                            }
+                        }
+                    }
+                }
+            }
+    }
     
     // MARK: - 친구 목록 가져오기
     func findFriend() {
