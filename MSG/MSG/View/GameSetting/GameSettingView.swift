@@ -141,7 +141,8 @@ extension GameSettingView {
                                 inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
                             await fireStoreViewModel.addMultiGame(challenge)
                             guard let myInfo = fireStoreViewModel.myInfo else { return }
-                            print("myInfo: \(myInfo)")
+//                            print("myInfo: \(myInfo)")
+                            print(realtimeViewModel.inviteFriendArray)
                             realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         }
                     } label: {

@@ -18,10 +18,10 @@ struct HomeView: View {
         
         ZStack {
             if let game = fireStoreViewModel.currentGame {
-                if !game.waitingFriend.isEmpty {
-                    WaitingView(waitingFriend: game.waitingFriend, allowFriend: game.inviteFriend)
-                } else {
+                if game.waitingFriend.isEmpty {
                     AfterChallengeView(challenge: game)
+                } else {
+                    WaitingView(waitingFriend: game.waitingFriend, allowFriend: game.inviteFriend)
                 }
             } else {
                 BeforeChallengeView()
