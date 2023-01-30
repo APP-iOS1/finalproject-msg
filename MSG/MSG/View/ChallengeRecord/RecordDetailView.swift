@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RecordDetailView: View {
-    @State private var userList:[(nickName: String, totalMoney: Int, profileImage: String)] = []
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @Binding var challenge: Challenge
 
@@ -46,7 +45,7 @@ struct RecordDetailView: View {
                     //챌린지 참여인원에 따른 사용금액 그룹
                     if !challenge.inviteFriend.isEmpty {
                         Group{
-                            ForEach(userList.indices, id: \.self) { index in
+                            ForEach(firestoreViewModel.challengeUsers.indices, id: \.self) { index in
                                 HStack{
                                     VStack{
                                         Image(systemName: "person")
@@ -55,9 +54,9 @@ struct RecordDetailView: View {
                                                 Color("Point2")
                                             })
                                             .padding(.trailing)
-                                        Text("\(userList[index].nickName)")
+                                        Text("\(firestoreViewModel.challengeUsers[index].user.userName)")
                                     }
-                                    Text("총 \(userList[index].totalMoney)원 사용")
+                                    Text("총 \(firestoreViewModel.challengeUsers[index].totalMoney)원 사용")
                                     Spacer()
                                 }
                             }
@@ -99,14 +98,8 @@ struct RecordDetailView: View {
             }
             .onAppear{
                 Task{
-                    userList.removeAll()
-                    try await firestoreViewModel.fetchChallengeTotalMoney("goodGame")
-                    print(firestoreViewModel.challengeHistoryUserList)
-                    for (user, totalMoney) in firestoreViewModel.challengeHistoryUserList{
-                        if let msg = try await firestoreViewModel.fetchUserInfo(user){
-                            userList.append((msg.nickName ,totalMoney ,msg.profilImage))
-                        }
-                    }
+                    await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend)
+         
                 }
             }
         }
