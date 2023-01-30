@@ -56,7 +56,10 @@ struct ProgressBar: View {
                         break
                     }
                 }
-                if !find{ selection = "" }
+                if !find{
+                    selectMoney = 0
+                    selectPercent = 0
+                }
             }
             
             ForEach(progress.indices.reversed(),id:\.self){ index in

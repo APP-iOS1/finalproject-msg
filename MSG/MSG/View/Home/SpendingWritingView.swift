@@ -138,5 +138,6 @@ struct SpendingWritingView: View {
 struct SpendingWritingView_Previews: PreviewProvider {
     static var previews: some View {
         SpendingWritingView()
+            
     }
 }
