@@ -24,6 +24,8 @@ class FireStoreViewModel: ObservableObject {
     //전체유저
     @Published var myInfo: Msg?
     @Published var userArray: [Msg] = []
+    @Published var invitedArray: [Msg] = []
+    @Published var waitingArray: [Msg] = []
     @Published var challengeHistoryArray : [Challenge] = []
     @Published var challengeHistoryUserList : [(userId: String, totalMoney: Int)] = []
     //내친구
@@ -37,6 +39,7 @@ class FireStoreViewModel: ObservableObject {
     @Published var expenditure: Expenditure?
     @Published var totalMoney = 0
     @Published var nickNameCheck = false
+    @Published var checkFightFriend: Challenge?
     
     
     
@@ -65,10 +68,11 @@ class FireStoreViewModel: ObservableObject {
             let startDate = docData["startDate"] as? String ?? ""
             let endDate = docData["endDate"] as? String ?? ""
             let inviteFriend = docData["inviteFriend"] as? [String] ?? []
-            let challenge = Challenge(id: id, gameTitle:gameTitle , limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle:gameTitle , limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
             return challenge
         } catch{
-                print("Error")
+            print("Error")
             return nil
         }
         
@@ -81,12 +85,14 @@ class FireStoreViewModel: ObservableObject {
         let ref = database.collection("Challenge").document(challenge.id)
         do{
             try await ref.setData([
-                    "id": challenge.id,
-                    "gameTitle": challenge.gameTitle,
-                    "limitMoney": challenge.limitMoney,
-                    "startDate": challenge.startDate,
-                    "endDate": challenge.endDate,
-                    "inviteFriend": [Auth.auth().currentUser?.uid]
+
+                "id": challenge.id,
+                "gameTitle": challenge.gameTitle,
+                "limitMoney": challenge.limitMoney,
+                "startDate": challenge.startDate,
+                "endDate": challenge.endDate,
+                "inviteFriend": [Auth.auth().currentUser?.uid],
+                "waitingFriend": challenge.waitingFriend
             ])
             self.currentGame = challenge
         }catch{
@@ -94,7 +100,7 @@ class FireStoreViewModel: ObservableObject {
         }
         
     }
-
+    
     // MARK: - 게임 수락 시, invite목록에 추가하기 (1) Challenge
     func acceptGame(_ gameId: String) async {
         print(#function)
@@ -197,6 +203,37 @@ class FireStoreViewModel: ObservableObject {
             }
     }
     
+    func findUser(inviteId: [String], waitingId: [String]) {
+        print(#function)
+        self.invitedArray.removeAll()
+        self.waitingArray.removeAll()
+        database
+            .collection("User")
+            .getDocuments { (snapshot, error) in
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let id: String = document.documentID
+                        let docData = document.data()
+                        let nickName: String = docData["nickName"] as? String ?? ""
+                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let game: String = docData["game"] as? String ?? ""
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+                        let friend: [String] = docData["friend"] as? [String] ?? []
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
+                        for i in inviteId {
+                            if getUser.id == i {
+                                self.invitedArray.append(getUser)
+                            }
+                        }
+                        for i in waitingId {
+                            if getUser.id == i {
+                                self.waitingArray.append(getUser)
+                            }
+                        }
+                    }
+                }
+            }
+    }
     
     // MARK: - 친구 목록 가져오기
     func findFriend() {
@@ -302,15 +339,15 @@ class FireStoreViewModel: ObservableObject {
             print("실패!!")
         }
     }
-
-//    currentUserProfile
-//    struct Expenditure: Codable, Identifiable {
-//        //참석유저 아이디
-//        var id: String
-//        var totalMoney: Int
-//        var addDay: Date
-//        var expenditureHistory: [String:[String]]
-//    }
+    
+    //    currentUserProfile
+    //    struct Expenditure: Codable, Identifiable {
+    //        //참석유저 아이디
+    //        var id: String
+    //        var totalMoney: Int
+    //        var addDay: Date
+    //        var expenditureHistory: [String:[String]]
+    //    }
     
     
     
@@ -391,10 +428,11 @@ class FireStoreViewModel: ObservableObject {
             let startDate = docData["startDate"] as? String ?? ""
             let endDate = docData["endDate"] as? String ?? ""
             let inviteFriend = docData["inviteFriend"] as? [String] ?? []
-            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
-            print("challenge출력확인:", challenge)
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
+            //            print("challenge출력확인:", challenge)
             challengeHistoryArray.append(challenge)
-            print("array출력확인:",challengeHistoryArray)
+            //            print("array출력확인:",challengeHistoryArray)
         }
     }
     
@@ -543,7 +581,8 @@ class FireStoreViewModel: ObservableObject {
             let startDate = docData["startDate"] as? String ?? ""
             let endDate = docData["endDate"] as? String ?? ""
             let inviteFriend = docData["inviteFriend"] as? [String] ?? []
-            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
             self.currentGame = challenge
         } catch {
             print("catched")
@@ -567,6 +606,57 @@ class FireStoreViewModel: ObservableObject {
             "nickName": myInfo.nickName,
             "profileImage": myInfo.profilImage
         ])
+    }
+    
+    func addChallengeHistory(endGameData: Challenge?) async{
+        
+        guard let endGameData else { return }
+        try! await database.collection("ChallengeHistory")
+            .document(endGameData.id) //게임id
+            .setData([
+                "id": endGameData.id,
+                "gameTitle": endGameData.gameTitle,
+                "startDate": endGameData.startDate,
+                "endDate": endGameData.endDate,
+                "limitMoney": endGameData.limitMoney,
+                "inviteFriend": endGameData.inviteFriend
+            ])
+    }
+    
+    //    @State private var challengeInfo: Challenge?
+    func waitingLogic(data: Challenge?) async {
+        print(#function)
+        //패치해서 따끈한걸 받아와서 올려주기
+        guard let data else {return}
+        //새로 받는함수 추가
+        guard let inviteGame = await fetchChallengeInformation(data.id) else { return }
+        await doSomeThing(data: inviteGame)
+
+    }
+    
+    
+    func doSomeThing(data: Challenge) async {
+        let ref = database.collection("Challenge").document(data.id)
+        
+        var firstIndex = data.waitingFriend.firstIndex { value in
+            value == Auth.auth().currentUser?.uid
+        }
+        var array = data.waitingFriend
+        array.remove(at: firstIndex!)
+        do{
+            try await ref.setData([
+                "id": data.id,
+                "gameTitle": data.gameTitle,
+                "limitMoney": data.limitMoney,
+                "startDate": data.startDate,
+                "endDate": data.endDate,
+                "inviteFriend": data.inviteFriend + [(Auth.auth().currentUser?.uid ?? "")],
+                "waitingFriend": array
+            ])
+            self.currentGame = data
+        }catch{
+            print("게임 추가 에러..")
+        }
     }
 
 }

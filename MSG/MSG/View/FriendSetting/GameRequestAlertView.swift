@@ -30,9 +30,9 @@ struct GameRequestAlertView: View {
                         Spacer()
                         Button {
                             Task{
-                                //                            challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
-                                //                            await firestoreViewModel.acceptGame(sendUser.game)
-                                //                            realtimeViewModel.acceptGameRequest(friend: sendUser)
+//                                                            challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
+//                                                            await firestoreViewModel.acceptGame(sendUser.game)
+//                                                            realtimeViewModel.acceptGameRequest(friend: sendUser)
                                 isPresent = true
                             }
                         } label: {
@@ -81,12 +81,20 @@ struct GameRequestAlertView: View {
                                 }
                             } secondButton: {
                                 CustomAlertButton(title: Text("수락")) {
-                                    Task{
-                                        isPresent = false
+                                    
+                                    //수락을 눌렀을 때
+                                    //1.수락한사람의 id를 찾아내기
+                                    //2.Auth.auth()…asdas를 통해서 해당 배열에 있다면 invitedFriend로 append해주고
+                                    //3.waitingFriend에는 그 아이디가 없어져야 함…
+                                    Task {
                                         challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
                                         await firestoreViewModel.acceptGame(sendUser.game)
                                         realtimeViewModel.acceptGameRequest(friend: sendUser)
+                                        await firestoreViewModel.waitingLogic(data: challengeInfo)
                                     }
+                                    isPresent = false
+                                    print("도망")
+                                    
                                 }
                             }
                         }

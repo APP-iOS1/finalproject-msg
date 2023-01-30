@@ -30,6 +30,8 @@
 		166009932976685200E6A546 /* FriendSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166009922976685200E6A546 /* FriendSettingView.swift */; };
 		1660099529766FC000E6A546 /* FriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660099429766FC000E6A546 /* FriendView.swift */; };
 		1660099729766FCC00E6A546 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660099629766FCC00E6A546 /* AlertView.swift */; };
+		168AE7A629875EA400D68C1C /* WaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168AE7A529875EA400D68C1C /* WaitingView.swift */; };
+		168AE7A829875EB600D68C1C /* WaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168AE7A729875EB600D68C1C /* WaitingViewModel.swift */; };
 		16C6753629822E420028A608 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6753529822E420028A608 /* Extension+Color.swift */; };
 		16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FBE6C52976784D001EC518 /* FriendViewCell.swift */; };
 		360A1471298360A70058BB9B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A1470298360A70058BB9B /* Utils.swift */; };
@@ -91,6 +93,8 @@
 		166009922976685200E6A546 /* FriendSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSettingView.swift; sourceTree = "<group>"; };
 		1660099429766FC000E6A546 /* FriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendView.swift; sourceTree = "<group>"; };
 		1660099629766FCC00E6A546 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		168AE7A529875EA400D68C1C /* WaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingView.swift; sourceTree = "<group>"; };
+		168AE7A729875EB600D68C1C /* WaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingViewModel.swift; sourceTree = "<group>"; };
 		16C6753529822E420028A608 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		16FBE6C52976784D001EC518 /* FriendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewCell.swift; sourceTree = "<group>"; };
 		360A1470298360A70058BB9B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -196,6 +200,8 @@
 				63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */,
 				161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */,
 				632B7CD029825C8000A3D53C /* CountDownView.swift */,
+				168AE7A529875EA400D68C1C /* WaitingView.swift */,
+				168AE7A729875EB600D68C1C /* WaitingViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -462,6 +468,7 @@
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
 				3635276429829C6E0037BD1B /* CustomAlertButton.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
+				168AE7A829875EB600D68C1C /* WaitingViewModel.swift in Sources */,
 				4C65CFEC2978D02700BAD069 /* MultiGameProgressBar.swift in Sources */,
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,
 				36B093F92976694F0089E76A /* GameSettingView.swift in Sources */,
@@ -476,6 +483,7 @@
 				1660098D29763AD800E6A546 /* MSG.swift in Sources */,
 				166009932976685200E6A546 /* FriendSettingView.swift in Sources */,
 				4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */,
+				168AE7A629875EA400D68C1C /* WaitingView.swift in Sources */,
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
 				36C7BB7D2977B37200A3F999 /* OnBoardView2.swift in Sources */,
 				4C407A74297A5B1900877360 /* LocalNotification.swift in Sources */,
