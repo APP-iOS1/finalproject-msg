@@ -431,13 +431,13 @@ class FireStoreViewModel: ObservableObject {
     // [Challenge - Function]
     // MARK: - 챌린지 참가자 (유저 정보, 지출) 가져오기
     ///[유저Id]을 인자로 받아,  챌린지 참가자 (유저 정보, 지출) 가져오기
-    func fetchChallengeUsers(_ users: [String]) async  {
+    func fetchChallengeUsers(_ users: [String], _ challengeId: String) async  {
         print(#function)
         self.challengeUsers.removeAll()
         for user in users{
             do{
                 guard let userData = try await fetchUserInfo(user) else{ continue } // nickname profile
-                let totalMoney = await fetchTotalMoney(userData.game, userData.id) // expenditure
+                let totalMoney = await fetchTotalMoney(challengeId, userData.id) // expenditure
                 let userInfo = (user: (userName: userData.nickName ,userProfile: userData.profilImage),totalMoney: totalMoney)
                 self.challengeUsers.append(userInfo)
             }catch{

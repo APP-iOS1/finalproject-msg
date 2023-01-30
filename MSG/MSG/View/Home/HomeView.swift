@@ -37,7 +37,7 @@ struct HomeView: View {
             let now = Date().timeIntervalSinceNow
 //            print("현재시간:", now)
 //            if Date().timeIntervalSince1970 > Double(game.endDate)!{
-            if Double(game.startDate)! + 300 > Double(game.startDate)! {
+            if Date().timeIntervalSince1970 > Double(game.endDate)! {
                 self.timer.upstream.connect().cancel()
                 print("멈췄습니다!")
                 Task {

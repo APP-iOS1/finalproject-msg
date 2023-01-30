@@ -98,7 +98,7 @@ struct RecordDetailView: View {
             }
             .onAppear{
                 Task{
-                    await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend)
+                    await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
          
                 }
             }

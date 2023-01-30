@@ -81,8 +81,12 @@ struct GameRequestAlertView: View {
                                 }
                             } secondButton: {
                                 CustomAlertButton(title: Text("수락")) {
-                                    isPresent = false
-                                    print("도망")
+                                    Task{
+                                        isPresent = false
+                                        challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
+                                        await firestoreViewModel.acceptGame(sendUser.game)
+                                        realtimeViewModel.acceptGameRequest(friend: sendUser)
+                                    }
                                 }
                             }
                         }
