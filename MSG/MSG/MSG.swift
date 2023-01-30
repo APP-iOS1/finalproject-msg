@@ -35,6 +35,7 @@ struct Challenge: Codable, Identifiable, Hashable {
     var startDate: String
     var endDate: String
     var inviteFriend: [String]
+    var waitingFriend: [String]
 }
 
 //MARK: - 게임에 들어와 유저들의 아이디와 지출내역을 확인

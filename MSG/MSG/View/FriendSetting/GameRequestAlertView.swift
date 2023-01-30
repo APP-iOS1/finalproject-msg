@@ -37,9 +37,9 @@ struct GameRequestAlertView: View {
                         Spacer()
                         Button {
                             Task{
-                                //                            challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
-                                //                            await firestoreViewModel.acceptGame(sendUser.game)
-                                //                            realtimeViewModel.acceptGameRequest(friend: sendUser)
+//                                                            challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
+//                                                            await firestoreViewModel.acceptGame(sendUser.game)
+//                                                            realtimeViewModel.acceptGameRequest(friend: sendUser)
                                 isPresent = true
                             }
                         } label: {
@@ -88,8 +88,14 @@ struct GameRequestAlertView: View {
                                 }
                             } secondButton: {
                                 CustomAlertButton(title: Text("수락")) {
+                                    Task {
+                                        challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
+                                        await firestoreViewModel.acceptGame(sendUser.game)
+                                        realtimeViewModel.acceptGameRequest(friend: sendUser)
+                                    }
                                     isPresent = false
                                     print("도망")
+                                    
                                 }
                             }
                         }

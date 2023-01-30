@@ -15,19 +15,26 @@ struct HomeView: View {
     
     var body: some View {
         
+        
         ZStack {
             if let game = fireStoreViewModel.currentGame {
-                AfterChallengeView(challenge: game)
+                if !game.waitingFriend.isEmpty {
+                    WaitingView(waitingFriend: game.waitingFriend, allowFriend: game.inviteFriend)
+                } else {
+                    AfterChallengeView(challenge: game)
+                }
             } else {
                 BeforeChallengeView()
             }
+        }
+        .refreshable {
+            await fireStoreViewModel.fetchGame()
         }
         .onAppear {
             Task {
                 guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
                 if !(user.game.isEmpty) {
                     await fireStoreViewModel.fetchGame()
-                    
                 }
             }
         }

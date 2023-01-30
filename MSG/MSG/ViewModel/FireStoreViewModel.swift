@@ -54,7 +54,8 @@ class FireStoreViewModel: ObservableObject {
             let startDate = docData["startDate"] as? String ?? ""
             let endDate = docData["endDate"] as? String ?? ""
             let inviteFriend = docData["inviteFriend"] as? [String] ?? []
-            let challenge = Challenge(id: id, gameTitle:gameTitle , limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle:gameTitle , limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
             return challenge
         } catch{
                 print("Error")
@@ -75,7 +76,8 @@ class FireStoreViewModel: ObservableObject {
                     "limitMoney": challenge.limitMoney,
                     "startDate": challenge.startDate,
                     "endDate": challenge.endDate,
-                    "inviteFriend": challenge.inviteFriend
+                    "inviteFriend": challenge.inviteFriend,
+                    "waitingFriend": challenge.waitingFriend
             ])
             self.currentGame = challenge
         }catch{
@@ -349,7 +351,8 @@ class FireStoreViewModel: ObservableObject {
             let startDate = docData["startDate"] as? String ?? ""
             let endDate = docData["endDate"] as? String ?? ""
             let inviteFriend = docData["inviteFriend"] as? [String] ?? []
-            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
             print("challenge출력확인:", challenge)
             challengeHistoryArray.append(challenge)
             print("array출력확인:",challengeHistoryArray)
@@ -455,7 +458,8 @@ class FireStoreViewModel: ObservableObject {
             let startDate = docData["startDate"] as? String ?? ""
             let endDate = docData["endDate"] as? String ?? ""
             let inviteFriend = docData["inviteFriend"] as? [String] ?? []
-            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend)
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
             self.currentGame = challenge
         } catch {
             print("catched")
