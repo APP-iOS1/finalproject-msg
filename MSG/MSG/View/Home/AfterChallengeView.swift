@@ -26,49 +26,6 @@ struct AfterChallengeView: View {
         }
     }
     
-    func dateCheck(startDate: String) -> Date {
-        let formatter = DateFormatter()
-        
-        let dateString = startDate  //여기에다가 챌린지 시작날짜 받으면 괜찮지 않을까??
-        
-        formatter.locale = Locale(identifier: "ko_kr")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        formatter.dateFormat = "yyyy년M월d일"
-        
-        let date = formatter.date(from: dateString) ?? Date()
-        
-        return date
-    }
-    
-    // 챌린지가 끝나는 날을 알려면 이걸 쓰면 되나??
-    func isChatTomorrowWithString(startDate: String, endDate: String) -> Bool {
-        
-        let firebaseFormat = "yyyy년 MM월 dd일"
-        let formatter = DateFormatter()
-        formatter.dateFormat = firebaseFormat
-        formatter.locale = Locale(identifier: "ko")
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        
-        guard let tempDate1 = formatter.date(from: endDate) else {
-            return false
-        }
-        guard let tempDate2 = formatter.date(from: startDate) else {
-            return false
-        }
-        
-        let date1 = Calendar.current.dateComponents([.year, .month, .day], from: tempDate1)
-        let date2 = Calendar.current.dateComponents([.year, .month, .day], from: tempDate2)
-        
-        if date1.year == date2.year && date1.month == date2.month && date1.day == date2.day {
-            //날짜 같으면 false
-            return false
-        } else {
-            //날짜 다르면 false
-            return true
-        }
-        
-    }
-    
     @State private var birthDate = Date()
     var frameWidth = UIScreen.main.bounds.width
     var frameHeight = UIScreen.main.bounds.height
@@ -116,7 +73,6 @@ struct AfterChallengeView: View {
                         
                         VStack{
                             //챌린지 시작날짜~오늘날짜 계산
-//                            Text(dateCheck(startDate: challenge.startDate), style: .offset)
                             CountDownView(endDate: Double(challenge.endDate)!)
                         }
                     }.font(.title3.bold())

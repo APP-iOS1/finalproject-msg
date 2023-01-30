@@ -24,10 +24,20 @@ struct RecordDetailView: View {
                                 .font(.title3.bold())
                                 .foregroundColor(Color("Font"))
                             Spacer()
+                            NavigationLink(destination: ChartView()) {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Point2"))
+                                    .frame(width: 80, height: 45)
+                                    .overlay {
+                                        Text("상세내역")
+                                            .foregroundColor(Color("Font"))
+                                            .font(.subheadline)
+                                    }
+                            }
                         }
                         Divider()
                         HStack{
-                            Text("\(challenge.startDate) ~ \(challenge.endDate)")
+                            Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
                                 .padding(.bottom, 20)
                             Spacer()
                         }
@@ -77,9 +87,15 @@ struct RecordDetailView: View {
                         }
                         .padding([.vertical, .horizontal], 10)
                         .foregroundColor(Color("Font"))
+                    } else {
+                        VStack {
+                            Text("총 사용 금액 : ")
+                            Text("지출이 가장 많은 태그 : ")
+                            Text("지출이 가장 적은 태그 : ")
+                        }
+                        .foregroundColor(Color("Font"))
                     }
                 }
-                
             }
             .onAppear{
                 Task{
@@ -92,22 +108,6 @@ struct RecordDetailView: View {
                         }
                     }
                 }
-            }
-            .toolbar { detailViewToolbar() }
-        }
-    }
-    
-    func detailViewToolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink(destination: ChartView()) {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color("Point2"))
-                    .frame(width: 80, height: 45)
-                    .overlay {
-                        Text("상세내역")
-                            .foregroundColor(Color("Font"))
-                            .font(.subheadline)
-                    }
             }
         }
     }

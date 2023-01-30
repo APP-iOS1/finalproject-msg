@@ -75,7 +75,7 @@ class FireStoreViewModel: ObservableObject {
                     "limitMoney": challenge.limitMoney,
                     "startDate": challenge.startDate,
                     "endDate": challenge.endDate,
-                    "inviteFriend": challenge.inviteFriend
+                    "inviteFriend": [Auth.auth().currentUser?.uid]
             ])
             self.currentGame = challenge
         }catch{
