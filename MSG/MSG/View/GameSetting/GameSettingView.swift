@@ -127,23 +127,7 @@ extension GameSettingView {
                 
                 // MARK: - 초대장 보내기 Button
                     Button {
-                        Task{
                             isShowingAlert = true
-
-                            let challenge = Challenge(
-                                id: UUID().uuidString,
-                                gameTitle: gameSettingViewModel.title,
-                                limitMoney: Int(gameSettingViewModel.targetMoney)!,
-                                startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
-                                endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
-                                inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
-                            await fireStoreViewModel.addMultiGame(challenge)
-                            guard let myInfo = fireStoreViewModel.myInfo else { return }
-//                            print("myInfo: \(myInfo)")
-                            print(realtimeViewModel.inviteFriendArray)
-                            realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
-
-                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color("Point2"))
@@ -175,9 +159,11 @@ extension GameSettingView {
                                 limitMoney: Int(gameSettingViewModel.targetMoney)!,
                                 startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
                                 endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
-                                inviteFriend: realtimeViewModel.inviteFriendIdArray)
+                                inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
                             await fireStoreViewModel.addMultiGame(challenge)
                             guard let myInfo = fireStoreViewModel.myInfo else { return }
+//                            print("myInfo: \(myInfo)")
+                            print(realtimeViewModel.inviteFriendArray)
                             realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                             dismiss()
                             await notiManager.schedule(localNotification: localNotification)
