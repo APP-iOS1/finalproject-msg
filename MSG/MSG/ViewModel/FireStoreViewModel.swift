@@ -16,6 +16,11 @@ import SwiftUI
 
 @MainActor
 class FireStoreViewModel: ObservableObject {
+    
+    typealias ChallengeUserData = [(user:(userName: String, userProfile: String), totalMoney: Int  )]
+    
+    @Published var challengeUsers: ChallengeUserData = []
+    
     //전체유저
     @Published var myInfo: Msg?
     @Published var userArray: [Msg] = []
@@ -33,12 +38,18 @@ class FireStoreViewModel: ObservableObject {
     @Published var totalMoney = 0
     @Published var nickNameCheck = false
     
+    
+    
     init() {
         //        postits = []
         
     }
     
     
+    // MARK: - 챌린지 히스토리 가져오기
+    func fetchChallengeHistory(){
+        
+    }
     
     // MARK: - 초대받은 챌린지 정보 가져오기
     /// 초대받은 챌린지의 정보를 가져오는 함수
@@ -75,7 +86,7 @@ class FireStoreViewModel: ObservableObject {
                     "limitMoney": challenge.limitMoney,
                     "startDate": challenge.startDate,
                     "endDate": challenge.endDate,
-                    "inviteFriend": challenge.inviteFriend
+                    "inviteFriend": [Auth.auth().currentUser?.uid]
             ])
             self.currentGame = challenge
         }catch{
@@ -266,23 +277,30 @@ class FireStoreViewModel: ObservableObject {
     
     // MARK: - 지출 추가
     // user에 currentUserProfile 대입 => 내정보
-    func addExpenditure(user: Msg, tagName: String, convert: String) {
+    func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async {
         print(#function)
+        await fetchExpenditure()
+        var money = await fetchTotalMoney(currentGame!.id, Auth.auth().currentUser!.uid)
         if let _ = expenditureList[tagName]{
             expenditureList[tagName]!.append(convert)
             print(expenditureList)
         }else{
             expenditureList[tagName] = [convert]
         }
-        database.collection("Challenge")
-            .document(user.game) //게임의 아이디값
-            .collection("expenditure")
-            .document(user.id) // 나의 아이디값
-            .setData(["id": user.id,
-                      "addDay": Date(),
-                      "expenditureHistory": expenditureList
-                     ])
-        print(expenditureList)
+        do{
+            try await database.collection("Challenge")
+                .document(user.game) //게임의 아이디값
+                .collection("expenditure")
+                .document(user.id) // 나의 아이디값
+                .setData(["id": user.id,
+                          "totalMoney": money + addMoney,
+                          "addDay": Date(),
+                          "expenditureHistory": expenditureList
+                         ])
+            print(expenditureList)
+        }catch{
+            print("실패!!")
+        }
     }
 
 //    currentUserProfile
@@ -293,6 +311,31 @@ class FireStoreViewModel: ObservableObject {
 //        var addDay: Date
 //        var expenditureHistory: [String:[String]]
 //    }
+    
+    
+    
+    // MARK: - 선택 유저 지출 기록 가져오기
+    /// 해당 유저의 지출 기록을 가져온다.
+    func fetchExpenditure(_ uid: String) async -> [String:[String]]?  {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return nil }
+        let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(uid)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil}
+            var expenditureList: [String:[String]] = [:]
+            let id = docData["id"] as? String ?? ""
+            let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
+            let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
+            expenditureList = expenditure.expenditureHistory
+            return expenditureList
+        } catch {
+            return nil
+            print("Error! fetchExpenditure")
+        }
+    }
+    
+    
     
     // MARK: - 지출 기록 가져오기
     func fetchExpenditure() async {
@@ -332,12 +375,11 @@ class FireStoreViewModel: ObservableObject {
         }
     }
     
-    
     // MARK: - 이전 챌린지기록을 모두 가져오는 함수
     /// 챌린지 이력보관함 데이터 불러오기
     func fetchPreviousGameHistory() async throws{
         print(#function)
-        let ref = database.collection("ChallengeHistory")
+        let ref = database.collection("Challenge")
         guard let challengesId = await fetchGameHistoryList() else { return }
         challengeHistoryArray.removeAll()
         for challengeId in challengesId{
@@ -357,11 +399,57 @@ class FireStoreViewModel: ObservableObject {
     }
     
     
+    // MARK: - 총 사용금액 가져오기
+    /// 현재 챌린지에서 사용한 총 금액 가져오는 메서드.
+    func fetchTotalMoney(_ challengeId: String, _ userId: String) async -> Int {
+        let ref = database.collection("Challenge").document(challengeId).collection("expenditure").document(userId)
+        do{
+            let document = try await ref.getDocument()
+            guard let docData = document.data() else { return 0 }
+            let totalMoney = docData["totalMoney"] as? Int ?? 0
+            return totalMoney
+        }catch{
+            print("총 사용금액이 0")
+            return 0
+        }
+    }
+    
+    
+    // MARK: - 총 사용금액 업데이트
+    /// 추가한 금액만큼 총 사용금액을 update하는 함수.
+    func updateTotalMoney(_ addMoney: Int) async {
+        guard let currentGame, let uid = Auth.auth().currentUser?.uid else { return }
+        do{
+            let totalMoney = await fetchTotalMoney(currentGame.id, uid)
+            let ref = database.collection("Challenge").document(currentGame.id).collection("expenditure").document(uid)
+            try await ref.setData([ "totalMoney" : totalMoney + addMoney ])
+        }catch{
+            print("총사용금액 업데이트 실패!!")
+        }
+    }
+    
+    // [Challenge - Function]
+    // MARK: - 챌린지 참가자 (유저 정보, 지출) 가져오기
+    ///[유저Id]을 인자로 받아,  챌린지 참가자 (유저 정보, 지출) 가져오기
+    func fetchChallengeUsers(_ users: [String], _ challengeId: String) async  {
+        print(#function)
+        self.challengeUsers.removeAll()
+        for user in users{
+            do{
+                guard let userData = try await fetchUserInfo(user) else{ continue } // nickname profile
+                let totalMoney = await fetchTotalMoney(challengeId, userData.id) // expenditure
+                let userInfo = (user: (userName: userData.nickName ,userProfile: userData.profilImage),totalMoney: totalMoney)
+                self.challengeUsers.append(userInfo)
+            }catch{
+                print("userData 누락!!")
+            }
+        }
+    }
     // MARK: - 챌린지 이력의 리스트 셀을 선택했을 시, 각 유저별 토탈 금액 가져오는 함수
     /// 챌린지 이력 리스트 셀 선택 시, 각 유저별 최종 금액 가져오는 함수
     func fetchChallengeTotalMoney(_ challengeId: String) async throws {
         print(#function)
-        let ref = database.collection("ChallengeHistory").document(challengeId).collection("유저")
+        let ref = database.collection("Challenge").document(challengeId).collection("유저")
         challengeHistoryUserList.removeAll()
         let snapShots = try await ref.getDocuments()
         for document in snapShots.documents{
@@ -378,7 +466,7 @@ class FireStoreViewModel: ObservableObject {
     func getGameHistory(_ challengeId: String) async throws {
         print(#function)
         guard let userId = Auth.auth().currentUser?.uid else{ return }
-        let ref = database.collection("ChallengeHistory")
+        let ref = database.collection("Challenge")
         let snapShot = try await ref.document(challengeId).collection("유저").document(userId).getDocument()
         if let docData = snapShot.data() {
             print("docData:",docData)
@@ -469,10 +557,7 @@ class FireStoreViewModel: ObservableObject {
         let endGame = myInfo.game
         guard let myHistory = myInfo.gameHistory else{ return }
         var history = myHistory
-        if !endGame.isEmpty{
-            history.append(endGame)
-        }
-        
+        if !endGame.isEmpty{ history.append(endGame) }
 //        myHistory.append(myGame)
         // 불러온 배열에 내 게임id를 append해줘야 함
         try! await database.collection("User").document(myInfo.id).setData([
@@ -483,18 +568,5 @@ class FireStoreViewModel: ObservableObject {
             "profileImage": myInfo.profilImage
         ])
     }
-    func addChallengeHistory(endGameData: Challenge?) async{
-        
-        guard let endGameData else { return }
-        try! await database.collection("ChallengeHistory")
-            .document(endGameData.id) //게임id
-            .setData([
-                "id": endGameData.id,
-                "gameTitle": endGameData.gameTitle,
-                "startDate": endGameData.startDate,
-                "endDate": endGameData.endDate,
-                "limitMoney": endGameData.limitMoney,
-                "inviteFriend": endGameData.inviteFriend
-        ])
-    }
+
 }

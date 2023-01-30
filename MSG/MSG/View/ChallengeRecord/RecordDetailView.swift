@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RecordDetailView: View {
-    @State private var userList:[(nickName: String, totalMoney: Int, profileImage: String)] = []
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @Binding var challenge: Challenge
 
@@ -24,10 +23,20 @@ struct RecordDetailView: View {
                                 .font(.title3.bold())
                                 .foregroundColor(Color("Font"))
                             Spacer()
+                            NavigationLink(destination: ChartView()) {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Point2"))
+                                    .frame(width: 80, height: 45)
+                                    .overlay {
+                                        Text("상세내역")
+                                            .foregroundColor(Color("Font"))
+                                            .font(.subheadline)
+                                    }
+                            }
                         }
                         Divider()
                         HStack{
-                            Text("\(challenge.startDate) ~ \(challenge.endDate)")
+                            Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
                                 .padding(.bottom, 20)
                             Spacer()
                         }
@@ -36,7 +45,7 @@ struct RecordDetailView: View {
                     //챌린지 참여인원에 따른 사용금액 그룹
                     if !challenge.inviteFriend.isEmpty {
                         Group{
-                            ForEach(userList.indices, id: \.self) { index in
+                            ForEach(firestoreViewModel.challengeUsers.indices, id: \.self) { index in
                                 HStack{
                                     VStack{
                                         Image(systemName: "person")
@@ -45,9 +54,9 @@ struct RecordDetailView: View {
                                                 Color("Point2")
                                             })
                                             .padding(.trailing)
-                                        Text("\(userList[index].nickName)")
+                                        Text("\(firestoreViewModel.challengeUsers[index].user.userName)")
                                     }
-                                    Text("총 \(userList[index].totalMoney)원 사용")
+                                    Text("총 \(firestoreViewModel.challengeUsers[index].totalMoney)원 사용")
                                     Spacer()
                                 }
                             }
@@ -77,37 +86,21 @@ struct RecordDetailView: View {
                         }
                         .padding([.vertical, .horizontal], 10)
                         .foregroundColor(Color("Font"))
+                    } else {
+                        VStack {
+                            Text("총 사용 금액 : ")
+                            Text("지출이 가장 많은 태그 : ")
+                            Text("지출이 가장 적은 태그 : ")
+                        }
+                        .foregroundColor(Color("Font"))
                     }
                 }
-                
             }
             .onAppear{
                 Task{
-                    userList.removeAll()
-                    try await firestoreViewModel.fetchChallengeTotalMoney("goodGame")
-                    print(firestoreViewModel.challengeHistoryUserList)
-                    for (user, totalMoney) in firestoreViewModel.challengeHistoryUserList{
-                        if let msg = try await firestoreViewModel.fetchUserInfo(user){
-                            userList.append((msg.nickName ,totalMoney ,msg.profilImage))
-                        }
-                    }
+                    await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
+         
                 }
-            }
-            .toolbar { detailViewToolbar() }
-        }
-    }
-    
-    func detailViewToolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink(destination: ChartView()) {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color("Point2"))
-                    .frame(width: 80, height: 45)
-                    .overlay {
-                        Text("상세내역")
-                            .foregroundColor(Color("Font"))
-                            .font(.subheadline)
-                    }
             }
         }
     }

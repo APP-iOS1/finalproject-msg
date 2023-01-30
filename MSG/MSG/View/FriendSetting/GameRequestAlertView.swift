@@ -18,13 +18,6 @@ struct GameRequestAlertView: View {
                 Color("Background").ignoresSafeArea()
                 if realtimeViewModel.requsetGameArr.isEmpty{
                     Text("비어있습니다.")
-                    Button {
-                        isPresent = true
-                    } label: {
-                        Text("눌러줘")
-                    }
-                    
-                    
                 }
                 ForEach(realtimeViewModel.requsetGameArr){ sendUser in
                     HStack{
@@ -88,8 +81,12 @@ struct GameRequestAlertView: View {
                                 }
                             } secondButton: {
                                 CustomAlertButton(title: Text("수락")) {
-                                    isPresent = false
-                                    print("도망")
+                                    Task{
+                                        isPresent = false
+                                        challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
+                                        await firestoreViewModel.acceptGame(sendUser.game)
+                                        realtimeViewModel.acceptGameRequest(friend: sendUser)
+                                    }
                                 }
                             }
                         }
