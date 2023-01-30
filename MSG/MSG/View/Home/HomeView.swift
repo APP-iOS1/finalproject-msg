@@ -15,19 +15,26 @@ struct HomeView: View {
     
     var body: some View {
         
+        
         ZStack {
             if let game = fireStoreViewModel.currentGame {
-                AfterChallengeView(challenge: game)
+                if game.waitingFriend.isEmpty {
+                    AfterChallengeView(challenge: game)
+                } else {
+                    WaitingView(game: game)
+                }
             } else {
                 BeforeChallengeView()
             }
+        }
+        .refreshable {
+            await fireStoreViewModel.fetchGame()
         }
         .onAppear {
             Task {
                 guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
                 if !(user.game.isEmpty) {
                     await fireStoreViewModel.fetchGame()
-                    
                 }
             }
         }
@@ -36,12 +43,12 @@ struct HomeView: View {
 //            print("끝나는시간:",game.endDate)
             let now = Date().timeIntervalSinceNow
 //            print("현재시간:", now)
-            if Date().timeIntervalSince1970 > Double(game.endDate)!{
+//            if Date().timeIntervalSince1970 > Double(game.endDate)!{
+            if Date().timeIntervalSince1970 > Double(game.endDate)! {
                 self.timer.upstream.connect().cancel()
                 print("멈췄습니다!")
                 Task {
                     await fireStoreViewModel.addGameHistory()
-                    await fireStoreViewModel.addChallengeHistory(endGameData: game)
                     fireStoreViewModel.currentGame = nil
                 }
             }
