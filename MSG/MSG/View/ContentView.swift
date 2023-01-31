@@ -84,12 +84,6 @@ struct ContentView: View {
                     if loginViewModel.currentUser != nil {
                         Task{
                             loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(_: loginViewModel.currentUser!.uid)
-                            for family: String in UIFont.familyNames {
-                                print(family)
-                                for names : String in UIFont.fontNames(forFamilyName: family){
-                                    print("=== \(names)")
-                                }
-                            }
                         }
                     }
                 }

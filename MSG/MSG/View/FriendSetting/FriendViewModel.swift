@@ -73,7 +73,6 @@ class FriendViewModel: ObservableObject {
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID
-                        print("id:\(id)")
                         let docData = document.data()
                         let nickName: String = docData["nickName"] as? String ?? ""
                         let profilImage: String = docData["profilImage"] as? String ?? ""
@@ -82,11 +81,13 @@ class FriendViewModel: ObservableObject {
                         let friend: [String] = docData["friend"] as? [String] ?? []
 
                         let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
-                        print("findFriend:",self.myFrinedArray)
+//                        print(getUser.nickName)
                         self.myFrinedArray.append(getUser)
+                        print(self.myFrinedArray)
                     }
                     self.myFrinedArray = Array(Set(self.myFrinedArray))
                 }
             }
+        print("내친구들출력:",myFrinedArray)
     }
 }

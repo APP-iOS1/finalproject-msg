@@ -33,11 +33,19 @@ extension FriendView {
                 }
                 
                 ScrollView {
-                    ForEach(friendViewModel.searchUserArray) { user in
-                        FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
-                            .frame(height: 60)
-                            .listRowBackground(Color("Background"))
-                            .listRowSeparator(.hidden)
+                    ForEach(friendViewModel.myFrinedArray) { user in
+                        if user.game.isEmpty {
+                            FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+                                .frame(height: 60)
+                                .listRowBackground(Color("Background"))
+                                .listRowSeparator(.hidden)
+                        }
+                        else if !findFriendToggle {
+                            FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+                                .frame(height: 60)
+                                .listRowBackground(Color("Background"))
+                                .listRowSeparator(.hidden)
+                        }
                     }
                 }
                 if findFriendToggle {
