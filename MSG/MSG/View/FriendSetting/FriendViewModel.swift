@@ -81,13 +81,13 @@ class FriendViewModel: ObservableObject {
                         let id: String = document.documentID
                         let docData = document.data()
                         let nickName: String = docData["nickName"] as? String ?? ""
-                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
                         print(id)
                         print(text)
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
                         for i in text {
                             if i.id == id && game.isEmpty {
                                 print(getUser.nickName)
