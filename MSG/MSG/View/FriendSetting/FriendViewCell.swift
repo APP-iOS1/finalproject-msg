@@ -15,7 +15,7 @@ struct FriendViewCell: View {
     @ObservedObject var friendViewModel: FriendViewModel
     @Binding var findFriendToggle: Bool
     @Binding var checked: Bool
-    
+    @State var listsToggle: Bool = false // 친구 체크박스 토글
     
     var body: some View {
         ZStack {
@@ -45,18 +45,25 @@ struct FriendViewCell: View {
                 }
                 
                 if findFriendToggle {
-                    Image(systemName: checked ? "checkmark.square.fill" : "square")
+                    Image(systemName: listsToggle ? "checkmark.square.fill" : "square")
                         .onTapGesture {
-                            self.checked.toggle()
-                            if checked {
+                            
+                            self.listsToggle.toggle()
+                            
+                            if listsToggle {
                                 realtimeViewModel.inviteFriendIdArray.append(user.id)
                                 realtimeViewModel.inviteFriendArray.append(user)
                                 print(realtimeViewModel.inviteFriendArray)
                                 print(realtimeViewModel.inviteFriendArray.firstIndex(of: user))
+                                self.checked = true
                             } else {
-//                                friendViewModel
+                                //                                friendViewModel
                                 realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendArray.firstIndex(of: user)!)
+                                realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendIdArray.firstIndex(of: user.id)!)
                                 print(realtimeViewModel.inviteFriendArray)
+                                if realtimeViewModel.inviteFriendArray == [] {
+                                    self.checked = false
+                                }
                             }
                             
                         }
