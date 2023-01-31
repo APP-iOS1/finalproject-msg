@@ -46,7 +46,7 @@ extension FriendView {
                         Button {
                             findFriendToggle = false
                         } label: {
-                            Text("초대하기")
+                            Text("추가하기")
                             .foregroundColor(Color("Background"))
                         }
                         .background(checked ? Color("Point2") : Color("Point1"))
