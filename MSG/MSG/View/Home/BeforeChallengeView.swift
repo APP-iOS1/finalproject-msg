@@ -33,7 +33,7 @@ extension BeforeChallengeView {
                         .modifier(TextTitleBold())
                     Spacer()
                 }
-                .padding()
+                .padding(.leading)
                 
                 Spacer()
                     .frame(width: g.size.width, height: g.size.height / 20)
@@ -59,14 +59,14 @@ extension BeforeChallengeView {
                                     RoundedRectangle(cornerRadius: 15))
                                 .background(Color("Color1"))
                                 .cornerRadius(20)
-                                .frame(width: g.size.width / 1.1, height: g.size.height / 4)
+                                .frame(width: g.size.width / 1.1, height: g.size.height / 5)
                             HStack{
                                 Image(systemName: "rosette")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-//                                    .foregroundColor(Color("Color2"))
                                     .frame(width: g.size.width / 13, height: g.size.height / 13)
-                                    .padding(.trailing, 5)
+                                    .padding()
+                                    .padding(.trailing, 15)
                                 VStack(alignment: .leading){
                                     Text("꼭 필요한 습관")
                                         .modifier(TextTitleSemiBold(color: "Color2"))
@@ -103,14 +103,14 @@ extension BeforeChallengeView {
                                     RoundedRectangle(cornerRadius: 15))
                                 .background(Color("Color1"))
                                 .cornerRadius(20)
-                                .frame(width: g.size.width / 1.1, height: g.size.height / 4)
+                                .frame(width: g.size.width / 1.1, height: g.size.height / 5)
                             HStack{
                                 Image(systemName: "chart.xyaxis.line")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-//                                    .foregroundColor(Color("Color2"))
                                     .frame(width: g.size.width / 13, height: g.size.height / 13)
-                                    .padding(.trailing, 5)
+                                    .padding()
+                                    .padding(.trailing, 15)
                                 VStack(alignment: .leading){
                                     Text("함께하는 성장")
                                         .modifier(TextTitleSemiBold(color: "Color2"))
