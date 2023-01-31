@@ -8,7 +8,7 @@ import SwiftUI
 
 struct SettingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
-
+    
     @Binding var darkModeEnabled: Bool
     
     var frameWidth = UIScreen.main.bounds.width
@@ -16,88 +16,84 @@ struct SettingView: View {
     
     var body: some View {
         
-        ZStack {
-            Color("Background")
-                .ignoresSafeArea()
-            VStack(alignment: .leading, spacing: 18) {
-                VStack {
-                    // 조건 써주기
-                    if nil == nil {
-                        Image(systemName: "person.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: frameWidth / 3, height: frameHeight / 7)
-                    } else {
-                        // 사진 불러오기
-                        Image("logo")
-                            .resizable()
-                            .clipShape(Circle())
-                            .frame(width: frameWidth / 3, height: frameHeight / 7)
-                    }
-                }
-                .frame(height: frameHeight / 7)
-                
-                HStack {
-                    Text("닉네임")
-                        .font(.title3.bold())
-                        .padding(.top)
-                        .padding(.leading)
-                    
-//                    Spacer()
-//
-//                    Button {
-//
-//                    } label: {
-//                        HStack {
-//                            Text("수정")
-//                                .font(.caption)
-//                        }
-//                    }
-//                    .frame(width: frameWidth / 10, height: frameHeight / 30)
-//                    .overlay {
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .stroke()
-//                    }
-//                    .padding(.top)
-                }
-                
-                Divider()
+        GeometryReader { g in
+            ZStack {
+                Color("Color1").ignoresSafeArea()
                 
                 VStack(alignment: .leading, spacing: 18) {
-                    Toggle("다크모드 활성화", isOn: $darkModeEnabled)
-                        .onChange(of: darkModeEnabled) { _ in
-                           
+                    
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color("Color1"),
+                                    lineWidth: 4)
+                            .shadow(color: Color("Shadow"),
+                                    radius: 3, x: 5, y: 5)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 15))
+                            .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 15))
+                            .background(Color("Color1"))
+                            .cornerRadius(20)
+                            .frame(width: g.size.width / 1.1, height: g.size.height / 4)
+                        
+                        VStack {
+                            // 조건 써주기
+                            if nil == nil {
+                                Image(systemName: "person.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: g.size.width / 3, height: g.size.height / 7)
+                            } else {
+                                // 사진 불러오기
+                                Image("logo")
+                                    .resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: g.size.width / 3, height: g.size.height / 7)
+                            }
+                            
+                            Text("닉네임")
+                                .font(.title3.bold())
+                                .padding(.top)
+                                .padding(.leading)
+                        }
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 18) {
+                        Toggle("다크모드 활성화", isOn: $darkModeEnabled)
+                            .onChange(of: darkModeEnabled) { _ in
                                 SystemThemeManager
                                     .shared
                                     .handleTheme(darkMode: darkModeEnabled)
+                            }
+                        
+                        Button {
+                            
+                        } label: {
+                            Text("프로필 편집")
                         }
                         
-                    Button {
+                        Text("알림 설정")
                         
-                    } label: {
-                        Text("프로필 편집")
+                        // 이메일, sms, 공유하기, 시트뷰로 보여주기
+                        Text("친구 초대")
+                        
+                        Button {
+                            loginViewModel.signout()
+                        } label: {
+                            Text("로그아웃")
+                        }
                     }
                     
-                    Text("알림 설정")
-                    
-                    // 이메일, sms, 공유하기, 시트뷰로 보여주기
-                    Text("친구 초대")
-                    
-                    Button {
-                        loginViewModel.signout()
-                    } label: {
-                        Text("로그아웃")
+                    VStack {
+                        // 프레임 맞추려고 있는 VStack
                     }
+                    .frame(height: g.size.height / 4)
                 }
-                
-                VStack {
-                    // 프레임 맞추려고 있는 VStack
-                }
-                .frame(height: frameHeight / 2.8)
+                .padding()
             }
-            .padding()
+            .foregroundColor(Color("Color2"))
         }
-        .foregroundColor(Color("Font"))
     }
 }
 

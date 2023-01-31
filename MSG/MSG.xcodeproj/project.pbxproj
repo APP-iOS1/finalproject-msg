@@ -283,6 +283,7 @@
 		166009852976334600E6A546 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6362E8C62988F0C50052C488 /* Login.swift */,
 				165E321A2977EAE600678A09 /* SettingView */,
 				36C7BB762977B37200A3F999 /* OnBoard */,
 				36FA491629778F3200B26A24 /* Chart */,
@@ -360,7 +361,6 @@
 				6342C2C229763B0D00C24D20 /* LoginView.swift */,
 				63BC0F8529767608003F2379 /* MakeProfileView.swift */,
 				6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */,
-				6362E8C62988F0C50052C488 /* Login.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
