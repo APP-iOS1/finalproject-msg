@@ -36,13 +36,11 @@ struct OnBoardView3: View {
                     VStack(alignment: .leading) {
                         Text("깔끔한 차트로 나만의 지출을")
                             .foregroundColor(Color("Font"))
-                            .font(.title)
-                            .bold()
+                            .modifier(TextTitleBold())
                         
                         Text("분석해보아요 🧐")
                             .foregroundColor(Color("Font"))
-                            .font(.title)
-                            .bold()
+                            .modifier(TextTitleBold())
                     }
                     Spacer()
                 }

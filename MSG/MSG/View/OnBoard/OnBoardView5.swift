@@ -36,13 +36,11 @@ struct OnBoardView5: View {
                     VStack(alignment: .leading) {
                         Text("매일 나를 이기는 도전!")
                             .foregroundColor(Color("Font"))
-                            .font(.title)
-                            .bold()
+                            .modifier(TextTitleBold())
                         
                         Text("MSG, 준비됐나요? ❤️")
                             .foregroundColor(Color("Font"))
-                            .font(.title)
-                            .bold()
+                            .modifier(TextTitleBold())
                     }
                     Spacer()
                 }

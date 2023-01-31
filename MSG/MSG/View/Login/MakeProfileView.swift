@@ -18,7 +18,7 @@ struct MakeProfileView: View {
     
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
-    
+    @State private var profileImage: UIImage? = nil
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.presentationMode) var presentationMode
     
@@ -37,8 +37,9 @@ struct MakeProfileView: View {
                         .frame(width: frameHeight / 18)
                     VStack(alignment: .leading) {
                         Text("MSG")
-                            .font(.largeTitle.bold())
+                            .modifier(TextTitleBold())
                         Text("Money Save Game")
+                            .modifier(TextViewModifier(color: "Font"))
                     }
                 }
                 .padding()
@@ -49,15 +50,17 @@ struct MakeProfileView: View {
                     // 프로필 사진
                     HStack {
                         Text("프로필 사진")
-                            .bold()
+                            .modifier(TextTitleBold())
                         Spacer()
                         PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
                             Text("선택하기")
+                                .modifier(TextViewModifier(color: "Font"))
                         }
                         .onChange(of: selectedPhotoItem) { newItem in
                             Task {
                                 if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                     selectedImageData = data
+                                    if let image = UIImage(data: selectedImageData!) { profileImage = image}
                                 }
                             }
                         }
@@ -74,8 +77,8 @@ struct MakeProfileView: View {
                             .frame(height: frameHeight / 5)
                     } else {
                         if let selectedImageData,
-                           let uiImage = UIImage(data: selectedImageData) {
-                            Image(uiImage: uiImage)
+                           profileImage != nil  {
+                            Image(uiImage: profileImage!)
                                 .resizable()
                             //                                .scaledToFit()
                                 .clipShape(Circle())
@@ -88,7 +91,7 @@ struct MakeProfileView: View {
                     // 닉네임
                     HStack {
                         Text("닉네임")
-                            .bold()
+                            .modifier(TextTitleBold())
                         Spacer()
                     }
                     .padding(.leading)
@@ -152,6 +155,7 @@ struct MakeProfileView: View {
                         Spacer()
                         
                     } // HStack: 닉네임 체크 텍스트
+                    .modifier(TextViewModifier(color: "Font"))
                     .padding(.leading)
                 }
                 .frame(height: frameHeight / 5)
@@ -173,15 +177,18 @@ struct MakeProfileView: View {
                                 
                                 // 사용 가능 닉네임 입력 (최종 체크 가입완료)
                             } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
-                                kakaoAuthViewModel.userNicName = nickNameText
-                                let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
-                                loginViewModel.currentUserProfile = userProfile
-                                fireStoreViewModel.addUserInfo(user: userProfile, downloadUrl: "")
-                                self.presentationMode.wrappedValue.dismiss()
+                                Task{
+                                    kakaoAuthViewModel.userNicName = nickNameText
+                                    let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profilImage: "", game: "", gameHistory: nil, friend: nil)
+                                    await fireStoreViewModel.uploadImageToStorage(userImage: profileImage, user: userProfile)
+                                    loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "")
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }
                             }
                         }
                     } label: {
                         Text("가입완료")
+                            .modifier(TextViewModifier(color: "Font"))
                     }
                 } // VStack: 가입 완료 버튼
                 .frame(width: frameWidth / 1.6,height: frameHeight / 17)

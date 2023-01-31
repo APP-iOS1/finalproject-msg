@@ -21,6 +21,7 @@ struct AlertView: View {
             VStack {
                 if realtimeViewModel.user.isEmpty {
                     Text("알람을 모두 확인했습니다.")
+                        .modifier(TextTitleBold())
                 } else {
                     List(realtimeViewModel.user, id: \.self) { user in
                         HStack {
@@ -30,12 +31,14 @@ struct AlertView: View {
                                 .clipShape(Circle().inset(by: 5))
                                 .frame(width:90)
                             Text(user.nickName)
-                                .font(.title3)
+                                .modifier(TextViewModifier(color: "Font"))
                             if let userFriend = user.friend {
                                 if userFriend.contains(realtimeViewModel.myInfo!.id) {
                                     Text("님의 대결 신청")
+                                        .modifier(TextViewModifier(color: "Font"))
                                 } else {
                                     Text("님의 친구 신청")
+                                        .modifier(TextViewModifier(color: "Font"))
                                 }
                             }
                             Spacer()
@@ -48,7 +51,7 @@ struct AlertView: View {
                                 
                             } label: {
                                 Text("확인")
-                                    .foregroundColor(Color("Font"))
+                                    .modifier(TextViewModifier(color: "Font"))
                             }
                             .buttonStyle(.bordered)
                             .background(Color("Point2"))
@@ -60,7 +63,7 @@ struct AlertView: View {
                     .listStyle(.plain)
                 }
             }
-            .foregroundColor(Color("Font"))
+            .modifier(TextViewModifier(color: "Font"))
         }
         .onAppear {
             realtimeViewModel.fetchFriendRequest()

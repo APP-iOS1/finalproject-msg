@@ -40,7 +40,6 @@ class FriendViewModel: ObservableObject {
             .collection("User")
             .getDocuments { (snapshot, error) in
                 if let snapshot {
-                    var array = []
                     for document in snapshot.documents {
                         let id: String = document.documentID
                         let docData = document.data()

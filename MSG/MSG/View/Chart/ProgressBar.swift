@@ -34,19 +34,15 @@ struct ProgressBar: View {
             VStack{
                 if selection == "" {
                     Text("\(Int(totalMoney))원")
-                        .font(.title2)
-                        .fontWeight(.bold)
                 }else{
                     Text("\(selectPercent)%")
-                        .fontWeight(.bold)
                     Text("\(selectMoney)원")
-                        .font(.title2)
-                        .fontWeight(.bold)
                         .padding()
                     Text("\(selection)")
-                        .fontWeight(.bold)
                 }
-            }.onChange(of: selection) { tagName in
+            }
+            .modifier(TextViewModifier(color: "Font"))
+            .onChange(of: selection) { tagName in
                 var find = false
                 for expenditure in progress{
                     if tagName == expenditure.tag{

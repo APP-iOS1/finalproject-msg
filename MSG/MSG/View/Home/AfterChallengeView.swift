@@ -38,22 +38,20 @@ struct AfterChallengeView: View {
                     Group{
                         HStack{
                             Text(challenge.gameTitle)
-                                .font(.title2.bold())
                             Spacer()
                         }
                         
                         HStack{
                             Text("제한 금액 : \(challenge.limitMoney)원")
-                                .font(.title3.bold())
                             Spacer()
                         }
                         HStack{
                             Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
-                                .fontWeight(.medium)
                                 .padding(.bottom)
                             Spacer()
                         }
                     }.padding(1)
+                        .modifier(TextViewModifier(color: "Font"))
                     
                     Group{
                         // 싱글게임 멀티게임 다르게 보여주기
@@ -75,21 +73,37 @@ struct AfterChallengeView: View {
                             //챌린지 시작날짜~오늘날짜 계산
                             CountDownView(endDate: Double(challenge.endDate)!)
                         }
-                    }.font(.title3.bold())
+                    }.modifier(TextViewModifier(color: "Font"))
                         .padding(5)
                     
                     //MARK: - 상세 소비 내역 확인 네비게이션 링크
                     Group{
-                        NavigationLink(destination: ChartView(), label: {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color("Point2"))
-                                .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
-                                .overlay {
-                                    Text("상세 소비 내역 확인하기")
-                                        .foregroundColor(Color("Font2"))
-                                }
-                                .padding(.bottom, 3)
-                        })
+                        
+                        if fireStoreViewModel.expenditure != nil {
+                            NavigationLink(destination: ChartView(), label: {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Point2"))
+                                    .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
+                                    .overlay {
+                                        Text("상세 소비 내역 확인하기")
+                                            .foregroundColor(Color("Font2"))
+                                    }
+                                    .padding(.bottom, 3)
+                            })
+                        } else {
+                            Button{ } label: {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Point3"))
+                                    .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
+                                    .overlay {
+                                        Text("상세 소비 내역 확인하기")
+                                            .foregroundColor(Color("Font2"))
+                                    }
+                                    .padding(.bottom, 3)
+                            }
+                        }
+                        
+                
                         
                         //MARK: - 추가하기 네비게이션 링크
                         NavigationLink(destination: SpendingWritingView(), label: {

@@ -27,7 +27,7 @@ struct SoloGameSettingView: View {
                 // MARK: - 챌린지 주제- [TextField]
                 HStack{
                     Text("챌린지 주제: ")
-                        .modifier(TextViewModifier())
+                        .modifier(TextViewModifier(color: "Font"))
                     VStack{
                         TextField("ex) 치킨걸고 30만원 챌린지!", text: $gameSettingViewModel.title)
                             .keyboardType(.default)
@@ -39,7 +39,7 @@ struct SoloGameSettingView: View {
                 // MARK: - 목표금액 - [TextField]
                 HStack{
                     Text("목표금액: ")
-                        .modifier(TextViewModifier())
+                        .modifier(TextViewModifier(color: "Font"))
                     
                     VStack{
                         TextField("ex) 300000", text: $gameSettingViewModel.targetMoney)
@@ -55,7 +55,7 @@ struct SoloGameSettingView: View {
                 VStack{
                     HStack{
                         Text("챌린지 기간 설정")
-                            .modifier(TextViewModifier())
+                            .modifier(TextViewModifier(color: "Font"))
                         Spacer()
                     }
                     .padding(.leading)
@@ -94,6 +94,7 @@ struct SoloGameSettingView: View {
                                         }
                                         .padding(.trailing)
                                     }
+                                    .modifier(TextViewModifier(color: "Font"))
                                     .foregroundColor(Color("Background"))
                                 }
                             
@@ -113,7 +114,8 @@ struct SoloGameSettingView: View {
                         .frame(width: 330,height: 60)
                         .overlay {
                             Text("시작하기")
-                                .foregroundColor(Color("Background"))
+                                .modifier(TextViewModifier(color: "Background"))
+//                                .foregroundColor(Color("Background"))
                         }
                 }
                 .disabled(!gameSettingViewModel.isGameSettingValid)

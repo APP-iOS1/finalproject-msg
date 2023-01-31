@@ -68,6 +68,7 @@ struct ChartView: View {
                 // 태그 별 선택
                 HStack{
                     Text("지출 내역")
+                        .modifier(TextViewModifier(color: "Font"))
                         .padding(.leading)
                     Spacer()
                 }
@@ -81,6 +82,7 @@ struct ChartView: View {
                                 HStack{
                                     Image(systemName: item.icon)
                                     Text("\(item.tag)")
+                                        .modifier(TextViewModifier(color: "Font"))
                                 }
                                 .foregroundColor(selection == item.tag ? Color("Background") : Color("Font"))
                             }

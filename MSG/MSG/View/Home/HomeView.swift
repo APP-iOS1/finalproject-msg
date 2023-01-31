@@ -11,6 +11,7 @@ import FirebaseAuth
 struct HomeView: View {
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -19,17 +20,20 @@ struct HomeView: View {
         ZStack {
             if let game = fireStoreViewModel.currentGame {
                 if game.waitingFriend.isEmpty {
-                    AfterChallengeView(challenge: game)
+                    AfterChallengeView(challenge: fireStoreViewModel.currentGame!)
                 } else {
-                    WaitingView(game: game)
+                    WaitingView(game: fireStoreViewModel.currentGame!)
+                        .refreshable {
+                            await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
+                            await fireStoreViewModel.fetchGame()
+                        }
                 }
+                
             } else {
                 BeforeChallengeView()
             }
         }
-        .refreshable {
-            await fireStoreViewModel.fetchGame()
-        }
+
         .onAppear {
             Task {
                 guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
@@ -41,7 +45,7 @@ struct HomeView: View {
         .onReceive(timer) { _ in
             guard let game = fireStoreViewModel.currentGame  else { return }
 //            print("끝나는시간:",game.endDate)
-            let now = Date().timeIntervalSinceNow
+//            let now = Date().timeIntervalSinceNow
 //            print("현재시간:", now)
 //            if Date().timeIntervalSince1970 > Double(game.endDate)!{
             if Date().timeIntervalSince1970 > Double(game.endDate)! {

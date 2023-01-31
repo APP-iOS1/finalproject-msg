@@ -31,6 +31,7 @@ struct SingleGameProgressBar: View {
 //                Text("\(Double(percentage) / Double(limitMoney))%")
                 Text("\(String(format:"%.1f",Double(percentage) / Double(limitMoney) * 100))%")
             }
+            .modifier(TextViewModifier(color: "Font"))
         }
         .frame(width: UIScreen.main.bounds.width / 1.6)
         .onAppear {

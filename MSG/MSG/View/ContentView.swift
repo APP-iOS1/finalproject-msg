@@ -47,6 +47,7 @@ struct ContentView: View {
                                     .tabItem {
                                         Image(systemName: "dpad.fill")
                                         Text("도전")
+                                            .background(.red)
                                     }
                                     .onAppear{
                                         Task{
@@ -69,6 +70,7 @@ struct ContentView: View {
                                         Text("설정")
                                     }
                             }
+                            .modifier(TextViewModifier(color: "Font"))
                             .onAppear {
                                 realtimeViewModel.myInfo = loginViewModel.currentUserProfile
                             }
