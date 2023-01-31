@@ -17,141 +17,188 @@ struct LoginView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @State private var showingSheetView: Bool = false
-
-    private var frameWidth = UIScreen.main.bounds.width
-    private var frameHeight = UIScreen.main.bounds.height
     
     // 애플, 구글 로그인 ViewMode
     
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
     var body: some View {
-
-        ZStack {
-            Color("Background")
-                .ignoresSafeArea()
-            VStack {
-                
+        
+        GeometryReader { g in
+            ZStack {
+                Color("Color1").ignoresSafeArea()
                 VStack {
                     // MARK: 앱 이름
-                    HStack(spacing: 20) {
-                        Image(systemName: "dpad.left.filled")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: frameHeight / 18)
-                        VStack(alignment: .leading) {
-                            Text("MSG")
-                                .font(.largeTitle.bold())
-                            Text("Money Save Game")
-                        }
+                    VStack(alignment: .leading) {
+                        Text("MSG")
+                            .font(.largeTitle.bold())
+                        Text("Money Save Game")
                     }
-                    .padding()
-                    .frame(width: frameWidth, alignment: .center)
-                    .frame(maxHeight: frameHeight / 7)
+                    .frame(width: g.size.width / 1.1, height: g.size.height / 10, alignment: .leading)
+                    .offset(y: g.size.height / -10)
                     
-                    // MARK: 로그인 버튼
-                    VStack(spacing: 20) {
-                        // MARK: 로그인
+                    VStack {
                         ZStack {
-                            Rectangle()
-                                .frame(width: 280, height:4)
-                                .foregroundColor(Color("Point1"))
-                                .padding(.top,40)
-                            Text("로그인")
-                                .font(.title3)
-                                .bold()
-                        }
-                        
-                        // MARK: Custom Apple Sign in Button
-                        CustomButton1()
-                            .overlay {
-                                SignInWithAppleButton { request in
-                                    loginViewModel.nonce = randomNonceString()
-                                        request.requestedScopes = [.fullName, .email]
-                                        request.nonce = sha256(loginViewModel.nonce)
-                                    
-                                } onCompletion: { (result) in
-                                    switch result {
-                                    case .success(let user):
-                                        print("success")
-                                        guard let credential = user.credential as?
-                                                ASAuthorizationAppleIDCredential else {
-                                            print("error with firebase")
-                                            return
-                                        }
-                                        Task { await loginViewModel.appleAuthenticate(credential: credential) }
-                                    case.failure(let error):
-                                        print(error.localizedDescription)
-                                    }
-                                }
-                                .signInWithAppleButtonStyle(.white)
-                                .cornerRadius(8)
-                                .frame(height: 45)
-                                .blendMode(.overlay)
-                            }
-                            .clipped()
-                        
-                        // MARK: Custom Google Sign in Button
-                        CustomButton1(isGoogle: true)
-                            .overlay {
-                                if let clientID = FirebaseApp.app()?.options.clientID {
-                                    Button {
-                                        GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
-                                            if let error = error {
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color("Color1"),
+                                        lineWidth: 4)
+                                .shadow(color: Color("Shadow"),
+                                        radius: 3, x: 5, y: 5)
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: 15))
+                                .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: 15))
+                                .background(Color("Color1"))
+                                .cornerRadius(20)
+                                .frame(width: g.size.width / 1.1, height: g.size.height / 3)
+                            
+                            // MARK: 로그인 버튼
+                            VStack(spacing: 20) {
+                                
+                                // MARK: Custom Apple Sign in Button
+                                CustomButton1()
+                                    .overlay {
+                                        SignInWithAppleButton { request in
+                                            loginViewModel.nonce = randomNonceString()
+                                            request.requestedScopes = [.fullName, .email]
+                                            request.nonce = sha256(loginViewModel.nonce)
+                                            
+                                        } onCompletion: { (result) in
+                                            switch result {
+                                            case .success(let user):
+                                                print("success")
+                                                guard let credential = user.credential as?
+                                                        ASAuthorizationAppleIDCredential else {
+                                                    print("error with firebase")
+                                                    return
+                                                }
+                                                Task { await loginViewModel.appleAuthenticate(credential: credential) }
+                                            case.failure(let error):
                                                 print(error.localizedDescription)
-                                                return
-                                            }
-                                            // MARK: Loggin Google User into Firbase
-                                            if let user {
-                                                loginViewModel.logGoogleUser(user: user)
                                             }
                                         }
-                                    } label: {
-                                        Rectangle()
-                                            .frame(width: 280, height: 45)
-                                            .foregroundColor(.clear)
+                                        .signInWithAppleButtonStyle(.white)
+                                        .cornerRadius(8)
+                                        .frame(height: 45)
+                                        .blendMode(.overlay)
                                     }
-                                }
+                                    .clipped()
+                                
+                                // MARK: Custom Google Sign in Button
+                                CustomButton1(isGoogle: true)
+                                    .overlay {
+                                        if let clientID = FirebaseApp.app()?.options.clientID {
+                                            Button {
+                                                GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
+                                                    if let error = error {
+                                                        print(error.localizedDescription)
+                                                        return
+                                                    }
+                                                    // MARK: Loggin Google User into Firbase
+                                                    if let user {
+                                                        loginViewModel.logGoogleUser(user: user)
+                                                    }
+                                                }
+                                            } label: {
+                                                Rectangle()
+                                                    .frame(width: 280, height: 45)
+                                                    .foregroundColor(.clear)
+                                            }
+                                        }
+                                    }
+                                    .clipped()
+                                
+                                // MARK: Custom Kakao Sign in Button
+                                CustomButton2()
+                                    .overlay{
+                                        Button {
+                                            loginViewModel.kakaoLogin()
+                                        } label: {
+                                            Rectangle()
+                                                .frame(width: 280, height: 45)
+                                                .foregroundColor(.clear)
+                                        }
+                                    }
+                                    .clipped()
                             }
-                            .clipped()
-                        
-                        // MARK: Custom Kakao Sign in Button
-                        CustomButton2()
-                            .overlay{
-                                Button {
-                                    loginViewModel.kakaoLogin()
-                                } label: {
-                                    Rectangle()
-                                        .frame(width: 280, height: 45)
-                                        .foregroundColor(.clear)
-                                }
-                            }
-                            .clipped()
+                            .padding(.top, 20)
+                        }
                     }
-                    .padding(.top, 20)
-                }
-              
-                        // MARK: 개인정보 처리방침
-                        HStack {
-                            Button {
-                                showingSheetView.toggle()
-                            } label: {
-                                Text("**이용약관** 및 **개인정보 취급방침**")
-//                                    .padding(.top, 340)
+                    .offset(y: g.size.height / -10)
+                    
+                    HStack {
+                        Button(action: {}) {
+                            Image(systemName: "dpad.fill")
+                                .resizable()
+                                .foregroundColor(Color("Color2"))
+                                .frame(width: g.size.width / 5, height: g.size.height / 9.5)
+                                .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                                .padding(20)
+                                .background(Color("Color1"))
+                                .cornerRadius(20)
+                        }
+                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                        
+                        Spacer()
+                        
+                        Button(action: {}){
+                            Image(systemName: "a.circle.fill")
+                                .resizable()
+                                .frame(width: g.size.width / 10, height: g.size.height / 18.5)
+                                .padding(25)
+                                .foregroundColor(Color("Color2"))
+                                .background(
+                                    Circle()
+                                        .fill(
+                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                        )
+                                        .foregroundColor(Color("Color1")))
+                        }
+                        
+                        VStack {
+                            Button(action: {}){
+                                Image(systemName: "b.circle.fill")
+                                    .resizable()
+                                    .frame(width: g.size.width / 10, height: g.size.height / 18.5)
+                                    .padding(25)
+                                    .foregroundColor(Color("Color2"))
+                                    .background(
+                                        Circle()
+                                            .fill(
+                                                .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                            )
+                                            .foregroundColor(Color("Color1")))
                             }
                         }
-                        .font(.caption)
-                        .padding(.top)
-                        .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
-           
+                    }
+                    .frame(width: g.size.width / 1.1)
+                    
+                    // MARK: 개인정보 처리방침
+                    HStack {
+                        Button {
+                            showingSheetView.toggle()
+                        } label: {
+                            Text("**이용약관** 및 **개인정보 취급방침**")
+                            //                                    .padding(.top, 340)
+                        }
+                    }
+                    .font(.caption)
+                    .offset(y: g.size.height / 7)
+                    
+                }
+                .foregroundColor(Color("Color2"))
             }
-            .foregroundColor(Color("Font"))
-        }
-        .fullScreenCover(isPresented: $showingSheetView) {
-            PrivacyPolicyView()
-        }
-        .fullScreenCover(isPresented: $isFirstLaunching) {
-            OnBoardTapView(isFirstLaunching: $isFirstLaunching)
+            .fullScreenCover(isPresented: $showingSheetView) {
+                PrivacyPolicyView()
+            }
+            .fullScreenCover(isPresented: $isFirstLaunching) {
+                OnBoardTapView(isFirstLaunching: $isFirstLaunching)
+            }
         }
     }
     
@@ -216,7 +263,6 @@ struct LoginView: View {
                 .fill(isKakao ? .blue : Color("KakaoButtonColor"))
         }
     }
-    
 }
 
 
