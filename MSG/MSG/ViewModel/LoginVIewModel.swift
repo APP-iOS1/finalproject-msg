@@ -43,7 +43,7 @@ class LoginViewModel: ObservableObject {
         let game = docData["game"] as? String ?? ""
         let gameHistory = docData["gameHistory"] as? [String] ?? []
         let friend = docData["gameHistory"] as? [String] ?? []
-        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profilImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
         return userInfo
     }
     

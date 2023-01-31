@@ -44,12 +44,12 @@ class FriendViewModel: ObservableObject {
                         let id: String = document.documentID
                         let docData = document.data()
                         let nickName: String = docData["nickName"] as? String ?? ""
-                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
                         
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
                         if nickName.contains(text) && (id != Auth.auth().currentUser?.uid) {
                             self.searchUserArray.append(getUser)
                         }
@@ -76,12 +76,12 @@ class FriendViewModel: ObservableObject {
                         print("id:\(id)")
                         let docData = document.data()
                         let nickName: String = docData["nickName"] as? String ?? ""
-                        let profilImage: String = docData["profilImage"] as? String ?? ""
+                        let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
 
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
                         print("findFriend:",self.myFrinedArray)
                         self.myFrinedArray.append(getUser)
                     }

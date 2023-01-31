@@ -341,7 +341,7 @@ class RealtimeViewModel: ObservableObject {
         let dict: [String: Any] = [
             "id": from.id,// ㅇ
             "nickName": from.nickName, //ㅇ
-            "profilImage": from.profilImage, //ㅇ
+            "profileImage": from.profileImage, //ㅇ
             "game": from.game, //ㅇ
             "gameHistory": from.gameHistory ?? [],
             "friend": from.friend ?? [],
@@ -357,7 +357,7 @@ class RealtimeViewModel: ObservableObject {
             let dict: [String: Any] = [
                 "id": from.id,// ㅇ
                 "nickName": from.nickName, //ㅇ
-                "profilImage": from.profilImage, //ㅇ
+                "profileImage": from.profileImage, //ㅇ
                 "game": from.game, //ㅇ
                 "gameHistory": from.gameHistory ?? [],
                 "friend": from.friend ?? [],

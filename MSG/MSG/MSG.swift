@@ -12,7 +12,7 @@ struct Msg: Codable, Identifiable, Hashable {
     // 나
     var id: String
     var nickName: String
-    var profilImage: String
+    var profileImage: String
     //현재 진행중인 게임 id
     var game: String
     var gameHistory: [String]?
@@ -23,7 +23,7 @@ struct Msg: Codable, Identifiable, Hashable {
 struct Friend: Codable, Identifiable {
     var id: String
     var nickName: String
-    var profilImage: String
+    var profileImage: String
     var game: String
 }
 //MARK: - 게임을 생성할 때 필요함
