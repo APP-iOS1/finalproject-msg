@@ -38,7 +38,7 @@ struct TextTitleBold: ViewModifier{
     func body(content: Content) -> some View {
 
             content
-                .foregroundColor(Color("Font"))
+                .foregroundColor(Color("Color2"))
                 .font(.custom("MaplestoryOTFBold", size: dynamicFontSize(CGFloat(size))))
 
             

@@ -16,7 +16,7 @@ struct SegementedControllView: View {
     private let backgroundColor: Color
     private let selectedItemFontColor: Color
     
-    init(selection: Binding<Int>,titles: [String], selectedItemColor: Color, backgroundColor: Color, selectedItemFontColor: Color) {
+    init(selection: Binding<Int>, titles: [String], selectedItemColor: Color, backgroundColor: Color, selectedItemFontColor: Color) {
         _selection = selection
         self.titles = titles
         self.selectedItemColor = selectedItemColor
@@ -31,7 +31,6 @@ struct SegementedControllView: View {
                 HStack(spacing: 10) {
                     ForEach(self.titles.indices, id: \.self) { index in
                         Text(self.titles[index])
-                            .modifier(TextViewModifier(color: "Font"))
                             .foregroundColor(selectedItemFontColor)
                             .onTapGesture {
                                 self.selection = index

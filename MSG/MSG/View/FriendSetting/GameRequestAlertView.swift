@@ -8,18 +8,24 @@
 import SwiftUI
 
 struct GameRequestAlertView: View {
+    
     @State private var isPresent = false
     @State private var challengeInfo: Challenge?
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
+    
     var body: some View {
+        
         ZStack{
-            ScrollView{
-                Color("Background").ignoresSafeArea()
-                if realtimeViewModel.requsetGameArr.isEmpty{
+            Color("Color1").ignoresSafeArea()
+            if realtimeViewModel.requsetGameArr.isEmpty{
                     Text("비어있습니다.")
-                        .modifier(TextViewModifier(color: "Font"))
-                }
+                        .modifier(TextTitleBold())
+            }
+            
+            ScrollView{
+                Color("Color1").ignoresSafeArea()
+                
                 ForEach(realtimeViewModel.requsetGameArr){ sendUser in
                     HStack{
                         if sendUser.profileImage.isEmpty{

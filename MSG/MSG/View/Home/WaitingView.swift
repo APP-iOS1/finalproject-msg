@@ -16,7 +16,7 @@ struct WaitingView: View {
 
         
         ZStack {
-            Color("Background")
+            Color("Color1")
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
@@ -108,7 +108,7 @@ struct WaitingView: View {
                                 }
                                 // 오락실스러운 레디 폰트 추가 예정
                                 Text("Ready")
-                                    .foregroundColor(Color("Point2"))
+                                    .foregroundColor(Color("Color2"))
                                     .font(.title3)
                                     .bold()
                             }

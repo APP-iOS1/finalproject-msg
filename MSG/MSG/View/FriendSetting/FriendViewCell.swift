@@ -4,7 +4,6 @@
 //
 //  Created by kimminho on 2023/01/17.
 //
-
 import SwiftUI
 
 struct FriendViewCell: View {
@@ -20,7 +19,7 @@ struct FriendViewCell: View {
     
     var body: some View {
         ZStack {
-            Color("Background")
+            Color("Color1")
                 .ignoresSafeArea()
             HStack(spacing: 0) {
                 if user.profileImage.isEmpty{
