@@ -17,7 +17,7 @@ struct LoginView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @State private var showingSheetView: Bool = false
-
+    
     private var frameWidth = UIScreen.main.bounds.width
     private var frameHeight = UIScreen.main.bounds.height
     
@@ -26,7 +26,7 @@ struct LoginView: View {
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
     
     var body: some View {
-
+        
         ZStack {
             Color("Background")
                 .ignoresSafeArea()
@@ -61,59 +61,10 @@ struct LoginView: View {
                                 .font(.title3)
                                 .bold()
                         }
-                        
                         // MARK: Custom Apple Sign in Button
                         CustomButton1()
-                            .overlay {
-                                SignInWithAppleButton { request in
-                                    loginViewModel.nonce = randomNonceString()
-                                        request.requestedScopes = [.fullName, .email]
-                                        request.nonce = sha256(loginViewModel.nonce)
-                                    
-                                } onCompletion: { (result) in
-                                    switch result {
-                                    case .success(let user):
-                                        print("success")
-                                        guard let credential = user.credential as?
-                                                ASAuthorizationAppleIDCredential else {
-                                            print("error with firebase")
-                                            return
-                                        }
-                                        Task { await loginViewModel.appleAuthenticate(credential: credential) }
-                                    case.failure(let error):
-                                        print(error.localizedDescription)
-                                    }
-                                }
-                                .signInWithAppleButtonStyle(.white)
-                                .cornerRadius(8)
-                                .frame(height: 45)
-                                .blendMode(.overlay)
-                            }
-                            .clipped()
-                        
                         // MARK: Custom Google Sign in Button
                         CustomButton1(isGoogle: true)
-                            .overlay {
-                                if let clientID = FirebaseApp.app()?.options.clientID {
-                                    Button {
-                                        GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
-                                            if let error = error {
-                                                print(error.localizedDescription)
-                                                return
-                                            }
-                                            // MARK: Loggin Google User into Firbase
-                                            if let user {
-                                                loginViewModel.logGoogleUser(user: user)
-                                            }
-                                        }
-                                    } label: {
-                                        Rectangle()
-                                            .frame(width: 280, height: 45)
-                                            .foregroundColor(.clear)
-                                    }
-                                }
-                            }
-                            .clipped()
                         
                         // MARK: Custom Kakao Sign in Button
                         CustomButton2()
@@ -130,20 +81,20 @@ struct LoginView: View {
                     }
                     .padding(.top, 20)
                 }
-              
-                        // MARK: 개인정보 처리방침
-                        HStack {
-                            Button {
-                                showingSheetView.toggle()
-                            } label: {
-                                Text("**이용약관** 및 **개인정보 취급방침**")
-//                                    .padding(.top, 340)
-                            }
-                        }
-                        .font(.caption)
-                        .padding(.top)
-                        .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
-           
+                
+                // MARK: 개인정보 처리방침
+                HStack {
+                    Button {
+                        showingSheetView.toggle()
+                    } label: {
+                        Text("**이용약관** 및 **개인정보 취급방침**")
+                        //                                    .padding(.top, 340)
+                    }
+                }
+                .font(.caption)
+                .padding(.top)
+                .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
+                
             }
             .foregroundColor(Color("Font"))
         }
@@ -158,30 +109,96 @@ struct LoginView: View {
     @ViewBuilder
     // MARK: Apple & Google CustomButton
     func CustomButton1(isGoogle: Bool = false) -> some View {
-        HStack {
-            Group {
-                if isGoogle {
+        
+        if isGoogle {
+            HStack {
+                Group {
                     Image("GoogleIcon")
                         .resizable()
-                } else {
+                }
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25, height: 25)
+                .frame(height: 45)
+                
+                Text("Google Sign in")
+                    .font(.callout)
+                    .lineLimit(1)
+            }
+            .foregroundColor(.black)
+            .padding(.horizontal,15)
+            .frame(width: 280, height: 45, alignment: .center)
+            .background {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(.white)
+            }
+            .overlay {
+                if let clientID = FirebaseApp.app()?.options.clientID {
+                    Button {
+                        GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                                return
+                            }
+                            // MARK: Loggin Google User into Firbase
+                            if let user {
+                                loginViewModel.logGoogleUser(user: user)
+                            }
+                        }
+                    } label: {
+                        Rectangle()
+                            .frame(width: 280, height: 45)
+                            .foregroundColor(.clear)
+                    }
+                }
+            }
+            .clipped()
+        } else {
+            HStack {
+                Group {
                     Image(systemName: "applelogo")
                         .resizable()
                 }
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25, height: 25)
+                .frame(height: 45)
+                
+                Text("Apple Sign in")
+                    .font(.callout)
+                    .lineLimit(1)
             }
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 25, height: 25)
-            .frame(height: 45)
-            
-            Text("\(isGoogle ? "Google" : "Apple") Sign in")
-                .font(.callout)
-                .lineLimit(1)
-        }
-        .foregroundColor(isGoogle ? .black : .white)
-        .padding(.horizontal,15)
-        .frame(width: 280, height: 45, alignment: .center)
-        .background {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(isGoogle ? .white : .black)
+            .foregroundColor(.white)
+            .padding(.horizontal,15)
+            .frame(width: 280, height: 45, alignment: .center)
+            .background {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(.black)
+            }
+            .overlay {
+                SignInWithAppleButton { request in
+                    loginViewModel.nonce = randomNonceString()
+                    request.requestedScopes = [.fullName, .email]
+                    request.nonce = sha256(loginViewModel.nonce)
+                    
+                } onCompletion: { (result) in
+                    switch result {
+                    case .success(let user):
+                        print("success")
+                        guard let credential = user.credential as?
+                                ASAuthorizationAppleIDCredential else {
+                            print("error with firebase")
+                            return
+                        }
+                        Task { await loginViewModel.appleAuthenticate(credential: credential) }
+                    case.failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+                .signInWithAppleButtonStyle(.white)
+                .cornerRadius(8)
+                .frame(height: 45)
+                .blendMode(.overlay)
+            }
+            .clipped()
         }
     }
     
