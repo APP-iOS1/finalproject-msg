@@ -31,7 +31,7 @@ struct PrivacyPolicyView: View {
                     .frame(width: g.size.width / 1.2, height: g.size.height / 25)
                     .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                     .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                    .padding(20)
+                    .padding(16)
                     .background(Color("Color1"))
                     .cornerRadius(20)
                     .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)

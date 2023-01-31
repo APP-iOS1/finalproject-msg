@@ -9,15 +9,16 @@ import SwiftUI
 
 // 유저의 챌린지 기록 View
 struct ChallengeRecordView: View {
+    
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    
     var body: some View {
         ZStack {
             // 백그라운드
-            Color("Background")
+            Color("Color1")
                 .ignoresSafeArea()
             
             VStack {
-                
                 // 타이틀
                 HStack {
                     Text("챌린지 기록")
@@ -47,7 +48,6 @@ struct ChallengeRecordView: View {
             Task{
                 try await fireStoreViewModel.fetchPreviousGameHistory()
             }
-            
         }
     }
 }

@@ -24,118 +24,128 @@ struct GameSettingView: View {
 extension GameSettingView {
     
     var body: some View {
-        ZStack {
-            Color("Background").ignoresSafeArea()
-            VStack{
-                // Spacer()
+        
+        GeometryReader { g in
+            ZStack {
+                Color("Color1").ignoresSafeArea()
                 
-                // MARK: - 챌린지 주제- [TextField]
-                HStack{
-                    Text("챌린지 주제: ")
-                        .modifier(TextViewModifier())
-                    VStack{
-                        TextField("ex) 치킨걸고 30만원 챌린지!", text: $gameSettingViewModel.title)
-                            .keyboardType(.default)
-                        Divider()
-                    }
-                }
-                .padding()
-                
-                // MARK: - 목표금액 - [TextField]
-                HStack{
-                    Text("목표금액: ")
-                        .modifier(TextViewModifier())
-                    VStack{
-                        TextField("ex) 300000", text: $gameSettingViewModel.targetMoney)
-                            .keyboardType(.numberPad)
-                        Divider()
-                        
-                    }
-                }
-                .padding()
-                .padding(.bottom)
-                
-                // MARK: - 챌린지 기간 - [DatePicker]
-                VStack{
+                VStack(spacing: 20) {
+                    // MARK: - 챌린지 주제- [TextField]
                     HStack{
-                        Text("챌린지 기간 설정")
+                        Text("챌린지 주제: ")
                             .modifier(TextViewModifier())
-                        Spacer()
+                        VStack{
+                            TextField("ex) 치킨걸고 30만원 챌린지!", text: $gameSettingViewModel.title)
+                                .keyboardType(.default)
+                            Divider()
+                        }
                     }
-                    .padding(.leading)
-                    VStack{
-                        HStack{
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color("Point1"), lineWidth: 1)
-                                .frame(width: 330, height: 120)
-                                .overlay {
-                                    HStack{
-                                        VStack{
-                                            Text("시작")
-                                                .foregroundColor(Color("Font"))
-                                            DatePicker("", selection: $gameSettingViewModel.startDate, in: Date.now...,displayedComponents: .date)
-                                                .frame(width: frameWidth / 5)
-                                                .id(gameSettingViewModel.startDate)
-                                                .onChange(of: gameSettingViewModel.startDate) { _ in
-                                                    gameSettingViewModel.startDate += 1
-                                                }
-                                            
-                                        }
-                                        Spacer()
-                                            .frame(width: frameWidth / 5)
-                                        
-                                        VStack{
-                                            Text("종료")
-                                                .foregroundColor(Color("Font"))
-                                            DatePicker("", selection: $gameSettingViewModel.endDate,in:gameSettingViewModel.startDate... , displayedComponents: .date)
-                                                .frame(width: frameWidth / 5)
-                                                .id(gameSettingViewModel.endDate)
-                                                .onChange(of: gameSettingViewModel.endDate) { _ in
-                                                    gameSettingViewModel.endDate += 1
-                                                }
-                                            
-                                        }
-                                        .padding(.trailing)
-                                    }
-                                    .foregroundColor(Color("Background"))
-                                }
+                    .padding([.leading, .trailing])
+                    
+                    // MARK: - 목표금액 - [TextField]
+                    HStack{
+                        Text("목표금액: ")
+                            .modifier(TextViewModifier())
+                        VStack{
+                            TextField("ex) 300000", text: $gameSettingViewModel.targetMoney)
+                                .keyboardType(.numberPad)
+                            Divider()
                             
                         }
                     }
+                    .padding([.leading, .trailing])
                     
-                }
-                .padding(.bottom ,50)
-                
-                // MARK: - 친구찾기 - [Button]
+                    // MARK: - 챌린지 기간 - [DatePicker]
+                    VStack{
+                        HStack{
+                            Text("챌린지 기간 설정")
+                                .modifier(TextViewModifier())
+                            Spacer()
+                        }
+                        .padding([.leading, .trailing])
+                        
+                        VStack{
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color("Color1"),
+                                            lineWidth: 4)
+                                    .shadow(color: Color("Shadow"),
+                                            radius: 3, x: 5, y: 5)
+                                    .clipShape(
+                                        RoundedRectangle(cornerRadius: 15))
+                                    .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                                    .clipShape(
+                                        RoundedRectangle(cornerRadius: 15))
+                                    .background(Color("Color1"))
+                                    .cornerRadius(20)
+                                    .frame(width: g.size.width / 1.1, height: g.size.height / 4)
+                                
+                                HStack{
+                                    VStack{
+                                        Text("시작")
+                                            .foregroundColor(Color("Font"))
+                                        DatePicker("", selection: $gameSettingViewModel.startDate, in: Date.now...,displayedComponents: .date)
+                                            .frame(width: frameWidth / 5)
+                                            .id(gameSettingViewModel.startDate)
+                                            .onChange(of: gameSettingViewModel.startDate) { _ in
+                                                gameSettingViewModel.startDate += 1
+                                            }
+                                    }
+                                    Spacer()
+                                        .frame(width: frameWidth / 5)
+                                    
+                                    VStack{
+                                        Text("종료")
+                                            .foregroundColor(Color("Font"))
+                                        DatePicker("", selection: $gameSettingViewModel.endDate,in:gameSettingViewModel.startDate... , displayedComponents: .date)
+                                            .frame(width: frameWidth / 5)
+                                            .id(gameSettingViewModel.endDate)
+                                            .onChange(of: gameSettingViewModel.endDate) { _ in
+                                                gameSettingViewModel.endDate += 1
+                                            }
+                                    }
+                                    .padding(.trailing)
+                                }
+                            }
+                        }
+                    }
+                    .padding(.bottom ,50)
+                    
+                    // MARK: - 친구찾기 - [Button]
                     Button(action: {
                         findFriendToggle = true
                     }, label: {
                         // HStack{
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("Point2"))
-                            .frame(width: 330,height: 60)
-                            .overlay {
-                                HStack{
-                                    Text("친구찾기")
-                                    Image(systemName: "magnifyingglass")
-                                }
-                                .foregroundColor(Color("Background"))
-                            }
+                       
+                        HStack{
+                            Text("친구찾기")
+                            Image(systemName: "magnifyingglass")
+                        }
+                        .frame(width: g.size.width / 1.4, height: g.size.height / 34)
+                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                        .padding(20)
+                        .background(Color("Color1"))
+                        .cornerRadius(20)
+                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                     })
                     .padding([.leading, .bottom, .trailing])
-
-                
-                // MARK: - 초대장 보내기 Button
+                    
+                    
+                    // MARK: - 초대장 보내기 Button
                     Button {
-                            isShowingAlert = true
+                        isShowingAlert = true
                     } label: {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("Point2"))
-                            .frame(width: 330,height: 60)
-                            .overlay {
-                                Text("초대장 보내기")
-                                    .foregroundColor(Color("Background"))
-                            }
+                        Text("초대장 보내기")
+                            .frame(width: g.size.width / 1.4, height: g.size.height / 34)
+                            .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                            .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                            .padding(20)
+                            .background(Color("Color1"))
+                            .cornerRadius(20)
+                            .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                            .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                     }
                     .padding([.leading, .bottom, .trailing])
                     .sheet(isPresented: $findFriendToggle) {
@@ -144,42 +154,44 @@ extension GameSettingView {
                             .presentationDragIndicator(.visible)
                         //                        Spacer()
                     }
-            }
-            .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
-                Button("시작하기") {
-                    Task{
-                        if !notiManager.isGranted {
-                            notiManager.openSetting()
-                        } else {
-                            print("도전장 보내짐?")
-                            let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
-                            let challenge = Challenge(
-                                id: UUID().uuidString,
-                                gameTitle: gameSettingViewModel.title,
-                                limitMoney: Int(gameSettingViewModel.targetMoney)!,
-                                startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
-                                endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
-                                inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
-                            await fireStoreViewModel.addMultiGame(challenge)
-                            guard let myInfo = fireStoreViewModel.myInfo else { return }
-//                            print("myInfo: \(myInfo)")
-                            print(realtimeViewModel.inviteFriendArray)
-                            realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
-                            dismiss()
-                            await notiManager.schedule(localNotification: localNotification)
-                            await notiManager.getPendingRequests()
+                }
+                .foregroundColor(Color("Color2"))
+                .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
+                    Button("시작하기") {
+                        Task{
+                            if !notiManager.isGranted {
+                                notiManager.openSetting()
+                            } else {
+                                print("도전장 보내짐?")
+                                let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
+                                let challenge = Challenge(
+                                    id: UUID().uuidString,
+                                    gameTitle: gameSettingViewModel.title,
+                                    limitMoney: Int(gameSettingViewModel.targetMoney)!,
+                                    startDate: String(gameSettingViewModel.startDate.timeIntervalSince1970) ,
+                                    endDate: String(gameSettingViewModel.endDate.timeIntervalSince1970),
+                                    inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
+                                await fireStoreViewModel.addMultiGame(challenge)
+                                guard let myInfo = fireStoreViewModel.myInfo else { return }
+                                //                            print("myInfo: \(myInfo)")
+                                print(realtimeViewModel.inviteFriendArray)
+                                realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                                dismiss()
+                                await notiManager.schedule(localNotification: localNotification)
+                                await notiManager.getPendingRequests()
+                            }
                         }
                     }
-                }
-                Button("취소하기") {
-                    // dismiss()
-                }
-            }, message: {
-                if notiManager.isGranted {
-                    Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
-                }
-            })
-            Spacer()
+                    Button("취소하기") {
+                        // dismiss()
+                    }
+                }, message: {
+                    if notiManager.isGranted {
+                        Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
+                    }
+                })
+                Spacer()
+            }
         }
         .onAppear{
             fireStoreViewModel.findFriend()

@@ -12,8 +12,6 @@ struct SpendingWritingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var selection: Int = 0
-//    @State private var consumeTilte = ""
-//    @State private var consumeMoney = ""
     @ObservedObject var spendingViewModel = SpendingWriteViewModel()
     @State private var isValid = false
     
@@ -25,7 +23,7 @@ struct SpendingWritingView: View {
     
     var body: some View {
         ZStack{
-            Color("Background").ignoresSafeArea()
+            Color("Color1").ignoresSafeArea()
             VStack{
                 Group{
                     Spacer()

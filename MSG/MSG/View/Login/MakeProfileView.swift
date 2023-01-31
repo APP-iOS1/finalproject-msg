@@ -178,7 +178,7 @@ struct MakeProfileView: View {
                             }
                         } label: {
                             Text("가입완료")
-                                .frame(width: g.size.width / 1.4, height: g.size.height / 24)
+                                .frame(width: g.size.width / 1.4, height: g.size.height / 34)
                                 .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                 .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                                 .padding(20)
