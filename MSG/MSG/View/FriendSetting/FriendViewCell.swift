@@ -23,11 +23,27 @@ struct FriendViewCell: View {
             Color("Background")
                 .ignoresSafeArea()
             HStack(spacing: 0) {
-                Image("logo")
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(Circle())
-                    .frame(height: 60)
+                if user.profileImage.isEmpty{
+                    Image("logo")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(height: 60)
+                }else{
+                    AsyncImage(url: URL(string: user.profileImage)) { Image in
+                        Image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Circle())
+                            .frame(height: 60)
+                    } placeholder: {
+                        Image(systemName: "person")
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Circle())
+                            .frame(height: 60)
+                    }
+                }
                 Text(user.nickName)
                 Spacer()
                 if !friendViewModel.myFrinedArray.contains(user) {

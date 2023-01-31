@@ -22,20 +22,27 @@ struct GameRequestAlertView: View {
                 }
                 ForEach(realtimeViewModel.requsetGameArr){ sendUser in
                     HStack{
-                        Image(systemName: "person.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .clipShape(Circle())
-                            .frame(height: 60)
+                        if sendUser.profileImage.isEmpty{
+                            Image(systemName: "person.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .frame(height: 60)
+                        }else{
+                            AsyncImage(url: URL(string: sendUser.profileImage)) { Image in
+                                Image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(Circle())
+                                    .frame(height: 60)
+                            } placeholder: {
+                                
+                            }
+                        }
                         Text("\(sendUser.nickName)")
                         Spacer()
                         Button {
-                            Task{
-//                                                            challengeInfo = await firestoreViewModel.fetchChallengeInformation(sendUser.game)
-//                                                            await firestoreViewModel.acceptGame(sendUser.game)
-//                                                            realtimeViewModel.acceptGameRequest(friend: sendUser)
-                                isPresent = true
-                            }
+                            isPresent = true
                         } label: {
                             Text("확인하기✉️💌")
                                 .padding(.trailing)
@@ -62,7 +69,7 @@ struct GameRequestAlertView: View {
                                         Text("\(challengeInfo?.startDate.createdDate ?? "제목없음")")
                                             .modifier(TextTitleBold())
                                         Text("\(challengeInfo?.endDate.createdDate ?? "제목없음")")
-                                        .modifier(TextViewModifier(color: "Font"))
+                                            .modifier(TextViewModifier(color: "Font"))
                                     }.padding()
                                     
                                     

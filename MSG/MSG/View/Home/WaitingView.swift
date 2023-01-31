@@ -86,8 +86,8 @@ struct WaitingView: View {
                         ForEach(fireStoreViewModel.invitedArray, id: \.self) { user in
                             HStack {
                                 HStack {
-                                    if !user.profilImage.isEmpty{
-                                        AsyncImage(url: URL(string: user.profilImage)) { Image in
+                                    if !user.profileImage.isEmpty{
+                                        AsyncImage(url: URL(string: user.profileImage)) { Image in
                                             Image
                                                 .resizable()
                                                 .frame(width: 50, height: 50)
@@ -117,10 +117,12 @@ struct WaitingView: View {
                         ForEach(fireStoreViewModel.waitingArray, id: \.self) { user in
                             HStack {
                                 HStack {
-                                    if !user.profilImage.isEmpty{
-                                        AsyncImage(url: URL(string: user.profilImage)) { Image in
+                                    if !user.profileImage.isEmpty{
+                                        AsyncImage(url: URL(string: user.profileImage)) { Image in
                                             Image
                                                 .resizable()
+                                                .scaledToFit()
+                                                .clipShape(Circle())
                                                 .frame(width: 50, height: 50)
                                         } placeholder: { }
                                     }else{

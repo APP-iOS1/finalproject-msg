@@ -22,14 +22,14 @@ struct SettingView: View {
             VStack(alignment: .leading, spacing: 18) {
                 VStack {
                     // 조건 써주기
-                    if userProfile == nil || userProfile!.profilImage.isEmpty{
+                    if userProfile == nil || userProfile!.profileImage.isEmpty{
                         Image(systemName: "person.circle")
                             .resizable()
                             .scaledToFit()
                             .frame(width: frameWidth / 3, height: frameHeight / 7)
                     } else {
                         // 사진 불러오기
-                        AsyncImage(url: URL(string: userProfile!.profilImage)) { Image in
+                        AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
                             Image
                                 .resizable()
                                 .clipShape(Circle())

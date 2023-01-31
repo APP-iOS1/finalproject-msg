@@ -25,11 +25,23 @@ struct AlertView: View {
                 } else {
                     List(realtimeViewModel.user, id: \.self) { user in
                         HStack {
-                            Image("logo")
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle().inset(by: 5))
-                                .frame(width:90)
+                            if user.profileImage.isEmpty{
+                                Image("logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(Circle().inset(by: 5))
+                                    .frame(width:90)
+                            }else{
+                                AsyncImage(url: URL(string: user.profileImage)) { Image in
+                                    Image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .clipShape(Circle().inset(by: 5))
+                                        .frame(width:90)
+                                } placeholder: {
+                                    
+                                }
+                            }
                             Text(user.nickName)
                                 .modifier(TextViewModifier(color: "Font"))
                             if let userFriend = user.friend {
