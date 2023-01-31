@@ -33,11 +33,21 @@ extension FriendView {
                 }
                 
                 ScrollView {
-                    ForEach(friendViewModel.searchUserArray) { user in
-                        FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
-                            .frame(height: 60)
-                            .listRowBackground(Color("Background"))
-                            .listRowSeparator(.hidden)
+                    if !findFriendToggle {
+                        ForEach(friendViewModel.myFrinedArray) { user in
+                                FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+                                    .frame(height: 60)
+                                    .listRowBackground(Color("Background"))
+                                    .listRowSeparator(.hidden)
+                        }
+                    }
+                    else {
+                        ForEach(friendViewModel.notGamePlayFriend) { user in
+                                FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+                                    .frame(height: 60)
+                                    .listRowBackground(Color("Background"))
+                                    .listRowSeparator(.hidden)
+                        }
                     }
                 }
                 if findFriendToggle {
@@ -46,7 +56,7 @@ extension FriendView {
                         Button {
                             findFriendToggle = false
                         } label: {
-                            Text("초대하기")
+                            Text("추가하기")
                             .foregroundColor(Color("Background"))
                         }
                         .background(checked ? Color("Point2") : Color("Point1"))
@@ -67,7 +77,11 @@ extension FriendView {
             }
         }
         .onAppear {
-            friendViewModel.findFriend()
+            Task {
+             await friendViewModel.findFriend()
+                friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
+            }
+            
         }
         .modifier(TextViewModifier(color: "Font"))
     }

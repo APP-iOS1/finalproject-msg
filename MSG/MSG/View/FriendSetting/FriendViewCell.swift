@@ -16,6 +16,7 @@ struct FriendViewCell: View {
     @Binding var findFriendToggle: Bool
     @Binding var checked: Bool
     @State var listsToggle: Bool = false // 친구 체크박스 토글
+    @State var friendAlert: Bool = false
     
     var body: some View {
         ZStack {
@@ -61,17 +62,29 @@ struct FriendViewCell: View {
                 }
                 
                 if findFriendToggle {
-                    Image(systemName: listsToggle ? "checkmark.square.fill" : "square")
-                        .onTapGesture {
-                            
+                    VStack{
+                        Button {
                             self.listsToggle.toggle()
                             
                             if listsToggle {
+                                
                                 realtimeViewModel.inviteFriendIdArray.append(user.id)
                                 realtimeViewModel.inviteFriendArray.append(user)
                                 print(realtimeViewModel.inviteFriendArray)
-                                print(realtimeViewModel.inviteFriendArray.firstIndex(of: user))
+                                print("idArray:",realtimeViewModel.inviteFriendIdArray)
+                                //  print(realtimeViewModel.inviteFriendArray.firstIndex(of: user))
+                                if realtimeViewModel.inviteFriendIdArray.count >= 4 {
+                                    friendAlert = true
+                                    realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendArray.firstIndex(of: user)!)
+                                    realtimeViewModel.inviteFriendIdArray.remove(at: realtimeViewModel.inviteFriendIdArray.firstIndex(of: user.id)!)
+                                    print("3명 체크 idArray:",realtimeViewModel.inviteFriendIdArray)
+                                    self.listsToggle.toggle()
+                                } else {
+                                    friendAlert = false
+                                }
+                                
                                 self.checked = true
+                                
                             } else {
                                 //                                friendViewModel
                                 realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendArray.firstIndex(of: user)!)
@@ -82,8 +95,37 @@ struct FriendViewCell: View {
                                     self.checked = false
                                 }
                             }
-                            
+                        } label: {
+                            Image(systemName: listsToggle ? "checkmark.square.fill" : "square")
                         }
+                    }
+                    .alert("최대 3명까지 초대가 가능합니다.", isPresented: $friendAlert) {
+                        Button {} label: { Text("확인") }
+                        
+                    }
+                    //                    Image(systemName: listsToggle ? "checkmark.square.fill" : "square")
+                    //                        .onTapGesture {
+                    //
+                    //                            self.listsToggle.toggle()
+                    //
+                    //                            if listsToggle {
+                    //                                realtimeViewModel.inviteFriendIdArray.append(user.id)
+                    //                                realtimeViewModel.inviteFriendArray.append(user)
+                    //                                print(realtimeViewModel.inviteFriendArray)
+                    //                                print(realtimeViewModel.inviteFriendArray.firstIndex(of: user))
+                    //                                self.checked = true
+                    //                            } else {
+                    //                                //                                friendViewModel
+                    //                                realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendArray.firstIndex(of: user)!)
+                    //                                realtimeViewModel.inviteFriendIdArray.remove(at: realtimeViewModel.inviteFriendIdArray.firstIndex(of: user.id)!)
+                    //                                print("idArray:",realtimeViewModel.inviteFriendIdArray)
+                    //                                print("Array:",realtimeViewModel.inviteFriendArray)
+                    //                                if realtimeViewModel.inviteFriendArray == [] {
+                    //                                    self.checked = false
+                    //                                }
+                    //                            }
+                    //
+                    //                        }
                 }
             }
             .modifier(TextViewModifier(color: "Font"))
