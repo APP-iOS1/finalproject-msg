@@ -23,8 +23,7 @@ struct ChallengeRecordView: View {
                     Text("챌린지 기록")
                     Spacer()
                 }
-                    .foregroundColor(Color("Font"))
-                    .font(.title3.bold())
+                .modifier(TextTitleBold())
                     .padding()
                 
                 // 챌린지 기록 리스트
@@ -74,8 +73,7 @@ struct MyList: View {
                 VStack(alignment: .leading){
                     
                     Text("\(challenge.gameTitle)")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .modifier(TextTitleBold())
                         .padding(.bottom, 10)
                         .lineLimit(1)
                     
@@ -83,8 +81,10 @@ struct MyList: View {
                     if !challenge.inviteFriend.isEmpty {
                         VStack(alignment: .leading) {
                             Text("참여자 :")
+                                .modifier(TextViewModifier(color: "Font"))
                             ForEach(challenge.inviteFriend, id:\.self) { name in
                                 Text("\(name)")
+                                    .modifier(TextViewModifier(color: "Font"))
                             }
                         }
                         .font(.footnote)
@@ -96,7 +96,7 @@ struct MyList: View {
                             Text("챌린지 기간 : ")
                             Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
                     }
-                    .font(.footnote)
+                    .modifier(TextViewModifier(color: "Font"))
                     
                 } // VStack
             } // HStack

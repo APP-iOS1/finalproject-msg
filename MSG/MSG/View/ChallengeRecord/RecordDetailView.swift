@@ -20,8 +20,6 @@ struct RecordDetailView: View {
                     Group{
                         HStack{
                             Text(challenge.gameTitle)
-                                .font(.title3.bold())
-                                .foregroundColor(Color("Font"))
                             Spacer()
                             NavigationLink(destination: ChartView()) {
                                 RoundedRectangle(cornerRadius: 10)
@@ -29,8 +27,6 @@ struct RecordDetailView: View {
                                     .frame(width: 80, height: 45)
                                     .overlay {
                                         Text("상세내역")
-                                            .foregroundColor(Color("Font"))
-                                            .font(.subheadline)
                                     }
                             }
                         }
@@ -40,8 +36,9 @@ struct RecordDetailView: View {
                                 .padding(.bottom, 20)
                             Spacer()
                         }
-                    }.padding(.horizontal)
-                        .foregroundColor(Color("Font"))
+                    }
+                    .padding(.horizontal)
+                    .modifier(TextViewModifier(color: "Font"))
                     //챌린지 참여인원에 따른 사용금액 그룹
                     if !challenge.inviteFriend.isEmpty {
                         Group{
@@ -71,7 +68,7 @@ struct RecordDetailView: View {
                             }
                             
                         }.padding([.vertical, .horizontal])
-                            .foregroundColor(Color("Font"))
+                            .modifier(TextViewModifier(color: "Font"))
                         //가장적게 쓴, 많이 쓴 사람 그룹
                         Group{
                             HStack{
@@ -94,14 +91,14 @@ struct RecordDetailView: View {
                             }
                         }
                         .padding([.vertical, .horizontal], 10)
-                        .foregroundColor(Color("Font"))
+                        .modifier(TextViewModifier(color: "Font"))
                     } else {
                         VStack {
                             Text("총 사용 금액 : ")
                             Text("지출이 가장 많은 태그 : ")
                             Text("지출이 가장 적은 태그 : ")
                         }
-                        .foregroundColor(Color("Font"))
+                        .modifier(TextViewModifier(color: "Font"))
                     }
                 }
             }

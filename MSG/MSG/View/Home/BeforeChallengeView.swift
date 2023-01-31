@@ -33,8 +33,7 @@ extension BeforeChallengeView {
                 
                 HStack{
                     Text("개인 챌린지 시작하기")
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Font"))
+                        .modifier(TextTitleBold())
                         .padding(.bottom, -1)
                     Spacer()
                 }
@@ -52,9 +51,12 @@ extension BeforeChallengeView {
                                     .frame(width: frameWidth / 13, height: frameHeight / 13)
                                     .padding(.trailing, 5)
                                 VStack(alignment: .leading){
-                                    Text("꼭 필요한 습관").font(.title3).bold()
+                                    Text("꼭 필요한 습관")
+                                        .modifier(TextTitleSemiBold(color: "Font2"))
+                                        .padding(.bottom,3)
                                     Text("꾸준한 습관으로 커다란 결과를!")
-                                } .foregroundColor(Color("Font2"))
+                                        .modifier(TextViewModifier(color: "Font2"))
+                                }
                             }
                         }
                         
@@ -67,9 +69,8 @@ extension BeforeChallengeView {
                 
                 HStack{
                     Text("함께하는 챌린지 시작하기")
-                        .foregroundColor(Color("Font"))
+                        .modifier(TextTitleBold())
                         .padding(.bottom, -1)
-                        .fontWeight(.bold)
                     Spacer()
                 }
                 .frame(width: frameWidth / 1.23)
@@ -87,9 +88,12 @@ extension BeforeChallengeView {
                                     .frame(width: frameWidth / 13, height: frameHeight / 13)
                                     .padding(.trailing, 5)
                                 VStack(alignment: .leading){
-                                    Text("함께하는 성장").font(.title3).bold()
+                                    Text("함께하는 성장")
+                                        .modifier(TextTitleSemiBold(color: "Font2"))
+                                        .padding(.bottom,3)
                                     Text("목표를 정하고, 서로 체크해요!")
-                                } .foregroundColor(Color("Font2"))
+                                        .modifier(TextViewModifier(color: "Font2"))
+                                }
                             }
                         }
                         

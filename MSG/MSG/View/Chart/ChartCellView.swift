@@ -43,14 +43,11 @@ struct ChartCellView: View {
 //                                Text("- \(consume[1])")
                                 Text("- \(numberFormatter(number: Int(consume[1])!))원")
                             }
-                            .bold()
                             
                             HStack{
                                 Text("소비태그: \(key)")
-                                    .font(.subheadline)
                                 Spacer()
                                 Text("\(time[0]):\(time[1])")
-                                    .font(.subheadline)
                             }
                         }
                         .padding()
@@ -74,14 +71,11 @@ struct ChartCellView: View {
 //                                Text("- \(consume[1])")
                                 Text("- \(numberFormatter(number: Int(consume[1])!))원")
                             }
-                            .bold()
                             
                             HStack{
                                 Text("소비태그: \(key)")
-                                    .font(.subheadline)
                                 Spacer()
                                 Text("\(time[0]):\(time[1])")
-                                    .font(.subheadline)
                             }
                         }
                         .padding()
@@ -89,6 +83,7 @@ struct ChartCellView: View {
                     .padding([.leading, .trailing], 20)
                 }
             }
+            .modifier(TextViewModifier(color: "Font"))
         }
         .onAppear {
             Task {

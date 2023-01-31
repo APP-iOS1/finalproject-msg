@@ -159,8 +159,8 @@ class FireStoreViewModel: ObservableObject {
             .setData(["id": Auth.auth().currentUser?.uid ?? "",
                       "nickName": user.nickName,
                       "game": user.game,
-                      "gameHistory": user.gameHistory,
-                      "friend": user.friend,
+                      "gameHistory": user.gameHistory ?? [],
+                      "friend": user.friend ?? [],
                       "profileImage": downloadUrl,
                      ])
     }
@@ -286,8 +286,8 @@ class FireStoreViewModel: ObservableObject {
                       "nickName": user.nickName,
                       "profilImage": user.profilImage,
                       "game": user.game,
-                      "gameHistory": user.gameHistory,
-                      "friend": user.friend,
+                      "gameHistory": user.gameHistory ?? [],
+                      "friend": user.friend ?? [],
                      ])
         print("user:\(user.id)")
         print(Auth.auth().currentUser?.uid ?? "")
@@ -306,8 +306,8 @@ class FireStoreViewModel: ObservableObject {
                       "nickName": myInfo.nickName,
                       "profilImage": myInfo.profilImage,
                       "game": myInfo.game,
-                      "gameHistory": myInfo.gameHistory,
-                      "friend": myInfo.friend,
+                      "gameHistory": myInfo.gameHistory ?? [],
+                      "friend": myInfo.friend ?? [],
                      ])
         print("user:\(user.id)")
         print(Auth.auth().currentUser?.uid ?? "")
@@ -321,7 +321,7 @@ class FireStoreViewModel: ObservableObject {
     func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async {
         print(#function)
         await fetchExpenditure()
-        var money = await fetchTotalMoney(currentGame!.id, Auth.auth().currentUser!.uid)
+        let money = await fetchTotalMoney(currentGame!.id, Auth.auth().currentUser!.uid)
         if let _ = expenditureList[tagName]{
             expenditureList[tagName]!.append(convert)
             print(expenditureList)
@@ -371,8 +371,8 @@ class FireStoreViewModel: ObservableObject {
             expenditureList = expenditure.expenditureHistory
             return expenditureList
         } catch {
-            return nil
             print("Error! fetchExpenditure")
+            return nil
         }
     }
     
@@ -408,8 +408,8 @@ class FireStoreViewModel: ObservableObject {
             let snapShot = try await ref.getDocument()
             guard let docData = snapShot.data() else { return []}
             let array = docData["gameHistory"] as? [String] ?? []
-            return array
             print(array)
+            return array
         }catch{
             print("catched")
             return []
@@ -644,7 +644,7 @@ class FireStoreViewModel: ObservableObject {
     func doSomeThing(data: Challenge) async {
         let ref = database.collection("Challenge").document(data.id)
         
-        var firstIndex = data.waitingFriend.firstIndex { value in
+        let firstIndex = data.waitingFriend.firstIndex { value in
             value == Auth.auth().currentUser?.uid
         }
         var array = data.waitingFriend

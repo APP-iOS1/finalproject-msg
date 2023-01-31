@@ -45,7 +45,7 @@ struct HomeView: View {
         .onReceive(timer) { _ in
             guard let game = fireStoreViewModel.currentGame  else { return }
 //            print("끝나는시간:",game.endDate)
-            let now = Date().timeIntervalSinceNow
+//            let now = Date().timeIntervalSinceNow
 //            print("현재시간:", now)
 //            if Date().timeIntervalSince1970 > Double(game.endDate)!{
             if Date().timeIntervalSince1970 > Double(game.endDate)! {

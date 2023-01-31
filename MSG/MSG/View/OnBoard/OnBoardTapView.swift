@@ -50,9 +50,7 @@ struct OnBoardTapView: View {
                 isFirstLaunching = false
             } label: {
                 Text("로그인 시작하기")
-                    .modifier(TextViewModifier())
-                    .font(.headline)
-                    .bold()
+                    .modifier(TextTitleBold())
                     .frame(width: 280, height: 45, alignment: .center)
             }
             .background(Color("Point2"))
