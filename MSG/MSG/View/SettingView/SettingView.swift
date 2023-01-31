@@ -8,7 +8,7 @@ import SwiftUI
 
 struct SettingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
-
+    @State var userProfile: Msg?
     @Binding var darkModeEnabled: Bool
     
     var frameWidth = UIScreen.main.bounds.width
@@ -22,44 +22,29 @@ struct SettingView: View {
             VStack(alignment: .leading, spacing: 18) {
                 VStack {
                     // 조건 써주기
-                    if nil == nil {
+                    if userProfile == nil || userProfile!.profilImage.isEmpty{
                         Image(systemName: "person.circle")
                             .resizable()
                             .scaledToFit()
                             .frame(width: frameWidth / 3, height: frameHeight / 7)
                     } else {
                         // 사진 불러오기
-                        Image("logo")
-                            .resizable()
-                            .clipShape(Circle())
-                            .frame(width: frameWidth / 3, height: frameHeight / 7)
+                        AsyncImage(url: URL(string: userProfile!.profilImage)) { Image in
+                            Image
+                                .resizable()
+                                .clipShape(Circle())
+                                .frame(width: frameWidth / 3, height: frameHeight / 7)
+                                
+                        } placeholder: { }
                     }
                 }
                 .frame(height: frameHeight / 7)
                 
                 HStack {
-                    Text("닉네임")
-//                        .dynamicTypeSize
+                    Text( userProfile != nil ? userProfile!.nickName : "닉네임")
                         .modifier(TextViewModifier(color: "Font"))
                         .padding(.top)
                         .padding(.leading)
-                    
-//                    Spacer()
-//
-//                    Button {
-//
-//                    } label: {
-//                        HStack {
-//                            Text("수정")
-//                                .font(.caption)
-//                        }
-//                    }
-//                    .frame(width: frameWidth / 10, height: frameHeight / 30)
-//                    .overlay {
-//                        RoundedRectangle(cornerRadius: 10)
-//                            .stroke()
-//                    }
-//                    .padding(.top)
                 }
                 
                 Divider()
@@ -98,6 +83,11 @@ struct SettingView: View {
                 .frame(height: frameHeight / 2.8)
             }
             .padding()
+        }.onAppear{
+            if loginViewModel.currentUserProfile != nil{
+                self.userProfile = loginViewModel.currentUserProfile
+            }
+            
         }
         .foregroundColor(Color("Font"))
     }

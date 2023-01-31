@@ -83,15 +83,24 @@ struct WaitingView: View {
                         //                        Text("\(user.nickName)")
                         //                    }
                         
-                        ForEach(game.inviteFriend, id: \.self) { user in
+                        ForEach(fireStoreViewModel.invitedArray, id: \.self) { user in
                             HStack {
                                 HStack {
-                                    Image(systemName: "person.crop.circle")
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
+                                    if !user.profilImage.isEmpty{
+                                        AsyncImage(url: URL(string: user.profilImage)) { Image in
+                                            Image
+                                                .resizable()
+                                                .frame(width: 50, height: 50)
+                                        } placeholder: { }
+                                    }else{
+                                        Image(systemName: "person.crop.circle")
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                    }
+                                    
                                     Spacer()
                                     
-                                    Text(user)
+                                    Text(user.nickName)
                                         .font(.title3)
                                         .bold()
                                     
@@ -105,16 +114,23 @@ struct WaitingView: View {
                             }
                         }
                         
-                        
-                        ForEach(game.waitingFriend, id: \.self) { user in
+                        ForEach(fireStoreViewModel.waitingArray, id: \.self) { user in
                             HStack {
                                 HStack {
-                                    Image(systemName: "person.crop.circle")
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
+                                    if !user.profilImage.isEmpty{
+                                        AsyncImage(url: URL(string: user.profilImage)) { Image in
+                                            Image
+                                                .resizable()
+                                                .frame(width: 50, height: 50)
+                                        } placeholder: { }
+                                    }else{
+                                        Image(systemName: "person.crop.circle")
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                    }
                                     Spacer()
                                     
-                                    Text(user)
+                                    Text(user.nickName)
                                         .font(.title3)
                                         .bold()
                                     
@@ -136,9 +152,7 @@ struct WaitingView: View {
 
             }
             .frame(width: 330, height: 600)
-            .onAppear {
-                fireStoreViewModel.findUser(inviteId: game.inviteFriend, waitingId: game.waitingFriend)
-            }
+            .task { await fireStoreViewModel.findUser(inviteId: game.inviteFriend, waitingId: game.waitingFriend) }
         }
 
         
