@@ -165,16 +165,20 @@ class FireStoreViewModel: ObservableObject {
                      ])
     }
     
-    func uploadImageToStorage(userImage: UIImage, user: Msg) {
+    
+    
+    func uploadImageToStorage(userImage: UIImage?, user: Msg) async {
         let ref = Storage.storage().reference(withPath: Auth.auth().currentUser?.uid ?? "")
-        guard let imageData = userImage.jpegData(compressionQuality: 0.5) else { return }
-        ref.putData(imageData, metadata: nil) { metadata, err in
-            if let err = err { return }
-            ref.downloadURL { url, err in
-                if let err = err { return }
-                print(url?.absoluteString)
-                self.addUserInfo(user: user, downloadUrl: url?.absoluteString ?? "")
-            }
+        guard let userImage, let imageData = userImage.jpegData(compressionQuality: 0.5) else {
+            self.addUserInfo(user: user, downloadUrl: "")
+            return
+        }
+        do{
+            let _ = try await ref.putDataAsync(imageData)
+            let downloadUrl = try await ref.downloadURL()
+            self.addUserInfo(user: user, downloadUrl: downloadUrl.absoluteString)
+        }catch{
+           print("imageUpload Fail!")
         }
     }
     
@@ -203,36 +207,36 @@ class FireStoreViewModel: ObservableObject {
             }
     }
     
-    func findUser(inviteId: [String], waitingId: [String]) {
+    func findUser(inviteId: [String], waitingId: [String]) async {
         print(#function)
         self.invitedArray.removeAll()
         self.waitingArray.removeAll()
-        database
-            .collection("User")
-            .getDocuments { (snapshot, error) in
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        let nickName: String = docData["nickName"] as? String ?? ""
-                        let profilImage: String = docData["profilImage"] as? String ?? ""
-                        let game: String = docData["game"] as? String ?? ""
-                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let friend: [String] = docData["friend"] as? [String] ?? []
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
-                        for i in inviteId {
-                            if getUser.id == i {
-                                self.invitedArray.append(getUser)
-                            }
-                        }
-                        for i in waitingId {
-                            if getUser.id == i {
-                                self.waitingArray.append(getUser)
-                            }
-                        }
+        do{
+            let snapshot = try await database.collection("User").getDocuments()
+            for document in snapshot.documents{
+                let id: String = document.documentID
+                let docData = document.data()
+                let nickName: String = docData["nickName"] as? String ?? ""
+                let profilImage: String = docData["profilImage"] as? String ?? ""
+                let game: String = docData["game"] as? String ?? ""
+                let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+                let friend: [String] = docData["friend"] as? [String] ?? []
+                let getUser: Msg = Msg(id: id, nickName: nickName, profilImage: profilImage, game: game, gameHistory: gameHistory, friend: friend)
+                for i in inviteId {
+                    if getUser.id == i {
+                        self.invitedArray.append(getUser)
+                    }
+                }
+                for i in waitingId {
+                    if getUser.id == i {
+                        self.waitingArray.append(getUser)
                     }
                 }
             }
+        } catch{
+            print("Faile Find User")
+        }
+        
     }
     
     // MARK: - 친구 목록 가져오기
@@ -584,6 +588,8 @@ class FireStoreViewModel: ObservableObject {
             let waitingFriend = docData["waitingFriend"] as? [String] ?? []
             let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
             self.currentGame = challenge
+            print(self.invitedArray)
+            print(self.waitingArray)
         } catch {
             print("catched")
         }
