@@ -15,8 +15,9 @@ struct AlertView: View {
     
     var body: some View {
         
+        GeometryReader { g in
         ZStack {
-            Color("Background")
+            Color("Color1")
                 .ignoresSafeArea()
             VStack {
                 if realtimeViewModel.user.isEmpty {
@@ -28,7 +29,16 @@ struct AlertView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(Circle().inset(by: 5))
-                                .frame(width:90)
+                                .frame(width: g.size.width / 10, height: g.size.height / 18.5)
+                                .padding(25)
+                                .foregroundColor(Color("Color2"))
+                                .background(
+                                    Circle()
+                                        .fill(
+                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                        )
+                                        .foregroundColor(Color("Color1")))
                             Text(user.nickName)
                                 .font(.title3)
                             if let userFriend = user.friend {
@@ -48,7 +58,12 @@ struct AlertView: View {
                                 
                             } label: {
                                 Text("확인")
-                                    .foregroundColor(Color("Font"))
+                                    .frame(width: g.size.width / 8, height: g.size.height / 34)
+                                    .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                    .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                                    .padding(20)
+                                    .background(Color("Color1"))
+                                    .cornerRadius(20)
                             }
                             .buttonStyle(.bordered)
                             .background(Color("Point2"))
@@ -60,8 +75,9 @@ struct AlertView: View {
                     .listStyle(.plain)
                 }
             }
-            .foregroundColor(Color("Font"))
+            .foregroundColor(Color("Color2"))
         }
+    }
         .onAppear {
             realtimeViewModel.fetchFriendRequest()
             print(realtimeViewModel.user)
