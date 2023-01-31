@@ -48,12 +48,21 @@ struct RecordDetailView: View {
                             ForEach(firestoreViewModel.challengeUsers.indices, id: \.self) { index in
                                 HStack{
                                     VStack{
-                                        Image(systemName: "person")
-                                            .font(.largeTitle)
-                                            .background(content: {
-                                                Color("Point2")
-                                            })
+                                        if firestoreViewModel.challengeUsers[index].user.userProfile.isEmpty{
+                                            Image(systemName: "person")
+                                                .font(.largeTitle)
+                                                .background(content: {
+                                                    Color("Point2")
+                                                })
                                             .padding(.trailing)
+                                        }else{
+                                            AsyncImage(url: URL(string: firestoreViewModel.challengeUsers[index].user.userProfile)!) { Image in
+                                                Image
+                                                    .font(.largeTitle)
+                                                    .background(content: {Color("Point2") })
+                                                .padding(.trailing)
+                                            } placeholder: { }
+                                        }
                                         Text("\(firestoreViewModel.challengeUsers[index].user.userName)")
                                     }
                                     Text("총 \(firestoreViewModel.challengeUsers[index].totalMoney)원 사용")
