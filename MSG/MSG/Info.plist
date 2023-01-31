@@ -35,5 +35,11 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string></string>
+		<string>Maplestory OTF Bold.otf</string>
+		<string>Maplestory OTF Light.otf</string>
+	</array>
 </dict>
 </plist>

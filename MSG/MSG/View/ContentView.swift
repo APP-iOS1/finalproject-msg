@@ -4,6 +4,9 @@
 //
 //  Created by kimminho on 2023/01/17.
 //
+
+//.font(.custom("MaplestoryOTFLight", size: 30))
+//.font(.custom("MaplestoryOTFBold", size: 30))
 import SwiftUI
 
 struct ContentView: View {
@@ -25,7 +28,7 @@ struct ContentView: View {
         UITabBar.appearance().isTranslucent = true
         UITabBar.appearance().backgroundColor = UIColor(Color("Background"))
     }
-
+    
     var body: some View {
         ZStack {
             Color("Background")
@@ -72,21 +75,27 @@ struct ContentView: View {
                         }
                     } else {
                         LoginView()
-                            
+                        
                     }
                 }
                 .onAppear{
                     if loginViewModel.currentUser != nil {
                         Task{
-                                loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(_: loginViewModel.currentUser!.uid)
+                            loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(_: loginViewModel.currentUser!.uid)
+                            for family: String in UIFont.familyNames {
+                                print(family)
+                                for names : String in UIFont.fontNames(forFamilyName: family){
+                                    print("=== \(names)")
+                                }
+                            }
                         }
                     }
                 }
             }
             .accentColor(Color("Font"))
         }.task {
-//            try! await fireStoreViewModel.getGameHistory()
-           
+            //            try! await fireStoreViewModel.getGameHistory()
+            
             
         }
         .onAppear {
@@ -115,24 +124,24 @@ struct ContentView_Previews: PreviewProvider {
 
 // MARK: 123번 ~ 161번 지연 시키는 ViewModifier
 private struct DeferredViewModifier: ViewModifier {
-
+    
     // MARK: API
-
+    
     let threshold: Double
-
+    
     // MARK: - ViewModifier
-
+    
     func body(content: Content) -> some View {
         _content(content)
             .onAppear {
-               DispatchQueue.main.asyncAfter(deadline: .now() + threshold) {
-                   self.shouldRender = true
-               }
+                DispatchQueue.main.asyncAfter(deadline: .now() + threshold) {
+                    self.shouldRender = true
+                }
             }
     }
-
+    
     // MARK: - Private
-
+    
     @ViewBuilder
     private func _content(_ content: Content) -> some View {
         if shouldRender {
@@ -142,7 +151,7 @@ private struct DeferredViewModifier: ViewModifier {
                 .hidden()
         }
     }
-
+    
     @State
     private var shouldRender = false
 }

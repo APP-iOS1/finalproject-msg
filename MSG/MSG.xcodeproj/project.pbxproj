@@ -33,6 +33,8 @@
 		168AE7A629875EA400D68C1C /* WaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168AE7A529875EA400D68C1C /* WaitingView.swift */; };
 		168AE7A829875EB600D68C1C /* WaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168AE7A729875EB600D68C1C /* WaitingViewModel.swift */; };
 		16C6753629822E420028A608 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6753529822E420028A608 /* Extension+Color.swift */; };
+		16DB66D22988A98C009BF8B7 /* Maplestory OTF Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16DB66D02988A98C009BF8B7 /* Maplestory OTF Light.otf */; };
+		16DB66D32988A98C009BF8B7 /* Maplestory OTF Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16DB66D12988A98C009BF8B7 /* Maplestory OTF Bold.otf */; };
 		16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FBE6C52976784D001EC518 /* FriendViewCell.swift */; };
 		360A1471298360A70058BB9B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A1470298360A70058BB9B /* Utils.swift */; };
 		36352762298299F80037BD1B /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36352761298299F80037BD1B /* CustomAlertView.swift */; };
@@ -96,6 +98,8 @@
 		168AE7A529875EA400D68C1C /* WaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingView.swift; sourceTree = "<group>"; };
 		168AE7A729875EB600D68C1C /* WaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingViewModel.swift; sourceTree = "<group>"; };
 		16C6753529822E420028A608 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
+		16DB66D02988A98C009BF8B7 /* Maplestory OTF Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maplestory OTF Light.otf"; sourceTree = "<group>"; };
+		16DB66D12988A98C009BF8B7 /* Maplestory OTF Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maplestory OTF Bold.otf"; sourceTree = "<group>"; };
 		16FBE6C52976784D001EC518 /* FriendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewCell.swift; sourceTree = "<group>"; };
 		360A1470298360A70058BB9B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		36352761298299F80037BD1B /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 		16600961297630C300E6A546 /* MSG */ = {
 			isa = PBXGroup;
 			children = (
+				16DB66CF2988A951009BF8B7 /* Fonts */,
 				C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */,
 				6342C2C42976446600C24D20 /* Info.plist */,
 				166009872976335A00E6A546 /* Model */,
@@ -313,6 +318,15 @@
 				4C407A73297A5B1900877360 /* LocalNotification.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		16DB66CF2988A951009BF8B7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				16DB66D12988A98C009BF8B7 /* Maplestory OTF Bold.otf */,
+				16DB66D02988A98C009BF8B7 /* Maplestory OTF Light.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		36C7BB762977B37200A3F999 /* OnBoard */ = {
@@ -434,6 +448,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16DB66D22988A98C009BF8B7 /* Maplestory OTF Light.otf in Resources */,
+				16DB66D32988A98C009BF8B7 /* Maplestory OTF Bold.otf in Resources */,
 				1660096A297630C400E6A546 /* Preview Assets.xcassets in Resources */,
 				16573EDB2977AA38001176F6 /* GoogleService-Info.plist in Resources */,
 				16600967297630C400E6A546 /* Assets.xcassets in Resources */,
