@@ -82,21 +82,21 @@ struct Login: View {
     var body: some View {
         
         ZStack {
-            Color(red: 236/255, green: 234/255, blue: 235/255).ignoresSafeArea()
+            Color("Color1").ignoresSafeArea()
             
             VStack{
                 ZStack {
                     RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color(red: 236/255, green: 234/255, blue: 235/255),
+                        .stroke(Color("Color1"),
                                 lineWidth: 4)
-                        .shadow(color: Color(red: 192/255, green: 189/255, blue: 191/255),
+                        .shadow(color: Color("Shadow"),
                                 radius: 3, x: 5, y: 5)
                         .clipShape(
                             RoundedRectangle(cornerRadius: 15))
-                        .shadow(color: Color.white, radius: 2, x: -2, y: -2)
+                        .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
                         .clipShape(
                             RoundedRectangle(cornerRadius: 15))
-                        .background(Color(red: 236/255, green: 234/255, blue: 235/255))
+                        .background(Color("Color1"))
                         .cornerRadius(20)
                         .frame(width: 365, height: 240)
                     
@@ -174,47 +174,47 @@ struct Login: View {
                 Spacer()
                 HStack {
                     Button(action: {}) {
-                        Image(systemName: "cross.fill")
+                        Image(systemName: "dpad.fill")
                             .resizable()
-                            .foregroundColor(Color(red: 52/255, green: 57/255, blue: 133/255))
+                            .foregroundColor(Color("Color2"))
                             .frame(width: 80, height: 80)
-                            .shadow(color: Color.white, radius: 8, x: -9, y: -9)
-                            .shadow(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 8, x: 9, y: 9)
+                            .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                            .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                             .padding(20)
-                            .background(Color(red: 224/255, green: 229/255, blue: 236/255))
+                            .background(Color("Color1"))
                             .cornerRadius(20)
                     }
-                    .shadow(color: Color.white, radius: 8, x: -9, y: -9)
-                    .shadow(color: Color(red: 197/255, green: 197/255, blue: 197/255), radius: 8, x: 9, y: 9)
+                    .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                    .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                     Spacer()
                     Button(action: {}){
-                                Image(systemName: "heart.fill")
+                                Image(systemName: "a.circle.fill")
                                     .resizable()
                                     .frame(width: 40, height: 40)
                                     .padding(25)
-                                    .foregroundColor(Color(red: 52/255, green: 57/255, blue: 133/255))
+                                    .foregroundColor(Color("Color2"))
                                     .background(
                                         Circle()
                                             .fill(
-                                                .shadow(.inner(color: Color(red: 197/255, green: 197/255, blue: 197/255),radius: 5, x:3, y: 3))
-                                                .shadow(.inner(color: .white, radius:5, x: -3, y: -3))
+                                                .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
                                             )
-                                            .foregroundColor(Color(red: 236/255, green: 234/255, blue: 235/255)))
+                                            .foregroundColor(Color("Color1")))
                     }
                     VStack {
                         Button(action: {}){
-                                    Image(systemName: "heart.fill")
+                                    Image(systemName: "b.circle.fill")
                                         .resizable()
                                         .frame(width: 40, height: 40)
                                         .padding(25)
-                                        .foregroundColor(Color(red: 52/255, green: 57/255, blue: 133/255))
+                                        .foregroundColor(Color("Color2"))
                                         .background(
                                             Circle()
                                                 .fill(
-                                                    .shadow(.inner(color: Color(red: 197/255, green: 197/255, blue: 197/255),radius: 5, x:3, y: 3))
-                                                    .shadow(.inner(color: .white, radius:5, x: -3, y: -3))
+                                                    .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                    .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
                                                 )
-                                                .foregroundColor(Color(red: 236/255, green: 234/255, blue: 235/255)))
+                                                .foregroundColor(Color("Color1")))
                         }
                         
                     }
