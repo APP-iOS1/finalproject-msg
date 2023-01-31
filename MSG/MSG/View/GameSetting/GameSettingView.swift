@@ -104,8 +104,26 @@ extension GameSettingView {
                     }
                     
                 }
-                .padding(.bottom ,50)
-                
+                if !realtimeViewModel.inviteFriendArray.isEmpty {
+                    List(realtimeViewModel.inviteFriendArray) {friend in
+                        HStack {
+                            Text(friend.nickName)
+                                .foregroundColor(Color("Font"))
+                            Spacer()
+                            Button {
+                                //
+                            } label: {
+                                Image(systemName: "minus")
+                            }
+
+                        }
+                            .foregroundColor(Color("Background"))
+                            .listRowBackground(Color("Point1"))
+                    }
+                    .listStyle(.automatic)
+                    .modifier(ListBackgroundModifier())
+                }
+//                .background(.purple)
                 // MARK: - 친구찾기 - [Button]
                     Button(action: {
                         findFriendToggle = true
