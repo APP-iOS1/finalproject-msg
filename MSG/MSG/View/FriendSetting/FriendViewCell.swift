@@ -59,8 +59,9 @@ struct FriendViewCell: View {
                             } else {
                                 //                                friendViewModel
                                 realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendArray.firstIndex(of: user)!)
-                                realtimeViewModel.inviteFriendArray.remove(at: realtimeViewModel.inviteFriendIdArray.firstIndex(of: user.id)!)
-                                print(realtimeViewModel.inviteFriendArray)
+                                realtimeViewModel.inviteFriendIdArray.remove(at: realtimeViewModel.inviteFriendIdArray.firstIndex(of: user.id)!)
+                                print("idArray:",realtimeViewModel.inviteFriendIdArray)
+                                print("Array:",realtimeViewModel.inviteFriendArray)
                                 if realtimeViewModel.inviteFriendArray == [] {
                                     self.checked = false
                                 }
