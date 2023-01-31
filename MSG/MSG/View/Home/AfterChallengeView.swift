@@ -80,16 +80,32 @@ struct AfterChallengeView: View {
                     
                     //MARK: - 상세 소비 내역 확인 네비게이션 링크
                     Group{
-                        NavigationLink(destination: ChartView(), label: {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color("Point2"))
-                                .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
-                                .overlay {
-                                    Text("상세 소비 내역 확인하기")
-                                        .foregroundColor(Color("Font2"))
-                                }
-                                .padding(.bottom, 3)
-                        })
+                        
+                        if fireStoreViewModel.expenditure != nil {
+                            NavigationLink(destination: ChartView(), label: {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Point2"))
+                                    .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
+                                    .overlay {
+                                        Text("상세 소비 내역 확인하기")
+                                            .foregroundColor(Color("Font2"))
+                                    }
+                                    .padding(.bottom, 3)
+                            })
+                        } else {
+                            Button{ } label: {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("Point3"))
+                                    .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
+                                    .overlay {
+                                        Text("상세 소비 내역 확인하기")
+                                            .foregroundColor(Color("Font2"))
+                                    }
+                                    .padding(.bottom, 3)
+                            }
+                        }
+                        
+                
                         
                         //MARK: - 추가하기 네비게이션 링크
                         NavigationLink(destination: SpendingWritingView(), label: {
