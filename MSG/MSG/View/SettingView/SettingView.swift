@@ -39,7 +39,8 @@ struct SettingView: View {
                 
                 HStack {
                     Text("닉네임")
-                        .font(.title3.bold())
+//                        .dynamicTypeSize
+                        .modifier(TextViewModifier(color: "Font"))
                         .padding(.top)
                         .padding(.leading)
                     
@@ -89,6 +90,7 @@ struct SettingView: View {
                         Text("로그아웃")
                     }
                 }
+                .modifier(TextViewModifier(color: "Font"))
                 
                 VStack {
                     // 프레임 맞추려고 있는 VStack

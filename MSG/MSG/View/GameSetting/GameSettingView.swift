@@ -32,7 +32,7 @@ extension GameSettingView {
                 // MARK: - 챌린지 주제- [TextField]
                 HStack{
                     Text("챌린지 주제: ")
-                        .modifier(TextViewModifier())
+                        .modifier(TextViewModifier(color: "Font"))
                     VStack{
                         TextField("ex) 치킨걸고 30만원 챌린지!", text: $gameSettingViewModel.title)
                             .keyboardType(.default)
@@ -44,7 +44,7 @@ extension GameSettingView {
                 // MARK: - 목표금액 - [TextField]
                 HStack{
                     Text("목표금액: ")
-                        .modifier(TextViewModifier())
+                        .modifier(TextViewModifier(color: "Font"))
                     VStack{
                         TextField("ex) 300000", text: $gameSettingViewModel.targetMoney)
                             .keyboardType(.numberPad)
@@ -59,7 +59,7 @@ extension GameSettingView {
                 VStack{
                     HStack{
                         Text("챌린지 기간 설정")
-                            .modifier(TextViewModifier())
+                            .modifier(TextViewModifier(color: "Font"))
                         Spacer()
                     }
                     .padding(.leading)

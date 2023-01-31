@@ -69,7 +69,7 @@ extension FriendView {
         .onAppear {
             friendViewModel.findFriend()
         }
-        .foregroundColor(Color("Font"))
+        .modifier(TextViewModifier(color: "Font"))
     }
 }
 

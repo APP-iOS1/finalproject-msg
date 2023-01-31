@@ -18,6 +18,7 @@ struct GameRequestAlertView: View {
                 Color("Background").ignoresSafeArea()
                 if realtimeViewModel.requsetGameArr.isEmpty{
                     Text("비어있습니다.")
+                        .modifier(TextViewModifier(color: "Font"))
                 }
                 ForEach(realtimeViewModel.requsetGameArr){ sendUser in
                     HStack{
@@ -44,30 +45,24 @@ struct GameRequestAlertView: View {
                                 VStack(spacing: 10){
                                     Text("\(sendUser.nickName)님의 도전장👊")
                                         .padding()
-                                        .font(.title2)
-                                        .fontWeight(.bold)
+                                        .modifier(TextTitleBold())
                                     Divider()
                                     Spacer()
                                     Text("\(challengeInfo?.gameTitle ?? "제목없음")")
-                                        .font(.title3)
+                                        .modifier(TextViewModifier(color: "Font"))
                                     VStack(spacing: 10){
                                         Text("목표금액💶")
-                                            .font(.headline)
-                                            .fontWeight(.bold)
+                                            .modifier(TextViewModifier(color: "Font"))
                                         Text("\(challengeInfo?.limitMoney ?? 0)")
-                                            .fontWeight(.bold)
-                                            .font(.title2)
+                                            .modifier(TextViewModifier(color: "Font"))
                                     }.padding()
                                     VStack(spacing: 10){
                                         Text("챌린지 기간🗓")
-                                            .font(.headline)
-                                            .fontWeight(.bold)
+                                            .modifier(TextViewModifier(color: "Font"))
                                         Text("\(challengeInfo?.startDate.createdDate ?? "제목없음")")
-                                            .font(.title2)
-                                            .fontWeight(.bold)
+                                            .modifier(TextTitleBold())
                                         Text("\(challengeInfo?.endDate.createdDate ?? "제목없음")")
-                                            .font(.title2)
-                                            .fontWeight(.bold)
+                                        .modifier(TextViewModifier(color: "Font"))
                                     }.padding()
                                     
                                     

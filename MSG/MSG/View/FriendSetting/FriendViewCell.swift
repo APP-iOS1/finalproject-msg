@@ -62,7 +62,7 @@ struct FriendViewCell: View {
                         }
                 }
             }
-            .foregroundColor(Color("Font"))
+            .modifier(TextViewModifier(color: "Font"))
             .buttonStyle(.bordered)
             .frame(alignment: .leading)
         }

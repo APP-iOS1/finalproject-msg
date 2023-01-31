@@ -26,8 +26,7 @@ struct CountDownView: View {
         
         VStack {
             Text("\(timeString(time: timeRemaining))")
-                .font(.title).bold()
-                .foregroundColor(Color("Font"))
+                .modifier(TextTitleBold())
         }
         .onReceive(timer){ _ in
             if self.timeRemaining > 0 {

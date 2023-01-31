@@ -37,8 +37,9 @@ struct MakeProfileView: View {
                         .frame(width: frameHeight / 18)
                     VStack(alignment: .leading) {
                         Text("MSG")
-                            .font(.largeTitle.bold())
+                            .modifier(TextTitleBold())
                         Text("Money Save Game")
+                            .modifier(TextViewModifier(color: "Font"))
                     }
                 }
                 .padding()
@@ -49,10 +50,11 @@ struct MakeProfileView: View {
                     // 프로필 사진
                     HStack {
                         Text("프로필 사진")
-                            .bold()
+                            .modifier(TextTitleBold())
                         Spacer()
                         PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
                             Text("선택하기")
+                                .modifier(TextViewModifier(color: "Font"))
                         }
                         .onChange(of: selectedPhotoItem) { newItem in
                             Task {
@@ -88,7 +90,7 @@ struct MakeProfileView: View {
                     // 닉네임
                     HStack {
                         Text("닉네임")
-                            .bold()
+                            .modifier(TextTitleBold())
                         Spacer()
                     }
                     .padding(.leading)
@@ -152,6 +154,7 @@ struct MakeProfileView: View {
                         Spacer()
                         
                     } // HStack: 닉네임 체크 텍스트
+                    .modifier(TextViewModifier(color: "Font"))
                     .padding(.leading)
                 }
                 .frame(height: frameHeight / 5)
@@ -182,6 +185,7 @@ struct MakeProfileView: View {
                         }
                     } label: {
                         Text("가입완료")
+                            .modifier(TextViewModifier(color: "Font"))
                     }
                 } // VStack: 가입 완료 버튼
                 .frame(width: frameWidth / 1.6,height: frameHeight / 17)

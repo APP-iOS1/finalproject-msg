@@ -131,6 +131,7 @@ struct SpendingWritingView: View {
                 }
                 .onReceive(self.spendingViewModel.isGameSettingValidPublisher, perform: {self.isValid = $0})
             }
+            .modifier(TextViewModifier(color: "Font"))
             .foregroundColor(Color("Font"))
         }
     }

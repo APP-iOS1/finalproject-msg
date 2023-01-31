@@ -11,7 +11,7 @@ struct WaitingView: View {
     
     
     @State var game: Challenge
-  //  @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
 
         
@@ -136,9 +136,9 @@ struct WaitingView: View {
 
             }
             .frame(width: 330, height: 600)
-    //        .onAppear {
-    //            fireStoreViewModel.findUser(inviteId: game.inviteFriend, waitingId: game.waitingFriend)
-    //        }
+            .onAppear {
+                fireStoreViewModel.findUser(inviteId: game.inviteFriend, waitingId: game.waitingFriend)
+            }
         }
 
         

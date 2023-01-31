@@ -41,8 +41,9 @@ struct LoginView: View {
                             .frame(width: frameHeight / 18)
                         VStack(alignment: .leading) {
                             Text("MSG")
-                                .font(.largeTitle.bold())
+                                .modifier(TextTitleBold())
                             Text("Money Save Game")
+                                .modifier(TextViewModifier(color: "Font"))
                         }
                     }
                     .padding()
@@ -58,8 +59,7 @@ struct LoginView: View {
                                 .foregroundColor(Color("Point1"))
                                 .padding(.top,40)
                             Text("로그인")
-                                .font(.title3)
-                                .bold()
+                                .modifier(TextTitleBold())
                         }
                         // MARK: Custom Apple Sign in Button
                         CustomButton1()
@@ -88,15 +88,16 @@ struct LoginView: View {
                         showingSheetView.toggle()
                     } label: {
                         Text("**이용약관** 및 **개인정보 취급방침**")
+                            .modifier(TextViewModifier(color: "Font"))
+                        
                         //                                    .padding(.top, 340)
                     }
                 }
-                .font(.caption)
                 .padding(.top)
                 .frame(maxWidth:  frameWidth,maxHeight: frameHeight / 5)
                 
             }
-            .foregroundColor(Color("Font"))
+            .modifier(TextViewModifier(color: "Font"))
         }
         .fullScreenCover(isPresented: $showingSheetView) {
             PrivacyPolicyView()
