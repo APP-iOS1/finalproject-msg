@@ -53,7 +53,7 @@ extension FriendView {
                     
                     ScrollView {
                         if !findFriendToggle {
-                            ForEach(friendViewModel.myFrinedArray) { user in
+                            ForEach(friendViewModel.searchUserArray) { user in
                                 FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
                                     .frame(height: 60)
                                     .listRowBackground(Color("Color1"))
