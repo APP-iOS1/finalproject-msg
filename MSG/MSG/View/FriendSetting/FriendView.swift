@@ -97,7 +97,7 @@ extension FriendView {
             }
             .onAppear {
                 Task {
-                 await friendViewModel.findFriend()
+                    try await friendViewModel.findFriend()
                     friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
                 }
                 

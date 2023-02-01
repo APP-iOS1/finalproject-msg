@@ -15,6 +15,9 @@ struct GameSettingView: View {
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var findFriendToggle: Bool = false
+    
+    // Back button 클릭 시, 입력중인 data가 있다면, backBtnAlert
+    @State private var backBtnAlert: Bool = false
     @Environment(\.dismiss) var dismiss
     
     @State private var summitAlertToggle: Bool = false // 공백문자만 있으면 띄우는 얼럿
@@ -125,6 +128,27 @@ extension GameSettingView {
                     if !realtimeViewModel.inviteFriendArray.isEmpty {
                         List(realtimeViewModel.inviteFriendArray) {friend in
                             HStack {
+                                if friend.profileImage.isEmpty{
+                                    Image(systemName: "Person")
+                                        .resizable()
+                                        .frame(width: g.size.width / 15, height:g.size.width / 15)
+                                        .clipShape(Circle())
+                                        .scaledToFit()
+                                }else{
+                                    AsyncImage(url: URL(string: friend.profileImage)!) { Image in
+                                        Image
+                                            .resizable()
+                                            .frame(width: g.size.width / 15, height:g.size.width / 15)
+                                            .clipShape(Circle())
+                                            .scaledToFit()
+                                    } placeholder: {
+                                        Image(systemName: "Person")
+                                            .resizable()
+                                            .frame(width: g.size.width / 15, height:g.size.width / 15)
+                                            .clipShape(Circle())
+                                            .scaledToFit()
+                                    }
+                                }
                                 Text(friend.nickName)
                                     .foregroundColor(Color("Color2"))
                                 Spacer()
@@ -138,6 +162,7 @@ extension GameSettingView {
                             .foregroundColor(Color("Color1"))
                             .listRowBackground(Color("Point1"))
                         }
+                        .background(Color("Color1"))
                         .listStyle(.automatic)
                         .modifier(ListBackgroundModifier())
                     }
@@ -182,6 +207,7 @@ extension GameSettingView {
                             .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                             .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                     }
+                    .disabled(!gameSettingViewModel.isGameSettingValid)
                     .padding([.leading, .bottom, .trailing])
                     .sheet(isPresented: $findFriendToggle) {
                         FriendView(findFriendToggle: $findFriendToggle)
@@ -190,6 +216,7 @@ extension GameSettingView {
                         //                        Spacer()
                     }
                 }
+                
                 .modifier(TextViewModifier(color: "Color2"))
                 .foregroundColor(Color("Color2"))
                 .alert("필수항목을 모두 작성해주세요.", isPresented: $summitAlertToggle, actions: {
@@ -230,6 +257,35 @@ extension GameSettingView {
                     }
                 })
                 Spacer()
+            }
+        }
+        .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
+            Button {
+                
+            } label: {
+                Text("취소")
+            }
+            
+            Button {
+                dismiss()
+                gameSettingViewModel.resetInputData()
+                realtimeViewModel.resetInviteFriend()
+            } label: {
+                Text("확인")
+            }
+
+        }, message: {
+            Text("현재 작성중인 항목이 삭제될 수 있습니다.")
+        })
+        .navigationBarBackButtonHidden(true)
+        .toolbar{
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                Button {
+                    backBtnAlert = true
+                } label: {
+                    Image(systemName:"chevron.backward")
+                }
+    
             }
         }
         .onAppear{
