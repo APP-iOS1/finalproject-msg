@@ -19,10 +19,16 @@ class FriendViewModel: ObservableObject {
     
     @Published var notGamePlayFriend: [Msg] = []
     
+    @Published var friendIdArray: [String] = []
+    
     let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
-    
+    //검색 -> 결과가 나오는데 -> 내친구가 게임중이면 친구가아님
     init() {
+        print("생성")
+        for i in self.myFrinedArray {
+            print("내친ㄱ",i.nickName)
+        }
         $text
             .debounce(for: .milliseconds(800), scheduler: RunLoop.main)
             .sink { _ in
@@ -48,14 +54,13 @@ class FriendViewModel: ObservableObject {
                         let nickName: String = docData["nickName"] as? String ?? ""
                         let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
-                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let friend: [String] = docData["friend"] as? [String] ?? []
-                        
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
-                        if nickName.contains(text) && (id != Auth.auth().currentUser?.uid) {
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []                
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+                        if (nickName.contains(text.lowercased()) || nickName.contains( text.uppercased())) && (id != Auth.auth().currentUser?.uid) {
+
                             self.searchUserArray.append(getUser)
                         }
-                        print("findUser:",self.searchUserArray)
+//                        print("findUser:",self.searchUserArray)
                     }
                     
                 }
@@ -71,7 +76,7 @@ class FriendViewModel: ObservableObject {
     
     func findUser1(text: [Msg]){
         print(#function)
-        print(text)
+//        print(text)
         notGamePlayFriend.removeAll()
         database
             .collection("User")
@@ -84,18 +89,19 @@ class FriendViewModel: ObservableObject {
                         let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let friend: [String] = docData["friend"] as? [String] ?? []
-                        print(id)
-                        print(text)
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
+//                        let friend: [String] = docData["friend"] as? [String] ?? []
+//                        print(id)
+//                        print(text)
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
                         for i in text {
                             if i.id == id && game.isEmpty {
-                                print(getUser.nickName)
+//                                print(getUser.nickName)
                                 self.notGamePlayFriend.append(getUser)
-                                print("notGame:",self.notGamePlayFriend)
+//                                print("notGame:",self.notGamePlayFriend)
                             }
                         }
                     }
+                    self.notGamePlayFriend = Array(Set(self.notGamePlayFriend))
                     
                 }
             }
@@ -104,33 +110,26 @@ class FriendViewModel: ObservableObject {
     
     
     // MARK: - 친구 목록 가져오기
-    func findFriend() async{
+    @MainActor
+    func findFriend() async throws {
         print(#function)
+        self.myFrinedArray.removeAll()
+        self.friendIdArray.removeAll()
         guard let userId = Auth.auth().currentUser?.uid else{ return  }
-        database
-            .collection("User")
-            .document(userId)
-            .collection("friend")
-            .getDocuments { (snapshot, error) in
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        let nickName: String = docData["nickName"] as? String ?? ""
-                        let profileImage: String = docData["profileImage"] as? String ?? ""
-                        let game: String = docData["game"] as? String ?? ""
-                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let friend: [String] = docData["friend"] as? [String] ?? []
-
-
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
-                        print("findFriend:",self.myFrinedArray)
-                        self.myFrinedArray.append(getUser)
-                        print("받는중이지롱:",self.myFrinedArray)
-                    }
-                    self.myFrinedArray = Array(Set(self.myFrinedArray))
-                }
-            }
-        print("내친구들출력:",myFrinedArray)
+        let snapshot = try await database.collection("User").document(userId).collection("friend").getDocuments()
+        for document in snapshot.documents{
+            let id: String = document.documentID
+            let docData = document.data()
+            let nickName: String = docData["nickName"] as? String ?? ""
+            let profileImage: String = docData["profileImage"] as? String ?? ""
+            let game: String = docData["game"] as? String ?? ""
+            let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+            let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+            if !self.myFrinedArray.contains(getUser){ self.myFrinedArray.append(getUser) }
+            self.friendIdArray.append(id)
+            
+//            print("findFriend:",self.myFrinedArray)
+//            print("받는중이지롱:",self.myFrinedArray)
+        }
     }
 }

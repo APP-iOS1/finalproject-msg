@@ -25,34 +25,15 @@ struct LoginView: View {
         
         GeometryReader { g in
             ZStack {
-                Color("Color1").ignoresSafeArea()
+                Image("LightLoginBack")
+                    .resizable()
+                    .ignoresSafeArea()
+                 
+                
                 VStack {
-                    // MARK: 앱 이름
-                    VStack(alignment: .leading) {
-                        Text("MSG")
-                            .modifier(TextTitleBold())
-                        Text("Money Save Game")
-                            .modifier(TextViewModifier(color: "Color2"))
-                    }
-                    .frame(width: g.size.width / 1.1, height: g.size.height / 10, alignment: .leading)
-                    .offset(y: g.size.height / -10)
-                    
-                    VStack {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color("Color1"),
-                                        lineWidth: 4)
-                                .shadow(color: Color("Shadow"),
-                                        radius: 3, x: 5, y: 5)
-                                .clipShape(
-                                    RoundedRectangle(cornerRadius: 15))
-                                .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
-                                .clipShape(
-                                    RoundedRectangle(cornerRadius: 15))
-                                .background(Color("Color1"))
-                                .cornerRadius(20)
-                                .frame(width: g.size.width / 1.1, height: g.size.height / 3)
-                            
+                
+                   Spacer()
+
                             // MARK: 로그인 버튼
                             VStack(spacing: 20) {
                                 
@@ -102,7 +83,7 @@ struct LoginView: View {
                                                 }
                                             } label: {
                                                 Rectangle()
-                                                    .frame(width: 280, height: 45)
+                                                    .frame(width: 250, height: 45)
                                                     .foregroundColor(.clear)
                                             }
                                         }
@@ -116,80 +97,123 @@ struct LoginView: View {
                                             loginViewModel.kakaoLogin()
                                         } label: {
                                             Rectangle()
-                                                .frame(width: 280, height: 45)
+                                                .frame(width: 250, height: 45)
                                                 .foregroundColor(.clear)
                                         }
                                     }
                                     .clipped()
                             }
-                            .padding(.top, 20)
-                        }
-                    }
-                    .offset(y: g.size.height / -10)
+                            .padding(.bottom, 32)
+
+                    
+                    // MARK: 앱 이름
+                    
+                    Text("Money Save Game")
+                        .font(.title2)
+                        .modifier(TextViewModifier(color: "Color2"))
+                        .bold()
+                        .padding(.bottom, 75)
+                  
+              
+                    
+                    // MARK: 조이패드 버튼
                     
                     HStack {
-                        Button(action: {}) {
-                            Image(systemName: "dpad.fill")
-                                .resizable()
-                                .foregroundColor(Color("Color2"))
-                                .frame(width: g.size.width / 5, height: g.size.height / 9.5)
-                                .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                                .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                                .padding(20)
-                                .background(Color("Color1"))
-                                .cornerRadius(20)
+                        ZStack {
+                            VStack(spacing: 12) {
+                                
+                                // Top Button
+                                Button { } label: {
+                                    Image("LightLoginTop")
+                                        .resizable()
+                                        .frame(width: 48, height: 58)
+                                }
+
+                                // Bottom Button
+                                Button { } label: {
+                                    Image("LightLoginBottom")
+                                        .resizable()
+                                        .frame(width: 48, height: 58)
+                                }
+                            }
+                            
+                            HStack(spacing: 12) {
+                                // Left Button
+                                Button { } label: {
+                                    Image("LightLoginLeft")
+                                        .resizable()
+                                        .frame(width: 58, height: 48)
+                                }
+
+                                // Right Button
+                                Button { } label: {
+                                    Image("LightLoginRight")
+                                        .resizable()
+                                        .frame(width: 58, height: 48)
+                                }
+                            }
                         }
-                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                        .padding(.leading, 36)
                         
                         Spacer()
                         
-                        Button(action: {}){
-                            Image(systemName: "a.circle.fill")
-                                .resizable()
-                                .frame(width: g.size.width / 10, height: g.size.height / 18.5)
-                                .padding(25)
-                                .foregroundColor(Color("Color2"))
-                                .background(
-                                    Circle()
-                                        .fill(
-                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                        )
-                                        .foregroundColor(Color("Color1")))
-                        }
-                        
-                        VStack {
-                            Button(action: {}){
-                                Image(systemName: "b.circle.fill")
-                                    .resizable()
-                                    .frame(width: g.size.width / 10, height: g.size.height / 18.5)
-                                    .padding(25)
-                                    .foregroundColor(Color("Color2"))
-                                    .background(
-                                        Circle()
-                                            .fill(
-                                                .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                                .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                            )
-                                            .foregroundColor(Color("Color1")))
+                 
+                            VStack {
+                                // A Button
+                                Button { } label: {
+                                    Image("LightLoginA")
+                                        .resizable()
+                                        .frame(width: 55, height: 55)
+                                        .padding(.leading,65)
+                                }
+                                .offset(y: 18)
+                                
+                                // B Button
+                                Button { } label: {
+                                    Image("LightLoginB")
+                                        .resizable()
+                                        .frame(width: 55, height: 55)
+                                        .padding(.trailing, 65)
+                                }
+                                .offset(y: 14)
                             }
-                        }
+                        .padding(.trailing, 35)
+                        .padding(.top,10)
+                      
                     }
-                    .frame(width: g.size.width / 1.1)
+                    .padding(.bottom, 80)
                     
                     // MARK: 개인정보 처리방침
-                    HStack {
+                    HStack(spacing: 55) {
+                        // Thin Button
                         Button {
                             showingSheetView.toggle()
                         } label: {
-                            Text("**이용약관** 및 **개인정보 취급방침**")
-                                .modifier(TextViewModifier(color: "Color2"))
-                            //                                    .padding(.top, 340)
+                            Image("LightLoginThin")
+                                .resizable()
+                                .frame(width: 340 / 9, height: 15)
                         }
+                        
+                        // Thin Button
+                        Button {
+                            showingSheetView.toggle()
+                        } label: {
+                            Image("LightLoginThin")
+                                .resizable()
+                                .frame(width: 340 / 9, height: 15)
+                        }
+                        
                     }
-                    .font(.caption)
-                    .offset(y: g.size.height / 7)
+                    .padding(.bottom, 5)
+                    
+          
+          
+                    Text("이용약관 및 개인정보 취급방침")
+                        .modifier(TextViewModifier(color: "Color2"))
+                        .font(.caption)
+                        .padding(.bottom, 17)
+                
+               
                     
                 }
                 .foregroundColor(Color("Color2"))
@@ -226,7 +250,7 @@ struct LoginView: View {
         }
         .foregroundColor(isGoogle ? .black : .white)
         .padding(.horizontal,15)
-        .frame(width: 280, height: 45, alignment: .center)
+        .frame(width: 250, height: 45, alignment: .center)
         .background {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(isGoogle ? .white : .black)
@@ -258,7 +282,7 @@ struct LoginView: View {
         }
         .foregroundColor(isKakao ? .white : Color("KakaoFontColor"))
         .padding(.horizontal,15)
-        .frame(width: 280, height: 45, alignment: .center)
+        .frame(width: 250, height: 45, alignment: .center)
         .background {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(isKakao ? .blue : Color("KakaoButtonColor"))

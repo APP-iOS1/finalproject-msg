@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import Firebase
 
 struct SpendingWritingView: View {
     
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var selection: Int = 0
-//    @State private var consumeTilte = ""
-//    @State private var consumeMoney = ""
     @ObservedObject var spendingViewModel = SpendingWriteViewModel()
     @State private var isValid = false
     
@@ -54,7 +54,6 @@ struct SpendingWritingView: View {
                                     Text("기타").tag(7)
                                 }
                                 .pickerStyle(.menu)
-                                //                            .accentColor(Color("Font"))
                                 
                                 Rectangle()
                                     .frame(height:1)
@@ -112,21 +111,24 @@ struct SpendingWritingView: View {
                         Button {
                             Task{
                                 let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
-                                await fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
+                                let user = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser!.uid)
+                                await fireStoreViewModel.addExpenditure(user: user!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
                                 selection = 0
                                 spendingViewModel.consumeTitle = ""
                                 spendingViewModel.consumeMoney = ""
                             }
                         }label: {
                             Text("추가하기")
-                                .modifier(TextViewModifier(color: "Color2"))
-                                .frame(width: g.size.width / 1.4, height: g.size.height / 34)
-                                .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                                .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                                .padding(20)
-                                .background(Color("Color1"))
-                                .cornerRadius(20)
                         }
+                        .buttonStyle(.borderless)
+                        .frame(width: g.size.width / 1.2, height: g.size.height / 14)
+                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                        .padding(5)
+                        .background(Color("Color1"))
+                        .cornerRadius(10)
+                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
                         .disabled(!self.isValid)
                         Spacer()
                     }
@@ -142,6 +144,6 @@ struct SpendingWritingView: View {
 struct SpendingWritingView_Previews: PreviewProvider {
     static var previews: some View {
         SpendingWritingView()
-            
+        
     }
 }

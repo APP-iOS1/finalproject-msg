@@ -22,52 +22,90 @@ struct FriendViewCell: View {
             ZStack {
                 Color("Color1")
                     .ignoresSafeArea()
+                
                 HStack(spacing: 0) {
-                    if user.profileImage.isEmpty{
-                        Image(systemName: "person")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: g.size.width / 10)
-                            .padding(25)
-                            .foregroundColor(Color("Color2"))
-                            .background(
-                                Circle()
-                                    .fill(
-                                        .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                        .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                    )
-                                    .foregroundColor(Color("Color1")))
-                    }else{
-                        AsyncImage(url: URL(string: user.profileImage)) { Image in
-                            Image
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle())
-                                .frame(height: 60)
-                        } placeholder: {
+                    
+                    VStack {
+                        if user.profileImage.isEmpty{
                             Image(systemName: "person")
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle())
-                                .frame(height: 60)
+                                .font(.largeTitle)
+                        }else{
+                            AsyncImage(url: URL(string: user.profileImage)) { Image in
+                                
+                                Image
+                                    .resizable()
+                                   
+                            } placeholder: {
+                                Image(systemName: "person")
+                                    .font(.largeTitle)
+                            }
                         }
                     }
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: g.size.width * 0.3, height: g.size.height * 0.9)
+                    .clipShape(Circle())
+                    
+                    .padding(4)
+                    .foregroundColor(Color("Color2"))
+                    .background(
+                        Circle()
+                            .fill(
+                                .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                            )
+                            .foregroundColor(Color("Color1")))
+                    
                     Text(user.nickName)
+                    
                     Spacer()
-                    if !friendViewModel.myFrinedArray.contains(user) {
+                    //언제 추가를 해야할까?
+                    //1. 친구가 아니면 추가가 떠야함
+                    if !friendViewModel.friendIdArray.contains(user.id) {
                         Button {
                             if let myInfo = realtimeViewModel.myInfo {
                                 realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
                                 print(myInfo)
+                               
                             }
                         } label: {
                             Text("추가")
-                                .foregroundColor(Color("Background"))
                         }
-                        .background(Color("Point2"))
-                        .cornerRadius(5)
+                        .buttonStyle(.borderless)
+                        .frame(width: g.size.width / 9, height: g.size.height / 13)
+                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                        .padding(16)
+                        .background(Color("Color1"))
+                        .cornerRadius(10)
+                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
                         .padding(.trailing)
                     }
+                    
+                    
+                    
+//                    if !friendViewModel.myFrinedArray.contains(user) {
+//                        Button {
+//                            if let myInfo = realtimeViewModel.myInfo {
+//                                realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+//                                print(myInfo)
+//                               
+//                            }
+//                        } label: {
+//                            Text("추가")
+//                        }
+//                        .buttonStyle(.borderless)
+//                        .frame(width: g.size.width / 9, height: g.size.height / 13)
+//                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+//                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+//                        .padding(16)
+//                        .background(Color("Color1"))
+//                        .cornerRadius(10)
+//                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+//                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+//                        .padding(.trailing)
+//                    }
+                      
                     
                     if findFriendToggle {
                         VStack{
@@ -139,6 +177,10 @@ struct FriendViewCell: View {
                 .modifier(TextViewModifier(color: "Color2"))
                 .buttonStyle(.bordered)
                 .frame(alignment: .leading)
+            }
+            .onAppear {
+                print("appear")
+                print(friendViewModel.friendIdArray)
             }
         }
     }

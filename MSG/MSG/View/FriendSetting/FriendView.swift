@@ -76,7 +76,6 @@ extension FriendView {
                                 findFriendToggle = false
                             } label: {
                                 Text("추가하기")
-                                    
                             }
                             .background(checked ? Color("Point2") : Color("Point1"))
                             .cornerRadius(5)
@@ -97,9 +96,10 @@ extension FriendView {
             }
             .onAppear {
                 Task {
-                 await friendViewModel.findFriend()
+                    try await friendViewModel.findFriend()
                     friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
                 }
+                print("== FriendVeiw onAppear ==")
                 
             }
             .modifier(TextViewModifier(color: "Color2"))
