@@ -12,6 +12,8 @@ class RealtimeViewModel: ObservableObject {
     
     @Published var inviteFriendIdArray:[String] = []
         
+    
+    
     //친구 요청 수락
     private var friendRequestReference: DatabaseReference? {
         guard let uid = Auth.auth().currentUser?.uid else { return nil}
@@ -44,7 +46,15 @@ class RealtimeViewModel: ObservableObject {
     private let decoder = JSONDecoder()
 
     //친구 -> 친구목록
-  
+    
+    //inviteFriend, FriendId 비우기
+    func resetInviteFriend(){
+        DispatchQueue.main.async {
+            self.inviteFriendArray.removeAll()
+            self.inviteFriendIdArray.removeAll()
+        }
+    }
+    
     //받아오기
     func startFetching() {
         print(#function)
