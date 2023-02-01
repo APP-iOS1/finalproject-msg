@@ -26,10 +26,20 @@ struct ProgressBar: View {
     var body: some View {
         ZStack{
             Circle()
-                .stroke(lineWidth: 20.0)
-                .opacity(0.3)
-                .foregroundColor(Color.red)
-                .frame(width: 250,height: 250)
+                .fill(.white)
+                .frame(width: 240, height: 240)
+            Circle()
+                .fill(Color("Color1"))
+                .frame(width: 200, height: 200)
+                .blur(radius: 10)
+                .shadow(color: Color("Shadow"), radius: 15, x: -5, y: -5)
+                .shadow(color: Color("Shadow2"), radius: 15, x: 5, y: 5)
+            Circle()
+                .fill(Color("Color1"))
+                .frame(width: 160, height: 160)
+                .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                .shadow(color: Color("Shadow"), radius: 2, x: 2, y: 2)
+            
 
             VStack{
                 if selection == "" {
@@ -61,11 +71,19 @@ struct ProgressBar: View {
             ForEach(progress.indices.reversed(),id:\.self){ index in
                 Circle()
                     .trim(from: CGFloat(percentArr[index].from), to: CGFloat(min(percentArr[index].to, 1.0)))
-                    .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
-                    .brightness(selection == progress[index].tag ? 0.2 : 0)
-                    .foregroundColor(colorArr[index])
-                    .frame(width: 250,height: 250)
+//                    .trim(from: 0.0, to: Double(percentage) / Double(limitMoney))
+//                    .stroke(style: StrokeStyle(lineWidth: 27.0, lineCap: .round, lineJoin: .round))
+                    .stroke(style: StrokeStyle(lineWidth: 27.0, lineCap: .round, lineJoin: .round))
+                    .frame(width: 200, height: 200)
+//                    .foregroundColor(Color("Color2"))
                     .rotationEffect(Angle(degrees: 270.0))
+//                Circle()
+                    
+                    
+//                    .brightness(selection == progress[index].tag ? 0.2 : 0)
+                    .foregroundColor(colorArr[index])
+//                    .frame(width: 250,height: 250)
+//                    .rotationEffect(Angle(degrees: 270.0))
                     .onAppear{
                         withAnimation{
                             let percent = progress[index].money / totalMoney
