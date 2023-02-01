@@ -16,6 +16,17 @@ struct GameSettingView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var findFriendToggle: Bool = false
     @Environment(\.dismiss) var dismiss
+    
+    @State private var summitAlertToggle: Bool = false // 공백문자만 있으면 띄우는 얼럿
+    
+    //텍스트필드 공백체크
+    private var trimsTitleTextField: String {
+        gameSettingViewModel.title.trimmingCharacters(in: .whitespaces)
+    }
+    
+    private var trimTargetMoneyTextField: String {
+        gameSettingViewModel.targetMoney.trimmingCharacters(in: .whitespaces)
+    }
 }
 
 
@@ -122,10 +133,10 @@ extension GameSettingView {
                                 } label: {
                                     Image(systemName: "minus")
                                 }
-
+                                
                             }
-                                .foregroundColor(Color("Color1"))
-                                .listRowBackground(Color("Point1"))
+                            .foregroundColor(Color("Color1"))
+                            .listRowBackground(Color("Point1"))
                         }
                         .listStyle(.automatic)
                         .modifier(ListBackgroundModifier())
@@ -136,7 +147,7 @@ extension GameSettingView {
                         findFriendToggle = true
                     }, label: {
                         // HStack{
-                       
+                        
                         HStack{
                             Text("친구찾기")
                             Image(systemName: "magnifyingglass")
@@ -155,7 +166,11 @@ extension GameSettingView {
                     
                     // MARK: - 초대장 보내기 Button
                     Button {
-                        isShowingAlert = true
+                        if trimsTitleTextField.count > 0 && trimTargetMoneyTextField.count > 0 {
+                            isShowingAlert = true
+                        } else { //공백문자만 있을 때
+                            summitAlertToggle = true
+                        }
                     } label: {
                         Text("초대장 보내기")
                             .frame(width: g.size.width / 1.4, height: g.size.height / 34)
@@ -177,6 +192,9 @@ extension GameSettingView {
                 }
                 .modifier(TextViewModifier(color: "Color2"))
                 .foregroundColor(Color("Color2"))
+                .alert("필수항목을 모두 작성해주세요.", isPresented: $summitAlertToggle, actions: {
+                    Button("확인") {}
+                })
                 .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
                     Button("시작하기") {
                         Task{
