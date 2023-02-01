@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import Firebase
 
 struct SpendingWritingView: View {
     
@@ -109,7 +111,8 @@ struct SpendingWritingView: View {
                         Button {
                             Task{
                                 let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
-                                await fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
+                                let user = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser!.uid)
+                                await fireStoreViewModel.addExpenditure(user: user!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
                                 selection = 0
                                 spendingViewModel.consumeTitle = ""
                                 spendingViewModel.consumeMoney = ""

@@ -58,7 +58,9 @@ struct FriendViewCell: View {
                     Text(user.nickName)
                     
                     Spacer()
-                    if !friendViewModel.myFrinedArray.contains(user) {
+                    //언제 추가를 해야할까?
+                    //1. 친구가 아니면 추가가 떠야함
+                    if !friendViewModel.friendIdArray.contains(user.id) {
                         Button {
                             if let myInfo = realtimeViewModel.myInfo {
                                 realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
@@ -79,6 +81,30 @@ struct FriendViewCell: View {
                         .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
                         .padding(.trailing)
                     }
+                    
+                    
+                    
+//                    if !friendViewModel.myFrinedArray.contains(user) {
+//                        Button {
+//                            if let myInfo = realtimeViewModel.myInfo {
+//                                realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+//                                print(myInfo)
+//                               
+//                            }
+//                        } label: {
+//                            Text("추가")
+//                        }
+//                        .buttonStyle(.borderless)
+//                        .frame(width: g.size.width / 9, height: g.size.height / 13)
+//                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+//                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+//                        .padding(16)
+//                        .background(Color("Color1"))
+//                        .cornerRadius(10)
+//                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+//                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+//                        .padding(.trailing)
+//                    }
                       
                     
                     if findFriendToggle {
@@ -153,9 +179,8 @@ struct FriendViewCell: View {
                 .frame(alignment: .leading)
             }
             .onAppear {
-                print("== FriendViewCell ==")
-                print(user.nickName)
-                print(friendViewModel.myFrinedArray)
+                print("appear")
+                print(friendViewModel.friendIdArray)
             }
         }
     }
