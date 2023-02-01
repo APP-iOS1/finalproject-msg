@@ -353,8 +353,8 @@ class RealtimeViewModel: ObservableObject {
             "nickName": from.nickName, //ㅇ
             "profileImage": from.profileImage, //ㅇ
             "game": from.game, //ㅇ
-            "gameHistory": from.gameHistory ?? [],
-            "friend": from.friend ?? [],
+            "gameHistory": from.gameHistory ?? []
+//            "friend": from.friend ?? [],
         ]
         Database.database()
         .reference()
@@ -369,8 +369,8 @@ class RealtimeViewModel: ObservableObject {
                 "nickName": from.nickName, //ㅇ
                 "profileImage": from.profileImage, //ㅇ
                 "game": from.game, //ㅇ
-                "gameHistory": from.gameHistory ?? [],
-                "friend": from.friend ?? [],
+                "gameHistory": from.gameHistory ?? []
+//                "friend": from.friend ?? []
             ]
 
             Database.database()

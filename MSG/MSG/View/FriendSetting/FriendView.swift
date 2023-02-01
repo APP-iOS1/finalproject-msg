@@ -52,22 +52,22 @@ extension FriendView {
                     }
                     
                     ScrollView {
-                        if !findFriendToggle {
+//                        if !findFriendToggle {
                             ForEach(friendViewModel.searchUserArray) { user in
                                 FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
                                     .frame(height: 60)
                                     .listRowBackground(Color("Color1"))
                                     .listRowSeparator(.hidden)
                             }
-                        }
-                        else {
-                            ForEach(friendViewModel.notGamePlayFriend) { user in
-                                FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
-                                    .frame(height: 60)
-                                    .listRowBackground(Color("Color1"))
-                                    .listRowSeparator(.hidden)
-                            }
-                        }
+//                        }
+//                        else {
+//                            ForEach(friendViewModel.myFrinedArray) { user in
+//                                FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+//                                    .frame(height: 60)
+//                                    .listRowBackground(Color("Color1"))
+//                                    .listRowSeparator(.hidden)
+//                            }
+//                        }
                     }
                     if findFriendToggle {
                         

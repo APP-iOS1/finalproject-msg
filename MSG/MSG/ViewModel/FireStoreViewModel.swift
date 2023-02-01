@@ -128,8 +128,8 @@ class FireStoreViewModel: ObservableObject {
         let profileImage = docData["profileImage"] as? String ?? ""
         let game = docData["game"] as? String ?? ""
         let gameHistory = docData["gameHistory"] as? [String] ?? []
-        let friend = docData["friend"] as? [String] ?? []
-        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
+//        let friend = docData["friend"] as? [String] ?? []
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
         return userInfo
     }
     
@@ -160,8 +160,8 @@ class FireStoreViewModel: ObservableObject {
                       "nickName": user.nickName,
                       "game": user.game,
                       "gameHistory": user.gameHistory ?? [],
-                      "friend": user.friend ?? [],
-                      "profileImage": downloadUrl,
+//                      "friend": user.friend ?? [],
+                      "profileImage": downloadUrl
                      ])
     }
     
@@ -198,8 +198,8 @@ class FireStoreViewModel: ObservableObject {
                         let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let friend: [String] = docData["friend"] as? [String] ?? []
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
+//                        let friend: [String] = docData["friend"] as? [String] ?? []
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
                         self.userArray.append(getUser)
                         print("findUser:",self.userArray)
                     }
@@ -220,8 +220,8 @@ class FireStoreViewModel: ObservableObject {
                 let profileImage: String = docData["profileImage"] as? String ?? ""
                 let game: String = docData["game"] as? String ?? ""
                 let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                let friend: [String] = docData["friend"] as? [String] ?? []
-                let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
+//                let friend: [String] = docData["friend"] as? [String] ?? []
+                let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
                 for i in inviteId {
                     if getUser.id == i {
                         self.invitedArray.append(getUser)
@@ -259,9 +259,9 @@ class FireStoreViewModel: ObservableObject {
                         let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let friend: [String] = docData["friend"] as? [String] ?? []
+//                        let friend: [String] = docData["friend"] as? [String] ?? []
                         
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
                         print("findFriend:",self.myFrinedArray)
                         self.myFrinedArray.append(getUser)
                     }
@@ -286,8 +286,8 @@ class FireStoreViewModel: ObservableObject {
                       "nickName": user.nickName,
                       "profileImage": user.profileImage,
                       "game": user.game,
-                      "gameHistory": user.gameHistory ?? [],
-                      "friend": user.friend ?? [],
+                      "gameHistory": user.gameHistory ?? []
+//                      "friend": user.friend ?? [],
                      ])
         print("user:\(user.id)")
         print(Auth.auth().currentUser?.uid ?? "")
@@ -306,8 +306,8 @@ class FireStoreViewModel: ObservableObject {
                       "nickName": myInfo.nickName,
                       "profileImage": myInfo.profileImage,
                       "game": myInfo.game,
-                      "gameHistory": myInfo.gameHistory ?? [],
-                      "friend": myInfo.friend ?? [],
+                      "gameHistory": myInfo.gameHistory ?? []
+//                      "friend": myInfo.friend ?? [],
                      ])
         print("user:\(user.id)")
         print(Auth.auth().currentUser?.uid ?? "")
