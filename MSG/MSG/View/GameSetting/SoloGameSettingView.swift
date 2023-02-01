@@ -12,6 +12,7 @@ struct SoloGameSettingView: View {
     @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
     @State private var isShowingAlert: Bool = false
+    @State private var backBtnAlert: Bool = false
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     private let dateFormatter = DateFormatter()
     @Environment(\.dismiss) var dismiss
@@ -154,6 +155,35 @@ struct SoloGameSettingView: View {
                 .foregroundColor(Color("Color2"))
             }
         }
+        .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
+            Button {
+                
+            } label: {
+                Text("취소")
+            }
+            
+            Button {
+                dismiss()
+                gameSettingViewModel.resetInputData()
+            } label: {
+                Text("확인")
+            }
+
+        }, message: {
+            Text("현재 작성중인 항목이 삭제될 수 있습니다.")
+        })
+        .navigationBarBackButtonHidden(true)
+        .toolbar{
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                Button {
+                    backBtnAlert = true
+                } label: {
+                    Image(systemName:"chevron.backward")
+                }
+    
+            }
+        }
+        
     }
 }
 
