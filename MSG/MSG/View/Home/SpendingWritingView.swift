@@ -119,14 +119,17 @@ struct SpendingWritingView: View {
                             }
                         }label: {
                             Text("추가하기")
-                                .modifier(TextViewModifier(color: "Color2"))
-                                .frame(width: g.size.width / 1.4, height: g.size.height / 34)
-                                .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                                .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                                .padding(20)
-                                .background(Color("Color1"))
-                                .cornerRadius(20)
                         }
+                        .buttonStyle(.borderless)
+                        .frame(width: g.size.width / 5, height: g.size.height / 12)
+                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                        .padding(5)
+                        .background(Color("Color1"))
+                        .cornerRadius(10)
+                        .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                        .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                        .padding(.trailing)
                         .disabled(!self.isValid)
                         Spacer()
                     }
