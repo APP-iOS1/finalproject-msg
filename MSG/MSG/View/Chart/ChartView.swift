@@ -56,56 +56,61 @@ struct ChartView: View {
 
     
     var body: some View {
-        ZStack{
-            Color("Background")
-                .ignoresSafeArea()
-            
-            VStack{
-                //원형바
-                ProgressBar(progress: $progressValue, percentArr: $percentArr, totalMoney: $totalMoney, selection: $selection)
-                    .padding(40)
+        
+        GeometryReader { g in
+            ZStack{
+                Color("Color1")
+                    .ignoresSafeArea()
                 
-                // 태그 별 선택
-                HStack{
-                    Text("지출 내역")
-                        .modifier(TextViewModifier(color: "Font"))
-                        .padding(.leading)
-                    Spacer()
-                }
-                
-                ScrollView(.horizontal,showsIndicators: false) {
+                VStack{
+                    //원형바
+                    ProgressBar(progress: $progressValue, percentArr: $percentArr, totalMoney: $totalMoney, selection: $selection)
+                        .padding(40)
+                    
+                    // 태그 별 선택
                     HStack{
-                        ForEach(category, id: \.self){ item in
-                            Button {
-                                selection = item.tag
-                            } label: {
-                                HStack{
-                                    Image(systemName: item.icon)
-                                    Text("\(item.tag)")
-                                        .modifier(TextViewModifier(color: "Font"))
-                                }
-                                .foregroundColor(selection == item.tag ? Color("Background") : Color("Font"))
-                            }
-                            .frame(width: 85,height: 45)
-                            .overlay{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color(item.color), lineWidth: 2)
-                            }
-                            .background(selection == item.tag ? Color(item.color) : Color(.clear))
-                            .cornerRadius(10)
-                        }
+                        Text("지출 내역")
+                            .padding(.leading)
+                        Spacer()
                     }
-                    .padding()
+                    
+                    ScrollView(.horizontal,showsIndicators: false) {
+                        HStack{
+                            ForEach(category, id: \.self){ item in
+                                Button {
+                                    selection = item.tag
+                                } label: {
+                                    HStack{
+                                        Image(systemName: item.icon)
+                                        Text("\(item.tag)")
+                                           
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .frame(width: g.size.width / 6, height: g.size.height / 20)
+                                    .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                                    .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                                    .padding(5)
+                                    .background(Color("Color1"))
+                                    .cornerRadius(10)
+                                    .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                                    .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                                    .padding(.trailing)
+                                    .listRowBackground(Color("Color1"))
+                                    .listRowSeparator(.hidden)
+                                    .foregroundColor(selection == item.tag ? Color("Color2") : .gray)
+                                }
+                            }
+                        }
+                        .padding()
+                    }
+                    Spacer()
+                    
+                    ScrollView(.vertical, showsIndicators: false) {
+                        ChartCellView(selection: $selection)
+                    }
                 }
-                Spacer()
-                
-                ScrollView(.vertical, showsIndicators: false) {
-//                    ForEach(1...5, id:\.self){ _ in
-                    ChartCellView(selection: $selection)
-//                    }
-                }
+                .modifier(TextViewModifier(color: "Color2"))
             }
-            .foregroundColor(Color("Font"))
         }
         .onAppear{
             Task{

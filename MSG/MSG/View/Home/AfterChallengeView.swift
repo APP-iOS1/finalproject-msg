@@ -39,6 +39,7 @@ struct AfterChallengeView: View {
                         Group{
                             HStack{
                                 Text(challenge.gameTitle)
+                                    .modifier(TextTitleBold())
                                 Spacer()
                             }
                             
@@ -52,7 +53,6 @@ struct AfterChallengeView: View {
                                 Spacer()
                             }
                         }.padding(1)
-                            .modifier(TextViewModifier(color: "Color2"))
                         
                         Group{
                             // 싱글게임 멀티게임 다르게 보여주기
@@ -74,22 +74,24 @@ struct AfterChallengeView: View {
                                 //챌린지 시작날짜~오늘날짜 계산
                                 CountDownView(endDate: Double(challenge.endDate)!)
                             }
-                        }.modifier(TextViewModifier(color: "Color2"))
-                            .padding(5)
+                        }
+                        .padding(5)
                         
                         //MARK: - 상세 소비 내역 확인 네비게이션 링크
                         Group{
                             
                             if fireStoreViewModel.expenditure != nil {
                                 NavigationLink(destination: ChartView(), label: {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color("Point2"))
-                                        .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
-                                        .overlay {
-                                            Text("상세 소비 내역 확인하기")
-                                                .foregroundColor(Color("Color2"))
-                                        }
-                                        .padding(.bottom, 3)
+                                    Text("상세 소비 내역 확인하기")
+                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .frame(width: g.size.width / 1.4, height: g.size.height / 34)
+                                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                                        .padding(20)
+                                        .background(Color("Color1"))
+                                        .cornerRadius(20)
+                                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                                 })
                             } else {
                                 Button{ } label: {
@@ -101,18 +103,10 @@ struct AfterChallengeView: View {
                                         .padding(20)
                                         .background(Color("Color1"))
                                         .cornerRadius(20)
-                                    
-                                    //                                RoundedRectangle(cornerRadius: 10)
-                                    //                                    .fill(Color("Point3"))
-                                    //                                    .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
-                                    //                                    .overlay {
-                                    //
-                                    //                                            .foregroundColor(Color("Color2"))
-                                    //                                    }
-                                    //                                    .padding(.bottom, 3)
                                 }
+                                .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                             }
-                            
                             
                             
                             //MARK: - 추가하기 네비게이션 링크
@@ -125,22 +119,17 @@ struct AfterChallengeView: View {
                                     .padding(20)
                                     .background(Color("Color1"))
                                     .cornerRadius(20)
-                                //
-                                //                            RoundedRectangle(cornerRadius: 10)
-                                //                                .fill(Color("Point2"))
-                                //                                .frame(width: frameWidth / 1.38, height: frameHeight / 16.5)
-                                //                                .overlay {
-                                //
-                                //                                        .foregroundColor(Color("Color2"))
-                                //                                }
                             })
+                            .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                            .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                            
                             Spacer()
                         }
                         Spacer()
                     }.foregroundColor(Color("Color2"))
                         .padding(.horizontal)
                 }
-                
+                .modifier(TextViewModifier(color: "Color2"))
                 .padding()
                 
             }
@@ -156,3 +145,4 @@ struct AfterChallengeView: View {
 //        AfterChallengeView(challenge: Challenge(id: "", gameTitle: "", limitMoney: 300000, startDate: "2023년01월18일", endDate: "2023년01월31일", inviteFriend: []))
 //    }
 //}
+

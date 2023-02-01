@@ -12,8 +12,6 @@ struct SpendingWritingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var selection: Int = 0
-//    @State private var consumeTilte = ""
-//    @State private var consumeMoney = ""
     @ObservedObject var spendingViewModel = SpendingWriteViewModel()
     @State private var isValid = false
     
@@ -54,7 +52,6 @@ struct SpendingWritingView: View {
                                     Text("기타").tag(7)
                                 }
                                 .pickerStyle(.menu)
-                                //                            .accentColor(Color("Font"))
                                 
                                 Rectangle()
                                     .frame(height:1)
@@ -121,7 +118,7 @@ struct SpendingWritingView: View {
                             Text("추가하기")
                         }
                         .buttonStyle(.borderless)
-                        .frame(width: g.size.width / 5, height: g.size.height / 12)
+                        .frame(width: g.size.width / 1.2, height: g.size.height / 14)
                         .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
                         .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
                         .padding(5)
@@ -129,7 +126,6 @@ struct SpendingWritingView: View {
                         .cornerRadius(10)
                         .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
                         .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                        .padding(.trailing)
                         .disabled(!self.isValid)
                         Spacer()
                     }
@@ -145,6 +141,6 @@ struct SpendingWritingView: View {
 struct SpendingWritingView_Previews: PreviewProvider {
     static var previews: some View {
         SpendingWritingView()
-            
+        
     }
 }

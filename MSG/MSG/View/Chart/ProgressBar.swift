@@ -41,7 +41,7 @@ struct ProgressBar: View {
                     Text("\(selection)")
                 }
             }
-            .modifier(TextViewModifier(color: "Font"))
+            .modifier(TextViewModifier(color: "Color2"))
             .onChange(of: selection) { tagName in
                 var find = false
                 for expenditure in progress{
