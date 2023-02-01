@@ -51,6 +51,7 @@ struct MakeProfileView: View {
                                 Task {
                                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                         selectedImageData = data
+                                        if let image = UIImage(data: selectedImageData!) { profileImage = image}
                                     }
                                 }
                             }
