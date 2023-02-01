@@ -50,9 +50,8 @@ class FriendViewModel: ObservableObject {
                         let game: String = docData["game"] as? String ?? ""
                         let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
                         let friend: [String] = docData["friend"] as? [String] ?? []
-                        
                         let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory, friend: friend)
-                        if nickName.contains(text) && (id != Auth.auth().currentUser?.uid) {
+                        if (nickName.contains(text.lowercased()) || nickName.contains( text.uppercased())) && (id != Auth.auth().currentUser?.uid) {
                             self.searchUserArray.append(getUser)
                         }
                         print("findUser:",self.searchUserArray)
