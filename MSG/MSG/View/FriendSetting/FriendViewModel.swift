@@ -48,11 +48,10 @@ class FriendViewModel: ObservableObject {
                         let nickName: String = docData["nickName"] as? String ?? ""
                         let profileImage: String = docData["profileImage"] as? String ?? ""
                         let game: String = docData["game"] as? String ?? ""
-                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-//                        let friend: [String] = docData["friend"] as? [String] ?? []
-                        
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []                
                         let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
                         if nickName.contains(text) && (id != Auth.auth().currentUser?.uid) {
+
                             self.searchUserArray.append(getUser)
                         }
                         print("findUser:",self.searchUserArray)
