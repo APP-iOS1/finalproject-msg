@@ -26,25 +26,36 @@ struct AlertView: View {
                     } else {
                         List(realtimeViewModel.user, id: \.self) { user in
                             HStack {
-                                if user.profileImage.isEmpty{
-                                    Image("logo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .clipShape(Circle().inset(by: 5))
-                                        .frame(width:90)
-                                }else{
-                                    AsyncImage(url: URL(string: user.profileImage)) { Image in
-                                        Image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .clipShape(Circle().inset(by: 5))
-                                            .frame(width:90)
-                                    } placeholder: {
-                                        
+                                VStack {
+                                    if user.profileImage.isEmpty{
+                                        Image(systemName: "person")
+                                            .font(.largeTitle)
+                                    }else{
+                                        AsyncImage(url: URL(string: user.profileImage)) { Image in
+                                            Image
+                                                .resizable()
+                                        } placeholder: {
+                                            Image(systemName: "person")
+                                                .font(.largeTitle)
+                                        }
                                     }
                                 }
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: g.size.width * 0.15, height: g.size.height * 0.2)
+                                .clipShape(Circle())
+                                .padding(4)
+                                .foregroundColor(Color("Color2"))
+                                .background(
+                                    Circle()
+                                        .fill(
+                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                        )
+                                        .foregroundColor(Color("Color1")))
+                                
                                 Text(user.nickName)
-                                    .modifier(TextViewModifier(color: "Color2"))
+                                    .padding(.leading)
+                                
                                 if let userFriend = user.friend {
                                     if userFriend.contains(realtimeViewModel.myInfo!.id) {
                                         Text("님의 대결 신청")
@@ -62,14 +73,17 @@ struct AlertView: View {
                                     
                                 } label: {
                                     Text("확인")
-                                        .modifier(TextViewModifier(color: "Color2"))
-                                        .frame(width: g.size.width / 8, height: g.size.height / 34)
-                                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                                        .padding(20)
-                                        .background(Color("Color1"))
-                                        .cornerRadius(20)
                                 }
+                                .buttonStyle(.borderless)
+                                .frame(width: g.size.width / 9, height: g.size.height / 20)
+                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                                .padding(5)
+                                .background(Color("Color1"))
+                                .cornerRadius(10)
+                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                                .padding(.trailing)
                             }
                             .listRowBackground(Color("Color1"))
                             .listRowSeparator(.hidden)

@@ -22,6 +22,7 @@ struct FriendViewCell: View {
             ZStack {
                 Color("Color1")
                     .ignoresSafeArea()
+                
                 HStack(spacing: 0) {
                     
                     VStack {
@@ -33,17 +34,18 @@ struct FriendViewCell: View {
                                 
                                 Image
                                     .resizable()
-                                
+                                   
                             } placeholder: {
                                 Image(systemName: "person")
                                     .font(.largeTitle)
                             }
                         }
                     }
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: g.size.width * 0.3, height: g.size.height * 0.9)
                     .clipShape(Circle())
-                    .aspectRatio(contentMode: .fit)
-                    .padding(2)
+                    
+                    .padding(4)
                     .foregroundColor(Color("Color2"))
                     .background(
                         Circle()
