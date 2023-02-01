@@ -22,7 +22,7 @@ struct SingleGameProgressBar: View {
             Circle()
                 .trim(from: 0.0, to: Double(percentage) / Double(limitMoney))
                 .stroke(style: StrokeStyle(lineWidth: 30.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color("Point2"))
+                .foregroundColor(Color("Color2"))
                 .rotationEffect(Angle(degrees: 270.0))
              
             //                    .animation(.linear)
@@ -31,7 +31,7 @@ struct SingleGameProgressBar: View {
 //                Text("\(Double(percentage) / Double(limitMoney))%")
                 Text("\(String(format:"%.1f",Double(percentage) / Double(limitMoney) * 100))%")
             }
-            .modifier(TextViewModifier(color: "Font"))
+            .modifier(TextViewModifier(color: "Color2"))
         }
         .frame(width: UIScreen.main.bounds.width / 1.6)
         .onAppear {

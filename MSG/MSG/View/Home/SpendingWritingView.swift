@@ -24,115 +24,117 @@ struct SpendingWritingView: View {
     let tagArray: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
     
     var body: some View {
-        ZStack{
-            Color("Background").ignoresSafeArea()
-            VStack{
-                Group{
-                    Spacer()
-                    HStack{
-                        Text("소비 날짜")
-                        Text("|")
-                        Text("2023/01/17")
+        
+        GeometryReader { g in
+            ZStack{
+                Color("Color1").ignoresSafeArea()
+                VStack{
+                    Group{
+                        Spacer()
+                        HStack{
+                            Text("소비 날짜")
+                            Text("|")
+                            Text("2023/01/17")
+                            Spacer()
+                        }
+                        .padding()
+                        
+                        HStack{
+                            Text("소비 태그")
+                            Text("|")
+                            VStack{
+                                Picker("한국어",selection: $selection) {
+                                    Text("식비").tag(0)
+                                    Text("교통비").tag(1)
+                                    Text("쇼핑").tag(2)
+                                    Text("의료").tag(3)
+                                    Text("주거").tag(4)
+                                    Text("여가").tag(5)
+                                    Text("금융").tag(6)
+                                    Text("기타").tag(7)
+                                }
+                                .pickerStyle(.menu)
+                                //                            .accentColor(Color("Font"))
+                                
+                                Rectangle()
+                                    .frame(height:1)
+                                    .padding(.leading, 16)
+                                    .padding(.trailing, 16)
+                            }
+                        }
+                        .padding()
+                        
+                        HStack{
+                            Text("상세 내용")
+                            Text("|")
+                            VStack{
+                                HStack {
+                                    TextField("", text: $spendingViewModel.consumeTitle)
+                                        .padding(.leading, 16)
+                                        .padding(.trailing, 16)
+                                    Button {
+                                        spendingViewModel.consumeTitle = ""
+                                    } label: {
+                                        Image(systemName: "eraser")
+                                    }
+                                }
+                                Rectangle()
+                                    .frame(height:1)
+                                    .padding(.leading, 16)
+                                    .padding(.trailing, 16)
+                            }
+                        }
+                        .padding()
+                        
+                        HStack{
+                            Text("금액")
+                            Text("|")
+                            VStack{
+                                HStack {
+                                    TextField("", text: $spendingViewModel.consumeMoney)
+                                        .padding(.leading, 16)
+                                        .padding(.trailing, 16)
+                                    Button {
+                                        spendingViewModel.consumeMoney = ""
+                                    } label: {
+                                        Image(systemName: "eraser")
+                                    }
+                                }
+                                Rectangle()
+                                    .frame(height:1)
+                                    .padding(.leading, 16)
+                                    .padding(.trailing, 29)
+                            }
+                        }
+                        .padding()
+                        
+                        Spacer()
+                        Button {
+                            Task{
+                                let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
+                                await fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
+                                selection = 0
+                                spendingViewModel.consumeTitle = ""
+                                spendingViewModel.consumeMoney = ""
+                            }
+                        }label: {
+                            Text("추가하기")
+                                .modifier(TextViewModifier(color: "Color2"))
+                                .frame(width: g.size.width / 1.4, height: g.size.height / 34)
+                                .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                                .padding(20)
+                                .background(Color("Color1"))
+                                .cornerRadius(20)
+                        }
+                        .disabled(!self.isValid)
                         Spacer()
                     }
-                    .padding()
-                    
-                    HStack{
-                        Text("소비 태그")
-                        Text("|")
-                        VStack{
-                            Picker("한국어",selection: $selection) {
-                                Text("식비").tag(0)
-                                Text("교통비").tag(1)
-                                Text("쇼핑").tag(2)
-                                Text("의료").tag(3)
-                                Text("주거").tag(4)
-                                Text("여가").tag(5)
-                                Text("금융").tag(6)
-                                Text("기타").tag(7)
-                            }
-                            .pickerStyle(.menu)
-                            //                            .accentColor(Color("Font"))
-                            
-                            Rectangle()
-                                .frame(height:1)
-                                .foregroundColor(Color("Point2"))
-                                .padding(.leading, 16)
-                                .padding(.trailing, 16)
-                        }
-                    }
-                    .padding()
-                    
-                    HStack{
-                        Text("상세 내용")
-                        Text("|")
-                        VStack{
-                            HStack {
-                                TextField("", text: $spendingViewModel.consumeTitle)
-                                    .padding(.leading, 16)
-                                    .padding(.trailing, 16)
-                                Button {
-                                    spendingViewModel.consumeTitle = ""
-                                } label: {
-                                    Image(systemName: "eraser")
-                                }
-                            }
-                            Rectangle()
-                                .frame(height:1)
-                                .foregroundColor(Color("Point2"))
-                                .padding(.leading, 16)
-                                .padding(.trailing, 16)
-                        }
-                    }
-                    .padding()
-                    
-                    HStack{
-                        Text("금액")
-                        Text("|")
-                        VStack{
-                            HStack {
-                                TextField("", text: $spendingViewModel.consumeMoney)
-                                    .padding(.leading, 16)
-                                    .padding(.trailing, 16)
-                                Button {
-                                    spendingViewModel.consumeMoney = ""
-                                } label: {
-                                    Image(systemName: "eraser")
-                                }
-                            }
-                            Rectangle()
-                                .frame(height:1)
-                                .foregroundColor(Color("Point2"))
-                                .padding(.leading, 16)
-                                .padding(.trailing, 29)
-                        }
-                    }
-                    .padding()
-                    
-                    Spacer()
-                    Button {
-                        Task{
-                            let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
-                            await fireStoreViewModel.addExpenditure(user: loginViewModel.currentUserProfile!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
-                            selection = 0
-                            spendingViewModel.consumeTitle = ""
-                            spendingViewModel.consumeMoney = ""
-                        }
-                    }label: {
-                        Text("추가하기")
-                            .foregroundColor(Color("Background"))
-                            .padding(.horizontal, 100)
-                            .padding(.vertical, 8)
-                            .background(Color("Point2"))
-                            .cornerRadius(10)
-                    }
-                    .disabled(!self.isValid)
-                    Spacer()
+                    .onReceive(self.spendingViewModel.isGameSettingValidPublisher, perform: {self.isValid = $0})
                 }
-                .onReceive(self.spendingViewModel.isGameSettingValidPublisher, perform: {self.isValid = $0})
+                .modifier(TextViewModifier(color: "Color2"))
+                .foregroundColor(Color("Color2"))
             }
-            .modifier(TextViewModifier(color: "Font"))
-            .foregroundColor(Color("Font"))
         }
     }
 }

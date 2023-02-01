@@ -16,7 +16,6 @@ struct HomeView: View {
     
     var body: some View {
         
-        
         ZStack {
             if let game = fireStoreViewModel.currentGame {
                 if game.waitingFriend.isEmpty {
@@ -33,7 +32,6 @@ struct HomeView: View {
                 BeforeChallengeView()
             }
         }
-
         .onAppear {
             Task {
                 guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
@@ -47,7 +45,6 @@ struct HomeView: View {
 //            print("끝나는시간:",game.endDate)
 //            let now = Date().timeIntervalSinceNow
 //            print("현재시간:", now)
-//            if Date().timeIntervalSince1970 > Double(game.endDate)!{
             if Date().timeIntervalSince1970 > Double(game.endDate)! {
                 self.timer.upstream.connect().cancel()
                 print("멈췄습니다!")
@@ -57,22 +54,6 @@ struct HomeView: View {
                 }
             }
         }
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                Text("MSG")
-//                    .font(.title)
-//                    .fontWeight(.bold)
-//                    .foregroundColor(Color("Font"))
-//            }
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                NavigationLink(destination: SettingView(darkModeEnabled: $darkModeEnabled)) {
-//                    Image(systemName: "person.circle")
-//                        .font(.title2)
-//                        .foregroundColor(Color("Font"))
-//                }
-//
-//            }
-//        }
     }
 }
 

@@ -13,29 +13,34 @@ struct PrivacyPolicyView: View {
     private var frameWidth = UIScreen.main.bounds.width
     
     var body: some View {
-        ZStack {
-            Color("Background")
-                .ignoresSafeArea()
-            
-            VStack {
+        
+        GeometryReader { g in
+            ZStack {
+                Color("Color1").ignoresSafeArea()
                 
-                HStack {
-                    Text("**이용약관 및 개인정보처리방침**")
-                    Spacer()
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text("닫기")
+                VStack {
+                    HStack {
+                        Text("**이용약관 및 개인정보처리방침**")
+                        Spacer()
+                        Button {
+                            dismiss()
+                        } label: {
+                            Text("닫기")
+                            
+                        }
                     }
-                }
-                .padding()
-                .frame(width: frameWidth / 1.01)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color("Font"))
-                }
-                
-                ScrollView {
+                    .modifier(TextViewModifier(color: "Color2"))
+                    .frame(width: g.size.width / 1.2, height: g.size.height / 25)
+                    .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                    .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                    .padding(16)
+                    .background(Color("Color1"))
+                    .cornerRadius(20)
+                    .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                    .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                    
+                    
+                    ScrollView {
                         Text("""
                         **< Money Save Game >**('MSG'이하 'MSG')은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
                         
@@ -163,19 +168,19 @@ struct PrivacyPolicyView: View {
                          제17조(개인정보 처리방침 변경)
                          ① 이 개인정보처리방침은 2023년 1월 1부터 적용됩니다.
                         """)
-                }
-                .multilineTextAlignment(.leading)
-                .font(.caption)
-                .kerning(-1)
-                .truncationMode(.tail)
-                .padding(.top)
-                
-                Text("MSG")
-                    .bold()
+                    }
+                    .multilineTextAlignment(.leading)
+                    .font(.caption)
+                    .kerning(-1)
+                    .truncationMode(.tail)
                     .padding(.top)
+                    
+                    Text("MSG")
+                        .modifier(TextTitleBold())
+                }
+                .padding()
+                .foregroundColor(Color("Color2"))
             }
-            .padding()
-            .foregroundColor(Color("Font"))
         }
     }
 }

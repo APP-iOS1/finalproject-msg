@@ -27,69 +27,84 @@ struct OnBoardView5: View {
     }
     
     var body: some View {
-        ZStack {
-            Color("Background")
-                .ignoresSafeArea()
-            
-            VStack {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("매일 나를 이기는 도전!")
-                            .foregroundColor(Color("Font"))
-                            .modifier(TextTitleBold())
-                        
-                        Text("MSG, 준비됐나요? ❤️")
-                            .foregroundColor(Color("Font"))
-                            .modifier(TextTitleBold())
+        
+        GeometryReader { g in
+            ZStack {
+                Color("Color1")
+                    .ignoresSafeArea()
+                
+                VStack {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("매일 나를 이기는 도전!")
+                                .modifier(TextTitleBold())
+                            
+                            Text("MSG, 준비됐나요? ❤️")
+                                .modifier(TextTitleBold())
+                        }
+                        Spacer()
                     }
-                    Spacer()
+                    .frame(width: g.size.width / 1.1)
+                    .offset(y: g.size.height / -10)
+                    
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color("Color1"),
+                                    lineWidth: 4)
+                            .shadow(color: Color("Shadow"),
+                                    radius: 3, x: 5, y: 5)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 15))
+                            .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 15))
+                            .background(Color("Color1"))
+                            .cornerRadius(20)
+                            .frame(width: g.size.width / 1.1, height: g.size.height / 2.8)
+                            .offset(y: g.size.height / -10)
+                        
+//                        Image("Screen1")
+//                            .resizable()
+//                            .frame(width:220, height: 280)
+//                            .cornerRadius(8)
+//                            .padding(.bottom, 130)
+                    }
                 }
-                .frame(width: 330)
-                .padding(.bottom, 30)
+                .padding(.bottom, 90)
                 
-                Image("Screen1")
-                    .resizable()
-                    .frame(width:220, height: 280)
-                    .cornerRadius(8)
-                    .padding(.bottom, 130)
-             
+                HStack(spacing: 4) {
+                    // MARK: Start ProgressView
+                    ProgressView(timerInterval: progressEnd, countsDown: false)
+                        .tint(Color("Color2"))
+                        .foregroundColor(.clear)
+                        .frame(width: 55)
+                    
+                    // MARK: Start ProgressView
+                    ProgressView(timerInterval: progressEnd, countsDown: false)
+                        .tint(Color("Color2"))
+                        .foregroundColor(.clear)
+                        .frame(width: 55)
+                    
+                    // MARK: Start ProgressView
+                    ProgressView(timerInterval: progressEnd, countsDown: false)
+                        .tint(Color("Color2"))
+                        .foregroundColor(.clear)
+                        .frame(width: 55)
+                    
+                    // MARK: Start ProgressView
+                    ProgressView(timerInterval: progressEnd, countsDown: false)
+                        .tint(Color("Color2"))
+                        .foregroundColor(.clear)
+                        .frame(width: 55)
+                    
+                    // MARK: Start ProgressView
+                    ProgressView(timerInterval: progressStart, countsDown: false)
+                        .tint(Color("Color2"))
+                        .foregroundColor(.clear)
+                        .frame(width: 55)
+                }
+                .padding(.top,300)
             }
-            .padding(.bottom, 90)
-            
-            HStack(spacing: 4) {
-                // MARK: Start ProgressView
-                ProgressView(timerInterval: progressEnd, countsDown: false)
-                    .tint(Color("Point2"))
-                    .foregroundColor(.clear)
-                    .frame(width: 55)
-                
-                // MARK: Start ProgressView
-                ProgressView(timerInterval: progressEnd, countsDown: false)
-                    .tint(Color("Point2"))
-                    .foregroundColor(.clear)
-                    .frame(width: 55)
-                
-                // MARK: Start ProgressView
-                ProgressView(timerInterval: progressEnd, countsDown: false)
-                    .tint(Color("Point2"))
-                    .foregroundColor(.clear)
-                    .frame(width: 55)
-                
-                // MARK: Start ProgressView
-                ProgressView(timerInterval: progressEnd, countsDown: false)
-                    .tint(Color("Point2"))
-                    .foregroundColor(.clear)
-                    .frame(width: 55)
-                
-                // MARK: Start ProgressView
-                ProgressView(timerInterval: progressStart, countsDown: false)
-                    .tint(Color("Point2"))
-                    .foregroundColor(.clear)
-                    .frame(width: 55)
-            }
-            .padding(.top,300)
-            
-            
         }
 //        VStack(spacing: 48.0) {
 //

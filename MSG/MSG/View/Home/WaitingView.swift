@@ -16,7 +16,7 @@ struct WaitingView: View {
 
         
         ZStack {
-            Color("Background")
+            Color("Color1")
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
@@ -86,8 +86,8 @@ struct WaitingView: View {
                         ForEach(fireStoreViewModel.invitedArray, id: \.self) { user in
                             HStack {
                                 HStack {
-                                    if !user.profilImage.isEmpty{
-                                        AsyncImage(url: URL(string: user.profilImage)) { Image in
+                                    if !user.profileImage.isEmpty{
+                                        AsyncImage(url: URL(string: user.profileImage)) { Image in
                                             Image
                                                 .resizable()
                                                 .frame(width: 50, height: 50)
@@ -108,7 +108,7 @@ struct WaitingView: View {
                                 }
                                 // 오락실스러운 레디 폰트 추가 예정
                                 Text("Ready")
-                                    .foregroundColor(Color("Point2"))
+                                    .foregroundColor(Color("Color2"))
                                     .font(.title3)
                                     .bold()
                             }
@@ -117,10 +117,12 @@ struct WaitingView: View {
                         ForEach(fireStoreViewModel.waitingArray, id: \.self) { user in
                             HStack {
                                 HStack {
-                                    if !user.profilImage.isEmpty{
-                                        AsyncImage(url: URL(string: user.profilImage)) { Image in
+                                    if !user.profileImage.isEmpty{
+                                        AsyncImage(url: URL(string: user.profileImage)) { Image in
                                             Image
                                                 .resizable()
+                                                .scaledToFit()
+                                                .clipShape(Circle())
                                                 .frame(width: 50, height: 50)
                                         } placeholder: { }
                                     }else{

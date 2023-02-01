@@ -19,82 +19,70 @@ struct ContentView: View {
     @EnvironmentObject var notiManager: NotificationManager
     @State private var checked: Msg?
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
-    
     @State var email: String = ""
+    @State private var selectedTabBar: SelectedTab = .first
     // 탭바
-    init() {
-        UITabBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().backgroundImage = UIImage()
-        UITabBar.appearance().isTranslucent = true
-        UITabBar.appearance().backgroundColor = UIColor(Color("Background"))
-    }
+//    init() {
+//        UITabBar.appearance().shadowImage = UIImage()
+//        UITabBar.appearance().backgroundImage = UIImage()
+//        UITabBar.appearance().isTranslucent = true
+//        UITabBar.appearance().backgroundColor = UIColor(Color("Background"))
+//    }
     
     var body: some View {
-        ZStack {
-            Color("Background")
-            NavigationStack {
-                Group {
-                    if loginViewModel.currentUser != nil {
-                        if loginViewModel.currentUserProfile == nil {
-                            withAnimation {
-                                MakeProfileView()
-                                // MakeProfileView를 지연 시킴
-                                    .deferredRendering(for: 0.5)
-                            }
-                        } else {
-                            TabView {
-                                HomeView()
-                                    .tabItem {
-                                        Image(systemName: "dpad.fill")
-                                        Text("도전")
-                                            .background(.red)
+       
+        GeometryReader { g in
+            ZStack {
+                Color("Color1")
+                    .ignoresSafeArea()
+                NavigationStack {
+                    Group {
+                        if loginViewModel.currentUser != nil {
+                            if loginViewModel.currentUserProfile == nil {
+                                withAnimation {
+                                    MakeProfileView()
+                                    // MakeProfileView를 지연 시킴
+                                        .deferredRendering(for: 0.5)
+                                }
+                            } else {
+                                VStack(spacing: 0) {
+                                    switch selectedTabBar {
+                                    case .first:
+                                        HomeView()
+                                            .onAppear{
+                                                Task{
+                                                    try? await notiManager.requestAuthorization()
+                                                }
+                                            }
+                                    case .second:
+                                        ChallengeRecordView()
+                                    case .third:
+                                        FriendSettingView()
+                                    case .fourth:
+                                        SettingView(darkModeEnabled: $darkModeEnabled)
                                     }
-                                    .onAppear{
-                                        Task{
-                                            try? await notiManager.requestAuthorization()
-                                        }
-                                    }
-                                ChallengeRecordView()
-                                    .tabItem {
-                                        Image(systemName: "archivebox")
-                                        Text("기록")
-                                    }
-                                FriendSettingView()
-                                    .tabItem {
-                                        Image(systemName: "person.2.fill")
-                                        Text("친구")
-                                    }
-                                SettingView(darkModeEnabled: $darkModeEnabled)
-                                    .tabItem {
-                                        Image(systemName: "gearshape")
-                                        Text("설정")
-                                    }
-                            }
-                            .modifier(TextViewModifier(color: "Font"))
-                            .onAppear {
-                                realtimeViewModel.myInfo = loginViewModel.currentUserProfile
-                            }
-                        }
-                    } else {
-                        LoginView()
-                        
-                    }
-                }
-                .onAppear{
-                    if loginViewModel.currentUser != nil {
-                        Task{
-                            loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(_: loginViewModel.currentUser!.uid)
-                            for family: String in UIFont.familyNames {
-                                print(family)
-                                for names : String in UIFont.fontNames(forFamilyName: family){
-                                    print("=== \(names)")
+                                    TabBarView(selectedTabBar: $selectedTabBar)
+                                        .frame(width: g.size.width, height: g.size.height / 10)
+                                }
+                                .onAppear {
+                                    realtimeViewModel.myInfo = loginViewModel.currentUserProfile
                                 }
                             }
+                        } else {
+                            LoginView()
+                            
+                        }
+                    }
+                    .onAppear{
+                        if loginViewModel.currentUser != nil {
+                            Task{
+                                loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(_: loginViewModel.currentUser!.uid)
+                            }
                         }
                     }
                 }
+                .accentColor(Color("Color2"))
             }
-            .accentColor(Color("Font"))
         }.task {
             //            try! await fireStoreViewModel.getGameHistory()
             

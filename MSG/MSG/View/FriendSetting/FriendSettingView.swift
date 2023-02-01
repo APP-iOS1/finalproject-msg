@@ -16,16 +16,17 @@ struct FriendSettingView: View {
     var body: some View {
         
         ZStack {
-            Color("Background")
+            Color("Color1")
                 .ignoresSafeArea()
             VStack {
-                SegementedControllView(selection: $selection, titles: titles, selectedItemColor: Color("Point2"), backgroundColor: Color(.clear), selectedItemFontColor: Color("Font"))
+                SegementedControllView(selection: $selection, titles: titles, selectedItemColor: Color("Color2"), backgroundColor: Color(.clear), selectedItemFontColor: Color("Color2"))
+//                    .modifier(TextViewModifier(color: "Color2"))
                 
                 if selection == 0 {
                     FriendView(findFriendToggle: .constant(false))
                 } else if selection == 1 {
                     AlertView()
-                } else{
+                } else {
                     GameRequestAlertView()
                 }
             }
