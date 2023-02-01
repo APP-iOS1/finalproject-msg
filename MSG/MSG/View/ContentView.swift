@@ -73,6 +73,7 @@ struct ContentView: View {
                             
                         }
                     }
+                    .ignoresSafeArea(.keyboard)
                     .onAppear{
                         if loginViewModel.currentUser != nil {
                             Task{
