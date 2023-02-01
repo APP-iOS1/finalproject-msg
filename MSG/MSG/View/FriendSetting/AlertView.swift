@@ -23,7 +23,8 @@ struct AlertView: View {
                     if realtimeViewModel.user.isEmpty {
                         Text("알람을 모두 확인했습니다.")
                             .modifier(TextTitleBold())
-                    } else {
+                    }
+                    else {
                         List(realtimeViewModel.user, id: \.self) { user in
                             HStack {
                                 VStack {
@@ -55,14 +56,15 @@ struct AlertView: View {
                                 
                                 Text(user.nickName)
                                     .padding(.leading)
-                                
-                                if let userFriend = user.friend {
-                                    if userFriend.contains(realtimeViewModel.myInfo!.id) {
-                                        Text("님의 대결 신청")
-                                    } else {
-                                        Text("님의 친구 신청")
-                                    }
-                                }
+//                                  .modifier(TextViewModifier(color: "Color2"))
+//                                if let userFriend = user.friend {
+//                                    if userFriend.contains(realtimeViewModel.myInfo!.id) {
+//                                        Text("님의 대결 신청")
+//                                    } else {
+//                                        Text("님의 친구 신청")
+//                                    }
+//                                }
+
                                 Spacer()
                                 Button {
                                     fireStoreViewModel.addUserInfo(user: user)
@@ -70,7 +72,7 @@ struct AlertView: View {
                                         fireStoreViewModel.addUserInfo2(user: user, myInfo: myInfo)
                                         realtimeViewModel.acceptAddFriend(friend: user)
                                     }
-                                    
+
                                 } label: {
                                     Text("확인")
                                 }

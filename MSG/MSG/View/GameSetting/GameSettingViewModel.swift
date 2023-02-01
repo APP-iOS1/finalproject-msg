@@ -17,6 +17,18 @@ class GameSettingViewModel:ObservableObject{
     
     private var publishers = Set<AnyCancellable>()
     
+    
+    func resetInputData (){
+        DispatchQueue.main.async {
+            self.title = ""
+            self.targetMoney = ""
+            self.startDate = Date()
+            self.endDate  = Date()
+            self.isGameSettingValid = false
+        }
+        
+    }
+    
     init(){
         isGameSettingValidPublisher.receive(on: RunLoop.main)
             .assign(to: \.isGameSettingValid, on:self)
@@ -28,7 +40,7 @@ extension GameSettingViewModel{
     var isTitleValidPublisher: AnyPublisher<Bool,Never>{
         $title
             .map{ name in
-                return name.count >= 3
+                return name.count >= 1
             }
             .eraseToAnyPublisher()
     }
@@ -36,7 +48,7 @@ extension GameSettingViewModel{
     var isTargetMoneyValidPublisher: AnyPublisher<Bool,Never>{
         $targetMoney
             .map{ money in
-                return money.count >= 4 && Int(money) != nil
+                return money.count >= 1 && Int(money) != nil
             }
             .eraseToAnyPublisher()
     }
