@@ -31,6 +31,7 @@ struct SegementedControllView: View {
                 HStack(spacing: 10) {
                     ForEach(self.titles.indices, id: \.self) { index in
                         Text(self.titles[index])
+                            .modifier(TextViewModifier(color: "Color2"))
                             .foregroundColor(selectedItemFontColor)
                             .onTapGesture {
                                 self.selection = index

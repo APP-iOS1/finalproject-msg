@@ -115,7 +115,7 @@ extension GameSettingView {
                         List(realtimeViewModel.inviteFriendArray) {friend in
                             HStack {
                                 Text(friend.nickName)
-                                    .foregroundColor(Color("Font"))
+                                    .foregroundColor(Color("Color2"))
                                 Spacer()
                                 Button {
                                     //
@@ -124,7 +124,7 @@ extension GameSettingView {
                                 }
 
                             }
-                                .foregroundColor(Color("Background"))
+                                .foregroundColor(Color("Color1"))
                                 .listRowBackground(Color("Point1"))
                         }
                         .listStyle(.automatic)
@@ -175,6 +175,7 @@ extension GameSettingView {
                         //                        Spacer()
                     }
                 }
+                .modifier(TextViewModifier(color: "Color2"))
                 .foregroundColor(Color("Color2"))
                 .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
                     Button("시작하기") {
