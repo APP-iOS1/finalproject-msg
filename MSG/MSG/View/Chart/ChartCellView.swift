@@ -28,9 +28,18 @@ struct ChartCellView: View {
                 let time = date[1].components(separatedBy: ":")
                 if selection == key {
                     HStack{
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .fill(Color("Point1"))
-                            .frame(width: 12, height: 12)
+                        Image(systemName: "dpad.fill")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding(15)
+                            .foregroundColor(Color("Color2"))
+                            .background(
+                                Circle()
+                                    .fill(
+                                        .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                        .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                    )
+                                    .foregroundColor(Color("Color1")))
                         
                         VStack(spacing: 5){
                             HStack {
@@ -56,9 +65,19 @@ struct ChartCellView: View {
                 }
                 else if selection.isEmpty {
                     HStack{
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .fill(Color("Point1"))
-                            .frame(width: 12, height: 12)
+                        
+                        Image(systemName: "dpad.fill")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding(15)
+                            .foregroundColor(Color("Color2"))
+                            .background(
+                                Circle()
+                                    .fill(
+                                        .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                        .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                    )
+                                    .foregroundColor(Color("Color1")))
                         
                         VStack(spacing: 5){
                             HStack {
@@ -83,7 +102,7 @@ struct ChartCellView: View {
                     .padding([.leading, .trailing], 20)
                 }
             }
-            .modifier(TextViewModifier(color: "Font"))
+            .modifier(TextViewModifier(color: "Color2"))
         }
         .onAppear {
             Task {

@@ -28,15 +28,9 @@ extension BeforeChallengeView {
         GeometryReader { g in
             VStack{
                 //개인 챌랜지 시작하기
-                HStack {
-                    Text("MSG")
-                        .modifier(TextTitleBold())
-                    Spacer()
-                }
-                .padding(.leading)
                 
                 Spacer()
-                    .frame(width: g.size.width, height: g.size.height / 20)
+                    .frame(width: g.size.width, height: g.size.height / 6)
                 Group{
                     HStack{
                         Text("개인 챌린지 시작하기")
