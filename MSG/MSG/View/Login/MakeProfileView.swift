@@ -177,7 +177,7 @@ struct MakeProfileView: View {
                                 } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
                                     Task{
                                         kakaoAuthViewModel.userNicName = nickNameText
-                                        let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profileImage: "", game: "", gameHistory: nil, friend: nil)
+                                        let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profileImage: "", game: "", gameHistory: nil)
                                         await fireStoreViewModel.uploadImageToStorage(userImage: profileImage, user: userProfile)
                                         loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "")
                                         self.presentationMode.wrappedValue.dismiss()

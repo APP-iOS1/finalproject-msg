@@ -140,6 +140,11 @@ struct FriendViewCell: View {
                 .buttonStyle(.bordered)
                 .frame(alignment: .leading)
             }
+            .onAppear {
+                print("== FriendViewCell ==")
+                print(user.nickName)
+                print(friendViewModel.myFrinedArray)
+            }
         }
     }
 }
