@@ -104,6 +104,7 @@ class FriendViewModel: ObservableObject {
     
     
     // MARK: - 친구 목록 가져오기
+    @MainActor
     func findFriend() async throws {
         print(#function)
         self.myFrinedArray.removeAll()
