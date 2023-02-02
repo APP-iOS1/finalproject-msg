@@ -23,7 +23,7 @@ struct GameRequestAlertView: View {
                     Color("Color1").ignoresSafeArea()
                     
                     ForEach(realtimeViewModel.requsetGameArr){ sendUser in
-                        GameRequestAlertViewCell(sendUser: sendUser)
+                        GameRequestAlertViewCell(sendUser: sendUser, g: g)
                     }
                 }
                 .modifier(TextViewModifier(color: "Font"))

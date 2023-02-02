@@ -666,26 +666,36 @@ class FireStoreViewModel: ObservableObject {
     }
     
     //MARK: - 사용자가 도전수락을 했을 때 나머지 도전정보에 내 정보를 지워주는 함수
-    func notAllowChallegeStep1(data: Challenge?) async {
+    func notAllowChallegeStep1(data: [Msg]?) async {
         print(#function)
+        print("data 체크중입니다:",data)
         //패치해서 따끈한걸 받아와서 올려주기
-        guard let data else {return}
+        guard let data else {
+            print("리턴문에 들어옴")
+            return
+            
+        }
         //새로 받는함수 추가
-        guard let inviteGame = await fetchChallengeInformation(data.id) else { return }
-        await notAllowChallegeStep2(data: inviteGame)
+        for eachGame in data {
+            print("for문에 들어옴:",eachGame.nickName)
+            guard let inviteGame = await fetchChallengeInformation(eachGame.game) else { return }
+            notAllowChallegeStep2(data: inviteGame)
+        }
 
     }
     
-    func notAllowChallegeStep2(data: Challenge) async {
+    func notAllowChallegeStep2(data: Challenge) {
+        print(#function)
         let ref = database.collection("Challenge").document(data.id)
         
         let firstIndex = data.waitingFriend.firstIndex { value in
             value == Auth.auth().currentUser?.uid
         }
         var array = data.waitingFriend
+        print(array[firstIndex!])
         array.remove(at: firstIndex!)
         do{
-            try await ref.setData([
+            try ref.setData([
                 "id": data.id,
                 "gameTitle": data.gameTitle,
                 "limitMoney": data.limitMoney,
@@ -694,6 +704,7 @@ class FireStoreViewModel: ObservableObject {
                 "inviteFriend": data.inviteFriend,
                 "waitingFriend": array
             ])
+            print("배열값:",array)
         }catch{
             print("게임 거절 에러..")
         }

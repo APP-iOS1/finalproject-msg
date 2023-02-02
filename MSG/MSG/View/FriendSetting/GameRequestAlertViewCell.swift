@@ -11,11 +11,12 @@ struct GameRequestAlertViewCell: View {
     @State var sendUser: Msg
     @State private var isPresent = false
     @State private var challengeInfo: Challenge?
+    @State var g: GeometryProxy
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
     
     var body: some View {
-        GeometryReader { g in
+//        GeometryReader { g in
             HStack{
                 VStack {
                     if sendUser.profileImage.isEmpty{
@@ -100,6 +101,10 @@ struct GameRequestAlertViewCell: View {
                                 .modifier(TextTitleBold())
                             Text("\(challengeInfo?.endDate.createdDate ?? "제목없음")")
                                 .modifier(TextViewModifier(color: "Font"))
+                            Text("경고")
+                                .modifier(TextTitleSemiBold(color: "Font"))
+                            Text("수락하시면 모든 도전장이 사라집니다.")
+                                .modifier(TextViewModifier(color: "Font"))
                         }.padding()
                         
                         
@@ -121,8 +126,13 @@ struct GameRequestAlertViewCell: View {
                         Task {
                             challengeInfo = await firestoreViewModel.fetchChallengeInformation(self.sendUser.game)
                             await firestoreViewModel.acceptGame(self.sendUser.game)
+                            
+                            
+                            //1. 내가포함된 모든게임에서 나를 waiting배열에서 지운다
+                            await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
+                            //리얼타임에 삭제하는 함수임
                             await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
-                            // 여기에 작성
+                            // 나를 해당 챌린지에 invite append하는 함수
                             await firestoreViewModel.waitingLogic(data: challengeInfo)
                         }
                         isPresent = false
@@ -134,9 +144,11 @@ struct GameRequestAlertViewCell: View {
             .onAppear{
                 Task{
                     challengeInfo = await firestoreViewModel.fetchChallengeInformation(self.sendUser.game)
+                    await realtimeViewModel.fetchFriendRequest()
+                    print(realtimeViewModel.requsetGameArr)
                 }
             }
-        }
+//        }
         .modifier(TextViewModifier(color: "Font"))
         
     }
