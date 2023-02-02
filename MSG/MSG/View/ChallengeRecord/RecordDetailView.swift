@@ -116,9 +116,13 @@ struct RecordDetailView: View {
                             .modifier(TextViewModifier(color: "Color2"))
                         } else {
                             VStack {
-                                Text("총 사용 금액 : ")
-                                Text("지출이 가장 많은 태그 : ")
-                                Text("지출이 가장 적은 태그 : ")
+                                ForEach(firestoreViewModel.challengeHistoryUserList.indices, id:\.self) { index in
+                                    Text("총 사용 금액 : \(firestoreViewModel.challengeHistoryUserList[index].totalMoney)원")
+                                    
+                                        Text("지출이 가장 많은 태그 : ")
+                                        Text("지출이 가장 적은 태그 : ")
+                                    }
+                                }
                             }
                             .modifier(TextViewModifier(color: "Color2"))
                         }
@@ -127,7 +131,7 @@ struct RecordDetailView: View {
                 .onAppear{
                     Task{
                         await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
-                        
+                        try await firestoreViewModel.fetchChallengeTotalMoney(challenge.id)
                     }
                 }
             }
