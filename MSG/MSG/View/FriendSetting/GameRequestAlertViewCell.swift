@@ -122,6 +122,7 @@ struct GameRequestAlertViewCell: View {
                             challengeInfo = await firestoreViewModel.fetchChallengeInformation(self.sendUser.game)
                             await firestoreViewModel.acceptGame(self.sendUser.game)
                             await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
+                            // 여기에 작성
                             await firestoreViewModel.waitingLogic(data: challengeInfo)
                         }
                         isPresent = false

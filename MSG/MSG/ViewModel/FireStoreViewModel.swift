@@ -643,6 +643,41 @@ class FireStoreViewModel: ObservableObject {
     
     func doSomeThing(data: Challenge) async {
         let ref = database.collection("Challenge").document(data.id)
+//
+//        let firstIndex = data.waitingFriend.firstIndex { value in
+//            value == Auth.auth().currentUser?.uid
+//        }
+//        var array = data.waitingFriend
+//        array.remove(at: firstIndex!)
+        do{
+            try await ref.setData([
+                "id": data.id,
+                "gameTitle": data.gameTitle,
+                "limitMoney": data.limitMoney,
+                "startDate": data.startDate,
+                "endDate": data.endDate,
+                "inviteFriend": data.inviteFriend + [(Auth.auth().currentUser?.uid ?? "")],
+                "waitingFriend": data.waitingFriend
+            ])
+            self.currentGame = data
+        }catch{
+            print("게임 추가 에러..")
+        }
+    }
+    
+    //MARK: - 사용자가 도전수락을 했을 때 나머지 도전정보에 내 정보를 지워주는 함수
+    func notAllowChallegeStep1(data: Challenge?) async {
+        print(#function)
+        //패치해서 따끈한걸 받아와서 올려주기
+        guard let data else {return}
+        //새로 받는함수 추가
+        guard let inviteGame = await fetchChallengeInformation(data.id) else { return }
+        await notAllowChallegeStep2(data: inviteGame)
+
+    }
+    
+    func notAllowChallegeStep2(data: Challenge) async {
+        let ref = database.collection("Challenge").document(data.id)
         
         let firstIndex = data.waitingFriend.firstIndex { value in
             value == Auth.auth().currentUser?.uid
@@ -656,12 +691,11 @@ class FireStoreViewModel: ObservableObject {
                 "limitMoney": data.limitMoney,
                 "startDate": data.startDate,
                 "endDate": data.endDate,
-                "inviteFriend": data.inviteFriend + [(Auth.auth().currentUser?.uid ?? "")],
+                "inviteFriend": data.inviteFriend,
                 "waitingFriend": array
             ])
-            self.currentGame = data
         }catch{
-            print("게임 추가 에러..")
+            print("게임 거절 에러..")
         }
     }
 
