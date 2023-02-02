@@ -41,6 +41,7 @@ struct FriendViewCell: View {
                                 }
                             }
                         }
+
                         .aspectRatio(contentMode: .fill)
                         .frame(width: g.size.width * 0.3, height: g.size.height * 0.9)
                         .clipShape(Circle())

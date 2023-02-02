@@ -491,7 +491,7 @@ class FireStoreViewModel: ObservableObject {
     /// 챌린지 이력 리스트 셀 선택 시, 각 유저별 최종 금액 가져오는 함수
     func fetchChallengeTotalMoney(_ challengeId: String) async throws {
         print(#function)
-        let ref = database.collection("Challenge").document(challengeId).collection("유저")
+        let ref = database.collection("Challenge").document(challengeId).collection("expenditure")
         challengeHistoryUserList.removeAll()
         let snapShots = try await ref.getDocuments()
         for document in snapShots.documents{
@@ -547,6 +547,7 @@ class FireStoreViewModel: ObservableObject {
     
     // MARK: - SingleGame + User game에 String 추가하는 함수
     func makeSingleGame(_ singleGame: Challenge) async {
+        print(#function)
         addSingleGame(singleGame)
         await updateUserGame(gameId: singleGame.id)
         currentGame = singleGame
@@ -566,6 +567,66 @@ class FireStoreViewModel: ObservableObject {
             print("catched")
             return nil
         }
+    }
+    
+    // MARK: - GameId 삭제
+    func deleteGameId() async {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            try await database.collection("User").document(userId).updateData([ "game": "" ])
+            self.myInfo = try await fetchUserInfo(userId)
+            print("게임아이디 삭제 완료")
+        } catch {
+            print("게임아이디 삭제 실패")
+        }
+    }
+    
+    // MARK: - Game 지출 내역 전체 삭제
+    func deleteGameExpenditure() async {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return }
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            try await database.collection("Challenge").document(gameId).collection("expenditure").document(userId).delete()
+            print("지출 내역 삭제")
+        } catch {
+            print("지출 내역 삭제 실패")
+        }
+    }
+    
+    // MARK: - SingleGame 중도포기(삭제)
+    func deleteSingleGame() async {
+        print(#function)
+        await deleteGameExpenditure()
+        guard let gameId = await fetchGameId() else { return }
+        do {
+            try await database.collection("Challenge").document(gameId).delete()
+            print("삭제 완료")
+        } catch {
+            print("삭제 실패")
+        }
+        await deleteGameId()
+    }
+    
+    // MARK: - MultiGame 중도포기(개인)
+    func giveUpMultiGame() async {
+        print(#function)
+        await deleteGameExpenditure()
+        // 1. 게임 아이디에 맞는 지출 내역불러와서 삭제
+        // 2. 멀티게임에 접근해서 친구목록에 내 아이디 삭제
+        // 3. 유저의 게임에 아이디 삭제
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        guard let gameId = await fetchGameId() else { return }
+        let ref = database.collection("Challenge").document(gameId)
+        
+        do {
+            try await ref.updateData(["inviteFriend" : FieldValue.arrayRemove([userId])])
+            print("멀티 게임 중도 포기 완료")
+        } catch {
+            print("멀티 게임 중도 포기 실패")
+        }
+        await deleteGameId()
     }
     
     // MARK: - Challenge Collection에서 진행중인 게임 정보 가져오기
