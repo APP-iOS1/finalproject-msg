@@ -63,8 +63,14 @@ struct AfterChallengeView: View {
                                 .alert("게임을 포기하시겠습니까?", isPresented: $deleteSingleGame) {
                                     Button("확인", role: .destructive) {
                                         Task {
-                                            await fireStoreViewModel.deleteSingleGame()
-                                            fireStoreViewModel.currentGame = nil
+                                            if let game = fireStoreViewModel.currentGame {
+                                                if !(game.inviteFriend.isEmpty) {
+                                                    await fireStoreViewModel.giveUpMultiGame()
+                                                } else {
+                                                    await fireStoreViewModel.deleteSingleGame()
+                                                }
+                                                fireStoreViewModel.currentGame = nil
+                                            }
                                         }
                                     }
                                     Button("취소", role: .cancel) {}
