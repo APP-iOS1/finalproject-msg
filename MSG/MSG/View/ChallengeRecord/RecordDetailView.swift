@@ -124,8 +124,9 @@ struct RecordDetailView: View {
                                     }
                                 }
                             }
-                            .modifier(TextViewModifier(color: "Color2"))
+                         
                         }
+                    .modifier(TextViewModifier(color: "Color2"))
                     }
                 }
                 .onAppear{
@@ -138,7 +139,7 @@ struct RecordDetailView: View {
             .foregroundColor(Color("Color2"))
         }
     }
-}
+
 
 struct RecordDetailView_Previews: PreviewProvider {
     static var previews: some View {
