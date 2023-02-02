@@ -491,7 +491,7 @@ class FireStoreViewModel: ObservableObject {
     /// 챌린지 이력 리스트 셀 선택 시, 각 유저별 최종 금액 가져오는 함수
     func fetchChallengeTotalMoney(_ challengeId: String) async throws {
         print(#function)
-        let ref = database.collection("Challenge").document(challengeId).collection("유저")
+        let ref = database.collection("Challenge").document(challengeId).collection("expenditure")
         challengeHistoryUserList.removeAll()
         let snapShots = try await ref.getDocuments()
         for document in snapShots.documents{
