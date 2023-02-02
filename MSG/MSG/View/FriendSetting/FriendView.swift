@@ -69,29 +69,7 @@ extension FriendView {
                             }
                         }
                     }
-                    if findFriendToggle {
-                        
-                        VStack {
-                            Button {
-                                findFriendToggle = false
-                            } label: {
-                                Text("추가하기")
-                            }
-                            .background(checked ? Color("Point2") : Color("Point1"))
-                            .cornerRadius(5)
-                            .padding(.trailing)
-                            .disabled(!checked)
-                            
-                        }
-                    }
-                    //                List(filterUser,id:\.self) {value in
-                    //                    FriendViewCell(user: value)
-                    //                        .frame(height: 50)
-                    //                        .listRowBackground(Color("Background"))
-                    //                        .listRowSeparator(.hidden)
-                    //                }
-                    //                .scrollContentBackground(.hidden)
-                    //                .listStyle(.plain)
+
                 }
             }
             .onAppear {
