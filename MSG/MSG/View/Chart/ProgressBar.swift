@@ -26,7 +26,7 @@ struct ProgressBar: View {
     var body: some View {
         ZStack{
             Circle()
-                .fill(.white)
+                .fill(Color("Shadow3"))
                 .frame(width: 240, height: 240)
             Circle()
                 .fill(Color("Color1"))
