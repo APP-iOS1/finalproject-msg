@@ -25,7 +25,7 @@ struct SingleGameProgressBar: View {
 //                .foregroundColor(Color("Color2"))
 //                .rotationEffect(Angle(degrees: 270.0))
             Circle()
-                .fill(.white)
+                .fill(Color("Shadow3"))
                 .frame(width: 240, height: 240)
             Circle()
                 .fill(Color("Color1"))

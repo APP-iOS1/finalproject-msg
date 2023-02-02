@@ -547,6 +547,7 @@ class FireStoreViewModel: ObservableObject {
     
     // MARK: - SingleGame + User game에 String 추가하는 함수
     func makeSingleGame(_ singleGame: Challenge) async {
+        print(#function)
         addSingleGame(singleGame)
         await updateUserGame(gameId: singleGame.id)
         currentGame = singleGame
@@ -566,6 +567,46 @@ class FireStoreViewModel: ObservableObject {
             print("catched")
             return nil
         }
+    }
+    
+    // MARK: - SingleGameId 삭제
+    func deleteSingleGameId() async {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            try await database.collection("User").document(userId).updateData([ "game": "" ])
+            self.myInfo = try await fetchUserInfo(userId)
+            print("게임아이디 삭제 완료")
+        } catch {
+            print("게임아이디 삭제 실패")
+        }
+    }
+    
+    // MARK: - SingleGame 지출 내역 삭제
+    func deleteSingleGameExpenditure() async {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return }
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            try await database.collection("Challenge").document(gameId).collection("expenditure").document(userId).delete()
+            print("지출 내역 삭제")
+        } catch {
+            print("지출 내역 삭제 실패")
+        }
+    }
+    
+    // MARK: - SingleGame 중도포기(삭제)
+    func deleteSingleGame() async {
+        print(#function)
+        await deleteSingleGameExpenditure()
+        guard let gameId = await fetchGameId() else { return }
+        do {
+            try await database.collection("Challenge").document(gameId).delete()
+            print("삭제 완료")
+        } catch {
+            print("삭제 실패")
+        }
+        await deleteSingleGameId()
     }
     
     // MARK: - Challenge Collection에서 진행중인 게임 정보 가져오기

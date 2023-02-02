@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct AfterChallengeView: View {
+    
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @State private var deleteSingleGame: Bool = false
     let challenge: Challenge
     
     func parsingExpenditure(expenditure: [String:[String]]) {
@@ -41,6 +43,34 @@ struct AfterChallengeView: View {
                                 Text(challenge.gameTitle)
                                     .modifier(TextTitleBold())
                                 Spacer()
+                                Button {
+                                    deleteSingleGame.toggle()
+                                } label: {
+                                    Image(systemName: "x.circle.fill")
+                                }
+                                .buttonStyle(.borderless)
+                                .frame(width: g.size.width / 15, height: g.size.height / 30)
+                                .clipShape(Circle())
+                                .padding(4)
+                                .foregroundColor(Color("Color2"))
+                                .background(
+                                    Circle()
+                                        .fill(
+                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                        )
+                                        .foregroundColor(Color("Color1")))
+                                .alert("게임을 포기하시겠습니까?", isPresented: $deleteSingleGame) {
+                                    Button("확인", role: .destructive) {
+                                        Task {
+                                            await fireStoreViewModel.deleteSingleGame()
+                                            fireStoreViewModel.currentGame = nil
+                                        }
+                                    }
+                                    Button("취소", role: .cancel) {}
+                                } message: {
+                                    Text("지금까지의 기록한 내역이 초기화 됩니다. 그래도 포기하시겠습니까?")
+                                }
                             }
                             
                             HStack{
