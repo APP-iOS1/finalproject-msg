@@ -34,7 +34,7 @@ extension BeforeChallengeView {
                 Group{
                     HStack{
                         Text("개인 챌린지 시작하기")
-                            .modifier(TextTitleBold())
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                             .padding(.bottom, -1)
                         Spacer()
                     }
@@ -63,9 +63,9 @@ extension BeforeChallengeView {
                                     .padding(.trailing, 15)
                                 VStack(alignment: .leading){
                                     Text("꼭 필요한 습관")
-                                        .modifier(TextTitleSemiBold(color: "Color2"))
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                                     Text("꾸준한 습관으로 커다란 결과를!")
-                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                 }
                             }
                         }
@@ -76,7 +76,7 @@ extension BeforeChallengeView {
                 Group{
                     HStack{
                         Text("함께하는 챌린지 시작하기")
-                            .modifier(TextTitleBold())
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                             .padding(.bottom, -1)
                             
                         Spacer()
@@ -107,9 +107,9 @@ extension BeforeChallengeView {
                                     .padding(.trailing, 15)
                                 VStack(alignment: .leading){
                                     Text("함께하는 성장")
-                                        .modifier(TextTitleSemiBold(color: "Color2"))
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                                     Text("목표를 정하고, 서로 체크해요!!")
-                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                 }
                             }
                         }
