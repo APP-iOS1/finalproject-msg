@@ -71,6 +71,7 @@ struct AlertView: View {
                                     if let myInfo = realtimeViewModel.myInfo {
                                         fireStoreViewModel.addUserInfo2(user: user, myInfo: myInfo)
                                         realtimeViewModel.acceptAddFriend(friend: user)
+                                        Task{ await fireStoreViewModel.deleteWaitingFriend(user.id)}
                                     }
 
                                 } label: {

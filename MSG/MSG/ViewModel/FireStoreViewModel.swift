@@ -49,8 +49,41 @@ class FireStoreViewModel: ObservableObject {
     }
     
     
+    
+    // MARK: -
+ 
     // MARK: - 챌린지 히스토리 가져오기
-    func fetchChallengeHistory(){
+    func fetchChallengeHistory() async {
+        print(#function)
+    }
+    
+    
+    // MARK: - waitingFriend가져오기
+    func fetchWaitingFriend(_ userId: String) async -> [String]? {
+        print(#function)
+        do{
+            let document = try await database.collection("Waiting").document(userId).getDocument()
+            guard let docData = document.data() else{ return nil }
+            let waitingArr = docData["sendToFriend"] as? [String] ?? []
+            return waitingArr
+        }catch{
+            print("Error!")
+            return nil
+        }
+    }
+    
+    // MARK: - 친구 초대 수락 시, WaitingCollection에서 해당 유저 제거
+    func deleteWaitingFriend(_ userId: String) async {
+        print(#function)
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        guard var waitingFriend = await fetchWaitingFriend(userId) else { return }
+        guard let index = waitingFriend.firstIndex(of: myId) else { return }
+        waitingFriend.remove(at: index)
+        do{
+            try await database.collection("Waiting").document(userId).updateData([ "sendToFriend" : waitingFriend ])
+        }catch{
+                print("Error")
+        }
         
     }
     
@@ -295,7 +328,7 @@ class FireStoreViewModel: ObservableObject {
         //        fetchPostits()
     }
     // MARK: - 친구추가
-    /// 친구의 목록에도 나를추가
+    /// 친구 수락 시, 친구 요청을 보낸 친구의 목록에 나를 추가하는 메서드
     func addUserInfo2(user: Msg, myInfo: Msg) {
         print(#function)
         database.collection("User")
