@@ -50,14 +50,14 @@ enum FontCustomWeight:String {
 }
 
 struct TextModifier: ViewModifier{
-    let fontWe: FontCustomWeight
-    let fontTy: (fontSize: CGFloat, fontStyle: Font.TextStyle)
+    let fontWeight: FontCustomWeight
+    let fontType: (fontSize: CGFloat, fontStyle: Font.TextStyle)
     let color:FontCustomColor
     
     func body(content: Content) -> some View {
             content
             .foregroundColor(Color(color.rawValue))
-                .font(.custom(fontWe.rawValue, size: fontTy.fontSize, relativeTo: fontTy.fontStyle))
+                .font(.custom(fontWeight.rawValue, size: fontType.fontSize, relativeTo: fontType.fontStyle))
     }
 }
 
