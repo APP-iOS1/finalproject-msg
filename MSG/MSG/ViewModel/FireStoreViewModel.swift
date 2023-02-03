@@ -408,7 +408,27 @@ class FireStoreViewModel: ObservableObject {
             return nil
         }
     }
-    
+    //MARK: - 해당 유저의 과거 지출 기록 가져오기
+    func fetchExpenditureHistory(_ gameId: String) async -> [String:[String]]?  {
+        print(#function)
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return nil }
+        let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(userId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil}
+            var expenditureList: [String:[String]] = [:]
+            let id = docData["id"] as? String ?? ""
+            let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
+            let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
+            expenditureList = expenditure.expenditureHistory
+            return expenditureList
+        } catch {
+            print("Error! fetchExpenditure")
+            return nil
+        }
+    }
+
     
     
     // MARK: - 지출 기록 가져오기
@@ -431,6 +451,9 @@ class FireStoreViewModel: ObservableObject {
         }
     }
     
+    //MARK: - 참여한 유저들의 토탈금액 가져오기
+    
+
     // MARK: - 게임 히스토리 ID 목록 가져오기
     /// 현재 유저가 진행했던 챌린지 ID리스트 가저오기
     func fetchGameHistoryList() async -> [String]? {
@@ -542,7 +565,7 @@ class FireStoreViewModel: ObservableObject {
         print(#function)
         guard let userId = Auth.auth().currentUser?.uid else{ return }
         let ref = database.collection("Challenge")
-        let snapShot = try await ref.document(challengeId).collection("유저").document(userId).getDocument()
+        let snapShot = try await ref.document(challengeId).collection("expenditure").document(userId).getDocument()
         if let docData = snapShot.data() {
             print("docData:",docData)
             let nickName: [String:[String]] = docData["지출"] as? [String:[String]] ?? [:]
