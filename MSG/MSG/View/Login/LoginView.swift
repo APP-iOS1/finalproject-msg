@@ -16,7 +16,9 @@ struct LoginView: View {
     
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
+    @Environment(\.colorScheme) var colorScheme
     @State private var showingSheetView: Bool = false
+    @State var buttonNumber: Int = 1
     
     // 애플, 구글 로그인 ViewMode
     @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
@@ -25,9 +27,29 @@ struct LoginView: View {
         
         GeometryReader { g in
             ZStack {
-                Image("LightLoginBack")
+                Image(colorScheme == .light ? "LightLoginBack" : "BlackLoginBack")
                     .resizable()
                     .ignoresSafeArea()
+                 
+                
+                // MARK: 로그인 선택
+                if buttonNumber == 1 {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(Color("SelectColor"))
+                        .frame(width: 260, height: 55)
+                        .padding(.bottom, 390)
+                } else if buttonNumber == 2 {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(Color("SelectColor"))
+                        .frame(width: 260, height: 55)
+                        .padding(.bottom, 260)
+                } else if buttonNumber == 3 {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(Color("SelectColor"))
+                        .frame(width: 260, height: 55)
+                        .padding(.bottom, 130)
+                }
+     
                  
                 
                 VStack {
@@ -44,7 +66,7 @@ struct LoginView: View {
                                             loginViewModel.nonce = randomNonceString()
                                             request.requestedScopes = [.fullName, .email]
                                             request.nonce = sha256(loginViewModel.nonce)
-                                            
+                                            buttonNumber = 1
                                         } onCompletion: { (result) in
                                             switch result {
                                             case .success(let user):
@@ -71,6 +93,7 @@ struct LoginView: View {
                                     .overlay {
                                         if let clientID = FirebaseApp.app()?.options.clientID {
                                             Button {
+                                                buttonNumber = 2
                                                 GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
                                                     if let error = error {
                                                         print(error.localizedDescription)
@@ -94,6 +117,7 @@ struct LoginView: View {
                                 CustomButton2()
                                     .overlay{
                                         Button {
+                                            buttonNumber = 3
                                             loginViewModel.kakaoLogin()
                                         } label: {
                                             Rectangle()
@@ -112,26 +136,40 @@ struct LoginView: View {
                         .font(.title2)
                         .modifier(TextViewModifier(color: "Color2"))
                         .bold()
-                        .padding(.bottom, 75)
+                        .padding(.bottom, 71)
                   
+            
               
                     
                     // MARK: 조이패드 버튼
-                    
                     HStack {
                         ZStack {
                             VStack(spacing: 12) {
                                 
                                 // Top Button
-                                Button { } label: {
-                                    Image("LightLoginTop")
+                                Button {
+                                    if buttonNumber > 1 {
+                                        buttonNumber -= 1
+                                    } else {
+                                        buttonNumber = 3
+                                    }
+                                  
+                                } label: {
+                                    Image(colorScheme == .light ? "LightLoginTop" : "BlackLoginTop")
                                         .resizable()
                                         .frame(width: 48, height: 58)
                                 }
 
                                 // Bottom Button
-                                Button { } label: {
-                                    Image("LightLoginBottom")
+                                Button {
+                                    if buttonNumber < 3 {
+                                        buttonNumber += 1
+                                    } else {
+                                        buttonNumber = 1
+                                    }
+                                  
+                                } label: {
+                                    Image(colorScheme == .light ? "LightLoginBottom" : "BlackLoginBottom")
                                         .resizable()
                                         .frame(width: 48, height: 58)
                                 }
@@ -139,15 +177,27 @@ struct LoginView: View {
                             
                             HStack(spacing: 12) {
                                 // Left Button
-                                Button { } label: {
-                                    Image("LightLoginLeft")
+                                Button {
+                                    if buttonNumber > 1 {
+                                        buttonNumber -= 1
+                                    } else {
+                                        buttonNumber = 3
+                                    }
+                                } label: {
+                                    Image(colorScheme == .light ? "LightLoginLeft" : "BlackLoginLeft")
                                         .resizable()
                                         .frame(width: 58, height: 48)
                                 }
 
                                 // Right Button
-                                Button { } label: {
-                                    Image("LightLoginRight")
+                                Button {
+                                    if buttonNumber < 3 {
+                                        buttonNumber += 1
+                                    } else {
+                                        buttonNumber = 1
+                                    }
+                                } label: {
+                                    Image(colorScheme == .light ? "LightLoginRight" : "BlackLoginRight")
                                         .resizable()
                                         .frame(width: 58, height: 48)
                                 }
@@ -159,18 +209,76 @@ struct LoginView: View {
                         
                  
                             VStack {
-                                // A Button
-                                Button { } label: {
-                                    Image("LightLoginA")
-                                        .resizable()
-                                        .frame(width: 55, height: 55)
-                                        .padding(.leading,65)
-                                }
-                                .offset(y: 18)
+                                // A Button(선택된 로그인 진행)
                                 
-                                // B Button
-                                Button { } label: {
-                                    Image("LightLoginB")
+                                if buttonNumber == 1 {
+                             
+              
+                                    Image(colorScheme == .light ? "LightLoginA" : "BlackLoginA")
+                                            .resizable()
+                                            .frame(width: 55, height: 55)
+                                            .padding(.leading,65)
+                                            .overlay {
+                                                SignInWithAppleButton { request in
+                                                    loginViewModel.nonce = randomNonceString()
+                                                    request.requestedScopes = [.fullName, .email]
+                                                    request.nonce = sha256(loginViewModel.nonce)
+                                                    buttonNumber = 1
+                                                } onCompletion: { (result) in
+                                                    switch result {
+                                                    case .success(let user):
+                                                        print("success")
+                                                        guard let credential = user.credential as?
+                                                                ASAuthorizationAppleIDCredential else {
+                                                            print("error with firebase")
+                                                            return
+                                                        }
+                                                        Task { await loginViewModel.appleAuthenticate(credential: credential) }
+                                                    case.failure(let error):
+                                                        print(error.localizedDescription)
+                                                    }
+                                                }
+                                                .frame(height: 0)
+                                                .clipped()
+                                                
+                                            }
+                                            .offset(y: 18)
+                      
+                                    
+                                         
+                                } else {
+                                    Button {
+                                        if buttonNumber == 2 {
+                                            if let clientID = FirebaseApp.app()?.options.clientID {
+                                                GIDSignIn.sharedInstance.signIn(with: .init(clientID: clientID), presenting: UIApplication.shared.rootController()) { user, error in
+                                                    if let error = error {
+                                                        print(error.localizedDescription)
+                                                        return
+                                                    }
+                                                    // MARK: Loggin Google User into Firbase
+                                                    if let user {
+                                                        loginViewModel.logGoogleUser(user: user)
+                                                    }
+                                                }
+                                            }
+                                        } else if buttonNumber == 3 {
+                                            loginViewModel.kakaoLogin()
+                                        }
+                             
+                                    } label: {
+                                        Image(colorScheme == .light ? "LightLoginA" : "BlackLoginA")
+                                            .resizable()
+                                            .frame(width: 55, height: 55)
+                                            .padding(.leading,65)
+                                    }
+                                    .offset(y: 18)
+                                }
+                                
+                                // B Button(선택된 로그인 리셋)
+                                Button {
+                                    buttonNumber = 1
+                                } label: {
+                                    Image(colorScheme == .light ? "LightLoginB" : "BlackLoginB")
                                         .resizable()
                                         .frame(width: 55, height: 55)
                                         .padding(.trailing, 65)
@@ -189,7 +297,7 @@ struct LoginView: View {
                         Button {
                             showingSheetView.toggle()
                         } label: {
-                            Image("LightLoginThin")
+                            Image(colorScheme == .light ? "LightLoginThin" : "BlackLoginThin")
                                 .resizable()
                                 .frame(width: 340 / 9, height: 15)
                         }
@@ -198,7 +306,7 @@ struct LoginView: View {
                         Button {
                             showingSheetView.toggle()
                         } label: {
-                            Image("LightLoginThin")
+                            Image(colorScheme == .light ? "LightLoginThin" : "BlackLoginThin")
                                 .resizable()
                                 .frame(width: 340 / 9, height: 15)
                         }
