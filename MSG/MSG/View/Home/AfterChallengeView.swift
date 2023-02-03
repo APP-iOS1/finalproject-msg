@@ -41,7 +41,8 @@ struct AfterChallengeView: View {
                         Group{
                             HStack{
                                 Text(challenge.gameTitle)
-                                    .modifier(TextTitleBold())
+//                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: .bold, fontType: Font.TextStyle.largeTitle, color: .color1))
                                 Spacer()
                                 Button {
                                     deleteSingleGame.toggle()
@@ -93,10 +94,14 @@ struct AfterChallengeView: View {
                         Group{
                             // 싱글게임 멀티게임 다르게 보여주기
                             if challenge.inviteFriend.isEmpty {
-                                SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
+//                                ProgressBar2(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney,g:g)
+                                ProgressBar2(percentage: $fireStoreViewModel.totalMoney,limitMoney: challenge.limitMoney)
+                                    .frame(height:30)
+//                                SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
                             } else {
                                 MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
                             }
+                            Spacer()
                             HStack{
                                 Text("지금까지")
                                 Text("\(fireStoreViewModel.totalMoney)원")
@@ -105,7 +110,7 @@ struct AfterChallengeView: View {
                                 
                             }
                             .padding(.top)
-                            
+//                            Spacer()
                             VStack{
                                 //챌린지 시작날짜~오늘날짜 계산
                                 CountDownView(endDate: Double(challenge.endDate)!)
@@ -172,6 +177,9 @@ struct AfterChallengeView: View {
             .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
                 parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
             })
+            .onAppear {
+                print("에프터챌린지뷰 토탈머니:",fireStoreViewModel.totalMoney)
+            }
         }
     }
 }

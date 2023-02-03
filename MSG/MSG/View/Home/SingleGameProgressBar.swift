@@ -63,8 +63,8 @@ struct SingleGameProgressBar: View {
     }
 }
 
-struct GameProgressBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SingleGameProgressBar(percentage: .constant(Int(0.3)), limitMoney: 0)
-    }
-}
+//struct GameProgressBarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SingleGameProgressBar(percentage: .constant(Int(0.3)), limitMoney: 0)
+//    }
+//}
