@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SoloGameSettingView: View {
     
-    @ObservedObject private var gameSettingViewModel = GameSettingViewModel()
+    @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
     @State private var isShowingAlert: Bool = false
     @State private var backBtnAlert: Bool = false

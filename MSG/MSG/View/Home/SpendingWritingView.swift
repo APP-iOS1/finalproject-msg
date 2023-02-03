@@ -32,7 +32,7 @@ struct SpendingWritingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
 
-    @ObservedObject var spendingViewModel = SpendingWriteViewModel()
+    @StateObject var spendingViewModel = SpendingWriteViewModel()
     @State private var isValid = false
     
     @State private var selection: Int = 0
