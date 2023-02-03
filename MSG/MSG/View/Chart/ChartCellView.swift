@@ -49,6 +49,7 @@ struct ChartCellView: View {
                             
                             HStack{
                                 Text("\(consume[0])")
+                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.callout, color: .color2))
                                 Spacer()
 //                                Text("- \(consume[1])")
                                 Text("- \(numberFormatter(number: Int(consume[1])!))원")
