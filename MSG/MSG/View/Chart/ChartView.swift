@@ -15,6 +15,7 @@ struct Category: Identifiable, Hashable {
 }
 
 var category: [Category] = [
+    Category(tag: "전체", icon: "circle.grid.cross.fill", color: "Chart1"),
     Category(tag: "식비", icon: "fork.knife", color: "Chart1"),
     Category(tag: "교통비", icon: "bus", color: "Chart2"),
     Category(tag: "쇼핑", icon: "cart", color: "Chart3"),
@@ -65,20 +66,23 @@ struct ChartView: View {
                 VStack{
                     //원형바
                     ProgressBar(progress: $progressValue, percentArr: $percentArr, totalMoney: $totalMoney, selection: $selection)
-                        .padding(40)
+                        .padding(.vertical, 6)
                     
                     // 태그 별 선택
                     HStack{
                         Text("지출 내역")
                             .padding(.leading)
+                            .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.title3, color: .color2))
                         Spacer()
                     }
                     
                     ScrollView(.horizontal,showsIndicators: false) {
+                        
                         HStack{
                             ForEach(category, id: \.self){ item in
                                 Button {
-                                    selection = item.tag
+                                        selection = item.tag
+                                    
                                 } label: {
                                     HStack{
                                         Image(systemName: item.icon)
@@ -100,6 +104,9 @@ struct ChartView: View {
                                     .foregroundColor(selection == item.tag ? Color("Color2") : .gray)
                                 }
                             }
+                            .onAppear{
+                                selection = "전체"
+                            }
                         }
                         .padding()
                     }
@@ -110,6 +117,7 @@ struct ChartView: View {
                     }
                 }
                 .modifier(TextViewModifier(color: "Color2"))
+                .padding(.bottom, 5)
             }
         }
         .onAppear{
