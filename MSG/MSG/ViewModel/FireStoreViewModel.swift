@@ -15,7 +15,7 @@ import FirebaseAuth
 import SwiftUI
 
 @MainActor
-class FireStoreViewModel: ObservableObject {
+final class FireStoreViewModel: ObservableObject {
     
     typealias ChallengeUserData = [(user:(userName: String, userProfile: String), totalMoney: Int  )]
     
