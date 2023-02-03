@@ -50,7 +50,16 @@ class FireStoreViewModel: ObservableObject {
     
     
     
-    // MARK: -
+    // MARK: - 탈퇴
+    
+//    const user = firebase.auth().currentUser;
+//
+//    user.delete().then(() => {
+//      // User deleted.
+//    }).catch((error) => {
+//      // An error ocurred
+//      // ...
+//    });
  
     // MARK: - 챌린지 히스토리 가져오기
     func fetchChallengeHistory() async {
