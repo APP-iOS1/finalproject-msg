@@ -46,8 +46,10 @@ struct ChartCellView: View {
                                 Text("\(date[0])")
                                 Spacer()
                             }
+                            
                             HStack{
                                 Text("\(consume[0])")
+                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.callout, color: .color2))
                                 Spacer()
 //                                Text("- \(consume[1])")
                                 Text("- \(numberFormatter(number: Int(consume[1])!))원")
@@ -60,10 +62,12 @@ struct ChartCellView: View {
                             }
                         }
                         .padding()
+                        .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.callout, color: .color2))
                     }
-                    .padding([.leading, .trailing], 20)
+                    .padding(.leading, 15)
+                    .padding(.trailing, 5)
                 }
-                else if selection.isEmpty {
+                else if selection.isEmpty || selection == "전체"{
                     HStack{
                         
                         Image(systemName: "dpad.fill")
@@ -86,6 +90,7 @@ struct ChartCellView: View {
                             }
                             HStack{
                                 Text("\(consume[0])")
+                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.callout, color: .color2))
                                 Spacer()
 //                                Text("- \(consume[1])")
                                 Text("- \(numberFormatter(number: Int(consume[1])!))원")
@@ -94,12 +99,14 @@ struct ChartCellView: View {
                             HStack{
                                 Text("소비태그: \(key)")
                                 Spacer()
-                                Text("\(time[0]):\(time[1])")
+                                Text("\(time[0])시 \(time[1])분 작성")
                             }
                         }
                         .padding()
+                        .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.callout, color: .color2))
                     }
-                    .padding([.leading, .trailing], 20)
+                    .padding(.leading, 15)
+                    .padding(.trailing, 5)
                 }
             }
             .modifier(TextViewModifier(color: "Color2"))

@@ -19,14 +19,14 @@ struct CountDownView: View {
         let hours = Int(time) / 3600 % 24
         let minutes = Int(time) / 60 % 60
         let seconds = Int(time) % 60
-        return String(format:"%02i일 %02i시간 %02i분 %02i초", days, hours, minutes, seconds)
+        return String(format:"앞으로 %02i일 %02i시간 %02i분 %02i초 남음", days, hours, minutes, seconds)
     }
     
     var body: some View {
         
-        VStack {
+        VStack(alignment: .center) {
             Text("\(timeString(time: timeRemaining))")
-                .modifier(TextTitleBold())
+//                .modifier(TextTitleBold())
         }
         .onReceive(timer){ _ in
             if self.timeRemaining > 0 {

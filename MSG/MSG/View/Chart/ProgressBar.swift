@@ -42,13 +42,23 @@ struct ProgressBar: View {
             
 
             VStack{
-                if selection == "" {
-                    Text("\(Int(totalMoney))원")
+                if selection == "" || selection == "전체"{
+                    VStack{
+                        Text("모든 지출내역 합산 금액")
+                            .padding(.bottom, 4)
+                        Text("\(Int(totalMoney))원")
+                            .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
+                    }
                 }else{
-                    Text("\(selectPercent)%")
-                    Text("\(selectMoney)원")
-                        .padding()
-                    Text("\(selection)")
+                    VStack{
+                        Text("\(selectPercent)%")
+                            
+                        Text("\(selectMoney)원")
+                            .padding()
+                            .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
+                        Text("\(selection)")
+                            
+                    }.modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.callout, color: .color2))
                 }
             }
             .modifier(TextViewModifier(color: "Color2"))

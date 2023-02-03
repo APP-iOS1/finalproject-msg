@@ -75,12 +75,12 @@ var stats_Data = [
     
 ]
 
-struct ProgressBar2_Previews: PreviewProvider {
-    static var previews: some View {
-        MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.blue))
-//        ProgressBar2(expend: expenditure(id: "", expenditureHistory: ["식비" : ["김밥천국 3000원"]]))
-    }
-}
+//struct ProgressBar2_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.blue))
+////        ProgressBar2(expend: expenditure(id: "", expenditureHistory: ["식비" : ["김밥천국 3000원"]]))
+//    }
+//}
 //                LazyVGrid(columns: colums, spacing: 30) {
 //
 //                    ForEach(stats_Data) { stat in
