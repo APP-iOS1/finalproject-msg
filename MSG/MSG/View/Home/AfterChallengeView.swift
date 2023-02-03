@@ -41,7 +41,8 @@ struct AfterChallengeView: View {
                         Group{
                             HStack{
                                 Text(challenge.gameTitle)
-                                    .modifier(TextTitleBold())
+//                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
                                 Spacer()
                                 Button {
                                     deleteSingleGame.toggle()
@@ -49,7 +50,7 @@ struct AfterChallengeView: View {
                                     Image(systemName: "x.circle.fill")
                                 }
                                 .buttonStyle(.borderless)
-                                .frame(width: g.size.width / 15, height: g.size.height / 30)
+                                .frame(width: g.size.width / 10, height: g.size.height / 10)
                                 .clipShape(Circle())
                                 .padding(4)
                                 .foregroundColor(Color("Color2"))
@@ -81,10 +82,12 @@ struct AfterChallengeView: View {
                             
                             HStack{
                                 Text("제한 금액 : \(challenge.limitMoney)원")
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                                 Spacer()
                             }
                             HStack{
                                 Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                     .padding(.bottom)
                                 Spacer()
                             }
@@ -93,10 +96,14 @@ struct AfterChallengeView: View {
                         Group{
                             // 싱글게임 멀티게임 다르게 보여주기
                             if challenge.inviteFriend.isEmpty {
-                                SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
+//                                ProgressBar2(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney,g:g)
+                                ProgressBar2(percentage: $fireStoreViewModel.totalMoney,limitMoney: challenge.limitMoney)
+                                    .frame(height:30)
+//                                SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
                             } else {
                                 MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
                             }
+                            Spacer()
                             HStack{
                                 Text("지금까지")
                                 Text("\(fireStoreViewModel.totalMoney)원")
@@ -104,14 +111,18 @@ struct AfterChallengeView: View {
                                 Text("사용")
                                 
                             }
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                             .padding(.top)
-                            
+//                            Spacer()
                             VStack{
                                 //챌린지 시작날짜~오늘날짜 계산
                                 CountDownView(endDate: Double(challenge.endDate)!)
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                             }
                         }
-                        .padding(5)
+                        .padding(.top, g.size.height / 34)
+//                        Spacer().frame(width: g.size.width / 1.4, height: g.size.height / 34)
+//                        .padding(5)
                         
                         //MARK: - 상세 소비 내역 확인 네비게이션 링크
                         Group{
@@ -119,7 +130,7 @@ struct AfterChallengeView: View {
                             if fireStoreViewModel.expenditure != nil {
                                 NavigationLink(destination: ChartView(), label: {
                                     Text("상세 소비 내역 확인하기")
-                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)
                                         .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                         .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
@@ -132,7 +143,7 @@ struct AfterChallengeView: View {
                             } else {
                                 Button{ } label: {
                                     Text("상세 소비 내역 확인하기")
-                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)
                                         .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                         .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
@@ -148,7 +159,7 @@ struct AfterChallengeView: View {
                             //MARK: - 추가하기 네비게이션 링크
                             NavigationLink(destination: SpendingWritingView(), label: {
                                 Text("추가하기")
-                                    .modifier(TextViewModifier(color: "Color2"))
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                     .frame(width: g.size.width / 1.4, height: g.size.height / 34)
                                     .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                     .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
@@ -161,6 +172,7 @@ struct AfterChallengeView: View {
                             
                             Spacer()
                         }
+                        .padding(.top, g.size.height / 34)
                         Spacer()
                     }.foregroundColor(Color("Color2"))
                         .padding(.horizontal)

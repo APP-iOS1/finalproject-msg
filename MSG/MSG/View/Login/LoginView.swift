@@ -33,35 +33,33 @@ struct LoginView: View {
                  
                 
                 // MARK: 로그인 선택
-                if buttonNumber == 1 {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(Color("SelectColor"))
-                        .frame(width: 260, height: 55)
-                        .padding(.bottom, 390)
-                } else if buttonNumber == 2 {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(Color("SelectColor"))
-                        .frame(width: 260, height: 55)
-                        .padding(.bottom, 260)
-                } else if buttonNumber == 3 {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(Color("SelectColor"))
-                        .frame(width: 260, height: 55)
-                        .padding(.bottom, 130)
-                }
+                    if buttonNumber == 1 {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .fill(Color("SelectColor"))
+                            .frame(width: g.size.width / 1.6, height: g.size.height / 15)
+                            .padding(.bottom, 385)
+                    } else if buttonNumber == 2 {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .fill(Color("SelectColor"))
+                            .frame(width: g.size.width / 1.6, height: g.size.height / 15)
+                            .padding(.bottom, 255)
+                    } else if buttonNumber == 3 {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .fill(Color("SelectColor"))
+                            .frame(width: g.size.width / 1.6, height: g.size.height / 15)
+                            .padding(.bottom, 123)
+                    }
      
                  
                 
                 VStack {
                 
                    Spacer()
+                        .frame(width: g.size.width, height: g.size.height / 7)
 
                             // MARK: 로그인 버튼
-                            VStack(spacing: 20) {
-                                
+                    VStack(spacing: 25) {
                                 // MARK: Custom Apple Sign in Button
-                                CustomButton1()
-                                    .overlay {
                                         SignInWithAppleButton { request in
                                             loginViewModel.nonce = randomNonceString()
                                             request.requestedScopes = [.fullName, .email]
@@ -81,13 +79,9 @@ struct LoginView: View {
                                                 print(error.localizedDescription)
                                             }
                                         }
-                                        .signInWithAppleButtonStyle(.white)
-                                        .cornerRadius(8)
-                                        .frame(height: 45)
-                                        .blendMode(.overlay)
-                                    }
-                                    .clipped()
-                                
+                                        .signInWithAppleButtonStyle(.black)
+                                        .frame(width: g.size.width / 1.7,height: g.size.height / 16.5)
+                                                                    
                                 // MARK: Custom Google Sign in Button
                                 CustomButton1(isGoogle: true)
                                     .overlay {
@@ -106,12 +100,13 @@ struct LoginView: View {
                                                 }
                                             } label: {
                                                 Rectangle()
-                                                    .frame(width: 250, height: 45)
+                                                    .frame(width: g.size.width / 1.4, height: g.size.height / 14)
                                                     .foregroundColor(.clear)
                                             }
                                         }
                                     }
-                                    .clipped()
+                                    .frame(width: g.size.width / 1.6, height: g.size.height / 17)
+                                    
                                 
                                 // MARK: Custom Kakao Sign in Button
                                 CustomButton2()
@@ -121,26 +116,20 @@ struct LoginView: View {
                                             loginViewModel.kakaoLogin()
                                         } label: {
                                             Rectangle()
-                                                .frame(width: 250, height: 45)
+                                                .frame(width: g.size.width / 1.4, height: g.size.height / 14)
                                                 .foregroundColor(.clear)
                                         }
                                     }
-                                    .clipped()
+                                    .frame(width: g.size.width, height: g.size.height / 10)
                             }
-                            .padding(.bottom, 32)
+                    .frame(width: g.size.width, height: g.size.height / 3.5)
 
                     
                     // MARK: 앱 이름
                     
                     Text("Money Save Game")
-                        .font(.title2)
-                        .modifier(TextViewModifier(color: "Color2"))
-                        .bold()
-                        .padding(.bottom, 71)
+                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                   
-            
-              
-                    
                     // MARK: 조이패드 버튼
                     HStack {
                         ZStack {
@@ -157,7 +146,7 @@ struct LoginView: View {
                                 } label: {
                                     Image(colorScheme == .light ? "LightLoginTop" : "BlackLoginTop")
                                         .resizable()
-                                        .frame(width: 48, height: 58)
+                                        .frame(width: g.size.width / 8.2, height: g.size.height / 13)
                                 }
 
                                 // Bottom Button
@@ -171,7 +160,7 @@ struct LoginView: View {
                                 } label: {
                                     Image(colorScheme == .light ? "LightLoginBottom" : "BlackLoginBottom")
                                         .resizable()
-                                        .frame(width: 48, height: 58)
+                                        .frame(width: g.size.width / 8.2, height: g.size.height / 13)
                                 }
                             }
                             
@@ -186,7 +175,7 @@ struct LoginView: View {
                                 } label: {
                                     Image(colorScheme == .light ? "LightLoginLeft" : "BlackLoginLeft")
                                         .resizable()
-                                        .frame(width: 58, height: 48)
+                                        .frame(width: g.size.width / 6.6, height: g.size.height / 15)
                                 }
 
                                 // Right Button
@@ -199,11 +188,13 @@ struct LoginView: View {
                                 } label: {
                                     Image(colorScheme == .light ? "LightLoginRight" : "BlackLoginRight")
                                         .resizable()
-                                        .frame(width: 58, height: 48)
+                                        .frame(width: g.size.width / 6.6, height: g.size.height / 15)
                                 }
                             }
                         }
-                        .padding(.leading, 36)
+                        .frame(width: g.size.width / 3, height: g.size.height / 5, alignment: .center)
+                        .padding(.leading, 32)
+                        .padding(.bottom, -114)
                         
                         Spacer()
                         
@@ -216,8 +207,8 @@ struct LoginView: View {
               
                                     Image(colorScheme == .light ? "LightLoginA" : "BlackLoginA")
                                             .resizable()
-                                            .frame(width: 55, height: 55)
-                                            .padding(.leading,65)
+                                            .frame(width: g.size.width / 7, height: g.size.height / 13)
+                                            .padding(.leading, 65)
                                             .overlay {
                                                 SignInWithAppleButton { request in
                                                     loginViewModel.nonce = randomNonceString()
@@ -240,9 +231,7 @@ struct LoginView: View {
                                                 }
                                                 .frame(height: 0)
                                                 .clipped()
-                                                
                                             }
-                                            .offset(y: 18)
                       
                                     
                                          
@@ -268,10 +257,9 @@ struct LoginView: View {
                                     } label: {
                                         Image(colorScheme == .light ? "LightLoginA" : "BlackLoginA")
                                             .resizable()
-                                            .frame(width: 55, height: 55)
+                                            .frame(width: g.size.width / 7, height: g.size.height / 13)
                                             .padding(.leading,65)
                                     }
-                                    .offset(y: 18)
                                 }
                                 
                                 // B Button(선택된 로그인 리셋)
@@ -280,13 +268,14 @@ struct LoginView: View {
                                 } label: {
                                     Image(colorScheme == .light ? "LightLoginB" : "BlackLoginB")
                                         .resizable()
-                                        .frame(width: 55, height: 55)
-                                        .padding(.trailing, 65)
+                                        .frame(width: g.size.width / 7, height: g.size.height / 13)
+                                        .padding(.trailing, 51)
+                                        .padding(.bottom, 13)
                                 }
-                                .offset(y: 14)
                             }
-                        .padding(.trailing, 35)
-                        .padding(.top,10)
+                        .padding(.trailing, 34)
+                        .padding(.top)
+                        .offset(y: g.size.height / 9)
                       
                     }
                     .padding(.bottom, 80)
@@ -338,62 +327,50 @@ struct LoginView: View {
     @ViewBuilder
     // MARK: Apple & Google CustomButton
     func CustomButton1(isGoogle: Bool = false) -> some View {
-        HStack {
-            Group {
-                if isGoogle {
-                    Image("GoogleIcon")
-                        .resizable()
-                } else {
-                    Image(systemName: "applelogo")
-                        .resizable()
-                }
+        
+        GeometryReader { g in
+            HStack {
+                Image("GoogleIcon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: g.size.width / 9, height: g.size.height)
+                Text("Google Sign in")
+                    .font(.callout)
+                    .lineLimit(1)
             }
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 25, height: 25)
-            .frame(height: 45)
+            .foregroundColor(.black)
+            .background {
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(.white)
+                    .frame(width: g.size.width / 1.07, height: g.size.height, alignment: .center)
+            }
+            .frame(width: g.size.width, height: g.size.height / 1.1, alignment: .center)
             
-            Text("\(isGoogle ? "Google" : "Apple") Sign in")
-                .font(.callout)
-                .lineLimit(1)
-        }
-        .foregroundColor(isGoogle ? .black : .white)
-        .padding(.horizontal,15)
-        .frame(width: 250, height: 45, alignment: .center)
-        .background {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(isGoogle ? .white : .black)
         }
     }
     
     // MARK: KaKao & Facebook(추후 업데이트 예정) CustomButton
     func CustomButton2(isKakao: Bool = false) -> some View {
-        HStack {
-            
-            Group {
-                if isKakao {
-                    Image(systemName: "applelogo")
-                        .resizable()
-                } else {
-                    Image("KakaoIcon")
-                        .resizable()
-                        .renderingMode(.template)
-                        .foregroundColor(.black)
-                }
+        GeometryReader { g in
+            HStack {
+                Image("KakaoIcon")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(.black)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: g.size.width / 13, height: g.size.height / 2)
+                Text("Kakao Sign in")
+                    .font(.callout)
+                    .lineLimit(1)
             }
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 25, height: 25)
-            .frame(height: 45)
+            .foregroundColor(Color("KakaoFontColor"))
+            .background {
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color("KakaoButtonColor"))
+                    .frame(width: g.size.width / 1.7, height: g.size.height / 1.7, alignment: .center)
+            }
+            .frame(width: g.size.width, height: g.size.height / 1.8, alignment: .center)
             
-            Text("\(isKakao ? "Facebook" : "Kakao") Sign in")
-                .font(.callout)
-                .lineLimit(1)
-        }
-        .foregroundColor(isKakao ? .white : Color("KakaoFontColor"))
-        .padding(.horizontal,15)
-        .frame(width: 250, height: 45, alignment: .center)
-        .background {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(isKakao ? .blue : Color("KakaoButtonColor"))
         }
     }
 }

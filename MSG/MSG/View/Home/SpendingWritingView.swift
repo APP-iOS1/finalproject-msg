@@ -9,14 +9,35 @@ import SwiftUI
 import FirebaseAuth
 import Firebase
 
+struct SpendingCategory: Identifiable, Hashable {
+    let id = UUID().uuidString
+    let name: String
+    var tag: Int
+    let icon: String
+}
+
+var spendingCategory: [SpendingCategory] = [
+    SpendingCategory(name: "식비", tag: 0, icon: "fork.knife"),
+    SpendingCategory(name: "교통비", tag: 1, icon: "bus"),
+    SpendingCategory(name: "쇼핑", tag: 2, icon: "cart"),
+    SpendingCategory(name: "의료", tag: 3, icon: "cross"),
+    SpendingCategory(name: "주거", tag: 4, icon: "house"),
+    SpendingCategory(name: "여가", tag: 5, icon: "figure.socialdance"),
+    SpendingCategory(name: "금융", tag: 6, icon: "wonsign"),
+    SpendingCategory(name: "기타", tag: 7, icon: "ellipsis.curlybraces")
+]
+
 struct SpendingWritingView: View {
     
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @State private var selection: Int = 0
-    @ObservedObject var spendingViewModel = SpendingWriteViewModel()
+
+    @StateObject var spendingViewModel = SpendingWriteViewModel()
     @State private var isValid = false
     
+    @State private var selection: Int = 0
+    @State private var showingSpendingCategory = false
+
     private func convertTextLogic(title: String, money: String, date: Date) -> String {
         return title + "_" + money + "_" + date.toString()
     }
@@ -32,9 +53,9 @@ struct SpendingWritingView: View {
                     Group{
                         Spacer()
                         HStack{
-                            Text("소비 날짜")
+                            Text("오늘 날짜")
                             Text("|")
-                            Text("2023/01/17")
+                            Text("2023/02/03")
                             Spacer()
                         }
                         .padding()
@@ -43,17 +64,84 @@ struct SpendingWritingView: View {
                             Text("소비 태그")
                             Text("|")
                             VStack{
-                                Picker("한국어",selection: $selection) {
-                                    Text("식비").tag(0)
-                                    Text("교통비").tag(1)
-                                    Text("쇼핑").tag(2)
-                                    Text("의료").tag(3)
-                                    Text("주거").tag(4)
-                                    Text("여가").tag(5)
-                                    Text("금융").tag(6)
-                                    Text("기타").tag(7)
+                                // MARK: 소비 태그 피커
+                                Button {
+                                    showingSpendingCategory.toggle()
+                                } label: {
+                                    if selection == 0 {
+                                        Text("식비")
+                                    } else if selection == 1 {
+                                        Text("교통비")
+                                    } else if selection == 2 {
+                                        Text("쇼핑")
+                                    } else if selection == 3 {
+                                        Text("의료")
+                                    } else if selection == 4 {
+                                        Text("주가")
+                                    } else if selection == 5 {
+                                        Text("여가")
+                                    } else if selection == 6 {
+                                        Text("금융")
+                                    } else if selection == 7 {
+                                        Text("기타")
+                                    }
                                 }
-                                .pickerStyle(.menu)
+                                .sheet(isPresented: $showingSpendingCategory) {
+                                    ZStack{
+                                        Color("Color1").ignoresSafeArea()
+                                        VStack {
+                                            ScrollView {
+                                                ForEach(spendingCategory, id: \.self){ item in
+
+                                                    HStack(spacing: 130) {
+                                                        HStack(spacing: 40) {
+                                                            Image(systemName: item.icon)
+                                                                .resizable()
+                                                                .frame(width: 30, height: 30)
+                                                            
+                                                            Text(item.name)
+                                                                .frame(width: 50)
+                                                        }
+
+                                                        if item.tag == selection {
+                                                            Button {
+                                                                selection = item.tag
+                                                                showingSpendingCategory.toggle()
+                                                            } label: {
+                                                                Image(systemName: "checkmark.square.fill")
+                                                            }
+                                                            .frame(width: 20)
+                                                        } else {
+                                                            Button {
+                                                                selection = item.tag
+                                                                showingSpendingCategory.toggle()
+                                                            } label: {
+                                                                Image(systemName: "square")
+                                                            }
+                                                            .frame(width: 20)
+                                                        }
+                                                    }
+                                                    .padding(.bottom, 20)
+                                                    
+                                                }
+                                                .frame(maxWidth: .infinity)
+                                            }
+
+                                            Divider()
+                                                .padding(.bottom, 5)
+                                            
+                                            Button {
+                                                showingSpendingCategory.toggle()
+                                            } label: {
+                                                Text("닫기")
+                                            }
+                                        }
+                                        .frame(height: 330)
+                                        .presentationDetents([.height(350)])
+                                        .interactiveDismissDisabled(true)
+                                    }
+                                }
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                                 
                                 Rectangle()
                                     .frame(height:1)

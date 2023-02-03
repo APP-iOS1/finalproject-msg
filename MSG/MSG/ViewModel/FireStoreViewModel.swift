@@ -15,7 +15,7 @@ import FirebaseAuth
 import SwiftUI
 
 @MainActor
-class FireStoreViewModel: ObservableObject {
+final class FireStoreViewModel: ObservableObject {
     
     typealias ChallengeUserData = [(user:(userName: String, userProfile: String), totalMoney: Int  )]
     
@@ -47,10 +47,6 @@ class FireStoreViewModel: ObservableObject {
         //        postits = []
         
     }
-    
-    
-    
-    // MARK: -
  
     // MARK: - 챌린지 히스토리 가져오기
     func fetchChallengeHistory() async {
