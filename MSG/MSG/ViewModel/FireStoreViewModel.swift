@@ -47,10 +47,6 @@ class FireStoreViewModel: ObservableObject {
         //        postits = []
         
     }
-    
-    
-    
-    // MARK: -
  
     // MARK: - 챌린지 히스토리 가져오기
     func fetchChallengeHistory() async {
