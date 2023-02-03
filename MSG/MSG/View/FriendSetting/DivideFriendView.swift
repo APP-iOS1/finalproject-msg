@@ -1,23 +1,25 @@
 //
-//  FriendView.swift
+//  DivideFriendView.swift
 //  MSG
 //
-//  Created by kimminho on 2023/01/17.
+//  Created by sehooon on 2023/02/02.
 //
 
 import SwiftUI
 
-struct FriendView: View {
-    
+struct DivideFriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
-    @StateObject var friendViewModel = FriendViewModel()
+    @StateObject var friendViewModel = DivideFriendViewModel()
     @Binding var findFriendToggle: Bool
     @State var checked = false
-    
 }
 
-extension FriendView {
+extension DivideFriendView {
+    
+    // 1. baseUserArray
+    // 2. SearchUserArray
+    // 3. MyFriendArray
     
     var body: some View {
         
@@ -25,9 +27,7 @@ extension FriendView {
             ZStack {
                 Color("Color1")
                     .ignoresSafeArea()
-                
                 VStack {
-                    if !findFriendToggle {
                         ZStack {
                             RoundedRectangle(cornerRadius: 15)
                                 .stroke(Color("Color1"),
@@ -49,32 +49,22 @@ extension FriendView {
                             .padding(.vertical)
                             .padding(.horizontal)
                         }
-                    }
                     
                     ScrollView {
-                        if !findFriendToggle {
-                            ForEach(friendViewModel.searchUserArray) { user in
-                                FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+                            ForEach(friendViewModel.baseUserArray) { user in
+                                DivideFriendCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
                                     .frame(height: 60)
                                     .listRowBackground(Color("Color1"))
                                     .listRowSeparator(.hidden)
                             }
-                        }
-                        else {
-                            ForEach(friendViewModel.notGamePlayFriend) { user in
-                                FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
-                                    .frame(height: 60)
-                                    .listRowBackground(Color("Color1"))
-                                    .listRowSeparator(.hidden)
-                            }
-                        }
                     }
-
                 }
             }
             .onAppear {
                 Task {
+                    friendViewModel.subscribe()
                     try await friendViewModel.findFriend()
+                    friendViewModel.baseUserArray = await friendViewModel.makeProfile(friendViewModel.myFrinedArray) ?? []
                     friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
                 }
                 print("== FriendVeiw onAppear ==")
@@ -85,8 +75,8 @@ extension FriendView {
     }
 }
 
-struct FriendView_Previews: PreviewProvider {
+struct DivideFriendView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendView(findFriendToggle: .constant(false))
+        DivideFriendView(findFriendToggle: .constant(false))
     }
 }

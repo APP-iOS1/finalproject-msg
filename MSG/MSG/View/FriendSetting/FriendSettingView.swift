@@ -23,7 +23,7 @@ struct FriendSettingView: View {
 //                    .modifier(TextViewModifier(color: "Color2"))
                 
                 if selection == 0 {
-                    FriendView(findFriendToggle: .constant(false))
+                    DivideFriendView(findFriendToggle: .constant(false))
                 } else if selection == 1 {
                     AlertView()
                 } else {

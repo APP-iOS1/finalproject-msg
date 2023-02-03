@@ -250,7 +250,7 @@ class RealtimeViewModel: ObservableObject {
     }
     
     // MARK: - 게임 요청 리스너
-    func fetchGameRequest(){
+    func fetchGameRequest() async{
         print(#function)
         guard let gameRequestReference else {
             print("guard문으로 리턴됨")
@@ -391,9 +391,19 @@ class RealtimeViewModel: ObservableObject {
             .removeValue()
     }
     
-    func acceptGameRequest(friend: Msg) {
+    func acceptGameRequest(friend: Msg) async{
         print("add Friend id: \(friend.id)")
-        Database.database()
+        try! await Database.database()
+            .reference()
+            .child("Game")
+            .child(Auth.auth().currentUser?.uid ?? "")
+//            .child(friend.id)
+            .removeValue()
+    }
+    
+    func afterFiveMinuteDeleteChallenge(friend: Msg) async{
+        print("add Friend id: \(friend.id)")
+        try! await Database.database()
             .reference()
             .child("Game")
             .child(Auth.auth().currentUser?.uid ?? "")
