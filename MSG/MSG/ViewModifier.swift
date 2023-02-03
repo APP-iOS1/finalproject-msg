@@ -27,16 +27,16 @@ struct TextViewModifier: ViewModifier{
 
 
 struct FontCustomType{
-    static var largeTitle = (fontSize:32, fontStyle: Font.TextStyle.largeTitle)
-    static var title = (fontSize:28, fontStyle: Font.TextStyle.title)
-    static var title2 = (fontSize:22, fontStyle: Font.TextStyle.title2)
-    static var title3 = (fontSize:20, fontStyle: Font.TextStyle.title3)
-    static var body = (fontSize:17, fontStyle: Font.TextStyle.body)
-    static var callout = (fontSize:16, fontStyle: Font.TextStyle.callout)
-    static var subhead = (fontSize:15, fontStyle: Font.TextStyle.subheadline)
-    static var footnot = (fontSize:13, fontStyle: Font.TextStyle.footnote)
-    static var caption = (fontSize:12, fontStyle: Font.TextStyle.caption)
-    static var caption2 = (fontSize:11, fontStyle: Font.TextStyle.caption2)
+    static var largeTitle = (fontSize:CGFloat(32), fontStyle: Font.TextStyle.largeTitle)
+    static var title = (fontSize:CGFloat(28), fontStyle: Font.TextStyle.title)
+    static var title2 = (fontSize:CGFloat(22), fontStyle: Font.TextStyle.title2)
+    static var title3 = (fontSize:CGFloat(20), fontStyle: Font.TextStyle.title3)
+    static var body = (fontSize:CGFloat(17), fontStyle: Font.TextStyle.body)
+    static var callout = (fontSize:CGFloat(16), fontStyle: Font.TextStyle.callout)
+    static var subhead = (fontSize:CGFloat(15), fontStyle: Font.TextStyle.subheadline)
+    static var footnot = (fontSize:CGFloat(13), fontStyle: Font.TextStyle.footnote)
+    static var caption = (fontSize:CGFloat(12), fontStyle: Font.TextStyle.caption)
+    static var caption2 = (fontSize:CGFloat(11), fontStyle: Font.TextStyle.caption2)
 }
 
 enum FontCustomColor: String{
