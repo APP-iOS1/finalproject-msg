@@ -45,6 +45,7 @@
 		36352762298299F80037BD1B /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36352761298299F80037BD1B /* CustomAlertView.swift */; };
 		3635276429829C6E0037BD1B /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3635276329829C6E0037BD1B /* CustomAlertButton.swift */; };
 		3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */; };
+		366A9BE4298CD6D80043ED86 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366A9BE3298CD6D80043ED86 /* SwiftUIView.swift */; };
 		367D709D2980C6890011E601 /* GameRequestAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367D709C2980C6890011E601 /* GameRequestAlertView.swift */; };
 		3699A3C8298762FE00C650FD /* SoloGameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3699A3C7298762FE00C650FD /* SoloGameSettingView.swift */; };
 		36B093F92976694F0089E76A /* GameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093F82976694F0089E76A /* GameSettingView.swift */; };
@@ -116,6 +117,7 @@
 		36352761298299F80037BD1B /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		3635276329829C6E0037BD1B /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
 		3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingViewModel.swift; sourceTree = "<group>"; };
+		366A9BE3298CD6D80043ED86 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		367D709C2980C6890011E601 /* GameRequestAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRequestAlertView.swift; sourceTree = "<group>"; };
 		3699A3C7298762FE00C650FD /* SoloGameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoloGameSettingView.swift; sourceTree = "<group>"; };
 		36B093F82976694F0089E76A /* GameSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSettingView.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				16600968297630C400E6A546 /* Preview Content */,
 				360A1470298360A70058BB9B /* Utils.swift */,
 				16DB66D42989282B009BF8B7 /* ListBackgroundModifier.swift */,
+				366A9BE3298CD6D80043ED86 /* SwiftUIView.swift */,
 			);
 			path = MSG;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				3699A3C8298762FE00C650FD /* SoloGameSettingView.swift in Sources */,
 				631032492978273300F3A463 /* SystemThemeManager.swift in Sources */,
 				6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */,
+				366A9BE4298CD6D80043ED86 /* SwiftUIView.swift in Sources */,
 				63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */,
 				16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */,
 				6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */,

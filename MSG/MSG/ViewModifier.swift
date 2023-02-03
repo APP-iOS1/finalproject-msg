@@ -3,6 +3,8 @@ import SwiftUI
 
 //.font(.custom("MaplestoryOTFLight", size: 30))
 
+
+
 struct TextViewModifier: ViewModifier{
     //body
     let size = 30

@@ -8,26 +8,21 @@
 import Foundation
 import Combine
 
-class GameSettingViewModel:ObservableObject{
+final class GameSettingViewModel:ObservableObject{
+    let day:Double = 86400
     @Published var title = ""
     @Published var targetMoney = ""
-    @Published var startDate = Date()
-    @Published var endDate = Date()
+    @Published var startDate:Double = Date().timeIntervalSince1970
+    @Published var endDate:Double = Date().timeIntervalSince1970 + 86400
     @Published var isGameSettingValid = false
+    @Published var daySelection: Int = 0
     
+    @Published var dayMultiArray:[Double] = [1,7,10,30,100]
+    @Published var dayArray = ["1일", "7일", "10일", "30일", "100일"]
     private var publishers = Set<AnyCancellable>()
     
     
-    func resetInputData (){
-        DispatchQueue.main.async {
-            self.title = ""
-            self.targetMoney = ""
-            self.startDate = Date()
-            self.endDate  = Date()
-            self.isGameSettingValid = false
-        }
-        
-    }
+ 
     
     init(){
         isGameSettingValidPublisher.receive(on: RunLoop.main)
@@ -37,6 +32,26 @@ class GameSettingViewModel:ObservableObject{
 }
 
 extension GameSettingViewModel{
+    
+ 
+    
+    func dateCalculate(){
+        let oneDay = Date().timeIntervalSince1970 + 86400
+        
+    }
+    
+    
+    func resetInputData (){
+        DispatchQueue.main.async {
+            self.title = ""
+            self.targetMoney = ""
+            self.startDate = Date().timeIntervalSince1970
+            self.endDate  = self.startDate + 86400
+            self.isGameSettingValid = false
+        }
+        
+    }
+    
     var isTitleValidPublisher: AnyPublisher<Bool,Never>{
         $title
             .map{ name in

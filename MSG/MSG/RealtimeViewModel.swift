@@ -2,7 +2,7 @@ import Foundation
 import FirebaseDatabase
 import FirebaseAuth
 
-class RealtimeViewModel: ObservableObject {
+final class RealtimeViewModel: ObservableObject {
     @Published var user: [Msg] = []
 //    @Published var user: [UserInfo] = []
     @Published var myInfo: Msg?

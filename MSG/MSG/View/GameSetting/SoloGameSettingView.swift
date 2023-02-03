@@ -22,13 +22,13 @@ struct SoloGameSettingView: View {
         GeometryReader { g in
             ZStack {
                 Color("Color1").ignoresSafeArea()
-                VStack(spacing: 20) {
+                VStack(spacing: 30) {
                     Spacer()
                     
                     // MARK: - 챌린지 주제- [TextField]
-                    HStack{
+                    VStack(alignment: .leading){
                         Text("챌린지 주제: ")
-                            .modifier(TextViewModifier(color: "Color2"))
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         VStack{
                             TextField("ex) 하루 만원으로 버티기!", text: $gameSettingViewModel.title)
                                 .keyboardType(.default)
@@ -38,10 +38,9 @@ struct SoloGameSettingView: View {
                     }
                     .padding([.leading, .trailing])
                     // MARK: - 목표금액 - [TextField]
-                    HStack{
-                        Text("목표금액: ")
-                            .modifier(TextViewModifier(color: "Color2"))
-                        
+                    VStack(alignment: .leading){
+                        Text("한도금액: ")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         VStack{
                             TextField("ex) 300,000", text: $gameSettingViewModel.targetMoney)
                                 .keyboardType(.numberPad)
@@ -53,61 +52,40 @@ struct SoloGameSettingView: View {
                     .padding([.leading, .trailing])
                     
                     // MARK: - 챌린지 기간 - [DatePicker]
-                    VStack{
+                    VStack(alignment: .leading){
                         HStack{
                             Text("챌린지 기간 설정")
-                                .modifier(TextViewModifier(color: "Color2"))
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                             Spacer()
-                        }
-                        
-                        VStack{
-                            
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(Color("Color1"),
-                                            lineWidth: 4)
-                                    .shadow(color: Color("Shadow"),
-                                            radius: 3, x: 5, y: 5)
-                                    .clipShape(
-                                        RoundedRectangle(cornerRadius: 15))
-                                    .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
-                                    .clipShape(
-                                        RoundedRectangle(cornerRadius: 15))
-                                    .background(Color("Color1"))
-                                    .cornerRadius(20)
-                                    .frame(width: g.size.width / 1.1, height: g.size.height / 4)
-                                HStack{
-                                    VStack{
-                                        Text("시작")
-                                            .modifier(TextViewModifier(color: "Color2"))
-                                        DatePicker("", selection: $gameSettingViewModel.startDate, in: Date.now...,displayedComponents: .date)
-                                            .frame(width: g.size.width / 5)
-                                            .id(gameSettingViewModel.startDate)
-                                            .onChange(of: gameSettingViewModel.startDate) { _ in
-                                                gameSettingViewModel.startDate += 1
-                                            }
+                        }.padding()
+                        HStack{
+                            ForEach(gameSettingViewModel.dayArray.indices, id: \.self) { index in
+                                Button {
+                                    gameSettingViewModel.daySelection = index
+                                    gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[index]
+                                    gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[index]
+                                    print("\(gameSettingViewModel.dayArray[index])")
+                                } label: {
+                                    Text("\(gameSettingViewModel.dayArray[index])")
+                                        .foregroundColor( gameSettingViewModel.daySelection == index ? .red : .blue)
+                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .frame(width: g.size.width / 10, height: g.size.height / 34)
+                                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                                        .padding(10)
+                                        .background(Color("Color1"))
+                                        .cornerRadius(20)
+                                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                                         
-                                    }
-                                    Spacer()
-                                        .frame(width: g.size.width / 5)
-                                    
-                                    VStack{
-                                        Text("종료")
-                                            .modifier(TextViewModifier(color: "Color2"))
-                                        DatePicker("", selection: $gameSettingViewModel.endDate,in:gameSettingViewModel.startDate... , displayedComponents: .date)
-                                            .frame(width: g.size.width / 5)
-                                            .id(gameSettingViewModel.endDate)
-                                            .onChange(of: gameSettingViewModel.endDate) { _ in
-                                                gameSettingViewModel.endDate += 1
-                                            }
-                                    }
-                                    .padding(.trailing)
                                 }
-                                .modifier(TextViewModifier(color: "Color2"))
+                                
                             }
+                        
+
                         }
+                        .padding([.leading, .trailing])
                     }
-                    .padding()
                     .padding(.bottom ,50)
                     
                     // MARK: - 시작하기 - [Button]
@@ -115,7 +93,7 @@ struct SoloGameSettingView: View {
                         isShowingAlert = true
                     }) {
                         Text("시작하기")
-                            .modifier(TextViewModifier(color: "Color2"))
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                             .frame(width: g.size.width / 1.4, height: g.size.height / 34)
                             .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                             .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
@@ -134,7 +112,7 @@ struct SoloGameSettingView: View {
                                 } else {
                                     print("도전장 보내짐")
                                     let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
-                                    let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate.timeIntervalSince1970), endDate:  String(gameSettingViewModel.endDate.timeIntervalSince1970 + 120), inviteFriend: [], waitingFriend: [])
+                                    let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
                                     dismiss()
                                     await fireStoreViewModel.makeSingleGame(singGame)
                                     await notiManager.schedule(localNotification: localNotification)
