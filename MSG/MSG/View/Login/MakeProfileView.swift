@@ -58,7 +58,7 @@ struct MakeProfileView: View {
                                     }
                                     Button("취소", role: .cancel) {}
                                 } message: {
-                                    Text("확인을 누르면 로그인 화면으로 돌아갑니다. 그래도 하시겠습니까?")
+                                    Text("지금까지 입력된 정보가 사라집니다. 그래도 하시겠습니까?")
                                 }
                             }
                             
