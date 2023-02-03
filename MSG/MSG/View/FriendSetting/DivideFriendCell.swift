@@ -83,6 +83,21 @@ struct DivideFriendCell: View {
                         .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
                         .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
                         .padding(.trailing)
+                    }else {
+                        if !user.game.isEmpty {
+
+                                Text("도전중")
+
+                            .frame(width: g.size.width / 9, height: g.size.height / 13)
+                            .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                            .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                            .padding(16)
+                            .background(Color("Color1"))
+                            .cornerRadius(10)
+                            .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
+                            .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
+                            .padding(.trailing)
+                        }
                     }
                 }
                 .modifier(TextViewModifier(color: "Color2"))
