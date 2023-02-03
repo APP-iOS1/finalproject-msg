@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseAuth
 import Firebase
+import UIKit
 
 struct SpendingCategory: Identifiable, Hashable {
     let id = UUID().uuidString
@@ -61,7 +62,7 @@ struct SpendingWritingView: View {
                         .padding()
                         
                         HStack{
-                            Text("소비 태그")
+                            Text("카테고리")
                             Text("|")
                             VStack{
                                 // MARK: 소비 태그 피커
@@ -77,7 +78,7 @@ struct SpendingWritingView: View {
                                     } else if selection == 3 {
                                         Text("의료")
                                     } else if selection == 4 {
-                                        Text("주가")
+                                        Text("주거")
                                     } else if selection == 5 {
                                         Text("여가")
                                     } else if selection == 6 {
@@ -151,49 +152,68 @@ struct SpendingWritingView: View {
                         }
                         .padding()
                         
-                        HStack{
-                            Text("상세 내용")
-                            Text("|")
-                            VStack{
-                                HStack {
-                                    TextField("", text: $spendingViewModel.consumeTitle)
+                        VStack {
+                            HStack{
+                                Text("상세 내역")
+                                Text("|")
+                                VStack{
+                                    HStack {
+                                        TextField("상세 내역을 입력해주세요", text: $spendingViewModel.consumeTitle)
+                                            .padding(.leading, 16)
+                                            .padding(.trailing, 16)
+                                        Button {
+                                            spendingViewModel.consumeTitle = ""
+                                        } label: {
+                                            Image(systemName: "eraser")
+                                        }
+                                    }
+                                    Rectangle()
+                                        .frame(height:1)
                                         .padding(.leading, 16)
                                         .padding(.trailing, 16)
-                                    Button {
-                                        spendingViewModel.consumeTitle = ""
-                                    } label: {
-                                        Image(systemName: "eraser")
-                                    }
                                 }
-                                Rectangle()
-                                    .frame(height:1)
-                                    .padding(.leading, 16)
-                                    .padding(.trailing, 16)
                             }
-                        }
-                        .padding()
-                        
-                        HStack{
-                            Text("금액")
-                            Text("|")
-                            VStack{
-                                HStack {
-                                    TextField("", text: $spendingViewModel.consumeMoney)
+                            .padding()
+                            
+                           
+                            
+                            HStack{
+                                Text("금액")
+                                Text("|")
+                                VStack{
+                                    HStack {
+                                        
+                                        ZStack {
+                                            Text(spendingViewModel.consumeMoney.insertComma)
+                                            
+                                            TextField("", text: $spendingViewModel.consumeMoney)
+                                                .foregroundColor(Color(.clear))
+                                                .keyboardType(.numberPad)
+                                                .multilineTextAlignment(.center)
+                                                .padding(.leading, 5)
+                                        }
+                         
+                                        Button {
+                                            spendingViewModel.consumeMoney = ""
+                                        } label: {
+                                            Image(systemName: "eraser")
+                                        }
+                                    }
+                                    Rectangle()
+                                        .frame(height:1)
                                         .padding(.leading, 16)
-                                        .padding(.trailing, 16)
-                                    Button {
-                                        spendingViewModel.consumeMoney = ""
-                                    } label: {
-                                        Image(systemName: "eraser")
-                                    }
+                                        .padding(.trailing, 29)
                                 }
-                                Rectangle()
-                                    .frame(height:1)
-                                    .padding(.leading, 16)
-                                    .padding(.trailing, 29)
+                            }
+                            .padding()
+                        }
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Button("완료") {
+                                    hideKeyboard()
+                                }
                             }
                         }
-                        .padding()
                         
                         Spacer()
                         Button {
@@ -226,6 +246,49 @@ struct SpendingWritingView: View {
                 .foregroundColor(Color("Color2"))
             }
         }
+    }
+}
+
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+extension String {
+    var insertComma: String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        if let _ = self.range(of: ".") {
+            let numberArray = self.components(separatedBy: ".")
+            if numberArray.count == 1 {
+                var numberString = numberArray[0]
+                if numberString.isEmpty {
+                    numberString = "0"
+                }
+                guard let doubleValue = Double(numberString)
+                    else { return self }
+                return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
+            } else if numberArray.count == 2 {
+                var numberString = numberArray[0]
+                if numberString.isEmpty {
+                    numberString = "0"
+                }
+                guard let doubleValue = Double(numberString)
+                    else {
+                        return self
+                }
+                return (numberFormatter.string(from: NSNumber(value: doubleValue)) ?? numberString) + ".\(numberArray[1])"
+            }
+        }
+        else {
+            guard let doubleValue = Double(self)
+                else {
+                    return self
+            }
+            return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
+        }
+        return self
     }
 }
 
