@@ -28,8 +28,7 @@ struct ProgressBar2: View {
         GeometryReader { geometry in
             let multiplier = geometry.size.width / 100
             VStack {
-                Text("\(String(format:"%.1f",Double(percentage) / Double(limitMoney) * 100))%")
-                
+//                Text("\(String(format:"%.1f",Double(percentage) / Double(limitMoney) * 100))%")
                 ZStack(alignment: .leading) {
                     //                    LottieView(filename: "run")
                     //                        .frame(width:50,height:50)
