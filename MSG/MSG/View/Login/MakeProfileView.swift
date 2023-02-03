@@ -11,27 +11,57 @@ import FirebaseAuth
 struct MakeProfileView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @State private var nickNameText: String = ""
+    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     @State private var profileImage: UIImage? = nil
     
-    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
+    @State private var nickNameText: String = ""
     @Environment(\.presentationMode) var presentationMode
+    @State private var deleteLogin: Bool = false
     
     var body: some View {
         
         GeometryReader { g in
-            
             ZStack {
                 Color("Color1").ignoresSafeArea()
-                
                 VStack {
                     // 앱 이름
                         VStack(alignment: .leading) {
-                            Text("MSG")
-                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
+                            HStack {
+                                Text("MSG")
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
+                                
+                                Spacer()
+                                
+                                Button {
+                                    deleteLogin.toggle()
+                                } label: {
+                                    Image(systemName: "x.circle.fill")
+                                }
+                                .buttonStyle(.borderless)
+                                .frame(width: g.size.width / 15, height: g.size.height / 30)
+                                .clipShape(Circle())
+                                .padding(4)
+                                .foregroundColor(Color("Color2"))
+                                .background(
+                                    Circle()
+                                        .fill(
+                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                        )
+                                        .foregroundColor(Color("Color1")))
+                                .alert("정보입력을 취소하시겠습니까?", isPresented: $deleteLogin) {
+                                    Button("확인", role: .destructive) {
+                                            loginViewModel.currentUser = nil
+                                    }
+                                    Button("취소", role: .cancel) {}
+                                } message: {
+                                    Text("확인을 누르면 로그인 화면으로 돌아갑니다. 그래도 하시겠습니까?")
+                                }
+                            }
+                            
                             Text("Money Save Game")
                                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.subhead, color: FontCustomColor.color2))
                         }
@@ -104,7 +134,7 @@ struct MakeProfileView: View {
                     }
                     .frame(minHeight: g.size.height / 7)
                     .submitLabel(.done)
-        
+                    .disableAutocorrection(true)
                     
                     VStack {
                         // 프로필 사진
