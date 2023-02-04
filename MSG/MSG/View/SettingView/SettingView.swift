@@ -90,6 +90,12 @@ struct SettingView: View {
                         } label: {
                             Text("로그아웃")
                         }
+                        Spacer()
+                        Button {
+                            loginViewModel.deleteUser()
+                        } label: {
+                            Text("회원탈퇴//누르면 얼럿안뜨고 삭제됨 조심")
+                        }
                     }
                     .modifier(TextViewModifier(color: "Color2"))
                     

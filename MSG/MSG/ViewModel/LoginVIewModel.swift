@@ -30,7 +30,6 @@ class LoginViewModel: ObservableObject {
     // MARK: Apple Sign in Properties
     @Published var nonce: String = ""
     
-    
     // MARK: - UserProfile 유무 판별함수
     /// 로그인 후, 해당 유저의 프로필이 등록되어있는지 확인하는 함수
     func fetchUserInfo(_ userId: String) async throws -> Msg? {
@@ -47,7 +46,19 @@ class LoginViewModel: ObservableObject {
         return userInfo
     }
     
-    
+    func deleteUser() {
+        print(#function)
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+          if let error = error {
+            // An error happened.
+              print("error: \(error)")
+          } else {
+            // Account deleted.
+              self.currentUser = nil
+          }
+        }
+    }
     
     func signout(){
         do{
