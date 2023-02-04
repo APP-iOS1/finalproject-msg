@@ -82,6 +82,9 @@
 		6342C2CB29764EDA00C24D20 /* KakaoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */; };
 		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
 		634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634CE3F6297920D500358E32 /* SegementedControllView.swift */; };
+		635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */; };
+		635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */; };
+		635D112B298DFE7000C4EDEC /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D112A298DFE7000C4EDEC /* CustomToggle.swift */; };
 		6362E8CB2989574B0052C488 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6362E8CA2989574B0052C488 /* TabBarView.swift */; };
 		63690D3C298CCF0400B48DA4 /* Extension+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63690D3B298CCF0400B48DA4 /* Extension+View.swift */; };
 		63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */; };
@@ -162,6 +165,9 @@
 		6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoViewModel.swift; sourceTree = "<group>"; };
 		6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		634CE3F6297920D500358E32 /* SegementedControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegementedControllView.swift; sourceTree = "<group>"; };
+		635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShallowConcaveView.swift; sourceTree = "<group>"; };
+		635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepConcaveView.swift; sourceTree = "<group>"; };
+		635D112A298DFE7000C4EDEC /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
 		6362E8CA2989574B0052C488 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		63690D3B298CCF0400B48DA4 /* Extension+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+View.swift"; sourceTree = "<group>"; };
 		63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGameProgressBar.swift; sourceTree = "<group>"; };
@@ -263,6 +269,9 @@
 			isa = PBXGroup;
 			children = (
 				165E321B2977EAF500678A09 /* SettingView.swift */,
+				635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */,
+				635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */,
+				635D112A298DFE7000C4EDEC /* CustomToggle.swift */,
 			);
 			path = SettingView;
 			sourceTree = "<group>";
@@ -511,6 +520,7 @@
 			files = (
 				63690D3C298CCF0400B48DA4 /* Extension+View.swift in Sources */,
 				63EC446F297A8366008A7FDE /* Extension+String.swift in Sources */,
+				635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */,
 				36338AF9298B595A009ABB77 /* DivideFriendView.swift in Sources */,
 				6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */,
 				6362E8CB2989574B0052C488 /* TabBarView.swift in Sources */,
@@ -526,10 +536,12 @@
 				6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */,
 				161286B7297D227800BC3BDF /* FriendViewModel.swift in Sources */,
 				63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */,
+				635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */,
 				16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */,
 				36FA49132977746600B26A24 /* ChartView.swift in Sources */,
 				367D709D2980C6890011E601 /* GameRequestAlertView.swift in Sources */,
 				632B7CD129825C8000A3D53C /* CountDownView.swift in Sources */,
+				635D112B298DFE7000C4EDEC /* CustomToggle.swift in Sources */,
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
 				3635276429829C6E0037BD1B /* CustomAlertButton.swift in Sources */,
