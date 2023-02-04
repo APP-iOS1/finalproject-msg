@@ -10,9 +10,7 @@ struct SettingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @State var userProfile: Msg?
     @Binding var darkModeEnabled: Bool
-    
-    var frameWidth = UIScreen.main.bounds.width
-    var frameHeight = UIScreen.main.bounds.height
+    @State private var logoutToggle: Bool = false
     
     var body: some View {
         
@@ -20,7 +18,15 @@ struct SettingView: View {
             ZStack {
                 Color("Color1").ignoresSafeArea()
                 
-                VStack(alignment: .leading, spacing: 18) {
+                VStack(alignment: .leading, spacing: 30) {
+                    
+                    VStack(alignment: .leading) {
+                        Text("설정")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
+                        Text("Money Save Game")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                    }
+                    .frame(width: g.size.width / 1.1, height: g.size.height / 8, alignment: .leading)
                     
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
@@ -59,20 +65,19 @@ struct SettingView: View {
                             
                             HStack {
                                 Text( userProfile != nil ? userProfile!.nickName : "닉네임")
-                                    .modifier(TextViewModifier(color: "Color2"))
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                                     .padding(.top)
-                                    .padding(.leading)
                             }
                         }
                     }
+                    .frame(width: g.size.width / 1.1, height: g.size.height / 4)
                     
-                    VStack(alignment: .leading, spacing: 18) {
-                        Toggle("다크모드 활성화", isOn: $darkModeEnabled)
-                            .onChange(of: darkModeEnabled) { _ in
-                                SystemThemeManager
-                                    .shared
-                                    .handleTheme(darkMode: darkModeEnabled)
-                            }
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack {
+                            Text("다크모드")
+                            Spacer()
+                            CustomToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
+                               }
                         
                         Button {
                             
@@ -86,28 +91,35 @@ struct SettingView: View {
                         Text("친구 초대")
                         
                         Button {
-                            loginViewModel.signout()
+                            logoutToggle.toggle()
                         } label: {
                             Text("로그아웃")
                         }
+                        .alert("로그아웃", isPresented: $logoutToggle) {
+                            Button("확인", role: .destructive) {
+                                loginViewModel.signout()
+                            }
+                            Button("취소", role: .cancel) {}
+                        } message: {
+                            Text("로그아웃하시겠습니까?")
+                        }
+                        
                     }
-                    .modifier(TextViewModifier(color: "Color2"))
+                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                     
                     VStack {
                         // 프레임 맞추려고 있는 VStack
                     }
                     .frame(height: g.size.height / 4)
                 }
+                .foregroundColor(Color("Color2"))
                 .padding()
             }
-            .foregroundColor(Color("Color2"))
             .onAppear{
                 if loginViewModel.currentUserProfile != nil{
                     self.userProfile = loginViewModel.currentUserProfile
                 }
-                
             }
-            .foregroundColor(Color("Color2"))
         }
     }
 }
