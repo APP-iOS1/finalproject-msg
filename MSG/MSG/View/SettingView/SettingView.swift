@@ -8,6 +8,7 @@ import SwiftUI
 
 struct SettingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State var userProfile: Msg?
     @Binding var darkModeEnabled: Bool
     
@@ -92,7 +93,12 @@ struct SettingView: View {
                         }
                         Spacer()
                         Button {
-                            loginViewModel.deleteUser()
+                            Task {
+                                await fireStoreViewModel.deleteUser()
+                                loginViewModel.deleteUser()
+                            }
+                
+                            
                         } label: {
                             Text("회원탈퇴//누르면 얼럿안뜨고 삭제됨 조심")
                         }
