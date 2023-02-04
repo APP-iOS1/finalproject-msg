@@ -7,24 +7,22 @@
 
 import SwiftUI
 
-struct ProgressBar2: View {
-//    @State var percent: CGFloat = 51
+struct MultiProgressBar: View {
+    @State var friend: String
+    @State var expenditure: Expenditure?
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @Binding var percentage: Int
+    @State var percentage: Int = 0
     let limitMoney: Int
+    //start Color
     var color1 = Color(#colorLiteral(red: 0, green: 1, blue: 0, alpha: 1))
+    //end color
     var color2 = Color(#colorLiteral(red: 1, green: 0, blue: 0, alpha: 1))
     var body: some View {
         
         GeometryReader { geometry in
             let multiplier = geometry.size.width / 100
             VStack {
-//                Text("\(String(format:"%.1f",Double(percentage) / Double(limitMoney) * 100))%")
                 ZStack(alignment: .leading) {
-                    //                    LottieView(filename: "run")
-                    //                        .frame(width:50,height:50)
-                    //                        .padding(.bottom,10)
-                    
                     Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
                         .opacity(0.3)
                         .foregroundColor(Color(UIColor.systemTeal))
@@ -79,24 +77,17 @@ struct ProgressBar2: View {
             }
             
         }
-        .onAppear {
-            Task {
-                await fireStoreViewModel.fetchExpenditure()
-                print("나눔결과:",percentage / limitMoney)
-                print("percentage:",percentage)
-                print("totalMoney:",fireStoreViewModel.totalMoney)
-                print("limitMoney:",limitMoney)
-                //                print("나눔결과")
-                //                self.totalMoney = fireStoreViewModel.totalMoney
-                //                                print("percengate:\(self.totalMoney), limitMoney:\(self.limitMoney)")
-            }
+        .task {
+            expenditure = await fireStoreViewModel.fetchExpenditure(friend)
+            percentage = expenditure?.totalMoney ?? 0
+            print("percentage:",percentage)
         }
     }
 }
 
-//struct ProgressBar2_Previews: PreviewProvider {
+//struct MultiProgressBar_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ProgressBar2(value: .constant(10))
+//        MultiProgressBar(value: .constant(10))
 ////        ChallengeProgressView()
 //    }
 //}

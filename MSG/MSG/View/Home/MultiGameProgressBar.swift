@@ -5,6 +5,7 @@
 //  Created by 정소희 on 2023/01/19.
 //
 
+//MARK: -삭제될 뷰입니다.
 import SwiftUI
 
 struct MultiGameProgressBar: View {
