@@ -38,14 +38,13 @@ struct SpendingWritingView: View {
     
     @State private var selection: Int = 0
     @State private var showingSpendingCategory = false
-
+    @State private var keepWriting = false
+    
     private func convertTextLogic(title: String, money: String, date: Date) -> String {
         return title + "_" + money + "_" + date.toString()
     }
     
     let tagArray: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
-    
- 
     
     var body: some View {
 
@@ -59,7 +58,7 @@ struct SpendingWritingView: View {
                         HStack{
                             Text("오늘 날짜")
                             Text("|")
-                            Text("\(fireStoreViewModel.KoreanDateNow(date: Date()))")
+//                            Text("\(fireStoreViewModel.KoreanDateNow(date: Date()))")
                             Spacer()
                         }
                         .padding()
@@ -157,11 +156,11 @@ struct SpendingWritingView: View {
                         
                         VStack {
                             HStack{
-                                Text("상세 내역")
+                                Text("상세 내용")
                                 Text("|")
                                 VStack{
                                     HStack {
-                                        TextField("상세 내역을 입력해주세요", text: $spendingViewModel.consumeTitle)
+                                        TextField("상세 내용을 입력해주세요", text: $spendingViewModel.consumeTitle)
                                             .padding(.leading, 16)
                                             .padding(.trailing, 16)
                                         Button {
@@ -189,7 +188,7 @@ struct SpendingWritingView: View {
                                         ZStack {
                                             Text(spendingViewModel.consumeMoney.insertComma)
                                             
-                                            TextField("", text: $spendingViewModel.consumeMoney)
+                                            TextField("금액을 입력해주세요", text: $spendingViewModel.consumeMoney)
                                                 .foregroundColor(Color(.clear))
                                                 .keyboardType(.numberPad)
                                                 .multilineTextAlignment(.center)
@@ -220,6 +219,7 @@ struct SpendingWritingView: View {
                         
                         Spacer()
                         Button {
+                            keepWriting.toggle()
                             Task{
                                 let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
                                 let user = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser!.uid)
@@ -241,6 +241,10 @@ struct SpendingWritingView: View {
                         .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
                         .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
                         .disabled(!self.isValid)
+                        .alert("소비 내역이 작성되었습니다.", isPresented: $keepWriting) {
+                            Button {} label: { Text("확인") }
+                        }
+
                         Spacer()
                     }
                     .onReceive(self.spendingViewModel.isGameSettingValidPublisher, perform: {self.isValid = $0})
