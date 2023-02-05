@@ -88,7 +88,7 @@ struct TabBarView: View {
                         if number != 0 {
                             ZStack {
                                 Capsule()
-                                    .fill(Color("Color2"))
+                                    .fill(.red)
                                     .frame(width: g.size.width / 31 * CGFloat(numOfDigits()), height: g.size.height / 4)
                                     .position(CGPoint(x: g.size.width / 7.5, y: g.size.height / 150))
                                 Text("\(number)")
