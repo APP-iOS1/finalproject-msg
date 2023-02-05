@@ -17,6 +17,7 @@ enum SelectedTab {
 struct TabBarView: View {
     
     @Binding var selectedTabBar: SelectedTab
+    @State var labelNumber = 1
     
     var body: some View {
         
@@ -78,6 +79,12 @@ struct TabBarView: View {
                         .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                     }
                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: selectedTabBar == .third ? FontCustomColor.color2 : FontCustomColor.color3))
+                    .overlay{
+                        if labelNumber != 0 {
+                            NotificationNumLabel(number: $labelNumber)
+                                .position(x: g.size.width / 5.8, y: g.size.height / 28)
+                        }
+                    }
                     
                     Button {
                         selectedTabBar = .fourth
