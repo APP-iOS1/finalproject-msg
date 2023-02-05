@@ -81,7 +81,6 @@
 		6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C829764AA500C24D20 /* KakaoSceneDelegate.swift */; };
 		6342C2CB29764EDA00C24D20 /* KakaoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */; };
 		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
-		634C60C9298F38A500C86A56 /* NotificationNumLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634C60C8298F38A500C86A56 /* NotificationNumLabel.swift */; };
 		634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634CE3F6297920D500358E32 /* SegementedControllView.swift */; };
 		635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */; };
 		635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */; };
@@ -165,7 +164,6 @@
 		6342C2C829764AA500C24D20 /* KakaoSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSceneDelegate.swift; sourceTree = "<group>"; };
 		6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoViewModel.swift; sourceTree = "<group>"; };
 		6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
-		634C60C8298F38A500C86A56 /* NotificationNumLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNumLabel.swift; sourceTree = "<group>"; };
 		634CE3F6297920D500358E32 /* SegementedControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegementedControllView.swift; sourceTree = "<group>"; };
 		635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShallowConcaveView.swift; sourceTree = "<group>"; };
 		635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepConcaveView.swift; sourceTree = "<group>"; };
@@ -335,7 +333,6 @@
 				36FA491629778F3200B26A24 /* Chart */,
 				16600964297630C300E6A546 /* ContentView.swift */,
 				6362E8CA2989574B0052C488 /* TabBarView.swift */,
-				634C60C8298F38A500C86A56 /* NotificationNumLabel.swift */,
 				1606CB4F2976992C004DD13B /* ChallengeRecord */,
 				1606CB4E297697F9004DD13B /* Home */,
 				1606CB4D297697E2004DD13B /* GameSetting */,
@@ -577,7 +574,6 @@
 				36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */,
 				4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */,
 				16C6753629822E420028A608 /* Extension+Color.swift in Sources */,
-				634C60C9298F38A500C86A56 /* NotificationNumLabel.swift in Sources */,
 				36C7BB812977B37200A3F999 /* OnBoardTapView.swift in Sources */,
 				161398FC2983F863002A6F16 /* SpendingWriteViewModel.swift in Sources */,
 				36DB97792976526900A0596F /* ViewModifier.swift in Sources */,
