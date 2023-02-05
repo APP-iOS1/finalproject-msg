@@ -60,7 +60,7 @@ struct ContentView: View {
                                     case .third:
                                         FriendSettingView()
                                     case .fourth:
-                                        SettingView(darkModeEnabled: $darkModeEnabled)
+                                        SettingView(darkModeEnabled: $darkModeEnabled, notificationEnabled: $notiManager.isGranted)
                                     }
                                     TabBarView(selectedTabBar: $selectedTabBar, number: $realtimeViewModel.labelNumber)
                                         .frame(width: g.size.width, height: g.size.height / 10)

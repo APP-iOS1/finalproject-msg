@@ -11,6 +11,7 @@ struct SettingView: View {
     @State var userProfile: Msg?
     @Binding var darkModeEnabled: Bool
     @State private var logoutToggle: Bool = false
+    @Binding var notificationEnabled: Bool
     
     var body: some View {
         
@@ -76,7 +77,13 @@ struct SettingView: View {
                         HStack {
                             Text("다크모드")
                             Spacer()
-                            CustomToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
+                            DarkModeToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
+                        }
+                        
+                        HStack {
+                            Text("알림설정")
+                            Spacer()
+                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
                         }
                         
                         Button {
@@ -85,13 +92,11 @@ struct SettingView: View {
                             Text("프로필 편집")
                         }
                         
-                        Text("알림 설정")
-                        
                         // 이메일, sms, 공유하기, 시트뷰로 보여주기
                         Button {
                             buttonAction("https://itunes.apple.com/app/", .share)
                         } label: {
-                            Text("친구 초대")
+                            Text("친구초대")
                         }
                         
                         Button {
@@ -119,11 +124,11 @@ struct SettingView: View {
                 .foregroundColor(Color("Color2"))
                 .padding()
             }
-            .onAppear{
-                if loginViewModel.currentUserProfile != nil{
-                    self.userProfile = loginViewModel.currentUserProfile
-                }
-            }
+//            .onAppear{
+//                if loginViewModel.currentUserProfile != nil{
+//                    self.userProfile = loginViewModel.currentUserProfile
+//                }
+//            }
         }
     }
     private enum Coordinator {
@@ -174,6 +179,6 @@ struct SettingView: View {
 
 struct SettignView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView(darkModeEnabled: .constant(false))
+        SettingView(darkModeEnabled: .constant(false), notificationEnabled: .constant(true))
     }
 }
