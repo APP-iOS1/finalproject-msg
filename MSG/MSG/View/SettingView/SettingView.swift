@@ -5,6 +5,7 @@
 //  Created by zooey on 2023/01/18.
 //
 import SwiftUI
+import PhotosUI
 
 struct SettingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
@@ -12,6 +13,11 @@ struct SettingView: View {
     @Binding var darkModeEnabled: Bool
     @State private var logoutToggle: Bool = false
     @Binding var notificationEnabled: Bool
+    
+    @State private var profileEditing: Bool = false
+    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var selectedImageData: Data? = nil
+    @State private var profileImage: UIImage? = nil
     
     var body: some View {
         
@@ -45,24 +51,69 @@ struct SettingView: View {
                             .frame(width: g.size.width / 1.1, height: g.size.height / 4)
                         
                         VStack {
-                            VStack {
-                                // 조건 써주기
-                                if userProfile == nil || userProfile!.profileImage.isEmpty{
-                                    Image(systemName: "person.circle")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                } else {
-                                    // 사진 불러오기
-                                    AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
-                                        Image
+                            if profileEditing == true {
+                                VStack {
+                                    ZStack {
+                                        PhotosPicker(
+                                               selection: $selectedItem,
+                                               matching: .images,
+                                               photoLibrary: .shared()) {
+                                                   Spacer()
+                                                   Text("사진선택")
+                                                       .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                               }
+                                    }
+                                    .padding(.trailing)
+                                    .padding(.top, -g.size.height / 20)
+                                    .onChange(of: selectedItem) { newItem in
+                                        Task {
+                                            // Retrive selected asset in the form of Data
+                                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                                selectedImageData = data
+                                            }
+                                        }
+                                    }
+                                    
+                                    if selectedImageData == nil {
+                                        Image(systemName: "person.circle")
                                             .resizable()
-                                            .clipShape(Circle())
+                                            .scaledToFit()
                                             .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                    } placeholder: { }
+                                    } else {
+                                        if profileImage != nil {
+                                            Image(uiImage: profileImage!)
+                                                .resizable()
+                                                .clipShape(Circle())
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        }
+                                    }
                                 }
+                                .frame(height: g.size.height / 7)
+                            } else {
+                                VStack {
+                                    // 조건 써주기
+                                    if userProfile == nil || userProfile!.profileImage.isEmpty{
+                                        Image(systemName: "person.circle")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                    } else {
+                                        // 사진 불러오기
+                                        AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
+                                            Image
+                                                .resizable()
+                                                .clipShape(Circle())
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        } placeholder: {
+                                            Image(systemName: "person.circle")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        }
+                                    }
+                                }
+                                .frame(height: g.size.height / 7)
                             }
-                            .frame(height: g.size.height / 7)
                             
                             HStack {
                                 Text( userProfile != nil ? userProfile!.nickName : "닉네임")
@@ -87,7 +138,7 @@ struct SettingView: View {
                         }
                         
                         Button {
-                            
+                            profileEditing.toggle()
                         } label: {
                             Text("프로필 편집")
                         }
@@ -124,11 +175,11 @@ struct SettingView: View {
                 .foregroundColor(Color("Color2"))
                 .padding()
             }
-//            .onAppear{
-//                if loginViewModel.currentUserProfile != nil{
-//                    self.userProfile = loginViewModel.currentUserProfile
-//                }
-//            }
+            .onAppear{
+                if loginViewModel.currentUserProfile != nil{
+                    self.userProfile = loginViewModel.currentUserProfile
+                }
+            }
         }
     }
     private enum Coordinator {
