@@ -15,7 +15,6 @@ struct CustomToggle: View {
     let cornerRadius : CGFloat
     let padding : CGFloat
     
-    @State var isToggled = false
     @State var switchWidth : CGFloat = 0.0
     @Binding var darkModeEnabled: Bool
     
@@ -41,20 +40,20 @@ struct CustomToggle: View {
             .frame(width: width, height: height)
             
             HStack {
-                if isToggled {
+                if darkModeEnabled {
                     Spacer()
                 }
                 
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .padding(padding)
                     .frame(width: switchWidth + toggleWidthOffset, height: height)
-                    .animation(.spring(response: 0.5), value: isToggled)
+                    .animation(.spring(response: 0.5), value: darkModeEnabled)
                     .foregroundColor(Color("Color1"))
                     .shadow(color: Color("Shadow"), radius: 2, x: -3, y: -3)
                     .shadow(color: Color("Shadow2"), radius: 3, x: 3, y: 3)
                 
                 
-                if !isToggled {
+                if !darkModeEnabled {
                     Spacer()
                 }
             }
@@ -63,14 +62,13 @@ struct CustomToggle: View {
         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption2, color: FontCustomColor.color2))
         .frame(width: width, height: height)
         .onTapGesture {
-            isToggled = !isToggled
+            darkModeEnabled = !darkModeEnabled
             withAnimation(.easeInOut(duration: 0.2)) {
                 switchWidth = width
             }
             withAnimation(.easeInOut(duration: 0.4)) {
                 switchWidth = height
             }
-            darkModeEnabled = isToggled
         }
         .onAppear {
             switchWidth = height
@@ -85,6 +83,6 @@ struct CustomToggle: View {
 
 struct CustomToggle_Previews: PreviewProvider {
     static var previews: some View {
-        CustomToggle(width: 20, height: 10, toggleWidthOffset: 10, cornerRadius: 10, padding: 10, darkModeEnabled: .constant(true))
+        CustomToggle(width: 20, height: 30, toggleWidthOffset: 10, cornerRadius: 10, padding: 10, darkModeEnabled: .constant(true))
     }
 }
