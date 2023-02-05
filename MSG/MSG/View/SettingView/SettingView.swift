@@ -77,7 +77,7 @@ struct SettingView: View {
                             Text("다크모드")
                             Spacer()
                             CustomToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
-                               }
+                        }
                         
                         Button {
                             
@@ -88,7 +88,11 @@ struct SettingView: View {
                         Text("알림 설정")
                         
                         // 이메일, sms, 공유하기, 시트뷰로 보여주기
-                        Text("친구 초대")
+                        Button {
+                            buttonAction("https://itunes.apple.com/app/", .share)
+                        } label: {
+                            Text("친구 초대")
+                        }
                         
                         Button {
                             logoutToggle.toggle()
@@ -120,6 +124,50 @@ struct SettingView: View {
                     self.userProfile = loginViewModel.currentUserProfile
                 }
             }
+        }
+    }
+    private enum Coordinator {
+        static func topViewController(
+            _ viewController: UIViewController? = nil
+        ) -> UIViewController? {
+            
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScene = scenes.first as? UIWindowScene
+            let window = windowScene?.windows
+            
+            let vc = viewController ?? window?.first(where: { $0.isKeyWindow })?.rootViewController
+            
+            if let navigationController = vc as? UINavigationController {
+                return topViewController(navigationController.topViewController)
+            } else if let tabBarController = vc as? UITabBarController {
+                return tabBarController.presentedViewController != nil ?
+                topViewController(
+                    tabBarController.presentedViewController
+                ) : topViewController(
+                    tabBarController.selectedViewController
+                )
+            } else if let presentedViewController = vc?.presentedViewController {
+                return topViewController(presentedViewController)
+            }
+            return vc
+        }
+    }
+    
+    private enum Method: String {
+        case share
+        case link
+    }
+    
+    private func buttonAction(_ stringToURL: String, _ method: Method) {
+        let shareURL: URL = URL(string: stringToURL)!
+        
+        if method == .share {
+            let activityViewController = UIActivityViewController(activityItems: [shareURL], applicationActivities: nil)
+            let viewController = Coordinator.topViewController()
+            activityViewController.popoverPresentationController?.sourceView = viewController?.view
+            viewController?.present(activityViewController, animated: true, completion: nil)
+        } else {
+            UIApplication.shared.open(URL(string: stringToURL)!)
         }
     }
 }
