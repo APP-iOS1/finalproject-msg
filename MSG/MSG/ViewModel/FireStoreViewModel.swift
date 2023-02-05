@@ -800,4 +800,12 @@ final class FireStoreViewModel: ObservableObject {
         }
     }
 
+    // 한국어 패치된 현재 날짜
+    func KoreanDateNow(date : Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        return dateFormatter.string(from: date)
+    }
+    
 }

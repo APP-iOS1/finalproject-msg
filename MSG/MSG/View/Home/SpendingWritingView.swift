@@ -45,7 +45,10 @@ struct SpendingWritingView: View {
     
     let tagArray: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
     
+ 
+    
     var body: some View {
+
         
         GeometryReader { g in
             ZStack{
@@ -56,7 +59,7 @@ struct SpendingWritingView: View {
                         HStack{
                             Text("오늘 날짜")
                             Text("|")
-                            Text("2023/02/03")
+                            Text("\(fireStoreViewModel.KoreanDateNow(date: Date()))")
                             Spacer()
                         }
                         .padding()
