@@ -62,7 +62,7 @@ struct ContentView: View {
                                     case .fourth:
                                         SettingView(darkModeEnabled: $darkModeEnabled)
                                     }
-                                    TabBarView(selectedTabBar: $selectedTabBar, number: $labelNumber)
+                                    TabBarView(selectedTabBar: $selectedTabBar, number: $realtimeViewModel.labelNumber)
                                         .frame(width: g.size.width, height: g.size.height / 10)
                                 }
                                 .onAppear {

@@ -115,11 +115,11 @@ struct SettingView: View {
                 .foregroundColor(Color("Color2"))
                 .padding()
             }
-//            .onAppear{
-//                if loginViewModel.currentUserProfile != nil{
-//                    self.userProfile = loginViewModel.currentUserProfile
-//                }
-//            }
+            .onAppear{
+                if loginViewModel.currentUserProfile != nil{
+                    self.userProfile = loginViewModel.currentUserProfile
+                }
+            }
         }
     }
 }
