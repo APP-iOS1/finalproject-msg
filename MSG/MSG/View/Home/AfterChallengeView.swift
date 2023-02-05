@@ -122,7 +122,7 @@ struct AfterChallengeView: View {
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                             }
                         }
-                        .padding(.top, g.size.height / 34)
+                        .padding(.top, g.size.height / 40)
 //                        Spacer().frame(width: g.size.width / 1.4, height: g.size.height / 34)
 //                        .padding(5)
                         
