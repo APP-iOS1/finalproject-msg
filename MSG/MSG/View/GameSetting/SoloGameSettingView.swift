@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct SoloGameSettingView: View {
+    enum Field: Hashable {
+        case title
+        case limitMoney
+    }
+    @FocusState private var focusedField: Field?
     
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
@@ -32,6 +37,11 @@ struct SoloGameSettingView: View {
                         VStack{
                             TextField("ex) 하루 만원으로 버티기!", text: $gameSettingViewModel.title)
                                 .keyboardType(.default)
+                                .focused($focusedField, equals: .title)
+                                .onSubmit {
+                                    focusedField = .limitMoney
+                                }
+                                .submitLabel(.done)
                                 .modifier(TextViewModifier(color: "Color2"))
                             Divider()
                         }
@@ -44,9 +54,19 @@ struct SoloGameSettingView: View {
                         VStack{
                             TextField("ex) 300,000", text: $gameSettingViewModel.targetMoney)
                                 .keyboardType(.numberPad)
+                                .focused($focusedField, equals: .limitMoney)
                                 .modifier(TextViewModifier(color: "Color2"))
                             Divider()
                             
+                        }
+                    }
+                    .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            if focusedField == .limitMoney {
+                                Button("완료") {
+                                    hideKeyboard()
+                                }
+                            }
                         }
                     }
                     .padding([.leading, .trailing])

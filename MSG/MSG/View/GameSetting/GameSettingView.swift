@@ -8,6 +8,14 @@
 import SwiftUI
 
 struct GameSettingView: View {
+    
+    enum Field: Hashable {
+        case title
+        case limitMoney
+    }
+    @FocusState private var focusedField: Field?
+    
+    
     @EnvironmentObject var notiManager: NotificationManager
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @State private var isShowingAlert: Bool = false
@@ -50,6 +58,12 @@ extension GameSettingView {
                         VStack{
                             TextField("ex) 치킨걸고 30만원 챌린지!", text: $gameSettingViewModel.title)
                                 .keyboardType(.default)
+                                .focused($focusedField, equals: .title)
+                                .onSubmit {
+                                    print("submit")
+                                    focusedField = .limitMoney
+                                }
+                                .submitLabel(.done)
                                 .modifier(TextViewModifier(color: "Color2"))
                             Divider()
                         }
@@ -63,6 +77,7 @@ extension GameSettingView {
                         VStack{
                             TextField("ex) 300,000", text: $gameSettingViewModel.targetMoney)
                                 .keyboardType(.numberPad)
+                                .focused($focusedField, equals: .limitMoney)
                                 .modifier(TextViewModifier(color: "Color2"))
                             Divider()
                             
@@ -252,6 +267,7 @@ extension GameSettingView {
                 })
                 Spacer()
             }
+            
             
         }
         .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
