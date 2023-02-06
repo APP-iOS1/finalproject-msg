@@ -33,8 +33,15 @@ var spendingCategory: [SpendingCategory] = [
 
 struct SpendingWritingView: View {
     
+    enum FocusField: Hashable{
+        case consumeTitle
+        case consumeMoney
+    }
+   
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    
+    @FocusState private var focusField: FocusField?
     
     @StateObject var spendingViewModel = SpendingWriteViewModel()
 
@@ -54,15 +61,15 @@ struct SpendingWritingView: View {
     let maxConsumeMoney = Int(7)
     
     var body: some View {
-        
-        
+
         GeometryReader { g in
-            ZStack{
-                Color("Color1").ignoresSafeArea()
-                
+                    ZStack{
+                    Color("Color1").ignoresSafeArea()
+                    ScrollView{
+                    Spacer()
+                            .frame(height: g.size.height/10)
                     VStack{
                         Group {
-                            
                             VStack(alignment: .leading) {
                                 // MARK: 오늘 날짜
                                 VStack(alignment: .leading) {
@@ -73,16 +80,13 @@ struct SpendingWritingView: View {
                                         Spacer()
                                     }
                                     .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                                    
                                     Spacer()
-                                    
                                     HStack {
                                         Text("\(fireStoreViewModel.KoreanDateNow(date: Date()))")
                                         
                                         Spacer()
                                     }
                                     .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                                    
                                 }
                                 .frame(width: g.size.width / 1.2, height: g.size.height / 11)
                                 
@@ -93,6 +97,113 @@ struct SpendingWritingView: View {
                                     Spacer()
                                 }
                                 
+                                // MARK: 상세 내용 작성란
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("상세 내용")
+                                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
+                                        Spacer()
+                                    }
+                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
+                                    
+                                    
+                                    HStack {
+                                        TextField("", text: $spendingViewModel.consumeTitle)
+                                            .onSubmit{ self.focusField = .consumeMoney }
+                                            .focused($focusField, equals: .consumeTitle)
+                                            .placeholder(when: spendingViewModel.consumeTitle.isEmpty) {
+                                                Text("11글자 미만으로 내용을 입력하세요")
+                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color3))
+                                            }
+                                            .frame(width: g.size.width / 1.4, height: g.size.height / 40)
+                                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                                            .onReceive(Just(spendingViewModel.consumeTitle), perform: { _ in
+                                                if maxConsumeTitle < spendingViewModel.consumeTitle.count {
+                                                    spendingViewModel.consumeTitle = String(spendingViewModel.consumeTitle.prefix(maxConsumeTitle))
+                                                }
+                                            })
+                                        
+                                        Spacer()
+                                        
+                                        if spendingViewModel.consumeTitle.isEmpty {
+                                            Image(systemName: "delete.left")
+                                        } else {
+                                            Button {
+                                                spendingViewModel.consumeTitle = ""
+                                            } label: {
+                                                Image(systemName: "delete.left.fill")
+                                            }
+                                        }
+                                        
+                                    }
+                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
+                                }
+                                .frame(width: g.size.width / 1.2, height: g.size.height / 11)
+                                
+                                VStack {
+                                    Spacer()
+                                    Divider()
+                                    Spacer()
+                                }
+                                
+                                
+                                // MARK: 금액 작성란
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("지출 금액")
+                                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
+                                        
+                                        Spacer()
+                                    }
+                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
+                                    
+                                    
+                                    HStack {
+                                        
+                                        ZStack(alignment: .leading) {
+                                            Text(spendingViewModel.consumeMoney.insertComma)
+                                            
+                                            TextField("", text: $spendingViewModel.consumeMoney)
+                                                .focused($focusField, equals: .consumeMoney)
+                                                .placeholder(when: spendingViewModel.consumeMoney.isEmpty) {
+                                                    Text("1,000만원 미만으로 입력하세요")
+                                                        .kerning(0)
+                                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color3))
+                                                }
+                                                .foregroundColor(Color(.clear))
+                                                .kerning(+1.5)
+                                                .keyboardType(.numberPad)
+                                                .onReceive(Just(spendingViewModel.consumeMoney), perform: { _ in
+                                                    if maxConsumeMoney < spendingViewModel.consumeMoney.count {
+                                                        spendingViewModel.consumeMoney = String(spendingViewModel.consumeMoney.prefix(maxConsumeMoney))
+                                                    }
+                                                })
+                                        }
+                                        .frame(width: g.size.width / 1.4, height: g.size.height / 40)
+                                        
+                                        Spacer()
+                                        
+                                        if spendingViewModel.consumeMoney.isEmpty {
+                                            Image(systemName: "delete.left")
+                                        } else {
+                                            Button {
+                                                spendingViewModel.consumeMoney = ""
+                                            } label: {
+                                                Image(systemName: "delete.left.fill")
+                                            }
+                                        }
+                                        
+                                    }
+                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
+                                    
+                                }
+                                .frame(width: g.size.width / 1.2, height: g.size.height / 11)
+                                
+                                VStack {
+                                    Spacer()
+                                    Divider()
+                                    Spacer()
+                                }
                                 // MARK: 카테고리 선택란
                                 VStack(alignment: .leading) {
                                     HStack {
@@ -110,7 +221,7 @@ struct SpendingWritingView: View {
                                                 Image(systemName: "fork.knife")
                                                 Text("식비")
                                             }
-                                           
+                                            
                                         } else if selection == 1 {
                                             HStack {
                                                 Image(systemName: "bus")
@@ -172,11 +283,11 @@ struct SpendingWritingView: View {
                                                                 HStack(spacing: 40) {
                                                                     Image(systemName: item.icon)
                                                                         .resizable()
-                                                                        //.frame(width: 30, height: 30)
+                                                                    //.frame(width: 30, height: 30)
                                                                         .frame(width: g.size.width / 13, height: g.size.height / 30)
                                                                     
                                                                     Text(item.name)
-                                                                      //  .frame(width: 50)
+                                                                    //  .frame(width: 50)
                                                                         .frame(width: g.size.width / 5, height: g.size.height / 30)
                                                                 }
                                                                 
@@ -199,7 +310,7 @@ struct SpendingWritingView: View {
                                                                 }
                                                             }
                                                             .frame(height: g.size.height / 20)
-                                                      
+                                                            
                                                             
                                                         }
                                                         .frame(maxWidth: .infinity)
@@ -229,110 +340,8 @@ struct SpendingWritingView: View {
                                     Divider()
                                     Spacer()
                                 }
-                                
-                                // MARK: 상세 내용 작성란
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text("상세 내용")
-                                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
-                                        Spacer()
-                                    }
-                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                                    
-                                    
-                                    HStack {
-                                        TextField("", text: $spendingViewModel.consumeTitle)
-                                            .placeholder(when: spendingViewModel.consumeTitle.isEmpty) {
-                                                Text("11글자 미만으로 내용을 입력하세요")
-                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color3))
-                                            }
-                                            .frame(width: g.size.width / 1.4, height: g.size.height / 40)
-                                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                                            .onReceive(Just(spendingViewModel.consumeTitle), perform: { _ in
-                                                if maxConsumeTitle < spendingViewModel.consumeTitle.count {
-                                                    spendingViewModel.consumeTitle = String(spendingViewModel.consumeTitle.prefix(maxConsumeTitle))
-                                                }
-                                            })
-                                        
-                                        Spacer()
-                                        
-                                        if spendingViewModel.consumeTitle.isEmpty {
-                                            Image(systemName: "delete.left")
-                                        } else {
-                                            Button {
-                                                spendingViewModel.consumeTitle = ""
-                                            } label: {
-                                                Image(systemName: "delete.left.fill")
-                                            }
-                                        }
-                                        
-                                    }
-                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                                }
-                                .frame(width: g.size.width / 1.2, height: g.size.height / 11)
-                                
-                                VStack {
-                                    Spacer()
-                                    Divider()
-                                    Spacer()
-                                }
-                                
-                                // MARK: 금액 작성란
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text("지출 금액")
-                                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
-                                        
-                                        Spacer()
-                                    }
-                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                                    
-                                    
-                                    HStack {
-                                        
-                                        ZStack(alignment: .leading) {
-                                            Text(spendingViewModel.consumeMoney.insertComma)
-                                            
-                                            TextField("", text: $spendingViewModel.consumeMoney)
-                                                .placeholder(when: spendingViewModel.consumeMoney.isEmpty) {
-                                                    Text("1,000만원 미만으로 입력하세요")
-                                                        .kerning(0)
-                                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color3))
-                                                }
-                                                .foregroundColor(Color(.clear))
-                                                .kerning(+1.5)
-                                                .keyboardType(.numberPad)
-                                                .onReceive(Just(spendingViewModel.consumeMoney), perform: { _ in
-                                                    if maxConsumeMoney < spendingViewModel.consumeMoney.count {
-                                                        spendingViewModel.consumeMoney = String(spendingViewModel.consumeMoney.prefix(maxConsumeMoney))
-                                                    }
-                                                })
-                                        }
-                                        .frame(width: g.size.width / 1.4, height: g.size.height / 40)
-                                        
-                                        Spacer()
-                                        
-                                        if spendingViewModel.consumeMoney.isEmpty {
-                                            Image(systemName: "delete.left")
-                                        } else {
-                                            Button {
-                                                spendingViewModel.consumeMoney = ""
-                                            } label: {
-                                                Image(systemName: "delete.left.fill")
-                                            }
-                                        }
-                                        
-                                    }
-                                    .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                                    
-                                }
-                                .frame(width: g.size.width / 1.2, height: g.size.height / 11)
-                                
-                                VStack {
-                                    Spacer()
-                                    Divider()
-                                    Spacer()
-                                }
+      
+                         
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 1.7)
                             
@@ -375,9 +384,13 @@ struct SpendingWritingView: View {
                             Spacer()
                             
                         }
+                        
+                        
                         .onReceive(self.spendingViewModel.isGameSettingValidPublisher, perform: {self.isValid = $0})
                     }
+                    .onAppear{ self.focusField = .consumeTitle }
                     .frame(width: g.size.width / 1.2, height: g.size.height / 1.2)
+                    
                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                     .toolbar {
                         ToolbarItemGroup(placement: .keyboard) {
@@ -386,14 +399,18 @@ struct SpendingWritingView: View {
                             }
                         }
                     }
-
-                
+                }
             }
+
         }
+        .ignoresSafeArea(.keyboard)
+
     }
+        
 }
 
 extension View {
+    
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

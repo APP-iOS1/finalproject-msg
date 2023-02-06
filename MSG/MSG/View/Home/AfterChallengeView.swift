@@ -130,7 +130,7 @@ struct AfterChallengeView: View {
                         Group{
                             
                             if fireStoreViewModel.expenditure != nil {
-                                NavigationLink(destination: ChartView(), label: {
+                                NavigationLink(destination: ChartView(expenditure: fireStoreViewModel.expenditure!), label: {
                                     Text("상세 소비 내역 확인하기")
                                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)
@@ -183,9 +183,7 @@ struct AfterChallengeView: View {
                 .padding()
                 
             }
-            .task {
-                await fireStoreViewModel.fetchExpenditure()
-            }
+            .task { await fireStoreViewModel.fetchExpenditure() }
             .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
                 parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
             })

@@ -207,13 +207,13 @@ final class FireStoreViewModel: ObservableObject {
                       "nickName": user.nickName,
                       "game": user.game,
                       "gameHistory": user.gameHistory ?? [],
-//                      "friend": user.friend ?? [],
                       "profileImage": downloadUrl
                      ])
     }
     
     
-    
+    // MARK: - 회원가입 메서드
+    /// 회원가입시, 유저의 프로필을 파이어스토어 User컬렉션에 등록하는 메서드.
     func uploadImageToStorage(userImage: UIImage?, user: Msg) async -> Void {
         let ref = Storage.storage().reference(withPath: Auth.auth().currentUser?.uid ?? "")
         guard let userImage, let imageData = userImage.jpegData(compressionQuality: 0.5) else {
@@ -407,7 +407,7 @@ final class FireStoreViewModel: ObservableObject {
     
     
     // MARK: - 선택 유저 지출 기록 가져오기
-    /// 해당 유저의 지출 기록을 가져온다.
+    /// 특정 유저의 지출 기록을 가져온다.
     func fetchExpenditure(_ uid: String) async -> Expenditure?  {
         print(#function)
         guard let gameId = await fetchGameId() else { return nil }
@@ -429,8 +429,9 @@ final class FireStoreViewModel: ObservableObject {
             return nil
         }
     }
-    //MARK: - 해당 유저의 과거 지출 기록 가져오기
-    func fetchExpenditureHistory(_ gameId: String) async -> [String:[String]]?  {
+    //MARK: - 해당 유저의 특정 과거 게임 지출 기록 가져오기
+    /// 유저가 과거에 진행했던 특정 게임의 지출기록을 가져오는 메서드.
+    func fetchHistoryExpenditure(_ gameId: String) async -> Expenditure? {
         print(#function)
         
         guard let userId = Auth.auth().currentUser?.uid else { return nil }
@@ -443,8 +444,7 @@ final class FireStoreViewModel: ObservableObject {
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
             let totalMoney = docData["totalMoney"] as? Int ?? 0
             let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
-            expenditureList = expenditure.expenditureHistory
-            return expenditureList
+            return expenditure
         } catch {
             print("Error! fetchExpenditure")
             return nil
@@ -454,6 +454,7 @@ final class FireStoreViewModel: ObservableObject {
     
     
     // MARK: - 지출 기록 가져오기
+    /// 현재 유저의 지출기록을 가져온다.
     func fetchExpenditure() async {
         print(#function)
         guard let gameId = await fetchGameId() else { return }

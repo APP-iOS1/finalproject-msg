@@ -13,150 +13,151 @@ struct WaitingView: View {
     @State var game: Challenge
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     var body: some View {
-
         
-        ZStack {
-            Color("Color1")
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading) {
+        GeometryReader { g in
+            ZStack {
+                Color("Color1")
+                    .ignoresSafeArea()
                 
-                Spacer()
-                
-                VStack(alignment: .leading) {
+                VStack {
+                    
+                    
+                    
                     HStack {
                         
                         HStack{
                             Text("게임 대기")
-                                .font(.title)
-                                .bold()
-                            
-                            Text("\(game.inviteFriend.count) / \(game.inviteFriend.count + game.waitingFriend.count)" )
-                                .font(.body)
-                            
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                         }
-               Spacer()
+                        
+                        Spacer()
+                        
                         Button {
-                            
+                            Task {
+                                await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend, waitingId: fireStoreViewModel.currentGame!.waitingFriend)
+                                await fireStoreViewModel.fetchGame()
+                            }
                         } label: {
                             Image(systemName: "arrow.counterclockwise.circle.fill")
                                 .resizable()
-                                .frame(width: 30, height: 30)
+                                .frame(width: g.size.width / 14, height: g.size.height / 28)
                         }
+                        
                     }
-                    .padding()
+                    .frame(width: g.size.width / 1.1, height: g.size.height / 12)
                     
-                    HStack{
+                    
+                    
+                    
+                    
+                    ZStack {
+                        //fireStoreViewModel.currentGame!.inviteFriend.count
+                        ProgressView(value: Double(fireStoreViewModel.currentGame!.inviteFriend.count), total: Double(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count))
+                            .tint(Color("Color2"))
+                            .frame(height: g.size.height / 15)
+                            .scaleEffect(x: Double(fireStoreViewModel.currentGame!.inviteFriend.count), y: g.size.height / 15, anchor: .center)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
                         
-                        Image(systemName: "person.crop.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.blue)
+                        Text("\(String(format: "%.0f%%", (Double(fireStoreViewModel.currentGame!.inviteFriend.count) * 100) / Double(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count)))")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color1))
                         
-                        Image(systemName: "person.crop.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.blue)
-                        
-                        Image(systemName: "person.crop.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        Image(systemName: "person.crop.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30)
                         
                     }
-                    .padding()
-                    .padding(.bottom, -20)
-                }
-               
-
-                ProgressView(value: Double(game.inviteFriend.count), total: Double(game.inviteFriend.count + game.waitingFriend.count))
-                    .tint(Color("Point2"))
-                    .padding()
-                    .padding(.bottom, 40)
-                
-                ScrollView {
-                    Section {
-                        //                    ForEach(fireStoreViewModel.invitedArray, id: \.self) { user in
-                        //                        Text("\(user.nickName)")
-                        //                    }
+                    .frame(width: g.size.width / 1.1, height: g.size.height / 12)
+                    
+                    
+                    Divider()
+                        .background(Color("Color2"))
+                        .frame(width: g.size.width / 1.1, height: g.size.height / 20)
+                    
+                    VStack {
                         
                         ForEach(fireStoreViewModel.invitedArray, id: \.self) { user in
+                            
                             HStack {
-                                HStack {
-                                    if !user.profileImage.isEmpty{
-                                        AsyncImage(url: URL(string: user.profileImage)) { Image in
-                                            Image
-                                                .resizable()
-                                                .frame(width: 50, height: 50)
-                                        } placeholder: { }
-                                    }else{
-                                        Image(systemName: "person.crop.circle")
+                                
+                                
+                                if !user.profileImage.isEmpty{
+                                    AsyncImage(url: URL(string: user.profileImage)) { Image in
+                                        Image
                                             .resizable()
-                                            .frame(width: 50, height: 50)
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    Text(user.nickName)
-                                        .font(.title3)
-                                        .bold()
-                                    
-                                    Spacer()
+                                            .scaledToFit()
+                                            .clipShape(Circle())
+                                            .frame(width: g.size.width / 7, height: g.size.height / 14)
+                                    } placeholder: { }
+                                }else{
+                                    Image(systemName: "person.crop.circle")
+                                        .resizable()
+                                        .frame(width: g.size.width / 7, height: g.size.height / 14)
                                 }
-                                // 오락실스러운 레디 폰트 추가 예정
+                                
+                                Spacer()
+                                
+                                Text(user.nickName)
+                                
+                                Spacer()
+                                
                                 Text("Ready")
                                     .foregroundColor(Color("Color2"))
-                                    .font(.title3)
-                                    .bold()
+                                
                             }
+                            .frame(width: g.size.width / 1.2, height: g.size.height / 12)
+                            
                         }
                         
                         ForEach(fireStoreViewModel.waitingArray, id: \.self) { user in
+                            
                             HStack {
-                                HStack {
-                                    if !user.profileImage.isEmpty{
-                                        AsyncImage(url: URL(string: user.profileImage)) { Image in
-                                            Image
-                                                .resizable()
-                                                .scaledToFit()
-                                                .clipShape(Circle())
-                                                .frame(width: 50, height: 50)
-                                        } placeholder: { }
-                                    }else{
-                                        Image(systemName: "person.crop.circle")
+                                
+                                
+                                if !user.profileImage.isEmpty{
+                                    AsyncImage(url: URL(string: user.profileImage)) { Image in
+                                        Image
                                             .resizable()
-                                            .frame(width: 50, height: 50)
-                                    }
-                                    Spacer()
-                                    
-                                    Text(user.nickName)
-                                        .font(.title3)
-                                        .bold()
-                                    
-                                    Spacer()
+                                            .scaledToFit()
+                                            .clipShape(Circle())
+                                            .frame(width: g.size.width / 7, height: g.size.height / 14)
+                                    } placeholder: { }
+                                }else{
+                                    Image(systemName: "person.crop.circle")
+                                        .resizable()
+                                        .frame(width: g.size.width / 7, height: g.size.height / 14)
                                 }
+                                
+                                Spacer()
+                                
+                                Text(user.nickName)
+                                
+                                
+                                Spacer()
+                                
                                 // 오락실스러운 레디 폰트 추가 예정
                                 Text("Ready")
                                     .foregroundColor(.clear)
-                                    .font(.title3)
-                                    .bold()
+                                
+                                
+                                
                             }
+                            .frame(width: g.size.width / 1.2, height: g.size.height / 12)
+                            
+                            
                         }
+                        
+                        
+                        
+                        
                         
                     }
                     
+                    
+                    Spacer()
+                    
                 }
-                .padding()
+                .frame(width: g.size.width / 1.1, height: g.size.height / 1.2)
                 
-
             }
-            .frame(width: 330, height: 600)
-            .task { await fireStoreViewModel.findUser(inviteId: game.inviteFriend, waitingId: game.waitingFriend) }
+            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
         }
-
         
     }
 }
@@ -164,7 +165,7 @@ struct WaitingView: View {
 struct WaitingView_Previews: PreviewProvider {
     static var previews: some View {
         WaitingView(game: Challenge(id: "", gameTitle: "", limitMoney: 0, startDate: "", endDate: "", inviteFriend: ["애플케로로","구글김민호"], waitingFriend: ["카카오케로로","카카오김민호"]))
-   
-            
+            .environmentObject(FireStoreViewModel())
+        
     }
 }

@@ -53,7 +53,7 @@ extension BeforeChallengeView {
                                     RoundedRectangle(cornerRadius: 15))
                                 .background(Color("Color1"))
                                 .cornerRadius(20)
-                                .frame(width: g.size.width / 1.1, height: g.size.height / 5)
+                                .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 5)
                             HStack{
                                 Image(systemName: "rosette")
                                     .resizable()
@@ -97,7 +97,7 @@ extension BeforeChallengeView {
                                     RoundedRectangle(cornerRadius: 15))
                                 .background(Color("Color1"))
                                 .cornerRadius(20)
-                                .frame(width: g.size.width / 1.1, height: g.size.height / 5)
+                                .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 5)
                             HStack{
                                 Image(systemName: "chart.xyaxis.line")
                                     .resizable()

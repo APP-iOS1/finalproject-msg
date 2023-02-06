@@ -6,8 +6,17 @@
 //
 
 import SwiftUI
+import Combine
 
 struct GameSettingView: View {
+    
+    enum Field: Hashable {
+        case title
+        case limitMoney
+    }
+    @FocusState private var focusedField: Field?
+    
+    let maxConsumeMoney = Int(7)
     @EnvironmentObject var notiManager: NotificationManager
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @State private var isShowingAlert: Bool = false
@@ -42,14 +51,20 @@ extension GameSettingView {
                 Color("Color1").ignoresSafeArea()
                 
                 VStack(spacing: 20) {
-                        // MARK: - 챌린지 주제- [TextField]
-                        VStack(alignment: .leading){
+                    // MARK: - 챌린지 주제- [TextField]
+                    VStack(alignment: .leading){
                         Text("챌린지 주제 ")
                             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         
                         VStack{
                             TextField("ex) 치킨걸고 30만원 챌린지!", text: $gameSettingViewModel.title)
                                 .keyboardType(.default)
+                                .focused($focusedField, equals: .title)
+                                .onSubmit {
+                                    print("submit")
+                                    focusedField = .limitMoney
+                                }
+                                .submitLabel(.done)
                                 .modifier(TextViewModifier(color: "Color2"))
                             Divider()
                         }
@@ -60,12 +75,46 @@ extension GameSettingView {
                     VStack(alignment: .leading){
                         Text("한도금액 ")
                             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                        VStack{
-                            TextField("ex) 300,000", text: $gameSettingViewModel.targetMoney)
-                                .keyboardType(.numberPad)
+                        ZStack(alignment: .leading) {
+                            Text(gameSettingViewModel.targetMoney.insertComma)
                                 .modifier(TextViewModifier(color: "Color2"))
-                            Divider()
-                            
+                                .multilineTextAlignment(.leading)
+                            TextField("", text: $gameSettingViewModel.targetMoney)
+                                .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
+                                    Text("1,000만원 미만으로 입력하세요")
+                                        .kerning(0)
+                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .opacity(0.3)
+                                }
+                                .focused($focusedField, equals: .limitMoney)
+                                .foregroundColor(Color(.clear))
+                                .kerning(+1.5)
+                                .keyboardType(.numberPad)
+                                .onReceive(Just(gameSettingViewModel.targetMoney), perform: { _ in
+                                    if maxConsumeMoney < gameSettingViewModel.targetMoney.count {
+                                        gameSettingViewModel.targetMoney = String(gameSettingViewModel.targetMoney.prefix(maxConsumeMoney))
+                                    }
+                                })
+                        }
+                        Divider()
+                        //                        Text("한도금액 ")
+                        //                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                        //                        VStack{
+                        //                            TextField("ex) 300,000", text: $gameSettingViewModel.targetMoney)
+                        //                                .keyboardType(.numberPad)
+                        //                                .focused($focusedField, equals: .limitMoney)
+                        //                                .modifier(TextViewModifier(color: "Color2"))
+                        //                            Divider()
+                        //
+                        //                        }
+                    }
+                    .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            if focusedField == .limitMoney {
+                                Button("완료") {
+                                    hideKeyboard()
+                                }
+                            }
                         }
                     }
                     .padding([.leading, .trailing])
@@ -98,12 +147,12 @@ extension GameSettingView {
                                 }
                                 
                             }
-                        
-
+                            
+                            
                         }
-                  
+                        
                         .padding([.leading, .trailing])
-
+                        
                     }
                     .padding(.bottom)
                     
@@ -112,7 +161,7 @@ extension GameSettingView {
                             Text("같이할 친구들")
                             Spacer()
                         }
-                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         if !realtimeViewModel.inviteFriendArray.isEmpty{
                             List(realtimeViewModel.inviteFriendArray) {friend in
                                 HStack {
@@ -154,14 +203,14 @@ extension GameSettingView {
                             Spacer()
                             Text("함께할 친구를 선택해주세요!")
                                 .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.subhead, color: FontCustomColor.color2))
-                           Spacer()
+                            Spacer()
                         }
-
+                        
                     }
                     .padding()
                     .modifier(ListBackgroundModifier())
                     .frame(width: g.size.width, height:g.size.height/4)
-                 
+                    
                     
                     
                     // MARK: - 친구찾기 - [Button]
@@ -252,6 +301,12 @@ extension GameSettingView {
                 })
                 Spacer()
             }
+            .onAppear {
+                gameSettingViewModel.daySelection = 0
+                gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[0]
+                gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
+            }
+            
             
         }
         .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
@@ -284,9 +339,9 @@ extension GameSettingView {
                 
             }
         }
-//        .onAppear{
-//            fireStoreViewModel.findFriend()
-//        }
+        //        .onAppear{
+        //            fireStoreViewModel.findFriend()
+        //        }
     }
 }
 
