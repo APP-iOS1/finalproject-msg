@@ -111,7 +111,7 @@ struct GameRequestAlertViewCell: View {
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                 .frame(width: 300, height: 400)
             } primaryButton: {
-                    CustomAlertButton(title: Text("거절")) {
+                    CustomAlertButton(title: Text("거절"), color: Color("Color1")) {
                         isPresent = false
                         Task {
                             await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
@@ -121,7 +121,7 @@ struct GameRequestAlertViewCell: View {
                         print("도전")
                     }
             } secondButton: {
-                CustomAlertButton(title: Text("수락")) {
+                CustomAlertButton(title: Text("수락"), color: Color("Color1")) {
                     
                     //수락을 눌렀을 때
                     //1.수락한사람의 id를 찾아내기

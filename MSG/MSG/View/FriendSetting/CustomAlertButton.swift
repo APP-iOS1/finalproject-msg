@@ -25,7 +25,7 @@ struct CustomAlertButton: View {
             action()
         }label: {
             title.frame(maxWidth:.infinity, maxHeight: .infinity)
-                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color4))
+                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
         }.background(color)
     }
 }
