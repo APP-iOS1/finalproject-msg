@@ -114,6 +114,11 @@ struct GameRequestAlertViewCell: View {
             } primaryButton: {
                 CustomAlertButton(title: Text("거절")) {
                     isPresent = false
+                    Task {
+                        await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
+                        //리얼타임에 삭제하는 함수임
+                        await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
+                    }
                     print("도전")
                 }
             } secondButton: {
