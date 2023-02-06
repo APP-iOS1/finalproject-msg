@@ -21,24 +21,23 @@ struct ChallengeRecordView: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    
                     // 타이틀
-                    HStack {
-                        Text("챌린지 기록")
-                        Spacer()
+                    VStack(alignment: .leading) {
+                        Text("기록")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
+                        Text("Money Save Game")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                     }
-                    .modifier(TextTitleBold())
-                    .padding()
+                    .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 8, alignment: .leading)
                     
                     // 챌린지 기록 리스트
                     // (List에 NavigationLink를 사용하면 꺽쇠 > 버튼은 숨길 수 없어서 List를 사용하지 않음)
-                    ScrollView {
-                       
+                    ScrollView(.vertical, showsIndicators: false) {
                             ForEach(fireStoreViewModel.challengeHistoryArray, id: \.self) { history in
-                                MyList(challenge: history)
+                                ChallegeListCell(challenge: history)
                             }
                             .foregroundColor(Color("Color2"))
-                            .frame(width: g.size.width / 1.2, height: g.size.height / 8)
+                            .frame(minWidth: g.size.width / 1.2, minHeight: g.size.height / 8)
                             .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                             .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                             .padding(16)
@@ -51,7 +50,6 @@ struct ChallengeRecordView: View {
                         
                         Spacer()
                     } // ScrollView
-                    
                 } // VStack
             } // ZStack
         }
@@ -65,51 +63,69 @@ struct ChallengeRecordView: View {
 }
 
 // 챌린지 리스트 커스텀
-struct MyList: View {
+struct ChallegeListCell: View {
     @State var challenge: Challenge
     // 예시 (추후 데이터 연결 시 필요 없음)
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
     var body: some View {
         
-        NavigationLink {
-            // 넘어갈 뷰 연결 부분
-            RecordDetailView(challenge: $challenge)
-        } label: {
-            HStack {
-                Image(systemName: "magazine.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40)
-                    .padding([.trailing], 20)
-                
-                VStack(alignment: .leading){
-                    Text("\(challenge.gameTitle)")
-                        .modifier(TextTitleBold())
-                        .padding(.bottom, 10)
-                        .lineLimit(1)
-                    
-                    // 챌린지에 함께한 친구들
+        GeometryReader { g in
+            NavigationLink {
+                // 넘어갈 뷰 연결 부분
+                RecordDetailView(challenge: $challenge)
+            } label: {
+                HStack {
                     if !challenge.inviteFriend.isEmpty {
-                        VStack(alignment: .leading) {
-                            Text("참여자 :")
-                                .modifier(TextViewModifier(color: "Color2"))
-                            ForEach(challenge.inviteFriend, id:\.self) { name in
-                                Text("\(name)")
-                                    .modifier(TextViewModifier(color: "Color2"))
+                        Image(systemName: "figure.2.arms.open")
+                            .font(.largeTitle)
+                            .padding()
+                    } else {
+                        Image(systemName: "figure.arms.open")
+                            .font(.largeTitle)
+                            .padding()
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 5){
+                        Text("\(challenge.gameTitle)")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
+                            .lineLimit(1)
+                        
+                        // 챌린지에 함께한 친구들
+                        if !challenge.inviteFriend.isEmpty {
+                            VStack(alignment: .leading) {
+                                Text("참여자 :")
+                                HStack {
+                                    ForEach(fireStoreViewModel.challengeUsers.indices, id:\.self) { index in
+                                        Text("\(fireStoreViewModel.challengeUsers[index].user.userName)")
+                                    }
+                                }
                             }
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
                         }
-                    }
-                    
-                    // 챌린지 기간(데이터 연결 시에 기간 정렬)
-                    VStack(alignment: .leading) {
-                        Text("챌린지 기간 : ")
-                        Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
-                    }
-                    .modifier(TextViewModifier(color: "Color2"))
-                    
-                } // VStack
-            } // HStack
-        } // NavigationLink
+                        
+                        // 챌린지 기간(데이터 연결 시에 기간 정렬)
+                        VStack(alignment: .leading) {
+                            Text("챌린지 기간 : ")
+                            Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
+                        }
+                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                        
+                        
+                        
+                    } // VStack
+                } // HStack
+            } // NavigationLink
+        }
+        .onAppear {
+            Task {
+                await fireStoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
+            }
+        }
     }
 }
 

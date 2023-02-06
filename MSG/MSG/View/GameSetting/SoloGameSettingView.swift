@@ -6,9 +6,15 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SoloGameSettingView: View {
-    
+    enum Field: Hashable {
+        case title
+        case limitMoney
+    }
+    @FocusState private var focusedField: Field?
+    let maxConsumeMoney = Int(7)
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
     @State private var isShowingAlert: Bool = false
@@ -30,8 +36,14 @@ struct SoloGameSettingView: View {
                         Text("챌린지 주제: ")
                             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         VStack{
+                            
                             TextField("ex) 하루 만원으로 버티기!", text: $gameSettingViewModel.title)
                                 .keyboardType(.default)
+                                .focused($focusedField, equals: .title)
+                                .onSubmit {
+                                    focusedField = .limitMoney
+                                }
+                                .submitLabel(.done)
                                 .modifier(TextViewModifier(color: "Color2"))
                             Divider()
                         }
@@ -41,12 +53,40 @@ struct SoloGameSettingView: View {
                     VStack(alignment: .leading){
                         Text("한도금액: ")
                             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                        VStack{
-                            TextField("ex) 300,000", text: $gameSettingViewModel.targetMoney)
-                                .keyboardType(.numberPad)
-                                .modifier(TextViewModifier(color: "Color2"))
+                        VStack(alignment: .leading){
+                            ZStack(alignment: .leading) {
+                                Text(gameSettingViewModel.targetMoney.insertComma)
+                                    .modifier(TextViewModifier(color: "Color2"))
+                                    .multilineTextAlignment(.leading)
+                                TextField("", text: $gameSettingViewModel.targetMoney)
+                                    .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
+                                        Text("1,000만원 미만으로 입력하세요")
+                                            .kerning(0)
+                                            .modifier(TextViewModifier(color: "Color2"))
+                                            .opacity(0.3)
+                                    }
+                                    .focused($focusedField, equals: .limitMoney)
+                                    .foregroundColor(Color(.clear))
+                                    .kerning(+1.5)
+                                    .keyboardType(.numberPad)
+                                    .onReceive(Just(gameSettingViewModel.targetMoney), perform: { _ in
+                                        if maxConsumeMoney < gameSettingViewModel.targetMoney.count {
+                                            gameSettingViewModel.targetMoney = String(gameSettingViewModel.targetMoney.prefix(maxConsumeMoney))
+                                        }
+                                    })
+                            }
+                            .frame(width: g.size.width / 1.4, height: g.size.height / 40)
                             Divider()
                             
+                        }
+                    }
+                    .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            if focusedField == .limitMoney {
+                                Button("완료") {
+                                    hideKeyboard()
+                                }
+                            }
                         }
                     }
                     .padding([.leading, .trailing])
@@ -131,6 +171,11 @@ struct SoloGameSettingView: View {
                     Spacer()
                 }
                 .foregroundColor(Color("Color2"))
+            }
+            .onAppear {
+                gameSettingViewModel.daySelection = 0
+                gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[0]
+                gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
             }
         }
         .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
