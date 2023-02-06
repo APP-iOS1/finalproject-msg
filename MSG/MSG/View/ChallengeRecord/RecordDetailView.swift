@@ -11,10 +11,10 @@ struct RecordDetailView: View {
     
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @Binding var challenge: Challenge
-    
+    @State var historyExpenditure: Expenditure?
     @State private var tagValue: [(tag: String, money: Int)] = []
     
-    private func paroingExpenditure(_ expenditureHistory: [String:[String]]) -> [(tag: String, money: Int)]{
+    private func parsingExpenditure(_ expenditureHistory: [String:[String]]) -> [(tag: String, money: Int)]{
         
         var maxValue: (tag:String, money: Int) = ("",Int.min)
         var minValue: (tag:String, money: Int) = ("",Int.max)
@@ -78,7 +78,7 @@ struct RecordDetailView: View {
                             Text(challenge.gameTitle)
                                 .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.largeTitle, color: .color2))
                             Spacer()
-                            NavigationLink(destination: ChartView()) {
+                            NavigationLink(destination: ChartView(expenditure: historyExpenditure ?? Expenditure(id: "", totalMoney: 0, expenditureHistory: [:]))) {
                                 Text("상세내역")
                                     .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.subhead, color: .color2))
                                     .frame(width: g.size.width / 6, height: g.size.height / 34)
@@ -89,6 +89,7 @@ struct RecordDetailView: View {
                                     .cornerRadius(10)
                                     .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                     .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+
                             }
                         }
                         .minimumScaleFactor(0.5)
@@ -134,6 +135,7 @@ struct RecordDetailView: View {
                                                             .font(.largeTitle)
                                                     }
                                                 }
+
                                             }
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: g.size.width / 6, height: g.size.height / 7)
@@ -231,10 +233,13 @@ struct RecordDetailView: View {
             .onAppear{
                 Task{
                     await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
+                    // 각 유저별 총액 가져오기
                     try await firestoreViewModel.fetchChallengeTotalMoney(challenge.id)
                     
-                    guard let expenditureHistory = await firestoreViewModel.fetchExpenditureHistory(challenge.id) else { return }
-                    self.tagValue = self.paroingExpenditure(expenditureHistory)
+                    // 과거 지출 기록 가져오기
+                    guard let history = await firestoreViewModel.fetchHistoryExpenditure(challenge.id) else { return }
+                    historyExpenditure = history
+                    
                     print(tagValue)
                     self.userValue = self.userValues(firestoreViewModel.challengeUsers)
                     print("123123123123123213312132 :\(userValue)")
@@ -245,9 +250,9 @@ struct RecordDetailView: View {
     }
 }
 
-
-struct RecordDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecordDetailView(challenge: .constant(Challenge(id: "테스트아이디", gameTitle: "게임해보자", limitMoney: 1000, startDate: "abc", endDate: "def", inviteFriend: ["철수,영희"],waitingFriend: ["철수,영희"])))
-    }
-}
+//
+//struct RecordDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RecordDetailView(challenge: .constant(Challenge(id: "테스트아이디", gameTitle: "게임해보자", limitMoney: 1000, startDate: "abc", endDate: "def", inviteFriend: ["철수,영희"],waitingFriend: ["철수,영희"])))
+//    }
+//}

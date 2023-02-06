@@ -11,18 +11,17 @@ struct ChartCellView: View {
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @Binding var selection: String
-    
+    var expenditure = Expenditure(id: "", totalMoney: 0, expenditureHistory: [:])
     // 숫자 세자리씩 끊는 함수
     func numberFormatter(number: Int) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        
         return numberFormatter.string(from: NSNumber(value: number))!
     }
     
     var body: some View {
-        ForEach(Array((fireStoreViewModel.expenditure?.expenditureHistory.keys.enumerated())!), id: \.element) { index, key in
-            ForEach((fireStoreViewModel.expenditure?.expenditureHistory[key])!, id: \.self) { value in
+        ForEach(Array((expenditure.expenditureHistory.keys.enumerated())), id: \.element) { index, key in
+            ForEach((expenditure.expenditureHistory[key])!, id: \.self) { value in
                 let consume = value.components(separatedBy: "_")
                 let date = consume[2].components(separatedBy: " ")
                 let time = date[1].components(separatedBy: ":")
@@ -110,11 +109,6 @@ struct ChartCellView: View {
                 }
             }
             .modifier(TextViewModifier(color: "Color2"))
-        }
-        .onAppear {
-            Task {
-                await fireStoreViewModel.fetchExpenditure()
-            }
         }
     }
 }

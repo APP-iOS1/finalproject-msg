@@ -36,7 +36,7 @@ struct CountDownView: View {
             }
         }
         .onAppear {
-            timeRemaining = Int(endDate + 86400 - Date().timeIntervalSince1970)
+            timeRemaining = Int(endDate - Date().timeIntervalSince1970)
         }
     }
 }
