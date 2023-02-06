@@ -269,6 +269,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1659E1C22990932F0051AB9D /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				16600964297630C300E6A546 /* ContentView.swift */,
+				6362E8CA2989574B0052C488 /* TabBarView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		165E321A2977EAE600678A09 /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,11 +342,10 @@
 		166009852976334600E6A546 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1659E1C22990932F0051AB9D /* Main */,
 				165E321A2977EAE600678A09 /* SettingView */,
 				36C7BB762977B37200A3F999 /* OnBoard */,
 				36FA491629778F3200B26A24 /* Chart */,
-				16600964297630C300E6A546 /* ContentView.swift */,
-				6362E8CA2989574B0052C488 /* TabBarView.swift */,
 				1606CB4F2976992C004DD13B /* ChallengeRecord */,
 				1606CB4E297697F9004DD13B /* Home */,
 				1606CB4D297697E2004DD13B /* GameSetting */,
