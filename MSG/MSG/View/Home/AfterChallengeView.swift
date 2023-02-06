@@ -71,6 +71,8 @@ struct AfterChallengeView: View {
                                                     await fireStoreViewModel.deleteSingleGame()
                                                 }
                                                 fireStoreViewModel.currentGame = nil
+                                                fireStoreViewModel.expenditure = nil
+                                                fireStoreViewModel.expenditureList = [:]
                                             }
                                         }
                                     }
@@ -183,7 +185,11 @@ struct AfterChallengeView: View {
                 .padding()
                 
             }
-            .task { await fireStoreViewModel.fetchExpenditure() }
+            .task {
+                print("(1) : \(fireStoreViewModel.expenditure)")
+                await fireStoreViewModel.fetchExpenditure()
+                print("(1) : \(fireStoreViewModel.expenditure)")
+            }
             .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
                 parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
             })
