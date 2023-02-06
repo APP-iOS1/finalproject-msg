@@ -132,6 +132,11 @@ struct SoloGameSettingView: View {
                 }
                 .foregroundColor(Color("Color2"))
             }
+            .onAppear {
+                gameSettingViewModel.daySelection = 0
+                gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[0]
+                gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
+            }
         }
         .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
             Button {
