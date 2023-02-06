@@ -286,6 +286,10 @@ final class FireStoreViewModel: ObservableObject {
         
     }
     
+    func deleteUser() async{
+        try! await database.collection("User").document(Auth.auth().currentUser?.uid ?? "").delete()
+    }
+    
     // MARK: - 친구 목록 가져오기
     func findFriend() {
         print(#function)

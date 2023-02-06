@@ -9,6 +9,7 @@ import PhotosUI
 
 struct SettingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State var userProfile: Msg?
     @Binding var darkModeEnabled: Bool
     @State private var logoutToggle: Bool = false
@@ -158,10 +159,19 @@ struct SettingView: View {
                         .alert("로그아웃", isPresented: $logoutToggle) {
                             Button("확인", role: .destructive) {
                                 loginViewModel.signout()
+                        Spacer()
+                        Button {
+                            Task {
+                                await fireStoreViewModel.deleteUser()
+                                loginViewModel.deleteUser()
                             }
                             Button("취소", role: .cancel) {}
                         } message: {
                             Text("로그아웃하시겠습니까?")
+                
+                            
+                        } label: {
+                            Text("회원탈퇴//누르면 얼럿안뜨고 삭제됨 조심")
                         }
                         
                     }
