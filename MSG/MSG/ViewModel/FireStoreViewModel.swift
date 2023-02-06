@@ -212,10 +212,9 @@ final class FireStoreViewModel: ObservableObject {
     }
     
     
-    
     // MARK: - 회원가입 메서드
     /// 회원가입시, 유저의 프로필을 파이어스토어 User컬렉션에 등록하는 메서드.
-    func uploadImageToStorage(userImage: UIImage?, user: Msg) async {
+    func uploadImageToStorage(userImage: UIImage?, user: Msg) async -> Void {
         let ref = Storage.storage().reference(withPath: Auth.auth().currentUser?.uid ?? "")
         guard let userImage, let imageData = userImage.jpegData(compressionQuality: 0.5) else {
             self.addUserInfo(user: user, downloadUrl: "")
