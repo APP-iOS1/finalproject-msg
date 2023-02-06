@@ -40,16 +40,31 @@ struct RecordDetailView: View {
         return [maxValue, minValue]
     }
     
-    var category: [Category] = [
-        Category(tag: "식비", icon: "fork.knife", color: "Chart1"),
-        Category(tag: "교통비", icon: "bus", color: "Chart2"),
-        Category(tag: "쇼핑", icon: "cart", color: "Chart3"),
-        Category(tag: "의료", icon: "cross", color: "Chart4"),
-        Category(tag: "주거", icon: "house", color: "Chart5"),
-        Category(tag: "여가", icon: "figure.socialdance", color: "Chart6"),
-        Category(tag: "금융", icon: "wonsign", color: "Chart7"),
-        Category(tag: "기타", icon: "ellipsis.curlybraces", color: "Chart8")
-    ]
+    @State private var userValue: [(user:(userName: String, userProfile: String), totalMoney: Int)] = []
+    
+    private func userValues(_ challengeUsers: [(user:(userName: String, userProfile: String), totalMoney: Int)]) -> [(user:(userName: String, userProfile: String), totalMoney: Int)] {
+        
+        var maxValue: (user:(userName: String, userProfile: String), totalMoney: Int) = (("",""), Int.min)
+        var minValue: (user:(userName: String, userProfile: String), totalMoney: Int) = (("",""), Int.max)
+        var maxSum = Int.min
+        var minSum = Int.max
+        
+        for (user, totalMoney) in challengeUsers {
+            var sum:Int = 0
+                let money = totalMoney
+                sum += money
+            
+            if maxSum < sum {
+                maxValue = (user:(userName: user.userName, userProfile: user.userProfile), totalMoney: sum)
+                maxSum = sum
+            }
+            if minSum > sum {
+                minValue = (user:(userName: user.userName, userProfile: user.userProfile), totalMoney: sum)
+                minSum = sum
+            }
+        }
+        return [maxValue, minValue]
+    }
     
     var body: some View {
         
@@ -59,122 +74,135 @@ struct RecordDetailView: View {
                 ScrollView{
                     VStack{
                         //타이틀, 날짜 그룹
-                        Group{
-                            HStack{
-                                Text(challenge.gameTitle)
-                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title2, color: .color2))
-                                Spacer()
-                                //FireStoreViewModel.expenditure
-                                NavigationLink(destination: ChartView(expenditure: historyExpenditure ?? Expenditure(id: "", totalMoney: 0, expenditureHistory: [:]))) {
-                                    Text("상세내역")
-                                        .frame(width: g.size.width / 6, height: g.size.height / 34)
-                                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                                        .padding(20)
-                                        .background(Color("Color1"))
-                                        .cornerRadius(20)
-                                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                                }
-                            }
-                            Divider()
-                            HStack{
-                                Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
-                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.body, color: .color2))
-                                    .padding(.bottom, 20)
-                                Spacer()
+                        HStack{
+                            Text(challenge.gameTitle)
+                                .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.largeTitle, color: .color2))
+                            Spacer()
+                            NavigationLink(destination: ChartView(expenditure: historyExpenditure ?? Expenditure(id: "", totalMoney: 0, expenditureHistory: [:]))) {
+                                Text("상세내역")
+                                    .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.subhead, color: .color2))
+                                    .frame(width: g.size.width / 6, height: g.size.height / 34)
+                                    .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                    .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                                    .padding(10)
+                                    .background(Color("Color1"))
+                                    .cornerRadius(10)
+                                    .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                                    .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+
                             }
                         }
-                        .padding(.horizontal)
-                        .modifier(TextViewModifier(color: "Color2"))
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                        .padding()
+                        
+                        VStack(alignment: .leading, spacing: 15){
+                            Text("챌린지 기간 :")
+                                .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                            Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
+                                .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
+                        }
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                        .padding()
+                        
+                        VStack(alignment: .leading, spacing: 15){
+                            Text("챌린지 금액 :")
+                                .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                            Text("\(challenge.limitMoney)원")
+                                .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
+                        }
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                        .frame(minWidth: g.size.width / 1.1, alignment: .leading)
+                        .padding(.bottom)
                         
                         //챌린지 참여인원에 따른 사용금액 그룹
                         if !challenge.inviteFriend.isEmpty {
-                            Group{
                                 ForEach(firestoreViewModel.challengeUsers.indices, id: \.self) { index in
-                                    HStack{
-                                        VStack{
-                                            if firestoreViewModel.challengeUsers[index].user.userProfile.isEmpty{
-                                                Image(systemName: "person")
-                                                    .font(.largeTitle)
-                                                    .background(content: {
-                                                        Color("Point2")
-                                                    })
-                                                    .padding(.trailing)
-                                            }else{
-                                                AsyncImage(url: URL(string: firestoreViewModel.challengeUsers[index].user.userProfile)!) { Image in
-                                                    Image
-                                                        .resizable()
-                                                        .frame(width: 50, height: 50)
-                                                } placeholder: { }
+                                    HStack(spacing: 40) {
+                                        VStack(spacing: 0) {
+                                            VStack {
+                                                if firestoreViewModel.challengeUsers[index].user.userProfile.isEmpty{
+                                                    Image(systemName: "person")
+                                                        .font(.largeTitle)
+                                                } else {
+                                                    AsyncImage(url: URL(string: firestoreViewModel.challengeUsers[index].user.userProfile)!) { Image in
+                                                        Image
+                                                            .resizable()
+                                                    } placeholder: {
+                                                        Image(systemName: "person")
+                                                            .font(.largeTitle)
+                                                    }
+                                                }
+
                                             }
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: g.size.width / 6, height: g.size.height / 7)
+                                            .clipShape(Circle())
+                                            .foregroundColor(Color("Color2"))
+                                            .background(
+                                                Circle()
+                                                    .fill(
+                                                        .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                        .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                                    )
+                                                    .foregroundColor(Color("Color1")))
+                                            
                                             Text("\(firestoreViewModel.challengeUsers[index].user.userName)")
+                                                .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                                                
                                         }
                                         Text("총 \(firestoreViewModel.challengeUsers[index].totalMoney)원 사용")
-                                        Spacer()
+                                            .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.body, color: .color2))
                                     }
+                                    .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 8, alignment: .leading)
                                 }
-                            }
-                            .padding([.vertical, .horizontal])
-                            .modifier(TextViewModifier(color: "Color2"))
                             
                             //가장적게 쓴, 많이 쓴 사람 그룹
-                            Group{
-                                HStack{
-                                    Text("가장 적게 쓴 사람")
-                                        .padding(.trailing)
-                                    Image(systemName: "person")
-                                        .resizable()
-                                        .frame(width: g.size.width / 10, height: g.size.height / 18.5)
-                                        .padding(25)
-                                        .foregroundColor(Color("Color2"))
-                                        .background(
-                                            Circle()
-                                                .fill(
-                                                    .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                                    .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                                )
-                                                .foregroundColor(Color("Color1")))
-                                }.padding(.top, 20)
-                                HStack{
-                                    Text("가장 많이 쓴 사람")
-                                        .padding(.trailing)
-                                    Image(systemName: "person")
-                                        .resizable()
-                                        .frame(width: g.size.width / 10, height: g.size.height / 18.5)
-                                        .padding(25)
-                                        .foregroundColor(Color("Color2"))
-                                        .background(
-                                            Circle()
-                                                .fill(
-                                                    .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                                    .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                                )
-                                                .foregroundColor(Color("Color1")))
+                            ForEach(userValue.indices , id: \.self) { index in
+                                VStack{
+                                    HStack {
+                                        if index == 0 {
+                                            Text("가장 적게 쓴 사람")
+                                            Text("\(userValue[index].user.userName)")
+                                        } else {
+                                            Text("가장 많이 쓴 사람")
+                                            Text("\(userValue[index].user.userName)")
+                                        }
+                                    }
+                                    .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                                    .padding()
                                 }
                             }
-                            .padding([.vertical, .horizontal], 10)
-                            .modifier(TextViewModifier(color: "Color2"))
                         } else {
                             VStack {
-                                HStack{
-                                    ForEach(firestoreViewModel.challengeHistoryUserList.indices, id:\.self) { index in
-                                        Text("총 사용 금액 : \(firestoreViewModel.challengeHistoryUserList[index].totalMoney)원")
+                                ForEach(firestoreViewModel.challengeHistoryUserList.indices, id:\.self) { index in
+                                    
+                                    VStack(alignment: .leading, spacing: 15){
+                                        Text("총 사용 금액 :")
+                                            .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                                        Text("\(firestoreViewModel.challengeHistoryUserList[index].totalMoney)원")
                                             .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
                                     }
-                                    Spacer()
-                                }.padding()
-                                    .padding(.bottom)
-                                HStack{
-                                    Text("최대 사용 소비 태그")
-                                        .padding(.horizontal, 20)
-                                    Text("최소 사용 소비 태그")
-                                        .padding(.horizontal, 20)
-                                    
-                                }.modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.subhead, color: .color2))
-                                HStack{
+                                    .minimumScaleFactor(0.5)
+                                    .lineLimit(1)
+                                    .frame(minWidth: g.size.width / 1.1, alignment: .leading)
+                                }
+                                
                                     ForEach(tagValue.indices , id: \.self) { index in
-                                        
+                                        VStack {
+                                            HStack {
+                                                if index == 0 {
+                                                    Text("가장 많이 사용한 곳 :")
+                                                } else {
+                                                    Text("가장 적게 사용한 곳:")
+                                                }
+                                                Spacer()
+                                            }
+                                            .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                                            .padding()
+                                            
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 15)
                                                 .stroke(Color("Color1"),
@@ -188,57 +216,18 @@ struct RecordDetailView: View {
                                                     RoundedRectangle(cornerRadius: 15))
                                                 .background(Color("Color1"))
                                                 .cornerRadius(20)
-                                                .frame(width: g.size.width / 4.04, height: g.size.height / 12)
-                                            
-                                            Text("\(tagValue[index].tag)")
-                                            
+                                                .frame(width: g.size.width / 1.1, height: g.size.height / 6)
+                                            HStack {
+                                                Text("\(tagValue[index].tag)")
+                                                Text("\(tagValue[index].money)원")
+                                            }
                                         }
-                                        .padding(.horizontal, 32)
-                                        
                                     }
+                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
                                 }
-                                .padding(.bottom, 40)
-                                
-                                
-                                HStack{
-                                    Text("최대 사용 소비 금액")
-                                        .padding(.horizontal, 20)
-                                    Text("최소 사용 소비 금액")
-                                        .padding(.horizontal, 20)
-                                    
-                                }.modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.subhead, color: .color2))
-                                
-                                HStack{
-                                    ForEach(tagValue.indices , id: \.self) { index in
-                                        
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 15)
-                                                .stroke(Color("Color1"),
-                                                        lineWidth: 4)
-                                                .shadow(color: Color("Shadow"),
-                                                        radius: 3, x: 5, y: 5)
-                                                .clipShape(
-                                                    RoundedRectangle(cornerRadius: 15))
-                                                .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
-                                                .clipShape(
-                                                    RoundedRectangle(cornerRadius: 15))
-                                                .background(Color("Color1"))
-                                                .cornerRadius(20)
-                                                .frame(height: 60)
-//                                                .frame(width: g.size.width, height: g.size.height / 12)
-                                            
-                                            Text("\(tagValue[index].money)원")
-                                            
-                                        }
-                                        .padding(.horizontal, 2)
-                                        
-                                    }
-                                }
-                                .padding(.horizontal, 34)
                             }
                         }
                     }
-                    .modifier(TextViewModifier(color: "Color2"))
                 }
             }
             .onAppear{
@@ -252,6 +241,8 @@ struct RecordDetailView: View {
                     historyExpenditure = history
                     
                     print(tagValue)
+                    self.userValue = self.userValues(firestoreViewModel.challengeUsers)
+                    print("123123123123123213312132 :\(userValue)")
                 }
             }
         }
