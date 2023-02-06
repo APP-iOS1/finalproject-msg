@@ -159,24 +159,23 @@ struct SettingView: View {
                         .alert("로그아웃", isPresented: $logoutToggle) {
                             Button("확인", role: .destructive) {
                                 loginViewModel.signout()
-                        Spacer()
-                        Button {
-                            Task {
-                                await fireStoreViewModel.deleteUser()
-                                loginViewModel.deleteUser()
                             }
                             Button("취소", role: .cancel) {}
                         } message: {
                             Text("로그아웃하시겠습니까?")
-                
-                            
-                        } label: {
-                            Text("회원탈퇴//누르면 얼럿안뜨고 삭제됨 조심")
                         }
                         
                     }
                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                    
+                    Button {
+                        Task {
+                            await fireStoreViewModel.deleteUser()
+                            loginViewModel.deleteUser()
+                        }
+                    }
+                label: {
+                    Text("회원탈퇴//누르면 얼럿안뜨고 삭제됨 조심")
+                }
                     VStack {
                         // 프레임 맞추려고 있는 VStack
                     }
