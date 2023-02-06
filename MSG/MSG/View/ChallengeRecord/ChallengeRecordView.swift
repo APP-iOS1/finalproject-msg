@@ -32,7 +32,7 @@ struct ChallengeRecordView: View {
                     
                     // 챌린지 기록 리스트
                     // (List에 NavigationLink를 사용하면 꺽쇠 > 버튼은 숨길 수 없어서 List를 사용하지 않음)
-                    ScrollView {
+                    ScrollView(.vertical, showsIndicators: false) {
                             ForEach(fireStoreViewModel.challengeHistoryArray, id: \.self) { history in
                                 ChallegeListCell(challenge: history)
                             }
