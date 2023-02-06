@@ -214,7 +214,7 @@ final class FireStoreViewModel: ObservableObject {
     
     
     
-    func uploadImageToStorage(userImage: UIImage?, user: Msg) async {
+    func uploadImageToStorage(userImage: UIImage?, user: Msg) async -> Void {
         let ref = Storage.storage().reference(withPath: Auth.auth().currentUser?.uid ?? "")
         guard let userImage, let imageData = userImage.jpegData(compressionQuality: 0.5) else {
             self.addUserInfo(user: user, downloadUrl: "")

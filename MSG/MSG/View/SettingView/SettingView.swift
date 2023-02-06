@@ -55,17 +55,43 @@ struct SettingView: View {
                             if profileEditing == true {
                                 VStack {
                                     ZStack {
-                                        PhotosPicker(
-                                               selection: $selectedItem,
-                                               matching: .images,
-                                               photoLibrary: .shared()) {
-                                                   Spacer()
-                                                   Text("사진선택")
-                                                       .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
-                                               }
+                                        HStack{
+                                            PhotosPicker(
+                                                selection: $selectedItem,
+                                                matching: .images,
+                                                photoLibrary: .shared()) {
+                                                    Spacer()
+                                                    Text("사진선택   |")
+                                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                                }
+                                            Button(action: {
+                                                profileEditing = false
+                                                if let selectedImageData,
+                                                   let uiImage = UIImage(data: selectedImageData) {
+                                                    let userProfile = Msg(id: fireStoreViewModel.myInfo?.id ?? "", nickName: userProfile!.nickName, profileImage: fireStoreViewModel.myInfo?.profileImage ?? "", game: fireStoreViewModel.myInfo?.game ?? "")
+                                                    Task{
+                                                        await fireStoreViewModel.uploadImageToStorage(userImage: uiImage, user: userProfile)
+                                                        fireStoreViewModel.myInfo = try await fireStoreViewModel.fetchUserInfo(self.userProfile?.id ?? "")
+                                                    }
+                                                    
+                                                }
+                                            }) {
+                                                Text("   선택완료    |")
+                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                            }
+                                            
+                                            
+                                            Button(action: {
+                                                selectedImageData = nil
+                                                profileEditing = false
+                                            }) {
+                                                Text("  취소  ")
+                                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                            }
+                                        }
                                     }
                                     .padding(.trailing)
-                                    .padding(.top, -g.size.height / 20)
+                                    .padding(.top, -g.size.height / 20.5)
                                     .onChange(of: selectedItem) { newItem in
                                         Task {
                                             // Retrive selected asset in the form of Data
@@ -76,50 +102,86 @@ struct SettingView: View {
                                     }
                                     
                                     if selectedImageData == nil {
-                                        Image(systemName: "person.circle")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                    } else {
-                                        if profileImage != nil {
-                                            Image(uiImage: profileImage!)
-                                                .resizable()
-                                                .clipShape(Circle())
-                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                        }
-                                    }
-                                }
-                                .frame(height: g.size.height / 7)
-                            } else {
-                                VStack {
-                                    // 조건 써주기
-                                    if userProfile == nil || userProfile!.profileImage.isEmpty{
-                                        Image(systemName: "person.circle")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                    } else {
-                                        // 사진 불러오기
-                                        AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
-                                            Image
-                                                .resizable()
-                                                .clipShape(Circle())
-                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                        } placeholder: {
+                                        if userProfile == nil || userProfile!.profileImage.isEmpty{
                                             Image(systemName: "person.circle")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: g.size.width / 3, height: g.size.height / 7)
                                         }
+                                        else {
+                                            // 사진 불러오기
+                                            AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
+                                                Image
+                                                    .resizable()
+                                                    .clipShape(Circle())
+                                                    .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                            } placeholder: {
+                                                Image(systemName: "person.circle")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                            }
+                                        }
+                                        
+                                    }
+                                    else if profileImage != nil {
+                                        
+                                        Image(uiImage: profileImage!)
+                                            .resizable()
+                                            .clipShape(Circle())
+                                            .frame(width: g.size.width / 3, height: g.size.height / 7)
+
+                                    } else {
+                                        
+                                        if let selectedImageData,
+                                           let uiImage = UIImage(data: selectedImageData) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .clipShape(Circle())
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        }
+                                        
                                     }
                                 }
-                                .frame(height: g.size.height / 7)
+                                .frame(height: g.size.height / 6)
+                            } else {
+                                VStack{
+                                    ZStack {
+                                        HStack{ Spacer()
+                                        }
+                                    }
+                                    .padding(.trailing)
+                                    .padding(.top, -g.size.height / 20)
+                                    VStack {
+                                        // 조건 써주기
+                                        if userProfile == nil || userProfile!.profileImage.isEmpty{
+                                            Image(systemName: "person.circle")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        } else {
+                                            // 사진 불러오기
+                                            AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
+                                                Image
+                                                    .resizable()
+                                                    .clipShape(Circle())
+                                                    .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                            } placeholder: {
+                                                Image(systemName: "person.circle")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                            }
+                                        }
+                                    }
+                                }
+                                .frame(height: g.size.height / 6)
                             }
                             
                             HStack {
                                 Text( userProfile != nil ? userProfile!.nickName : "닉네임")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
-                                    .padding(.top)
+                                    .padding(.top, 5)
                             }
                         }
                     }
@@ -188,6 +250,7 @@ struct SettingView: View {
                 if loginViewModel.currentUserProfile != nil{
                     self.userProfile = loginViewModel.currentUserProfile
                 }
+                
             }
         }
     }
