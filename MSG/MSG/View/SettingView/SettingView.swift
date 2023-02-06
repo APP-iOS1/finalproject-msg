@@ -13,8 +13,9 @@ struct SettingView: View {
     @State var userProfile: Msg?
     @Binding var darkModeEnabled: Bool
     @State private var logoutToggle: Bool = false
+    @State private var deleteToggle: Bool = false
     @Binding var notificationEnabled: Bool
-    
+    @State private var text: String = ""
     @State private var profileEditing: Bool = false
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -56,13 +57,13 @@ struct SettingView: View {
                                 VStack {
                                     ZStack {
                                         PhotosPicker(
-                                               selection: $selectedItem,
-                                               matching: .images,
-                                               photoLibrary: .shared()) {
-                                                   Spacer()
-                                                   Text("사진선택")
-                                                       .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
-                                               }
+                                            selection: $selectedItem,
+                                            matching: .images,
+                                            photoLibrary: .shared()) {
+                                                Spacer()
+                                                Text("사진선택")
+                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                            }
                                     }
                                     .padding(.trailing)
                                     .padding(.top, -g.size.height / 20)
@@ -168,14 +169,34 @@ struct SettingView: View {
                     }
                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                     Button {
-                        Task {
-                            await fireStoreViewModel.deleteUser()
-                            loginViewModel.deleteUser()
+                        if fireStoreViewModel.currentGame == nil {
+                            deleteToggle.toggle()
+                        } else {
+                            // 게임중에는 탈퇴할 수 없습니다...
                         }
                     }
                 label: {
-                    Text("회원탈퇴//누르면 얼럿안뜨고 삭제됨 조심")
+                    Text("회원탈퇴")
+                        .font(.custom("MaplestoryOTFLight", size: 15))
+                        .foregroundColor(.red)
                 }
+                .alert("회원탈퇴", isPresented: $deleteToggle) {
+                    TextField("",text: $text)
+                    Button("확인", role: .destructive) {
+                        if text == "탈퇴하겠습니다" {
+                            Task {
+                                await fireStoreViewModel.deleteUser()
+                                loginViewModel.deleteUser()
+                                deleteToggle.toggle()
+                            }
+                        }
+                    }
+                    Button("취소", role: .cancel) { deleteToggle.toggle() }
+                } message: {
+                    Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
+                }
+                    
+                    
                     VStack {
                         // 프레임 맞추려고 있는 VStack
                     }
