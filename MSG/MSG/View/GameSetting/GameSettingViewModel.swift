@@ -13,7 +13,7 @@ final class GameSettingViewModel:ObservableObject{
     @Published var title = ""
     @Published var targetMoney = ""
     @Published var startDate:Double = Date().timeIntervalSince1970
-    @Published var endDate:Double = Date().timeIntervalSince1970 + 86400
+    @Published var endDate:Double = Date().timeIntervalSince1970
     @Published var isGameSettingValid = false
     @Published var daySelection: Int = 0
     
