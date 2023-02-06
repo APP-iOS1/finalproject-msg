@@ -21,14 +21,6 @@ struct ContentView: View {
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     @State var email: String = ""
     @State private var selectedTabBar: SelectedTab = .first
-    @State var labelNumber = 10
-    // 탭바
-//    init() {
-//        UITabBar.appearance().shadowImage = UIImage()
-//        UITabBar.appearance().backgroundImage = UIImage()
-//        UITabBar.appearance().isTranslucent = true
-//        UITabBar.appearance().backgroundColor = UIColor(Color("Background"))
-//    }
     
     var body: some View {
        
