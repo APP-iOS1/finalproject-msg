@@ -21,6 +21,7 @@ struct ContentView: View {
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     @State var email: String = ""
     @State private var selectedTabBar: SelectedTab = .first
+    @State var labelNumber = 10
     // 탭바
 //    init() {
 //        UITabBar.appearance().shadowImage = UIImage()
@@ -59,9 +60,9 @@ struct ContentView: View {
                                     case .third:
                                         FriendSettingView()
                                     case .fourth:
-                                        SettingView(darkModeEnabled: $darkModeEnabled)
+                                        SettingView(darkModeEnabled: $darkModeEnabled, notificationEnabled: $notiManager.isGranted)
                                     }
-                                    TabBarView(selectedTabBar: $selectedTabBar)
+                                    TabBarView(selectedTabBar: $selectedTabBar, number: $realtimeViewModel.labelNumber)
                                         .frame(width: g.size.width, height: g.size.height / 10)
                                 }
                                 .onAppear {

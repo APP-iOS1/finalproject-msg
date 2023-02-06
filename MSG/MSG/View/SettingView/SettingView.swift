@@ -5,12 +5,19 @@
 //  Created by zooey on 2023/01/18.
 //
 import SwiftUI
+import PhotosUI
 
 struct SettingView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @State var userProfile: Msg?
     @Binding var darkModeEnabled: Bool
     @State private var logoutToggle: Bool = false
+    @Binding var notificationEnabled: Bool
+    
+    @State private var profileEditing: Bool = false
+    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var selectedImageData: Data? = nil
+    @State private var profileImage: UIImage? = nil
     
     var body: some View {
         
@@ -44,24 +51,69 @@ struct SettingView: View {
                             .frame(width: g.size.width / 1.1, height: g.size.height / 4)
                         
                         VStack {
-                            VStack {
-                                // 조건 써주기
-                                if userProfile == nil || userProfile!.profileImage.isEmpty{
-                                    Image(systemName: "person.circle")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                } else {
-                                    // 사진 불러오기
-                                    AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
-                                        Image
+                            if profileEditing == true {
+                                VStack {
+                                    ZStack {
+                                        PhotosPicker(
+                                               selection: $selectedItem,
+                                               matching: .images,
+                                               photoLibrary: .shared()) {
+                                                   Spacer()
+                                                   Text("사진선택")
+                                                       .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                               }
+                                    }
+                                    .padding(.trailing)
+                                    .padding(.top, -g.size.height / 20)
+                                    .onChange(of: selectedItem) { newItem in
+                                        Task {
+                                            // Retrive selected asset in the form of Data
+                                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                                selectedImageData = data
+                                            }
+                                        }
+                                    }
+                                    
+                                    if selectedImageData == nil {
+                                        Image(systemName: "person.circle")
                                             .resizable()
-                                            .clipShape(Circle())
+                                            .scaledToFit()
                                             .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                    } placeholder: { }
+                                    } else {
+                                        if profileImage != nil {
+                                            Image(uiImage: profileImage!)
+                                                .resizable()
+                                                .clipShape(Circle())
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        }
+                                    }
                                 }
+                                .frame(height: g.size.height / 7)
+                            } else {
+                                VStack {
+                                    // 조건 써주기
+                                    if userProfile == nil || userProfile!.profileImage.isEmpty{
+                                        Image(systemName: "person.circle")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                    } else {
+                                        // 사진 불러오기
+                                        AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
+                                            Image
+                                                .resizable()
+                                                .clipShape(Circle())
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        } placeholder: {
+                                            Image(systemName: "person.circle")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                        }
+                                    }
+                                }
+                                .frame(height: g.size.height / 7)
                             }
-                            .frame(height: g.size.height / 7)
                             
                             HStack {
                                 Text( userProfile != nil ? userProfile!.nickName : "닉네임")
@@ -76,19 +128,27 @@ struct SettingView: View {
                         HStack {
                             Text("다크모드")
                             Spacer()
-                            CustomToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
-                               }
+                            DarkModeToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
+                        }
+                        
+                        HStack {
+                            Text("알림설정")
+                            Spacer()
+                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
+                        }
                         
                         Button {
-                            
+                            profileEditing.toggle()
                         } label: {
                             Text("프로필 편집")
                         }
                         
-                        Text("알림 설정")
-                        
                         // 이메일, sms, 공유하기, 시트뷰로 보여주기
-                        Text("친구 초대")
+                        Button {
+                            buttonAction("https://itunes.apple.com/app/", .share)
+                        } label: {
+                            Text("친구초대")
+                        }
                         
                         Button {
                             logoutToggle.toggle()
@@ -122,10 +182,54 @@ struct SettingView: View {
             }
         }
     }
+    private enum Coordinator {
+        static func topViewController(
+            _ viewController: UIViewController? = nil
+        ) -> UIViewController? {
+            
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScene = scenes.first as? UIWindowScene
+            let window = windowScene?.windows
+            
+            let vc = viewController ?? window?.first(where: { $0.isKeyWindow })?.rootViewController
+            
+            if let navigationController = vc as? UINavigationController {
+                return topViewController(navigationController.topViewController)
+            } else if let tabBarController = vc as? UITabBarController {
+                return tabBarController.presentedViewController != nil ?
+                topViewController(
+                    tabBarController.presentedViewController
+                ) : topViewController(
+                    tabBarController.selectedViewController
+                )
+            } else if let presentedViewController = vc?.presentedViewController {
+                return topViewController(presentedViewController)
+            }
+            return vc
+        }
+    }
+    
+    private enum Method: String {
+        case share
+        case link
+    }
+    
+    private func buttonAction(_ stringToURL: String, _ method: Method) {
+        let shareURL: URL = URL(string: stringToURL)!
+        
+        if method == .share {
+            let activityViewController = UIActivityViewController(activityItems: [shareURL], applicationActivities: nil)
+            let viewController = Coordinator.topViewController()
+            activityViewController.popoverPresentationController?.sourceView = viewController?.view
+            viewController?.present(activityViewController, animated: true, completion: nil)
+        } else {
+            UIApplication.shared.open(URL(string: stringToURL)!)
+        }
+    }
 }
 
 struct SettignView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView(darkModeEnabled: .constant(false))
+        SettingView(darkModeEnabled: .constant(false), notificationEnabled: .constant(true))
     }
 }
