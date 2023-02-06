@@ -12,6 +12,45 @@ struct RecordDetailView: View {
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @Binding var challenge: Challenge
     
+    @State private var tagValue: [(tag: String, money: Int)] = []
+    
+    private func paroingExpenditure(_ expenditureHistory: [String:[String]]) -> [(tag: String, money: Int)]{
+        
+        var maxValue: (tag:String, money: Int) = ("",Int.min)
+        var minValue: (tag:String, money: Int) = ("",Int.max)
+        var maxSum = Int.min
+        var minSum = Int.max
+        
+        for (tag, expenditure) in expenditureHistory{
+            var sum:Int = 0
+            for string in expenditure {
+                let stringArr = string.components(separatedBy: "_")
+                let money = stringArr[1]
+                sum += Int(money)!
+            }
+            if maxSum < sum {
+                maxValue = (tag: tag, money: sum)
+                maxSum = sum
+            }
+            if minSum > sum {
+                minValue = (tag: tag, money: sum)
+                minSum = sum
+            }
+        }
+        return [maxValue, minValue]
+    }
+    
+    var category: [Category] = [
+        Category(tag: "식비", icon: "fork.knife", color: "Chart1"),
+        Category(tag: "교통비", icon: "bus", color: "Chart2"),
+        Category(tag: "쇼핑", icon: "cart", color: "Chart3"),
+        Category(tag: "의료", icon: "cross", color: "Chart4"),
+        Category(tag: "주거", icon: "house", color: "Chart5"),
+        Category(tag: "여가", icon: "figure.socialdance", color: "Chart6"),
+        Category(tag: "금융", icon: "wonsign", color: "Chart7"),
+        Category(tag: "기타", icon: "ellipsis.curlybraces", color: "Chart8")
+    ]
+    
     var body: some View {
         
         GeometryReader { g in
@@ -23,6 +62,7 @@ struct RecordDetailView: View {
                         Group{
                             HStack{
                                 Text(challenge.gameTitle)
+                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title2, color: .color2))
                                 Spacer()
                                 NavigationLink(destination: ChartView()) {
                                     Text("상세내역")
@@ -39,6 +79,7 @@ struct RecordDetailView: View {
                             Divider()
                             HStack{
                                 Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
+                                    .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.body, color: .color2))
                                     .padding(.bottom, 20)
                                 Spacer()
                             }
@@ -116,29 +157,104 @@ struct RecordDetailView: View {
                             .modifier(TextViewModifier(color: "Color2"))
                         } else {
                             VStack {
-                                ForEach(firestoreViewModel.challengeHistoryUserList.indices, id:\.self) { index in
-                                    Text("총 사용 금액 : \(firestoreViewModel.challengeHistoryUserList[index].totalMoney)원")
+                                HStack{
+                                    ForEach(firestoreViewModel.challengeHistoryUserList.indices, id:\.self) { index in
+                                        Text("총 사용 금액 : \(firestoreViewModel.challengeHistoryUserList[index].totalMoney)원")
+                                            .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
+                                    }
+                                    Spacer()
+                                }.padding()
+                                    .padding(.bottom)
+                                HStack{
+                                    Text("최대 사용 소비 태그")
+                                        .padding(.horizontal, 20)
+                                    Text("최소 사용 소비 태그")
+                                        .padding(.horizontal, 20)
                                     
-                                        Text("지출이 가장 많은 태그 : ")
-                                        Text("지출이 가장 적은 태그 : ")
+                                }.modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.subhead, color: .color2))
+                                HStack{
+                                    ForEach(tagValue.indices , id: \.self) { index in
+                                        
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 15)
+                                                .stroke(Color("Color1"),
+                                                        lineWidth: 4)
+                                                .shadow(color: Color("Shadow"),
+                                                        radius: 3, x: 5, y: 5)
+                                                .clipShape(
+                                                    RoundedRectangle(cornerRadius: 15))
+                                                .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                                                .clipShape(
+                                                    RoundedRectangle(cornerRadius: 15))
+                                                .background(Color("Color1"))
+                                                .cornerRadius(20)
+                                                .frame(width: g.size.width / 4.04, height: g.size.height / 12)
+                                            
+                                            Text("\(tagValue[index].tag)")
+                                            
+                                        }
+                                        .padding(.horizontal, 32)
+                                        
                                     }
                                 }
+                                .padding(.bottom, 40)
+                                
+                                
+                                HStack{
+                                    Text("최대 사용 소비 금액")
+                                        .padding(.horizontal, 20)
+                                    Text("최소 사용 소비 금액")
+                                        .padding(.horizontal, 20)
+                                    
+                                }.modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.subhead, color: .color2))
+                                
+                                HStack{
+                                    ForEach(tagValue.indices , id: \.self) { index in
+                                        
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 15)
+                                                .stroke(Color("Color1"),
+                                                        lineWidth: 4)
+                                                .shadow(color: Color("Shadow"),
+                                                        radius: 3, x: 5, y: 5)
+                                                .clipShape(
+                                                    RoundedRectangle(cornerRadius: 15))
+                                                .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                                                .clipShape(
+                                                    RoundedRectangle(cornerRadius: 15))
+                                                .background(Color("Color1"))
+                                                .cornerRadius(20)
+                                                .frame(height: 60)
+//                                                .frame(width: g.size.width, height: g.size.height / 12)
+                                            
+                                            Text("\(tagValue[index].money)원")
+                                            
+                                        }
+                                        .padding(.horizontal, 2)
+                                        
+                                    }
+                                }
+                                .padding(.horizontal, 34)
                             }
-                         
                         }
+                    }
                     .modifier(TextViewModifier(color: "Color2"))
-                    }
-                }
-                .onAppear{
-                    Task{
-                        await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
-                        try await firestoreViewModel.fetchChallengeTotalMoney(challenge.id)
-                    }
                 }
             }
-            .foregroundColor(Color("Color2"))
+            .onAppear{
+                Task{
+                    await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
+                    try await firestoreViewModel.fetchChallengeTotalMoney(challenge.id)
+                    
+                    guard let expenditureHistory = await firestoreViewModel.fetchExpenditureHistory(challenge.id) else { return }
+                    self.tagValue = self.paroingExpenditure(expenditureHistory)
+                    print(tagValue)
+                }
+            }
         }
+        .foregroundColor(Color("Color2"))
     }
+}
 
 
 struct RecordDetailView_Previews: PreviewProvider {
