@@ -101,12 +101,14 @@ struct AfterChallengeView: View {
                                     .frame(height:30)
 //                                SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
                             } else {
-                                MultiGameProgressBar(stats: Stats(title: "", currentDate: 0, goal: 0, color: Color.brown))
+                                ForEach(challenge.inviteFriend,id:\.self) {friend in
+                                    MultiProgressBar(friend: friend, limitMoney: challenge.limitMoney)
+                                }
                             }
                             Spacer()
                             HStack{
                                 Text("지금까지")
-                                Text("\(fireStoreViewModel.totalMoney)원")
+                                Text("\(fireStoreViewModel.expenditure?.totalMoney ?? 0)원")
                                     .underline()
                                 Text("사용")
                                 
@@ -120,7 +122,7 @@ struct AfterChallengeView: View {
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                             }
                         }
-                        .padding(.top, g.size.height / 34)
+                        .padding(.top, g.size.height / 40)
 //                        Spacer().frame(width: g.size.width / 1.4, height: g.size.height / 34)
 //                        .padding(5)
                         
@@ -180,6 +182,9 @@ struct AfterChallengeView: View {
                 .modifier(TextViewModifier(color: "Color2"))
                 .padding()
                 
+            }
+            .task {
+                await fireStoreViewModel.fetchExpenditure()
             }
             .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
                 parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)

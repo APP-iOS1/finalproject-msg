@@ -47,6 +47,24 @@ final class FireStoreViewModel: ObservableObject {
         //        postits = []
         
     }
+    
+    func parsingExpenditure(expenditure: [String:[String]]) -> Int {
+        print(#function)
+        totalMoney = 0
+        var myTotalMoney = 0
+        for (_ , key) in expenditure {
+            for moneyHistory in key {
+                for i in moneyHistory.components(separatedBy: "_") {
+                    if let money = Int(i) {
+                        myTotalMoney += money
+                        print(money)
+                    }
+                }
+            }
+        }
+        return myTotalMoney
+    }
+    
  
     // MARK: - 챌린지 히스토리 가져오기
     func fetchChallengeHistory() async {
@@ -386,7 +404,7 @@ final class FireStoreViewModel: ObservableObject {
     
     // MARK: - 선택 유저 지출 기록 가져오기
     /// 해당 유저의 지출 기록을 가져온다.
-    func fetchExpenditure(_ uid: String) async -> [String:[String]]?  {
+    func fetchExpenditure(_ uid: String) async -> Expenditure?  {
         print(#function)
         guard let gameId = await fetchGameId() else { return nil }
         let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(uid)
@@ -396,9 +414,12 @@ final class FireStoreViewModel: ObservableObject {
             var expenditureList: [String:[String]] = [:]
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
-            let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
-            expenditureList = expenditure.expenditureHistory
-            return expenditureList
+            let totalMoney = docData["totalMoney"] as? Int ?? 0
+            let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
+            return expenditure
+//            expenditureList = expenditure.expenditureHistory
+//            print(expenditure.id)
+//            return expenditureList
         } catch {
             print("Error! fetchExpenditure")
             return nil
@@ -416,7 +437,8 @@ final class FireStoreViewModel: ObservableObject {
             var expenditureList: [String:[String]] = [:]
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
-            let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
+            let totalMoney = docData["totalMoney"] as? Int ?? 0
+            let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
             expenditureList = expenditure.expenditureHistory
             return expenditureList
         } catch {
@@ -438,7 +460,8 @@ final class FireStoreViewModel: ObservableObject {
             guard let docData = snapShot.data() else { return print("실패해쒀")}
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
-            let expenditure = Expenditure(id: id, expenditureHistory: expenditureHistory)
+            let totalMoney = docData["totalMoney"] as? Int ?? 0
+            let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
             self.expenditureList = expenditure.expenditureHistory
             self.expenditure = expenditure
             print(expenditureList)

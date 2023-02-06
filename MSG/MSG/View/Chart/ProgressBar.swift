@@ -5,6 +5,7 @@
 //  Created by sehooon on 2023/01/18.
 //
 
+//MARK: -삭제될 뷰입니다.
 import SwiftUI
 
 struct ProgressBar: View {
