@@ -51,8 +51,8 @@ struct RecordDetailView: View {
         
         for (user, totalMoney) in challengeUsers {
             var sum:Int = 0
-                let money = totalMoney
-                sum += money
+            let money = totalMoney
+            sum += money
             
             if maxSum < sum {
                 maxValue = (user:(userName: user.userName, userProfile: user.userProfile), totalMoney: sum)
@@ -89,7 +89,7 @@ struct RecordDetailView: View {
                                     .cornerRadius(10)
                                     .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                     .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-
+                                
                             }
                         }
                         .minimumScaleFactor(0.5)
@@ -119,60 +119,138 @@ struct RecordDetailView: View {
                         
                         //챌린지 참여인원에 따른 사용금액 그룹
                         if !challenge.inviteFriend.isEmpty {
-                                ForEach(firestoreViewModel.challengeUsers.indices, id: \.self) { index in
-                                    HStack(spacing: 40) {
-                                        VStack(spacing: 0) {
-                                            VStack {
-                                                if firestoreViewModel.challengeUsers[index].user.userProfile.isEmpty{
+                            ForEach(firestoreViewModel.challengeUsers.indices, id: \.self) { index in
+                                HStack(spacing: 40) {
+                                    VStack(spacing: 0) {
+                                        VStack {
+                                            if firestoreViewModel.challengeUsers[index].user.userProfile.isEmpty{
+                                                Image(systemName: "person")
+                                                    .font(.largeTitle)
+                                            } else {
+                                                AsyncImage(url: URL(string: firestoreViewModel.challengeUsers[index].user.userProfile)!) { Image in
+                                                    Image
+                                                        .resizable()
+                                                } placeholder: {
                                                     Image(systemName: "person")
                                                         .font(.largeTitle)
-                                                } else {
-                                                    AsyncImage(url: URL(string: firestoreViewModel.challengeUsers[index].user.userProfile)!) { Image in
-                                                        Image
-                                                            .resizable()
-                                                    } placeholder: {
-                                                        Image(systemName: "person")
-                                                            .font(.largeTitle)
+                                                }
+                                            }
+                                            
+                                        }
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: g.size.width / 6, height: g.size.height / 7)
+                                        .clipShape(Circle())
+                                        .foregroundColor(Color("Color2"))
+                                        .background(
+                                            Circle()
+                                                .fill(
+                                                    .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                    .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                                )
+                                                .foregroundColor(Color("Color1")))
+                                        
+                                        Text("\(firestoreViewModel.challengeUsers[index].user.userName)")
+                                            .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                                        
+                                    }
+                                    Text("총 \(firestoreViewModel.challengeUsers[index].totalMoney)원 사용")
+                                        .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.body, color: .color2))
+                                }
+                                .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 8, alignment: .leading)
+                            }
+                            
+                            //가장적게 쓴, 많이 쓴 사람
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color("Color1"),
+                                            lineWidth: 4)
+                                    .shadow(color: Color("Shadow"),
+                                            radius: 3, x: 5, y: 5)
+                                    .clipShape(
+                                        RoundedRectangle(cornerRadius: 15))
+                                    .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                                    .clipShape(
+                                        RoundedRectangle(cornerRadius: 15))
+                                    .background(Color("Color1"))
+                                    .cornerRadius(20)
+                                    .frame(width: g.size.width / 1.1, height: g.size.height / 3)
+                                VStack(spacing: 0){
+                                ForEach(userValue.indices , id: \.self) { index in
+                                    
+                                        HStack {
+                                            if index == 0 {
+                                                HStack {
+                                                    Text("가장 많이 쓴 사람")
+                                                        .padding(.trailing)
+                                                    VStack {
+                                                        VStack {
+                                                            if userValue[index].user.userProfile.isEmpty {
+                                                                Image(systemName: "person")
+                                                                    .font(.largeTitle)
+                                                            } else {
+                                                                AsyncImage(url: URL(string: userValue[index].user.userProfile)!) { Image in
+                                                                    Image
+                                                                        .resizable()
+                                                                } placeholder: {
+                                                                    Image(systemName: "person")
+                                                                        .font(.largeTitle)
+                                                                }
+                                                            }
+                                                        }
+                                                        .aspectRatio(contentMode: .fill)
+                                                        .frame(width: g.size.width / 7, height: g.size.height / 11)
+                                                        .clipShape(Circle())
+                                                        .foregroundColor(Color("Color2"))
+                                                        .background(
+                                                            Circle()
+                                                                .fill(
+                                                                    .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                                    .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                                                )
+                                                                .foregroundColor(Color("Color1")))
+                                                        
+                                                        Text("\(userValue[index].user.userName)")
                                                     }
                                                 }
-
+                                            } else {
+                                                HStack {
+                                                    Text("가장 적게 쓴 사람")
+                                                        .padding(.trailing)
+                                                    VStack(spacing: 0) {
+                                                        VStack {
+                                                            if userValue[index].user.userProfile.isEmpty {
+                                                                Image(systemName: "person")
+                                                                    .font(.largeTitle)
+                                                            } else {
+                                                                AsyncImage(url: URL(string: userValue[index].user.userProfile)!) { Image in
+                                                                    Image
+                                                                        .resizable()
+                                                                } placeholder: {
+                                                                    Image(systemName: "person")
+                                                                        .font(.largeTitle)
+                                                                }
+                                                            }
+                                                        }
+                                                        .aspectRatio(contentMode: .fill)
+                                                        .frame(width: g.size.width / 7, height: g.size.height / 11)
+                                                        .clipShape(Circle())
+                                                        .foregroundColor(Color("Color2"))
+                                                        .background(
+                                                            Circle()
+                                                                .fill(
+                                                                    .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                                    .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                                                )
+                                                                .foregroundColor(Color("Color1")))
+                                                        
+                                                        Text("\(userValue[index].user.userName)")
+                                                    }
+                                                }
                                             }
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: g.size.width / 6, height: g.size.height / 7)
-                                            .clipShape(Circle())
-                                            .foregroundColor(Color("Color2"))
-                                            .background(
-                                                Circle()
-                                                    .fill(
-                                                        .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                                        .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                                    )
-                                                    .foregroundColor(Color("Color1")))
-                                            
-                                            Text("\(firestoreViewModel.challengeUsers[index].user.userName)")
-                                                .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
-                                                
                                         }
-                                        Text("총 \(firestoreViewModel.challengeUsers[index].totalMoney)원 사용")
-                                            .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.body, color: .color2))
+                                        .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.subhead, color: .color2))
+                                        .padding()
                                     }
-                                    .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 8, alignment: .leading)
-                                }
-                            
-                            //가장적게 쓴, 많이 쓴 사람 그룹
-                            ForEach(userValue.indices , id: \.self) { index in
-                                VStack{
-                                    HStack {
-                                        if index == 0 {
-                                            Text("가장 적게 쓴 사람")
-                                            Text("\(userValue[index].user.userName)")
-                                        } else {
-                                            Text("가장 많이 쓴 사람")
-                                            Text("\(userValue[index].user.userName)")
-                                        }
-                                    }
-                                    .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
-                                    .padding()
                                 }
                             }
                         } else {
@@ -190,19 +268,19 @@ struct RecordDetailView: View {
                                     .frame(minWidth: g.size.width / 1.1, alignment: .leading)
                                 }
                                 
-                                    ForEach(tagValue.indices , id: \.self) { index in
-                                        VStack {
-                                            HStack {
-                                                if index == 0 {
-                                                    Text("가장 많이 사용한 곳 :")
-                                                } else {
-                                                    Text("가장 적게 사용한 곳:")
-                                                }
-                                                Spacer()
+                                ForEach(tagValue.indices , id: \.self) { index in
+                                    VStack {
+                                        HStack {
+                                            if index == 0 {
+                                                Text("가장 많이 사용한 곳 :")
+                                            } else {
+                                                Text("가장 적게 사용한 곳:")
                                             }
-                                            .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
-                                            .padding()
-                                            
+                                            Spacer()
+                                        }
+                                        .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
+                                        .padding()
+                                        
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 15)
                                                 .stroke(Color("Color1"),
@@ -239,14 +317,13 @@ struct RecordDetailView: View {
                     // 과거 지출 기록 가져오기
                     guard let history = await firestoreViewModel.fetchHistoryExpenditure(challenge.id) else { return }
                     historyExpenditure = history
-                    
-                    print(tagValue)
+                    self.tagValue = self.parsingExpenditure(historyExpenditure!.expenditureHistory)
                     self.userValue = self.userValues(firestoreViewModel.challengeUsers)
-                    print("123123123123123213312132 :\(userValue)")
                 }
             }
         }
         .foregroundColor(Color("Color2"))
+        .scrollIndicators(.hidden)
     }
 }
 
