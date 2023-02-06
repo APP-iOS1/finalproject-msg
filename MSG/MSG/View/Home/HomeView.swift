@@ -23,7 +23,7 @@ struct HomeView: View {
                 } else {
                     WaitingView(game: fireStoreViewModel.currentGame!)
                         .refreshable {
-                           // await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
+                            await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
                             await fireStoreViewModel.fetchGame()
                         }
                 }
@@ -37,7 +37,6 @@ struct HomeView: View {
                 guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
                 if !(user.game.isEmpty) {
                     await fireStoreViewModel.fetchGame()
-                    await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
                 }
             }
       
