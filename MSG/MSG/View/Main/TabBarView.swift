@@ -117,6 +117,7 @@ struct TabBarView: View {
                     }
                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: selectedTabBar == .fourth ? FontCustomColor.color2 : FontCustomColor.color3))
                 }
+                .padding(.bottom)
             }
         }
     }

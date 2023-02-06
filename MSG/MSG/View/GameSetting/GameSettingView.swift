@@ -327,21 +327,6 @@ extension GameSettingView {
         }, message: {
             Text("현재 작성중인 항목이 삭제될 수 있습니다.")
         })
-        .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(Text("챌린지 생성"), displayMode: SwiftUI.NavigationBarItem.TitleDisplayMode.inline)
-        .toolbar{
-            ToolbarItemGroup(placement: .navigationBarLeading) {
-                Button {
-                    backBtnAlert = true
-                } label: {
-                    Image(systemName:"chevron.backward")
-                }
-                
-            }
-        }
-        //        .onAppear{
-        //            fireStoreViewModel.findFriend()
-        //        }
     }
 }
 
