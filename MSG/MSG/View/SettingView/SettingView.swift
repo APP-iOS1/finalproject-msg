@@ -247,7 +247,7 @@ struct SettingView: View {
                         .foregroundColor(.red)
                 }
                 .sheet(isPresented: $deleteToggle) {
-                    DeleteUserView()
+                    DeleteUserView(sheetToggle: $deleteToggle)
                         .interactiveDismissDisabled(true)
                 }
                 

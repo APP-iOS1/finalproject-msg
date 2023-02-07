@@ -21,6 +21,7 @@ struct DeleteUserView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var text = ""
     @State private var deleteToggle: Bool = false
+    @Binding var sheetToggle: Bool
     @State var buttonNumber: Int = 4
     @State var isAnimating: Bool = false
     
@@ -220,9 +221,9 @@ struct DeleteUserView: View {
                                     Task {
                                         await fireStoreViewModel.deleteUser()
                                         loginViewModel.deleteUser()
-                                        deleteToggle.toggle()
-                                        dismiss()
                                     }
+                                    deleteToggle.toggle()
+                                    sheetToggle.toggle()
                                 }
                             }
                             Button("취소", role: .cancel) { deleteToggle.toggle() }
@@ -251,8 +252,8 @@ struct DeleteUserView: View {
 
 
 
-struct DeleteUserView_Previews: PreviewProvider {
-    static var previews: some View {
-        DeleteUserView()
-    }
-}
+//struct DeleteUserView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DeleteUserView()
+//    }
+//}
