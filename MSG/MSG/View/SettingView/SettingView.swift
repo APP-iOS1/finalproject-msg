@@ -121,6 +121,7 @@ struct SettingView: View {
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                                    .aspectRatio(contentMode: .fill)
                                             }
                                         }
                                         
@@ -131,6 +132,7 @@ struct SettingView: View {
                                             .resizable()
                                             .clipShape(Circle())
                                             .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                            .aspectRatio(contentMode: .fill)
 
                                     } else {
                                         
@@ -140,6 +142,7 @@ struct SettingView: View {
                                                 .resizable()
                                                 .clipShape(Circle())
                                                 .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                                .aspectRatio(contentMode: .fill)
                                         }
                                         
                                     }
@@ -167,6 +170,7 @@ struct SettingView: View {
                                                     .resizable()
                                                     .clipShape(Circle())
                                                     .frame(width: g.size.width / 3, height: g.size.height / 7)
+                                                    .aspectRatio(contentMode: .fill)
                                             } placeholder: {
                                                 Image(systemName: "person.circle")
                                                     .resizable()

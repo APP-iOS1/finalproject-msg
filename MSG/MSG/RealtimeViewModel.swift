@@ -11,7 +11,8 @@ final class RealtimeViewModel: ObservableObject {
     @Published var requsetGameArr:[Msg] = []
     
     @Published var inviteFriendIdArray:[String] = []
-    @Published var labelNumber: Int = 0
+    @Published var friendCount: Int = 0
+    @Published var requsetCount: Int = 0
         
     
     
@@ -180,6 +181,7 @@ final class RealtimeViewModel: ObservableObject {
                     print("받음:",postit)
                     self.user.insert(postit, at: 0)
                     self.user = Array(Set(self.user))
+                    self.friendCount = self.user.count
                 } catch {
                     print("AddError")
                     print("an error occurred", error)
@@ -212,6 +214,7 @@ final class RealtimeViewModel: ObservableObject {
                         index += 1
                     }
                     self.user.insert(postit, at: 0)
+                    self.friendCount = self.user.count
                 } catch {
                     print("ChangeError")
                     print("an error occurred", error)
@@ -243,6 +246,7 @@ final class RealtimeViewModel: ObservableObject {
                         }
                         index += 1
                     }
+                    self.friendCount = self.user.count
                 } catch {
                     print("removeError")
                     print("an error occurred", error)
@@ -276,6 +280,7 @@ final class RealtimeViewModel: ObservableObject {
                     print("받음:",user)
                     if !self.requsetGameArr.contains(user){
                         self.requsetGameArr.insert(user, at: 0)
+                        self.requsetCount = self.requsetGameArr.count
                     }
                 } catch {
                     print("AddError")
@@ -309,6 +314,7 @@ final class RealtimeViewModel: ObservableObject {
                         index += 1
                     }
                     self.requsetGameArr.insert(postit, at: 0)
+                    self.requsetCount = self.requsetGameArr.count
                 } catch {
                     print("ChangeError")
                     print("an error occurred", error)
@@ -340,6 +346,7 @@ final class RealtimeViewModel: ObservableObject {
                         }
                         index += 1
                     }
+                    self.requsetCount = self.requsetGameArr.count
                 } catch {
                     print("removeError")
                     print("an error occurred", error)
