@@ -24,6 +24,7 @@ struct LicenseDetailView: View {
                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                 }
                 .background(Color("Color"))
+                .padding()
             }
         }
     }
