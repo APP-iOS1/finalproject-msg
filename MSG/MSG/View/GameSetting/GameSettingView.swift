@@ -171,9 +171,9 @@ extension GameSettingView {
                             Spacer()
                         }
                         
-                        // MARK: - 챌린지 기간 - [DatePicker]
+                        // MARK: - 챌린지 기간 - [DateSheet]
                         VStack(alignment: .leading){
-                            HStack{
+                            HStack {
                                 Text("챌린지 기간")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                                 Spacer()
@@ -182,8 +182,7 @@ extension GameSettingView {
                             
                             Spacer()
                             
-                            HStack{
-                                
+                            HStack {
                                 if gameSettingViewModel.daySelection == 5 {
                                     Text("챌린지 기간을 설정해주세요")
                                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color3))
@@ -361,46 +360,10 @@ extension GameSettingView {
                         
                         Spacer()
             
-                    
                 }
                 .frame(width: g.size.width / 1.2, height: g.size.height / 1.2)
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                .foregroundColor(Color("Color2"))
-                .alert("필수항목을 모두 작성해주세요.", isPresented: $summitAlertToggle, actions: {
-                    Button("확인") {}
-                })
-                .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
-                    Button("시작하기") {
-                        Task{
-                            if !notiManager.isGranted {
-                                notiManager.openSetting()
-                            } else {
-                                print("도전장 보내짐?")
-                                let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
-                                let challenge = Challenge(
-                                    id: UUID().uuidString,
-                                    gameTitle: gameSettingViewModel.title,
-                                    limitMoney: Int(gameSettingViewModel.targetMoney)!,
-                                    startDate: String(gameSettingViewModel.startDate) ,
-                                    endDate: String(gameSettingViewModel.endDate),
-                                    inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
-                                await fireStoreViewModel.addMultiGame(challenge)
-                                guard let myInfo = fireStoreViewModel.myInfo else { return }
-                                //                            print("myInfo: \(myInfo)")
-                                print(realtimeViewModel.inviteFriendArray)
-                                realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
-                                dismiss()
-                                await notiManager.schedule(localNotification: localNotification)
-                                await notiManager.getPendingRequests()
-                            }
-                        }
-                    }
-                    Button("취소하기") { }
-                }, message: {
-                    if notiManager.isGranted {
-                        Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
-                    }
-                })
+
                 Spacer()
             }
             .onAppear {
@@ -408,10 +371,32 @@ extension GameSettingView {
                 gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[0]
                 gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
             }
-            
-            
         }
         .ignoresSafeArea(.keyboard)
+        .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
+            Button("시작하기") {
+                Task{
+                    if !notiManager.isGranted {
+                        notiManager.openSetting()
+                    } else {
+                        print("도전장 보내짐")
+                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
+                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                        dismiss()
+                        await fireStoreViewModel.makeSingleGame(singGame)
+                        await notiManager.schedule(localNotification: localNotification)
+                        await notiManager.getPendingRequests()
+                    }
+                }
+            }
+            Button("취소하기") {
+                //   dismiss()
+            }
+        }, message: {
+            if notiManager.isGranted {
+                Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
+            }
+        })
         .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
             Button {
                 
