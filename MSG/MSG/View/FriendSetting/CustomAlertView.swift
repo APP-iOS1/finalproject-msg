@@ -37,6 +37,7 @@ struct CustomAlertView<Content>: View where Content:View {
                         }
                         .frame(height:60)
                         .font(.system(size: 16,weight: .bold))
+                        .background(Color("Color1"))
                     }
                     , alignment: .bottom)
                 .background(

@@ -21,14 +21,6 @@ struct ContentView: View {
     @AppStorage("DarkModeEnabled") private var darkModeEnabled: Bool = false
     @State var email: String = ""
     @State private var selectedTabBar: SelectedTab = .first
-    @State var labelNumber = 10
-    // 탭바
-//    init() {
-//        UITabBar.appearance().shadowImage = UIImage()
-//        UITabBar.appearance().backgroundImage = UIImage()
-//        UITabBar.appearance().isTranslucent = true
-//        UITabBar.appearance().backgroundColor = UIColor(Color("Background"))
-//    }
     
     var body: some View {
        
@@ -62,11 +54,15 @@ struct ContentView: View {
                                     case .fourth:
                                         SettingView(darkModeEnabled: $darkModeEnabled, notificationEnabled: $notiManager.isGranted)
                                     }
-                                    TabBarView(selectedTabBar: $selectedTabBar, number: $realtimeViewModel.labelNumber)
+                                    TabBarView(selectedTabBar: $selectedTabBar, friendCount: $realtimeViewModel.friendCount, requsetCount: $realtimeViewModel.requsetCount )
                                         .frame(width: g.size.width, height: g.size.height / 10)
                                 }
                                 .onAppear {
-                                    realtimeViewModel.myInfo = loginViewModel.currentUserProfile
+                                    Task {
+                                        realtimeViewModel.myInfo = loginViewModel.currentUserProfile
+                                        await realtimeViewModel.fetchGameRequest()
+                                        realtimeViewModel.fetchFriendRequest()
+                                    }
                                 }
                             }
                         } else {

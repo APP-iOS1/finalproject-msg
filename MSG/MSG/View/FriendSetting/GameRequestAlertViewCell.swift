@@ -33,7 +33,7 @@ struct GameRequestAlertViewCell: View {
                 }
             }
             .aspectRatio(contentMode: .fill)
-            .frame(width: g.size.width / 7)
+            .frame(width: g.size.width / 7, height: g.size.height / 12)
             .clipShape(Circle())
             .padding(4)
             .foregroundColor(Color("Color2"))
@@ -75,54 +75,53 @@ struct GameRequestAlertViewCell: View {
         .padding()
         .alert(isPresented: $isPresent) {
             CustomAlertView {
-                VStack(spacing: 10){
-                    if let challengeInfo {
-                        if challengeInfo.gameTitle.isEmpty {
-                            ProgressView()
+                ZStack {
+                    Color("Color1").ignoresSafeArea()
+                    VStack(spacing: 10){
+                        if let challengeInfo {
+                            if challengeInfo.gameTitle.isEmpty {
+                                ProgressView()
+                            }
                         }
+                        Text("\(self.sendUser.nickName)님의 도전장👊" )
+                            .padding()
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
+                        Divider()
+                        Spacer()
+                        Text("\(challengeInfo?.gameTitle ?? "제목없음")")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.title2, color: FontCustomColor.color2))
+                        VStack(spacing: 10){
+                            Text("목표금액💶")
+                            Text("\(challengeInfo?.limitMoney ?? 0)")
+                        }.padding()
+                        VStack(spacing: 10){
+                            Text("챌린지 기간🗓")
+                            Text("\(challengeInfo?.startDate.createdDate ?? "제목없음")")
+                            Text("\(challengeInfo?.endDate.createdDate ?? "제목없음")")
+                        }.padding()
+                        VStack {
+                            Text("경고")
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
+                            Text("수락하시면 모든 도전장이 사라집니다.")
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                        }
+                        Spacer()
                     }
-                    Text("\(self.sendUser.nickName)님의 도전장👊" )
-                        .padding()
-                        .modifier(TextTitleBold())
-                    Divider()
-                    Spacer()
-                    Text("\(challengeInfo?.gameTitle ?? "제목없음")")
-                        .modifier(TextViewModifier(color: "Font"))
-                    VStack(spacing: 10){
-                        Text("목표금액💶")
-                            .modifier(TextViewModifier(color: "Font"))
-                        Text("\(challengeInfo?.limitMoney ?? 0)")
-                            .modifier(TextViewModifier(color: "Font"))
-                    }.padding()
-                    VStack(spacing: 10){
-                        Text("챌린지 기간🗓")
-                            .modifier(TextViewModifier(color: "Font"))
-                        Text("\(challengeInfo?.startDate.createdDate ?? "제목없음")")
-                            .modifier(TextTitleBold())
-                        Text("\(challengeInfo?.endDate.createdDate ?? "제목없음")")
-                            .modifier(TextViewModifier(color: "Font"))
-                        Text("경고")
-                            .modifier(TextTitleSemiBold(color: "Font"))
-                        Text("수락하시면 모든 도전장이 사라집니다.")
-                            .modifier(TextViewModifier(color: "Font"))
-                    }.padding()
-                    
-                    
-                    Spacer()
                 }
+                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                 .frame(width: 300, height: 400)
             } primaryButton: {
-                CustomAlertButton(title: Text("거절")) {
-                    isPresent = false
-                    Task {
-                        await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
-                        //리얼타임에 삭제하는 함수임
-                        await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
+                    CustomAlertButton(title: Text("거절"), color: Color("Color1")) {
+                        isPresent = false
+                        Task {
+                            await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
+                            //리얼타임에 삭제하는 함수임
+                            await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
+                        }
+                        print("도전")
                     }
-                    print("도전")
-                }
             } secondButton: {
-                CustomAlertButton(title: Text("수락")) {
+                CustomAlertButton(title: Text("수락"), color: Color("Color1")) {
                     
                     //수락을 눌렀을 때
                     //1.수락한사람의 id를 찾아내기
@@ -162,9 +161,6 @@ struct GameRequestAlertViewCell: View {
                 }
             }
         }
-        //        }
-        .modifier(TextViewModifier(color: "Font"))
-        
     }
 }
 

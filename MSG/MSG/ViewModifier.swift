@@ -45,6 +45,7 @@ enum FontCustomColor: String{
     case color1 = "Color1"
     case color2 = "Color2"
     case color3 = "Color3"
+    case color4 = "Color4"
 }
 
 enum FontCustomWeight:String {
