@@ -259,11 +259,32 @@ struct SoloGameSettingView: View {
                             .disabled(!gameSettingViewModel.isGameSettingValid)
                             .padding([.leading, .bottom, .trailing])
                         }
-                        
-              
-                            Spacer()
-                     
-                        
+                        .disabled(!gameSettingViewModel.isGameSettingValid)
+                        .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
+                            Button("시작하기") {
+                                Task{
+                                    if !notiManager.isGranted {
+                                        notiManager.openSetting()
+                                    } else {
+                                        print("도전장 보내짐")
+                                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
+                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                                        dismiss()
+                                        await fireStoreViewModel.makeSingleGame(singGame)
+                                        await notiManager.schedule(localNotification: localNotification)
+                                        await notiManager.getPendingRequests()
+                                    }
+                                }
+                            }
+                            Button("취소하기") {
+                                //   dismiss()
+                            }
+                        }, message: {
+                            if notiManager.isGranted {
+                                Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
+                            }
+                        })
+                        Spacer()
                     }
                     .frame(width: g.size.width / 1.2, height: g.size.height / 1.7)
                     

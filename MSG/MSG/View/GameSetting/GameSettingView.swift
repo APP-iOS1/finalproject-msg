@@ -381,11 +381,21 @@ extension GameSettingView {
                     if !notiManager.isGranted {
                         notiManager.openSetting()
                     } else {
-                        print("도전장 보내짐")
-                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
-                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                        print("도전장 보내짐?")
+                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
+                        let challenge = Challenge(
+                            id: UUID().uuidString,
+                            gameTitle: gameSettingViewModel.title,
+                            limitMoney: Int(gameSettingViewModel.targetMoney)!,
+                            startDate: String(gameSettingViewModel.startDate) ,
+                            endDate: String(gameSettingViewModel.endDate),
+                            inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
+                        await fireStoreViewModel.addMultiGame(challenge)
+                        guard let myInfo = fireStoreViewModel.myInfo else { return }
+                        //                            print("myInfo: \(myInfo)")
+                        print(realtimeViewModel.inviteFriendArray)
+                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
-                        await fireStoreViewModel.makeSingleGame(singGame)
                         await notiManager.schedule(localNotification: localNotification)
                         await notiManager.getPendingRequests()
                     }
