@@ -71,6 +71,9 @@ struct DivideFriendCell: View {
                             }
                         } label: {
                             Text( friendViewModel.sendToFriendArray.contains(user.id) ? "대기중" : "추가" )
+                                .minimumScaleFactor(0.8)
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                                
                         }
                         .disabled(friendViewModel.sendToFriendArray.contains(user.id))
                         .buttonStyle(.borderless)
@@ -87,7 +90,7 @@ struct DivideFriendCell: View {
                         if !user.game.isEmpty {
 
                                 Text("도전중")
-
+                                .minimumScaleFactor(0.8)
                             .frame(width: g.size.width / 9, height: g.size.height / 13)
                             .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
                             .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)

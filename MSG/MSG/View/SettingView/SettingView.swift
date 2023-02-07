@@ -20,6 +20,7 @@ struct SettingView: View {
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     @State private var profileImage: UIImage? = nil
+    @EnvironmentObject var notiManager: NotificationManager
     
     var body: some View {
         
@@ -51,8 +52,9 @@ struct SettingView: View {
                             .background(Color("Color1"))
                             .cornerRadius(20)
                             .frame(width: g.size.width / 1.1, height: g.size.height / 4)
+                            .frame(minWidth: g.size.width / 1.5, minHeight: g.size.height / 4)
                         
-                        VStack {
+                        VStack(spacing: 0) {
                             if profileEditing == true {
                                 VStack {
                                     ZStack {
@@ -87,12 +89,13 @@ struct SettingView: View {
                                                 profileEditing = false
                                             }) {
                                                 Text("  취소  ")
-                                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                                             }
                                         }
                                     }
                                     .padding(.trailing)
-                                    .padding(.top, -g.size.height / 20.5)
+                                    .padding(.top, -g.size.height / 18)
+                                    .padding(.bottom, 5)
                                     .onChange(of: selectedItem) { newItem in
                                         Task {
                                             // Retrive selected asset in the form of Data
@@ -133,7 +136,7 @@ struct SettingView: View {
                                             .clipShape(Circle())
                                             .frame(width: g.size.width / 3, height: g.size.height / 7)
                                             .aspectRatio(contentMode: .fill)
-
+                                        
                                     } else {
                                         
                                         if let selectedImageData,
@@ -155,7 +158,8 @@ struct SettingView: View {
                                         }
                                     }
                                     .padding(.trailing)
-                                    .padding(.top, -g.size.height / 20)
+                                    .padding(.top, -g.size.height / 18)
+                                    .padding(.bottom, 5)
                                     VStack {
                                         // 조건 써주기
                                         if userProfile == nil || userProfile!.profileImage.isEmpty{
@@ -199,11 +203,18 @@ struct SettingView: View {
                             DarkModeToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
                         }
                         
-                        HStack {
+                        Button {
+                            notiManager.openSetting()
+                        } label: {
                             Text("알림설정")
-                            Spacer()
-                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
                         }
+                        
+                        
+                        //                        HStack {
+                        //                            Text("알림설정")
+                        //                            Spacer()
+                        //                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
+                        //                        }
                         
                         Button {
                             profileEditing.toggle()
@@ -216,6 +227,12 @@ struct SettingView: View {
                             buttonAction("https://itunes.apple.com/app/", .share)
                         } label: {
                             Text("친구초대")
+                        }
+                        
+                        NavigationLink {
+                            LicenseView()
+                        } label: {
+                            Text("라이센스")
                         }
                         
                         Button {
@@ -231,38 +248,25 @@ struct SettingView: View {
                         } message: {
                             Text("로그아웃하시겠습니까?")
                         }
-                        
-                    }
-                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                    Button {
-                        if fireStoreViewModel.currentGame == nil {
-                            deleteToggle.toggle()
-                        } else {
-                            // 게임중에는 탈퇴할 수 없습니다...
-                        }
-                    }
-                label: {
-                    Text("회원탈퇴")
-                        .font(.custom("MaplestoryOTFLight", size: 15))
-                        .foregroundColor(.red)
-                }
-                .alert("회원탈퇴", isPresented: $deleteToggle) {
-                    TextField("",text: $text)
-                    Button("확인", role: .destructive) {
-                        if text == "탈퇴하겠습니다" {
-                            Task {
-                                await fireStoreViewModel.deleteUser()
-                                loginViewModel.deleteUser()
+                        Button {
+                            if fireStoreViewModel.currentGame == nil {
                                 deleteToggle.toggle()
+                            } else {
+                                // 게임중에는 탈퇴할 수 없습니다...
                             }
                         }
+                    label: {
+                        Text("회원탈퇴")
+                            .font(.custom("MaplestoryOTFLight", size: 15))
+                            .foregroundColor(.red)
                     }
-                    Button("취소", role: .cancel) { deleteToggle.toggle() }
-                } message: {
-                    Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
-                }
-                    
-                    
+                    .sheet(isPresented: $deleteToggle) {
+                        DeleteUserView(sheetToggle: $deleteToggle)
+                            .interactiveDismissDisabled(true)
+                    }
+
+                    }
+                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                     VStack {
                         // 프레임 맞추려고 있는 VStack
                     }
@@ -275,7 +279,6 @@ struct SettingView: View {
                 if loginViewModel.currentUserProfile != nil{
                     self.userProfile = loginViewModel.currentUserProfile
                 }
-                
             }
         }
     }
