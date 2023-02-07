@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GameRequestAlertView: View {
     @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
+    @Binding var selectedTabBar: SelectedTab
     var body: some View {
         
         GeometryReader { g in
@@ -23,7 +24,7 @@ struct GameRequestAlertView: View {
                     Color("Color1").ignoresSafeArea()
                     
                     ForEach(realtimeViewModel.requsetGameArr){ sendUser in
-                        GameRequestAlertViewCell(sendUser: sendUser, g: g)
+                        GameRequestAlertViewCell(selectedTabBar: $selectedTabBar, sendUser: sendUser, g: g)
                     }
                 }
                 .modifier(TextViewModifier(color: "Font"))
@@ -37,8 +38,8 @@ struct GameRequestAlertView: View {
     }
 }
 
-struct GameRequestAlertView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameRequestAlertView()
-    }
-}
+//struct GameRequestAlertView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GameRequestAlertView()
+//    }
+//}
