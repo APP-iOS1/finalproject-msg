@@ -242,7 +242,9 @@ struct SoloGameSettingView: View {
                         // MARK: - 시작하기 - [Button]
                         VStack {
                             Button {
-                                isShowingAlert = true
+                                if gameSettingViewModel.daySelection != 5 {
+                                    isShowingAlert = true
+                                }
                             } label: {
                                 Text("시작하기")
                                     .modifier(gameSettingViewModel.title.isEmpty || gameSettingViewModel.targetMoney.isEmpty || gameSettingViewModel.daySelection == 5 ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
