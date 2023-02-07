@@ -337,8 +337,8 @@ extension GameSettingView {
                         // MARK: - 초대장 보내기 Button
                     VStack {
                         Button {
-                            if trimsTitleTextField.count > 0 && trimTargetMoneyTextField.count > 0 {
-                                isShowingAlert = true
+                            if trimsTitleTextField.count > 0 && trimTargetMoneyTextField.count > 0 && gameSettingViewModel.daySelection != 5{
+                                    isShowingAlert = true
                             } else { //공백문자만 있을 때
                                 summitAlertToggle = true
                             }
