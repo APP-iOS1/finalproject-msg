@@ -2,6 +2,7 @@
 
 <img src="https://user-images.githubusercontent.com/66459715/217157560-16daa543-fdf4-4146-85dc-dc80abd0c3d6.png" width=300px height=300px></img>
 
+## 앱소개
 > 앱설명 한줄 <br>
 
 > 간편하게 하루에 한번 기록하며, 나만의 건강한 소비 습관을 만들어 가고싶은 앱을 찾고 계셨나요? <br>
@@ -34,7 +35,9 @@
 - 카테고리별 지출 분석 상세 내역
 - 챌린지 이력
 - 다크모드 지원
+<br>
 
+## 페르소나
 <br>
 <br>
 
