@@ -49,7 +49,7 @@ class LoginViewModel: ObservableObject {
     func deleteUser() {
         print(#function)
         //Refresh Token
-        Auth.auth().currentUser?.getIDToken()
+//        print(Auth.auth().currentUser?.getIDToken())
         let user = Auth.auth().currentUser
         user?.delete { error in
           if let error = error {

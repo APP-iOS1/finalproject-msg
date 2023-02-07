@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameRequestAlertViewCell: View {
+    @Binding var selectedTabBar: SelectedTab
     @State var sendUser: Msg
     @State private var isPresent = false
     @State private var challengeInfo: Challenge?
@@ -130,14 +131,15 @@ struct GameRequestAlertViewCell: View {
                     Task {
                         challengeInfo = await firestoreViewModel.fetchChallengeInformation(self.sendUser.game)
                         await firestoreViewModel.acceptGame(self.sendUser.game)
-                        
-                        
+
                         //1. 내가포함된 모든게임에서 나를 waiting배열에서 지운다
                         await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
                         //리얼타임에 삭제하는 함수임
                         await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
                         // 나를 해당 챌린지에 invite append하는 함수
                         await firestoreViewModel.waitingLogic(data: challengeInfo)
+                        
+                        selectedTabBar = .first
                     }
                     isPresent = false
                     print("도망")

@@ -29,10 +29,17 @@ struct ChallengeRecordView: View {
                             .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                     }
                     .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 8, alignment: .leading)
+                    .padding(.top)
                     
-                    // 챌린지 기록 리스트
-                    // (List에 NavigationLink를 사용하면 꺽쇠 > 버튼은 숨길 수 없어서 List를 사용하지 않음)
-                    ScrollView(.vertical, showsIndicators: false) {
+                    if fireStoreViewModel.challengeHistoryArray.isEmpty {
+                        Spacer()
+                        Text("비어있습니다.")
+                            .modifier(TextTitleBold())
+                        Spacer()
+                    } else {
+                        // 챌린지 기록 리스트
+                        // (List에 NavigationLink를 사용하면 꺽쇠 > 버튼은 숨길 수 없어서 List를 사용하지 않음)
+                        ScrollView(.vertical, showsIndicators: false) {
                             ForEach(fireStoreViewModel.challengeHistoryArray, id: \.self) { history in
                                 ChallegeListCell(challenge: history)
                             }
@@ -47,9 +54,10 @@ struct ChallengeRecordView: View {
                             .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                             .padding()
                             .padding(.top, 10)
-                        
-                        Spacer()
-                    } // ScrollView
+                            
+                            Spacer()
+                        } // ScrollView
+                    }
                 } // VStack
             } // ZStack
         }

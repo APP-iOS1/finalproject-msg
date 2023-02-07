@@ -256,28 +256,32 @@ struct SettingView: View {
                                 // 게임중에는 탈퇴할 수 없습니다...
                             }
                         }
-                    label: {
-                        Text("회원탈퇴")
-                            .font(.custom("MaplestoryOTFLight", size: 15))
-                            .foregroundColor(.red)
-                    }
-                    .alert("회원탈퇴", isPresented: $deleteToggle) {
-                        TextField("",text: $text)
-                        Button("확인", role: .destructive) {
-                            if text == "탈퇴하겠습니다" {
-                                Task {
-                                    await fireStoreViewModel.deleteUser()
-                                    loginViewModel.deleteUser()
-                                    deleteToggle.toggle()
-                                }
-                            }
-                        }
-                        Button("취소", role: .cancel) { deleteToggle.toggle() }
-                    } message: {
-                        Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
-                    }
-                    }
-                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                label: {
+                    Text("회원탈퇴")
+                        .font(.custom("MaplestoryOTFLight", size: 15))
+                        .foregroundColor(.red)
+                }
+                .sheet(isPresented: $deleteToggle) {
+                    DeleteUserView(sheetToggle: $deleteToggle)
+                        .interactiveDismissDisabled(true)
+                }
+                
+//                .alert("회원탈퇴", isPresented: $deleteToggle) {
+//                    TextField("",text: $text)
+//                    Button("확인", role: .destructive) {
+//                        if text == "탈퇴하겠습니다" {
+//                            Task {
+////                                await fireStoreViewModel.deleteUser()
+//                                loginViewModel.deleteUser()
+//                                deleteToggle.toggle()
+//                            }
+//                        }
+//                    }
+//                    Button("취소", role: .cancel) { deleteToggle.toggle() }
+//                } message: {
+//                    Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
+//                }
+
                     VStack {
                         // 프레임 맞추려고 있는 VStack
                     }

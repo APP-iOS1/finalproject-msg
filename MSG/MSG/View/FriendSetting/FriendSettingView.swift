@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct FriendSettingView: View {
-    
+    @Binding var selectedTabBar: SelectedTab
     @EnvironmentObject var firebaseViewModel: FireStoreViewModel
+//    @Binding
     @State var selection: Int = 0
     let titles: [String] = ["친구", "친구요청", "도전장"]
     
@@ -27,16 +28,16 @@ struct FriendSettingView: View {
                 } else if selection == 1 {
                     AlertView()
                 } else {
-                    GameRequestAlertView()
+                    GameRequestAlertView(selectedTabBar: $selectedTabBar)
                 }
             }
         }
     }
 }
 
-struct FriendSettingView_Previews: PreviewProvider {
-    static var previews: some View {
-        FriendSettingView()
-    }
-}
+//struct FriendSettingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FriendSettingView()
+//    }
+//}
 

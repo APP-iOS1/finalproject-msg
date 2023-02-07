@@ -15,7 +15,7 @@ final class GameSettingViewModel:ObservableObject{
     @Published var startDate:Double = Date().timeIntervalSince1970
     @Published var endDate:Double = Date().timeIntervalSince1970
     @Published var isGameSettingValid = false
-    @Published var daySelection: Int = 0
+    @Published var daySelection: Int = 5
     
     @Published var dayMultiArray:[Double] = [1,7,10,30,100]
     @Published var dayArray = ["1일", "7일", "10일", "30일", "100일"]
