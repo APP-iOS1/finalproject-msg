@@ -51,8 +51,9 @@ struct SettingView: View {
                             .background(Color("Color1"))
                             .cornerRadius(20)
                             .frame(width: g.size.width / 1.1, height: g.size.height / 4)
+                            .frame(minWidth: g.size.width / 1.5, minHeight: g.size.height / 4)
                         
-                        VStack {
+                        VStack(spacing: 0) {
                             if profileEditing == true {
                                 VStack {
                                     ZStack {
@@ -87,12 +88,13 @@ struct SettingView: View {
                                                 profileEditing = false
                                             }) {
                                                 Text("  취소  ")
-                                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                                             }
                                         }
                                     }
                                     .padding(.trailing)
-                                    .padding(.top, -g.size.height / 20.5)
+                                    .padding(.top, -g.size.height / 18)
+                                    .padding(.bottom, 5)
                                     .onChange(of: selectedItem) { newItem in
                                         Task {
                                             // Retrive selected asset in the form of Data
@@ -155,7 +157,8 @@ struct SettingView: View {
                                         }
                                     }
                                     .padding(.trailing)
-                                    .padding(.top, -g.size.height / 20)
+                                    .padding(.top, -g.size.height / 18)
+                                    .padding(.bottom, 5)
                                     VStack {
                                         // 조건 써주기
                                         if userProfile == nil || userProfile!.profileImage.isEmpty{
@@ -275,7 +278,6 @@ struct SettingView: View {
                 if loginViewModel.currentUserProfile != nil{
                     self.userProfile = loginViewModel.currentUserProfile
                 }
-                
             }
         }
     }
