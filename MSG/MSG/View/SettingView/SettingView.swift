@@ -246,21 +246,26 @@ struct SettingView: View {
                         .font(.custom("MaplestoryOTFLight", size: 15))
                         .foregroundColor(.red)
                 }
-                .alert("회원탈퇴", isPresented: $deleteToggle) {
-                    TextField("",text: $text)
-                    Button("확인", role: .destructive) {
-                        if text == "탈퇴하겠습니다" {
-                            Task {
-                                await fireStoreViewModel.deleteUser()
-                                loginViewModel.deleteUser()
-                                deleteToggle.toggle()
-                            }
-                        }
-                    }
-                    Button("취소", role: .cancel) { deleteToggle.toggle() }
-                } message: {
-                    Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
+                .sheet(isPresented: $deleteToggle) {
+                    DeleteUserView()
+                        .interactiveDismissDisabled(true)
                 }
+                
+//                .alert("회원탈퇴", isPresented: $deleteToggle) {
+//                    TextField("",text: $text)
+//                    Button("확인", role: .destructive) {
+//                        if text == "탈퇴하겠습니다" {
+//                            Task {
+////                                await fireStoreViewModel.deleteUser()
+//                                loginViewModel.deleteUser()
+//                                deleteToggle.toggle()
+//                            }
+//                        }
+//                    }
+//                    Button("취소", role: .cancel) { deleteToggle.toggle() }
+//                } message: {
+//                    Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
+//                }
                     
                     
                     VStack {
