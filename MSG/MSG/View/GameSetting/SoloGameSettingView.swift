@@ -31,8 +31,10 @@ struct SoloGameSettingView: View {
         GeometryReader { g in
             ZStack {
                 Color("Color1").ignoresSafeArea()
+
                 
                 VStack {
+
                     
                     VStack {
                         // MARK: - 챌린지 주제- [TextField]
@@ -84,6 +86,7 @@ struct SoloGameSettingView: View {
                         
                         // MARK: - 목표금액 - [TextField]
                         VStack(alignment: .leading){
+
                             HStack {
                                 Text("한도 금액")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
@@ -169,9 +172,11 @@ struct SoloGameSettingView: View {
                                 Button {
                                     showingDaySelection.toggle()
                                 } label: {
+
                                     Image(systemName: "chevron.backward")
                                         .rotationEffect(.degrees(-90))
                                         .foregroundColor(gameSettingViewModel.daySelection == 5 ? Color("Color3") : Color("Color2"))
+
                                 }
                                 .sheet(isPresented: $showingDaySelection) {
                                     ZStack {
@@ -277,7 +282,9 @@ struct SoloGameSettingView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
-        .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
+
+        .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
+
             Button {
                 
             } label: {

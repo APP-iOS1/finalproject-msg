@@ -195,6 +195,7 @@ extension GameSettingView {
                                 Button {
                                     showingDaySelection.toggle()
                                 } label: {
+
                                     Image(systemName: "chevron.backward")
                                         .rotationEffect(.degrees(-90))
                                         .foregroundColor(gameSettingViewModel.daySelection == 5 ? Color("Color3") : Color("Color2"))
@@ -373,6 +374,7 @@ extension GameSettingView {
             }
         }
         .ignoresSafeArea(.keyboard)
+
         .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
             Button("시작하기") {
                 Task{
@@ -397,7 +399,7 @@ extension GameSettingView {
                 Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
             }
         })
-        .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
+        .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
             Button {
                 
             } label: {
@@ -417,6 +419,7 @@ extension GameSettingView {
         })
         .navigationBarBackButtonHidden(true)
         .toolbar{
+
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button {
                     backBtnAlert = true
