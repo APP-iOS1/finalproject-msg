@@ -4,11 +4,11 @@
 
 |<img src="https://user-images.githubusercontent.com/106806428/217210665-67e5609e-7e67-4af3-9ec4-39044d54e856.png" width="230"></img>|<img src="https://user-images.githubusercontent.com/106806428/217210669-280ffb88-6bbf-49a9-96d7-ba90aef04ef5.png" width="230"></img>|<img src="https://user-images.githubusercontent.com/106806428/217210673-6ec5bc11-8e58-4c28-8dc7-0ffb42c8d3e3.png" width="230"></img>
 ## 앱소개
-> 앱설명 한줄 <br>
+>  ### 앱설명 한줄 <br>
 
 > 간편하게 하루에 한번 기록하며, 나만의 건강한 소비 습관을 만들어 가고싶은 앱을 찾고 계셨나요? <br>
 >
-> MSG에서 이렇게 건강한 소비습관을 만들어가요! <br>
+>  ###  MSG에서 이렇게 건강한 소비습관을 만들어가요! <br>
 >
 > 1. 원하는 챌린지 기간과, 예산을 정해요! <br>
 
