@@ -84,6 +84,7 @@ struct FriendViewCell: View {
                             if !user.game.isEmpty {
                               
                                 Text("도전중")
+                                .minimumScaleFactor(0.5)
                                 .frame(width: g.size.width / 9, height: g.size.height / 13)
                                 .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
                                 .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)

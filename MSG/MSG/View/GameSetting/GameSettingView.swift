@@ -135,6 +135,8 @@ extension GameSettingView {
                                     print("\(gameSettingViewModel.startDate - gameSettingViewModel.endDate)")
                                 } label: {
                                     Text("\(gameSettingViewModel.dayArray[index])")
+                                        .minimumScaleFactor(0.8)
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: gameSettingViewModel.daySelection == index ? FontCustomColor.color2 : FontCustomColor.color3))
                                         .frame(width: g.size.width / 10, height: g.size.height / 34)
                                         .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                         .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
@@ -143,7 +145,6 @@ extension GameSettingView {
                                         .cornerRadius(20)
                                         .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                         .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                                        .foregroundColor( gameSettingViewModel.daySelection == index ? .red : .blue)
                                 }
                                 
                             }
@@ -309,7 +310,8 @@ extension GameSettingView {
             
             
         }
-        .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
+        .ignoresSafeArea(.keyboard)
+        .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
             Button {
                 
             } label: {
@@ -327,6 +329,17 @@ extension GameSettingView {
         }, message: {
             Text("현재 작성중인 항목이 삭제될 수 있습니다.")
         })
+        .navigationBarBackButtonHidden(true)
+        .toolbar{
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button {
+                        backBtnAlert = true
+                    } label: {
+                        Image(systemName:"chevron.backward")
+                    }
+        
+                }
+            }
     }
 }
 

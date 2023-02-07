@@ -28,7 +28,7 @@ struct SoloGameSettingView: View {
         GeometryReader { g in
             ZStack {
                 Color("Color1").ignoresSafeArea()
-                VStack(spacing: 30) {
+                VStack(spacing: 40) {
                     Spacer()
                     
                     // MARK: - 챌린지 주제- [TextField]
@@ -55,9 +55,11 @@ struct SoloGameSettingView: View {
                             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         VStack(alignment: .leading){
                             ZStack(alignment: .leading) {
+                                
                                 Text(gameSettingViewModel.targetMoney.insertComma)
                                     .modifier(TextViewModifier(color: "Color2"))
                                     .multilineTextAlignment(.leading)
+                                
                                 TextField("", text: $gameSettingViewModel.targetMoney)
                                     .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                         Text("1,000만원 미만으로 입력하세요")
@@ -107,8 +109,8 @@ struct SoloGameSettingView: View {
                                     print("\(gameSettingViewModel.dayArray[index])")
                                 } label: {
                                     Text("\(gameSettingViewModel.dayArray[index])")
-                                        .foregroundColor( gameSettingViewModel.daySelection == index ? .red : .blue)
-                                        .modifier(TextViewModifier(color: "Color2"))
+                                        .minimumScaleFactor(0.8)
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: gameSettingViewModel.daySelection == index ? FontCustomColor.color2 : FontCustomColor.color3))
                                         .frame(width: g.size.width / 10, height: g.size.height / 34)
                                         .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                         .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
@@ -178,7 +180,8 @@ struct SoloGameSettingView: View {
                 gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
             }
         }
-        .alert("뒤로 가기", isPresented: $backBtnAlert, actions: {
+        .ignoresSafeArea(.keyboard)
+        .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
             Button {
                 
             } label: {
