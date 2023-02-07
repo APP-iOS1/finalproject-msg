@@ -20,6 +20,7 @@ struct SettingView: View {
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     @State private var profileImage: UIImage? = nil
+    @EnvironmentObject var notiManager: NotificationManager
     
     var body: some View {
         
@@ -202,11 +203,18 @@ struct SettingView: View {
                             DarkModeToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, darkModeEnabled: $darkModeEnabled)
                         }
                         
-                        HStack {
+                        Button {
+                            notiManager.openSetting()
+                        } label: {
                             Text("알림설정")
-                            Spacer()
-                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
                         }
+
+                        
+//                        HStack {
+//                            Text("알림설정")
+//                            Spacer()
+//                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
+//                        }
                         
                         Button {
                             profileEditing.toggle()
