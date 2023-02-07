@@ -136,7 +136,7 @@ struct SettingView: View {
                                             .clipShape(Circle())
                                             .frame(width: g.size.width / 3, height: g.size.height / 7)
                                             .aspectRatio(contentMode: .fill)
-
+                                        
                                     } else {
                                         
                                         if let selectedImageData,
@@ -208,13 +208,13 @@ struct SettingView: View {
                         } label: {
                             Text("알림설정")
                         }
-
                         
-//                        HStack {
-//                            Text("알림설정")
-//                            Spacer()
-//                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
-//                        }
+                        
+                        //                        HStack {
+                        //                            Text("알림설정")
+                        //                            Spacer()
+                        //                            NotificationToggle(width: g.size.width / 4.7, height: g.size.height / 22, toggleWidthOffset: 12, cornerRadius: 15, padding: 4, notificationEnabled: $notificationEnabled)
+                        //                        }
                         
                         Button {
                             profileEditing.toggle()
@@ -249,37 +249,35 @@ struct SettingView: View {
                             Text("로그아웃하시겠습니까?")
                         }
                         
-                    }
-                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                    Button {
-                        if fireStoreViewModel.currentGame == nil {
-                            deleteToggle.toggle()
-                        } else {
-                            // 게임중에는 탈퇴할 수 없습니다...
-                        }
-                    }
-                label: {
-                    Text("회원탈퇴")
-                        .font(.custom("MaplestoryOTFLight", size: 15))
-                        .foregroundColor(.red)
-                }
-                .alert("회원탈퇴", isPresented: $deleteToggle) {
-                    TextField("",text: $text)
-                    Button("확인", role: .destructive) {
-                        if text == "탈퇴하겠습니다" {
-                            Task {
-                                await fireStoreViewModel.deleteUser()
-                                loginViewModel.deleteUser()
+                        Button {
+                            if fireStoreViewModel.currentGame == nil {
                                 deleteToggle.toggle()
+                            } else {
+                                // 게임중에는 탈퇴할 수 없습니다...
                             }
                         }
+                    label: {
+                        Text("회원탈퇴")
+                            .font(.custom("MaplestoryOTFLight", size: 15))
+                            .foregroundColor(.red)
                     }
-                    Button("취소", role: .cancel) { deleteToggle.toggle() }
-                } message: {
-                    Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
-                }
-                    
-                    
+                    .alert("회원탈퇴", isPresented: $deleteToggle) {
+                        TextField("",text: $text)
+                        Button("확인", role: .destructive) {
+                            if text == "탈퇴하겠습니다" {
+                                Task {
+                                    await fireStoreViewModel.deleteUser()
+                                    loginViewModel.deleteUser()
+                                    deleteToggle.toggle()
+                                }
+                            }
+                        }
+                        Button("취소", role: .cancel) { deleteToggle.toggle() }
+                    } message: {
+                        Text("탈퇴 시 개인정보는 30일이후 삭제됩니다. 탈퇴하시려면 \"탈퇴하겠습니다\"를 입력해주세요.")
+                    }
+                    }
+                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                     VStack {
                         // 프레임 맞추려고 있는 VStack
                     }
