@@ -221,6 +221,12 @@ struct SettingView: View {
                             Text("친구초대")
                         }
                         
+                        NavigationLink {
+                            LicenseView()
+                        } label: {
+                            Text("라이센스")
+                        }
+                        
                         Button {
                             logoutToggle.toggle()
                         } label: {
