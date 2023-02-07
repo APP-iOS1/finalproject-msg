@@ -31,76 +31,81 @@ struct OnBoardView4: View {
         GeometryReader { g in
             ZStack {
                 Color("Color1").ignoresSafeArea()
-                VStack {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("내가 도전했던")
-                                .modifier(TextTitleBold())
-                            
-                            Text("챌린지를 확인해볼까요? 📖")
-                                .modifier(TextTitleBold())
+                VStack{
+                    VStack {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("챌린지에 도전하며")
+                                    .modifier(TextTitleBold())
+                                
+                                Text("소비습관 기록을 쌓아가요! 📖")
+                                    .modifier(TextTitleBold())
+                            }
+                            Spacer()
                         }
-                        Spacer()
-                    }
-                    .frame(width: g.size.width / 1.1)
-                    .offset(y: g.size.height / -10)
-                    
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color("Color1"),
-                                    lineWidth: 4)
-                            .shadow(color: Color("Shadow"),
-                                    radius: 3, x: 5, y: 5)
-                            .clipShape(
-                                RoundedRectangle(cornerRadius: 15))
-                            .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
-                            .clipShape(
-                                RoundedRectangle(cornerRadius: 15))
-                            .background(Color("Color1"))
-                            .cornerRadius(20)
-                            .frame(width: g.size.width / 1.1, height: g.size.height / 2.8)
-                            .offset(y: g.size.height / -10)
+                        .frame(width: g.size.width / 1.1)
+                        .padding(.top, 5)
+                        //                    .offset(y: g.size.height / -10)
+                        .padding(.bottom)
                         
-//                        Image("Screen2")
-//                            .resizable()
-//                            .frame(width: g.size.width / 1.2, height: g.size.height / 2.8)
-//                            .cornerRadius(8)
-//                            .padding(.bottom, 130)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color("Color1"),
+                                        lineWidth: 4)
+                                .shadow(color: Color("Shadow"),
+                                        radius: 3, x: 5, y: 5)
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: 15))
+                                .shadow(color: Color("Shadow3"), radius: 2, x: -2, y: -2)
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: 15))
+                                .background(Color("Color1"))
+                                .cornerRadius(20)
+                                .frame(width: g.size.width / 1.04, height: g.size.height / 1.40)
+                                .offset(y: g.size.height / -48.5)
+                            
+                            Image("Screen4")
+                                .resizable()
+                                .frame(width: 341 , height: 427)
+                                .cornerRadius(20)
+                                .offset(y: g.size.height / -150)
+                        }
                     }
+                    .padding(.bottom, 110)
+                    
+                    HStack(spacing: 4) {
+                        // MARK: Start ProgressView
+                        ProgressView(timerInterval: progressEnd, countsDown: false)
+                            .tint(Color("Color2"))
+                            .foregroundColor(.clear)
+                            .frame(width: 55)
+                        
+                        // MARK: Start ProgressView
+                        ProgressView(timerInterval: progressEnd, countsDown: false)
+                            .tint(Color("Color2"))
+                            .foregroundColor(.clear)
+                            .frame(width: 55)
+                        
+                        // MARK: Start ProgressView
+                        ProgressView(timerInterval: progressEnd, countsDown: false)
+                            .tint(Color("Color2"))
+                            .foregroundColor(.clear)
+                            .frame(width: 55)
+                        
+                        // MARK: Start ProgressView
+                        ProgressView(timerInterval: progressStart, countsDown: false)
+                            .tint(Color("Color2"))
+                            .foregroundColor(.clear)
+                            .frame(width: 55)
+                        
+                        // MARK: Ready ProgressView
+                        ProgressView(value: progressReady)
+                            .frame(width: 55)
+                            .padding(.bottom, 19)
+                    }
+                    .padding(.top, -120)
                 }
-                .padding(.bottom, 90)
-                
-                HStack(spacing: 4) {
-                    // MARK: Start ProgressView
-                    ProgressView(timerInterval: progressEnd, countsDown: false)
-                        .tint(Color("Color2"))
-                        .foregroundColor(.clear)
-                        .frame(width: 55)
-                    
-                    // MARK: Start ProgressView
-                    ProgressView(timerInterval: progressEnd, countsDown: false)
-                        .tint(Color("Color2"))
-                        .foregroundColor(.clear)
-                        .frame(width: 55)
-                    
-                    // MARK: Start ProgressView
-                    ProgressView(timerInterval: progressEnd, countsDown: false)
-                        .tint(Color("Color2"))
-                        .foregroundColor(.clear)
-                        .frame(width: 55)
-                    
-                    // MARK: Start ProgressView
-                    ProgressView(timerInterval: progressStart, countsDown: false)
-                        .tint(Color("Color2"))
-                        .foregroundColor(.clear)
-                        .frame(width: 55)
-                    
-                    // MARK: Ready ProgressView
-                    ProgressView(value: progressReady)
-                        .frame(width: 55)
-                        .padding(.bottom, 19)
-                }
-                .padding(.top,300)
+                .padding(.top)
             }
         }
 //        VStack {

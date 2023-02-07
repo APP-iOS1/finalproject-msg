@@ -63,7 +63,7 @@ struct OnBoardTapView: View {
                 }
                 .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                 .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                .padding(.top, 500)
+                .padding(.top, 535)
             }
         }
     }
