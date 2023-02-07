@@ -417,7 +417,6 @@ struct LoginView: View {
                                 }
                             }
                         }
-                        
                         Text("이용약관 및 개인정보 취급방침")
                             .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption2, color: FontCustomColor.color2))
 
