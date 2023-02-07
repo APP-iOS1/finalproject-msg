@@ -21,43 +21,38 @@ struct WaitingView: View {
                 
                 VStack(alignment: .center) {
                     
-                    Spacer()
-                        .frame(height: g.size.height / 14)
+
                     
                     VStack {
-                        // MARK: 게임 대기 & [ 준비 완료 인원 / 전체 인원 ]
-                        HStack {
-                            Text("게임 대기")
-                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
-                            Spacer()
-                            Text("[ \(fireStoreViewModel.currentGame!.inviteFriend.count) / \(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count) ]")
-                        }
-                        .frame(width: g.size.width / 1.4, height: g.size.height / 12)
                         
-                        // MARK: 대기 진행 상황 ProgressView
                         VStack {
-                            ZStack {
-                                ProgressView(value: Double(fireStoreViewModel.currentGame!.inviteFriend.count), total: Double(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count))
-                                    .progressViewStyle(RoundedRectProgressViewStyle())
-                                Text("\(String(format: "%.0f%%", (Double(fireStoreViewModel.currentGame!.inviteFriend.count) * 100) / Double(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count)))")
-                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color1))
+                            // MARK: 게임 대기 & [ 준비 완료 인원 / 전체 인원 ]
+                            HStack {
+                                Text("게임 대기")
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
+                                Spacer()
+                                Text("[ \(fireStoreViewModel.currentGame!.inviteFriend.count) / \(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count) ]")
                             }
+                            .frame(width: g.size.width / 1.3, height: g.size.height / 12)
+                            
+                            // MARK: 대기 진행 상황 ProgressView
+                                ZStack {
+                                    ProgressView(value: Double(fireStoreViewModel.currentGame!.inviteFriend.count), total: Double(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count))
+                                        .progressViewStyle(RoundedRectProgressViewStyle())
+                                        .frame(width: g.size.width / 1.3, height: g.size.height / 14)
+                                    Text("\(String(format: "%.0f%%", (Double(fireStoreViewModel.currentGame!.inviteFriend.count) * 100) / Double(fireStoreViewModel.currentGame!.inviteFriend.count + fireStoreViewModel.currentGame!.waitingFriend.count)))")
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color1))
+                                }
+                            }
+                            .frame(width: g.size.width / 1.3, height: g.size.height / 12)
                         }
-                        .frame(width: g.size.width / 1.4, height: g.size.height / 13)
-                    }
-                    .frame(width: g.size.width / 1.2, height: g.size.height / 4)
-                    .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                    .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                    .background(Color("Color1"))
-                    .cornerRadius(10)
-                    .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                    .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                    .padding(.bottom, g.size.height / 20)
-              
+                        .frame(width: g.size.width / 1.3, height: g.size.height / 6)
+
+
                     
-                    VStack {
-                        Spacer()
-                            .frame(height: g.size.height / 14)
+                        Divider()
+                        .frame(width: g.size.width / 1.3, height: g.size.height / 15)
+                    
                         // MARK: 참여 인원 & refreshable 버튼
                         HStack {
                             Text("참여 인원")
@@ -71,10 +66,10 @@ struct WaitingView: View {
                             } label: {
                                 Image(systemName: "arrow.clockwise.circle.fill")
                                     .resizable()
-                                    .frame(width: g.size.width / 14, height: g.size.height / 28)
+                                    .frame(width: g.size.width / 15.6, height: g.size.height / 27.468)
                             }
                         }
-                        .frame(width: g.size.width / 1.4, height: g.size.height / 12)
+                        .frame(width: g.size.width / 1.3, height: g.size.height / 12)
                         
                    
                         VStack {
@@ -97,7 +92,7 @@ struct WaitingView: View {
                                             }
                                         }
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: g.size.width / 9.75, height: g.size.height / 17.16)
+                                        .frame(width: g.size.width / 9.375, height: g.size.height / 14.5575)
                                         .clipShape(Circle())
                                         .padding(4)
                                         .foregroundColor(Color("Color2"))
@@ -120,7 +115,7 @@ struct WaitingView: View {
                                      
                                         
                                     }
-                                    .frame(width: g.size.width / 1.4, height: g.size.height / 10)
+                                    .frame(width: g.size.width / 1.3, height: g.size.height / 10)
                                 } // ForEach(fireStoreViewModel.invitedArray, id: \.self)
                                 
                                 // MARK: 초대장 미수락 인원(waitingFriend)
@@ -141,7 +136,7 @@ struct WaitingView: View {
                                             }
                                         }
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: g.size.width / 9.75, height: g.size.height / 17.16)
+                                        .frame(width: g.size.width / 9.375, height: g.size.height / 14.5575)
                                         .clipShape(Circle())
                                         .padding(4)
                                         .foregroundColor(Color("Color2"))
@@ -163,25 +158,16 @@ struct WaitingView: View {
                                         Text("Ready")
                                             .foregroundColor(.clear)
                                     }
-                                    .frame(width: g.size.width / 1.4, height: g.size.height / 8)
+                                    .frame(width: g.size.width / 1.3, height: g.size.height / 8)
                                 } // ForEach(fireStoreViewModel.waitingArray, id: \.self)
                             } // ScollView
                             
                         }
-                        .frame(width: g.size.width / 1.4, height: g.size.height / 2.1)
+                        .frame(width: g.size.width / 1.2, height: g.size.height / 2.1)
                      
-                    }
-                    .frame(width: g.size.width / 1.2, height: g.size.height / 1.7)
-                    .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                    .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                    .background(Color("Color1"))
-                    .cornerRadius(10)
-                    .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                    .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                    .padding(.bottom, g.size.height / 20)
 
                 }
-                .frame(width: g.size.width / 1.1, height: g.size.height)
+                .frame(width: g.size.width / 1.1, height: g.size.height / 1.1)
                 
             }
             .onAppear {
