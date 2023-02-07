@@ -41,6 +41,7 @@
 		168CDEF6298CD1C200FAA3F4 /* ambulance.json in Resources */ = {isa = PBXBuildFile; fileRef = 168CDEF5298CD1C200FAA3F4 /* ambulance.json */; };
 		168CDEF9298CD53900FAA3F4 /* flyingMoney.json in Resources */ = {isa = PBXBuildFile; fileRef = 168CDEF7298CD53900FAA3F4 /* flyingMoney.json */; };
 		168CDEFA298CD53900FAA3F4 /* run.json in Resources */ = {isa = PBXBuildFile; fileRef = 168CDEF8298CD53900FAA3F4 /* run.json */; };
+		1691C0A52991E830009D75EF /* DeleteUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691C0A42991E830009D75EF /* DeleteUserView.swift */; };
 		16C6753629822E420028A608 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6753529822E420028A608 /* Extension+Color.swift */; };
 		16DB66D22988A98C009BF8B7 /* Maplestory OTF Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16DB66D02988A98C009BF8B7 /* Maplestory OTF Light.otf */; };
 		16DB66D32988A98C009BF8B7 /* Maplestory OTF Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16DB66D12988A98C009BF8B7 /* Maplestory OTF Bold.otf */; };
@@ -124,6 +125,7 @@
 		168CDEF5298CD1C200FAA3F4 /* ambulance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ambulance.json; sourceTree = "<group>"; };
 		168CDEF7298CD53900FAA3F4 /* flyingMoney.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = flyingMoney.json; sourceTree = "<group>"; };
 		168CDEF8298CD53900FAA3F4 /* run.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = run.json; sourceTree = "<group>"; };
+		1691C0A42991E830009D75EF /* DeleteUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserView.swift; sourceTree = "<group>"; };
 		16C6753529822E420028A608 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		16DB66D02988A98C009BF8B7 /* Maplestory OTF Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maplestory OTF Light.otf"; sourceTree = "<group>"; };
 		16DB66D12988A98C009BF8B7 /* Maplestory OTF Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maplestory OTF Bold.otf"; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				6342C2C229763B0D00C24D20 /* LoginView.swift */,
 				63BC0F8529767608003F2379 /* MakeProfileView.swift */,
 				6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */,
+				1691C0A42991E830009D75EF /* DeleteUserView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
 				168AE7A829875EB600D68C1C /* WaitingViewModel.swift in Sources */,
 				4C65CFEC2978D02700BAD069 /* MultiGameProgressBar.swift in Sources */,
+				1691C0A52991E830009D75EF /* DeleteUserView.swift in Sources */,
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,
 				36B093F92976694F0089E76A /* GameSettingView.swift in Sources */,
 				C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */,
@@ -742,7 +746,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -779,7 +783,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
