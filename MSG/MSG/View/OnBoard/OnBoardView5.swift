@@ -67,7 +67,7 @@ struct OnBoardView5: View {
                             VStack{
                                 Image("Screen5")
                                     .resizable()
-                                    .frame(width: 341 , height: 427)
+                                    .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
                                     .cornerRadius(20)
                                     .offset(y: g.size.height / -150)
                             }
