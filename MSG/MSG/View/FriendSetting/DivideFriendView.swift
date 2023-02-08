@@ -70,7 +70,7 @@ extension DivideFriendView {
                 print("== FriendVeiw onAppear ==")
                 
             }
-            .modifier(TextViewModifier(color: "Color2"))
+            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
         }
     }
 }

@@ -10,7 +10,6 @@ import SwiftUI
 struct PrivacyPolicyView: View {
     
     @Environment(\.dismiss) var dismiss
-    private var frameWidth = UIScreen.main.bounds.width
     
     var body: some View {
         
@@ -29,7 +28,7 @@ struct PrivacyPolicyView: View {
                             
                         }
                     }
-                    .modifier(TextViewModifier(color: "Color2"))
+                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                     .frame(width: g.size.width / 1.2, height: g.size.height / 25)
                     .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                     .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
@@ -176,7 +175,7 @@ struct PrivacyPolicyView: View {
                     .padding(.top)
                     
                     Text("MSG")
-                        .modifier(TextTitleBold())
+                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                 }
                 .padding()
                 .foregroundColor(Color("Color2"))

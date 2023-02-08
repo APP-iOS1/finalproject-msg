@@ -103,7 +103,7 @@ struct DivideFriendCell: View {
                         }
                     }
                 }
-                .modifier(TextViewModifier(color: "Color2"))
+                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                 .buttonStyle(.bordered)
                 .frame(alignment: .leading)
             }

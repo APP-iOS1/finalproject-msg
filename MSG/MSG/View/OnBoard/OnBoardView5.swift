@@ -37,10 +37,10 @@ struct OnBoardView5: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("매일 나를 이기는 도전!")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                                 
                                 Text("MSG, 준비됐나요? ❤️")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                             }
                             Spacer()
                         }
@@ -67,7 +67,7 @@ struct OnBoardView5: View {
                             VStack{
                                 Image("Screen5")
                                     .resizable()
-                                    .frame(width: 341 , height: 427)
+                                    .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
                                     .cornerRadius(20)
                                     .offset(y: g.size.height / -150)
                             }

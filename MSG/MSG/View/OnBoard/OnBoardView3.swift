@@ -37,10 +37,10 @@ struct OnBoardView3: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("깔끔한 차트로 나만의 지출을")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                                 
                                 Text("분석해보아요 🧐")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                             }
                             Spacer()
                         }
@@ -67,7 +67,7 @@ struct OnBoardView3: View {
                             
                             Image("Screen3")
                                 .resizable()
-                                .frame(width: 341 , height: 427)
+                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
                                 .cornerRadius(20)
                                 .offset(y: g.size.height / -150)
                         }

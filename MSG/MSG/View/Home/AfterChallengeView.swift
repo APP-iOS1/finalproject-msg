@@ -29,8 +29,6 @@ struct AfterChallengeView: View {
     }
     
     @State private var birthDate = Date()
-    var frameWidth = UIScreen.main.bounds.width
-    var frameHeight = UIScreen.main.bounds.height
     var body: some View {
         
         GeometryReader { g in
@@ -181,7 +179,7 @@ struct AfterChallengeView: View {
                     }.foregroundColor(Color("Color2"))
                         .padding(.horizontal)
                 }
-                .modifier(TextViewModifier(color: "Color2"))
+                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                 .padding()
                 
             }

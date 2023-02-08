@@ -117,7 +117,7 @@ struct ChartView: View {
                         ChartCellView(selection: $selection, expenditure: expenditure)
                     }
                 }
-                .modifier(TextViewModifier(color: "Color2"))
+                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                 .padding(.bottom, 5)
             }
         }

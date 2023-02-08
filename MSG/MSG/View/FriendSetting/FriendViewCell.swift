@@ -98,7 +98,7 @@ struct FriendViewCell: View {
                         }
                         
                     }
-                    .modifier(TextViewModifier(color: "Color2"))
+                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                     .buttonStyle(.bordered)
                     .frame(alignment: .leading)
                 }
@@ -189,7 +189,7 @@ struct FriendViewCell: View {
                                     Button {} label: { Text("확인") }
                                 }
                         }
-                        .modifier(TextViewModifier(color: "Color2"))
+                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         .buttonStyle(.bordered)
                         .frame(alignment: .leading)
 

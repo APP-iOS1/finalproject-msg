@@ -34,7 +34,7 @@ struct ChallengeRecordView: View {
                     if fireStoreViewModel.challengeHistoryArray.isEmpty {
                         Spacer()
                         Text("비어있습니다.")
-                            .modifier(TextTitleBold())
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                         Spacer()
                     } else {
                         // 챌린지 기록 리스트

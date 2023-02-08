@@ -36,10 +36,10 @@ struct OnBoardView4: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("챌린지에 도전하며")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                                 
                                 Text("소비습관 기록을 쌓아가요! 📖")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                             }
                             Spacer()
                         }
@@ -66,7 +66,7 @@ struct OnBoardView4: View {
                             
                             Image("Screen4")
                                 .resizable()
-                                .frame(width: 341 , height: 427)
+                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
                                 .cornerRadius(20)
                                 .offset(y: g.size.height / -150)
                         }

@@ -38,10 +38,10 @@ struct OnBoardView1: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("친구들과 함께")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                                 
                                 Text("챌린지에 도전하세요 💸")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                                
                             }
                             Spacer()
@@ -68,11 +68,11 @@ struct OnBoardView1: View {
                                 .frame(width: g.size.width / 1.04, height: g.size.height / 1.40)
                                 .offset(y: g.size.height / -48.5)
                             
-//                            Image("Screen1")
-//                                .resizable()
-//                                .frame(width: 341 , height: 420)
-//                                .cornerRadius(20)
-//                                .offset(y: g.size.height / -150)
+                            Image("Screen2")
+                                .resizable()
+                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
+                                .cornerRadius(20)
+                                .offset(y: g.size.height / -150)
                         }
                     }
                     .padding(.bottom, 110)

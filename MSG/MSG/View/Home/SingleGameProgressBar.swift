@@ -51,9 +51,8 @@ struct SingleGameProgressBar: View {
 //                Text("\(Double(percentage) / Double(limitMoney))%")
                 Text("\(String(format:"%.1f",Double(percentage) / Double(limitMoney) * 100))%")
             }
-            .modifier(TextViewModifier(color: "Color2"))
+            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
         }
-//        .frame(width: UIScreen.main.bounds.width / 1.6)
         .onAppear {
             Task {
                 await fireStoreViewModel.fetchExpenditure()

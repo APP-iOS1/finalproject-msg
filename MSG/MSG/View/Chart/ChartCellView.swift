@@ -108,7 +108,7 @@ struct ChartCellView: View {
                     .padding(.trailing, 5)
                 }
             }
-            .modifier(TextViewModifier(color: "Color2"))
+            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
         }
     }
 }
