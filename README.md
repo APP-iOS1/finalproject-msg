@@ -49,14 +49,14 @@
 
 ## ⭐️ 주요 기능 및 동작화면 
 
-|<img src="https://user-images.githubusercontent.com/114235515/217417451-ed1d8769-6df1-4380-ac42-d165534dd5e0.gif"></img>|<img src="https://user-images.githubusercontent.com/114235515/217418045-ae95816e-3b95-4583-a633-880155fba2b8.gif"></img>|<img src="https://user-images.githubusercontent.com/114235515/217418051-9bb41bc5-596e-47de-b0f2-02c340828f6d.gif"></img>|<img src=""></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/0.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/1.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/2.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/3.gif"></img>|
 |:-:|:-:|:-:|:-:|
 |`온보딩`|`로그인`|`회원가입 프로필`|`싱글게임`|
-|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/4.gif.png"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/5.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/6.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/7.gif"></img>|
 |`소비 내역 추가`|`소비 내역 확인`|`게임 포기`|`싱글게임 기록`|
-|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/8.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/9.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/10.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/11.gif"></img>|
 |`친구 검색`|`친구요청 및 도전장`|`멀티게임`|`웨이팅`|
-|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|<img src="https://user-images.githubusercontent.com/66459715/217157779-39652ffa-64ae-42b4-b100-930992931d30.png"></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/12.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/13.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/14.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/15.gif"></img>|
 |`멀티게임 기록`|`다크모드`|`프로필편집 및 로그아웃`|`회원탈퇴`|
 
 <br>
