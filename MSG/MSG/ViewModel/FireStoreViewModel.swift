@@ -488,7 +488,6 @@ final class FireStoreViewModel: ObservableObject {
             let snapShot = try await ref.getDocument()
             guard let docData = snapShot.data() else { return []}
             let array = docData["gameHistory"] as? [String] ?? []
-            print(array)
             return array
         }catch{
             print("catched")
@@ -498,6 +497,7 @@ final class FireStoreViewModel: ObservableObject {
     
     // MARK: - 이전 챌린지기록을 모두 가져오는 함수
     /// 챌린지 이력보관함 데이터 불러오기
+    @MainActor
     func fetchPreviousGameHistory() async throws{
         print(#function)
         let ref = database.collection("Challenge")
@@ -551,6 +551,25 @@ final class FireStoreViewModel: ObservableObject {
     }
     
     // [Challenge - Function]
+    // MARK: - 챌린지 참가자 (유저 정보, 지출) 가져오기
+    func fetchChallengeUsersData(_ users: [String], _ challengeId: String) async -> ChallengeUserData? {
+        print(#function)
+        var userArray:ChallengeUserData = []
+        for user in users{
+            do{
+                guard let userData = try await fetchUserInfo(user) else{ continue } // nickname profile
+                let totalMoney = await fetchTotalMoney(challengeId, userData.id) // expenditure
+                let userInfo = (user: (userName: userData.nickName ,userProfile: userData.profileImage),totalMoney: totalMoney)
+                userArray.append(userInfo)
+            }catch{
+                print("userData 누락!!")
+                return nil
+            }
+        }
+        return userArray
+    }
+    
+    
     // MARK: - 챌린지 참가자 (유저 정보, 지출) 가져오기
     ///[유저Id]을 인자로 받아,  챌린지 참가자 (유저 정보, 지출) 가져오기
     func fetchChallengeUsers(_ users: [String], _ challengeId: String) async  {
