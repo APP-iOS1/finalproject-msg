@@ -36,10 +36,10 @@ struct OnBoardView2: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("내 소비 습관을")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                                 
                                 Text("편하게 기록하세요! 👀")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                             }
                             Spacer()
                         }

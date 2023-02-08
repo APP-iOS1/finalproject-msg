@@ -46,24 +46,26 @@ struct OnBoardTapView: View {
                         }
                     })
                 }
-                
-                Button {
-                    isFirstLaunching = false
-                } label: {
-                    Text("로그인 시작하기")
-                        .modifier(TextTitleBold())
-                        .font(.headline)
-                        .bold()
-                        .frame(width: g.size.width / 1.4, height: g.size.height / 24)
-                        .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                        .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                        .padding(20)
-                        .background(Color("Color1"))
-                        .cornerRadius(20)
+                VStack {
+                    Button {
+                        isFirstLaunching = false
+                    } label: {
+                        Text("로그인 시작하기")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
+                            .font(.headline)
+                            .bold()
+                            .frame(width: g.size.width / 1.4, height: g.size.height / 24)
+                            .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                            .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                            .padding(20)
+                            .background(Color("Color1"))
+                            .cornerRadius(20)
+                    }
+                    .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
+                    .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                    .padding(.top, 535)
                 }
-                .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
-                .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
-                .padding(.top, 535)
+
             }
         }
     }
@@ -71,6 +73,14 @@ struct OnBoardTapView: View {
 
 struct OnBoardTapView_Previews: PreviewProvider {
     static var previews: some View {
-        OnBoardTapView(isFirstLaunching: .constant(false))
+        Group {
+            OnBoardTapView(isFirstLaunching: .constant(false))
+                .previewDevice("iPhone 14 Pro Max")
+            OnBoardTapView(isFirstLaunching: .constant(false))
+                .previewDevice("iPhone 14 Pro")
+            OnBoardTapView(isFirstLaunching: .constant(false))
+                .previewDevice("iPhone SE (3rd generation)")
+        }
+//        OnBoardTapView(isFirstLaunching: .constant(false))
     }
 }

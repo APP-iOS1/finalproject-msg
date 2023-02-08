@@ -37,10 +37,10 @@ struct OnBoardView5: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("매일 나를 이기는 도전!")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                                 
                                 Text("MSG, 준비됐나요? ❤️")
-                                    .modifier(TextTitleBold())
+                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                             }
                             Spacer()
                         }

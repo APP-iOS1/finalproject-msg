@@ -22,7 +22,7 @@ struct AlertView: View {
                 VStack {
                     if realtimeViewModel.user.isEmpty {
                         Text("알람을 모두 확인했습니다.")
-                            .modifier(TextTitleBold())
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                     }
                     else {
                    
@@ -91,7 +91,7 @@ struct AlertView: View {
                         }
                     
                 }
-                .modifier(TextViewModifier(color: "Color2"))
+                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
             }
             .onAppear {
                 realtimeViewModel.fetchFriendRequest()

@@ -17,7 +17,7 @@ struct GameRequestAlertView: View {
                 Color("Color1").ignoresSafeArea()
                 if realtimeViewModel.requsetGameArr.isEmpty{
                     Text("비어있습니다.")
-                        .modifier(TextTitleBold())
+                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                 }
                 
                 ScrollView{
@@ -27,7 +27,7 @@ struct GameRequestAlertView: View {
                         GameRequestAlertViewCell(selectedTabBar: $selectedTabBar, sendUser: sendUser, g: g)
                     }
                 }
-                .modifier(TextViewModifier(color: "Font"))
+                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
             }
         }
         .onAppear{
