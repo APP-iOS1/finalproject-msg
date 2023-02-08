@@ -419,6 +419,16 @@ final class RealtimeViewModel: ObservableObject {
             .removeValue()
     }
     
+    func afterFiveMinuteDeleteChallenge(friend: String) async{
+        print("add Friend id: \(friend)")
+        try! await Database.database()
+            .reference()
+            .child("Game")
+            .child(friend)
+            .child(Auth.auth().currentUser?.uid ?? "")
+            .removeValue()
+    }
+    
     func stopFetching() {
         databaseReference?.removeAllObservers()
     }

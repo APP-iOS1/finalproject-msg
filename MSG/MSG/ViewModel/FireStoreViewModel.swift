@@ -145,7 +145,28 @@ final class FireStoreViewModel: ObservableObject {
         }catch{
             print("게임 추가 에러..")
         }
-        
+    }
+    
+    // MARK: - 멀티 게임 생성
+    func addMultiGameDeleteWaitUserFiveMinute(_ challenge: Challenge) async {
+        print(#function)
+        await updateUserGame(gameId: challenge.id)
+        let ref = database.collection("Challenge").document(challenge.id)
+        do{
+            try await ref.setData([
+
+                "id": challenge.id,
+                "gameTitle": challenge.gameTitle,
+                "limitMoney": challenge.limitMoney,
+                "startDate": challenge.startDate,
+                "endDate": challenge.endDate,
+                "inviteFriend": challenge.inviteFriend,
+                "waitingFriend": []
+            ])
+            self.currentGame = challenge
+        }catch{
+            print("게임 추가 에러..")
+        }
     }
     
     // MARK: - 게임 수락 시, invite목록에 추가하기 (1) Challenge

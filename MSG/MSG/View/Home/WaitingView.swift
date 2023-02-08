@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct WaitingView: View {
-    
-    
+    let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     @State var game: Challenge
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
     var body: some View {
         
         GeometryReader { g in
@@ -52,6 +52,7 @@ struct WaitingView: View {
                     
                         Divider()
                         .frame(width: g.size.width / 1.3, height: g.size.height / 15)
+                    WaitingCountView(endDate: Double(fireStoreViewModel.currentGame!.startDate)! + 300.0)
                     
                         // MARK: 참여 인원 & refreshable 버튼
                         HStack {
@@ -176,6 +177,20 @@ struct WaitingView: View {
                     await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
                 }
             }
+//            .onReceive(timer) { _ in
+//                guard let game = fireStoreViewModel.currentGame  else { return }
+//    //            print("끝나는시간:",game.endDate)
+//    //            let now = Date().timeIntervalSinceNow
+//    //            print("현재시간:", now)
+//                if Date().timeIntervalSince1970 > Double(game.startDate)! + 300 {
+//                    self.timer.upstream.connect().cancel()
+//                    print("멈췄습니다!")
+//                    Task {
+//                        await fireStoreViewModel.addGameHistory()
+//                        fireStoreViewModel.currentGame = nil
+//                    }
+//                }
+//            }
             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.body, color: FontCustomColor.color2))
         }
         
