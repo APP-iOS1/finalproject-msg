@@ -40,8 +40,8 @@ struct ChallengeRecordView: View {
                         // 챌린지 기록 리스트
                         // (List에 NavigationLink를 사용하면 꺽쇠 > 버튼은 숨길 수 없어서 List를 사용하지 않음)
                         ScrollView(.vertical, showsIndicators: false) {
-                            ForEach(fireStoreViewModel.challengeHistoryArray, id: \.self) { history in
-                                ChallegeListCell(challenge: history)
+                            ForEach(fireStoreViewModel.challengeHistoryArray, id: \.self) { history
+                                in ChallegeListCell(challenge: history)
                             }
                             .foregroundColor(Color("Color2"))
                             .frame(minWidth: g.size.width / 1.2, minHeight: g.size.height / 8)
@@ -73,6 +73,7 @@ struct ChallengeRecordView: View {
 // 챌린지 리스트 커스텀
 struct ChallegeListCell: View {
     @State var challenge: Challenge
+    @State var challengeUsers: FireStoreViewModel.ChallengeUserData = []
     // 예시 (추후 데이터 연결 시 필요 없음)
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
@@ -104,8 +105,8 @@ struct ChallegeListCell: View {
                             VStack(alignment: .leading) {
                                 Text("참여자 :")
                                 HStack {
-                                    ForEach(fireStoreViewModel.challengeUsers.indices, id:\.self) { index in
-                                        Text("\(fireStoreViewModel.challengeUsers[index].user.userName)")
+                                    ForEach(challengeUsers.indices, id:\.self) { index in
+                                        Text("\(challengeUsers[index].user.userName)")
                                     }
                                 }
                             }
@@ -122,16 +123,14 @@ struct ChallegeListCell: View {
                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                         .minimumScaleFactor(0.5)
                         .lineLimit(1)
-                        
-                        
-                        
                     } // VStack
                 } // HStack
             } // NavigationLink
         }
         .onAppear {
             Task {
-                await fireStoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
+                guard let userArray = await fireStoreViewModel.fetchChallengeUsersData(challenge.inviteFriend, challenge.id) else {return}
+                self.challengeUsers = userArray
             }
         }
     }
