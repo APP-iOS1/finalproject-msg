@@ -15,15 +15,24 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import FirebaseAuth
 
+enum LoginType: String {
+    case Apple = "Apple"
+    case Google = "Google"
+    case Kakao = "Kakao"
+    
+    case none = "None" //기존에 쓰고있던 유저들은 그냥 버튼3개다보임
+}
+
+
 @MainActor
 class LoginViewModel: ObservableObject {
     
     //MARK: Error Properties
-    
     @Published var currentUserProfile: Msg? = nil
     @Published var showError: Bool = false
     @Published var errorMessege: String = ""
     @Published var currentUser = Auth.auth().currentUser
+    @AppStorage("userLoginType") var userLoginType: LoginType = .none
     // MARK: App Log Status
     @AppStorage("log_status") var logStatus: Bool = false
 
@@ -103,6 +112,7 @@ class LoginViewModel: ObservableObject {
             let authResult = try await Auth.auth().signIn(with: firebaseCredential)
             self.currentUserProfile =  try await fetchUserInfo(authResult.user.uid)
             self.currentUser = authResult.user
+            self.userLoginType = .Apple
             withAnimation(.easeInOut){self.logStatus = true}
         }catch{
             print("appleLogin Fail..!")
@@ -120,6 +130,7 @@ class LoginViewModel: ObservableObject {
                 let authResult = try await Auth.auth().signIn(with: credential)
                 self.currentUserProfile = try await fetchUserInfo(authResult.user.uid)
                 self.currentUser = authResult.user
+                self.userLoginType = .Google
                 print("Logged In Success Google")
                 await MainActor.run(body: {
                     withAnimation(.easeInOut){self.logStatus = true}
@@ -157,6 +168,7 @@ class LoginViewModel: ObservableObject {
                 if let oauthToken = oauthToken {
                     print("DEBUG: 카카오톡 \(oauthToken)")
                     self.signUpInFirebase()
+                    self.userLoginType = .Kakao
                 }
             }
         }
@@ -173,6 +185,7 @@ class LoginViewModel: ObservableObject {
                 if let token {
                     print("\(token)")
                     self.signUpInFirebase()
+                    self.userLoginType = .Kakao
                 }
             }
         }

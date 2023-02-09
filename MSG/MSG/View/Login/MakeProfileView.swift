@@ -11,7 +11,6 @@ import FirebaseAuth
 struct MakeProfileView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -203,7 +202,6 @@ struct MakeProfileView: View {
                                     // 사용 가능 닉네임 입력 (최종 체크 가입완료)
                                 } else if fireStoreViewModel.nickNameCheck(nickName: nickNameText) == true {
                                     Task{
-                                        kakaoAuthViewModel.userNicName = nickNameText
                                         let userProfile = Msg(id: Auth.auth().currentUser?.uid ?? "", nickName: nickNameText, profileImage: "", game: "", gameHistory: nil)
                                         await fireStoreViewModel.uploadImageToStorage(userImage: profileImage, user: userProfile)
                                         loginViewModel.currentUserProfile = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "")
