@@ -50,7 +50,7 @@ struct ContentView: View {
                                     case .second:
                                         ChallengeRecordView()
                                     case .third:
-                                        FriendSettingView(selectedTabBar: $selectedTabBar)
+                                        FriendSettingView(selectedTabBar: $selectedTabBar, friendCount: $realtimeViewModel.friendCount, requsetCount: $realtimeViewModel.requsetCount)
                                     case .fourth:
                                         SettingView(darkModeEnabled: $darkModeEnabled, notificationEnabled: $notiManager.isGranted)
                                     }

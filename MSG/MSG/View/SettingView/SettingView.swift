@@ -59,30 +59,37 @@ struct SettingView: View {
                                 VStack {
                                     ZStack {
                                         HStack{
-                                            PhotosPicker(
-                                                selection: $selectedItem,
-                                                matching: .images,
-                                                photoLibrary: .shared()) {
-                                                    Spacer()
-                                                    Text("사진선택   |")
-                                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
-                                                }
-                                            Button(action: {
-                                                profileEditing = false
-                                                if let selectedImageData,
-                                                   let uiImage = UIImage(data: selectedImageData) {
-                                                    let userProfile = Msg(id: fireStoreViewModel.myInfo?.id ?? "", nickName: userProfile!.nickName, profileImage: fireStoreViewModel.myInfo?.profileImage ?? "", game: fireStoreViewModel.myInfo?.game ?? "")
-                                                    Task{
-                                                        await fireStoreViewModel.uploadImageToStorage(userImage: uiImage, user: userProfile)
-                                                        fireStoreViewModel.myInfo = try await fireStoreViewModel.fetchUserInfo(self.userProfile?.id ?? "")
+                                            Spacer()
+                                            ZStack {
+                                                if selectedItem == nil {
+                                                    PhotosPicker(
+                                                        selection: $selectedItem,
+                                                        matching: .images,
+                                                        photoLibrary: .shared()) {
+                                                            Spacer()
+                                                            Text("사진선택   |")
+                                                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                                        }
+                                                    
+                                                } else {
+                                                    Button(action: {
+                                                        profileEditing = false
+                                                        if let selectedImageData,
+                                                           let uiImage = UIImage(data: selectedImageData) {
+                                                            let userProfile = Msg(id: fireStoreViewModel.myInfo?.id ?? "", nickName: userProfile!.nickName, profileImage: fireStoreViewModel.myInfo?.profileImage ?? "", game: fireStoreViewModel.myInfo?.game ?? "")
+                                                            Task{
+                                                                await fireStoreViewModel.uploadImageToStorage(userImage: uiImage, user: userProfile)
+                                                                fireStoreViewModel.myInfo = try await fireStoreViewModel.fetchUserInfo(self.userProfile?.id ?? "")
+                                                            }
+                                                            
+                                                        }
+                                                    }) {
+                                                        Text("   선택완료    |")
+                                                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                                                     }
                                                     
                                                 }
-                                            }) {
-                                                Text("   선택완료    |")
-                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                                             }
-                                            
                                             
                                             Button(action: {
                                                 selectedImageData = nil
@@ -224,7 +231,7 @@ struct SettingView: View {
                         
                         // 이메일, sms, 공유하기, 시트뷰로 보여주기
                         Button {
-                            buttonAction("https://itunes.apple.com/app/", .share)
+                            buttonAction("https://apps.apple.com/kr/app/msg/id1670628313", .share)
                         } label: {
                             Text("친구초대")
                         }

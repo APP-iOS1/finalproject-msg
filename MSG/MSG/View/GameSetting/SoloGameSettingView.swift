@@ -262,11 +262,13 @@ struct SoloGameSettingView: View {
                             .padding([.leading, .bottom, .trailing])
                         }
                         .disabled(!gameSettingViewModel.isGameSettingValid)
-                        .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
+                        .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
                             Button("시작하기") {
                                 Task{
                                     if !notiManager.isGranted {
-                                        notiManager.openSetting()
+                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                                        dismiss()
+                                        await fireStoreViewModel.makeSingleGame(singGame)
                                     } else {
                                         print("도전장 보내짐")
                                         let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)

@@ -375,11 +375,22 @@ extension GameSettingView {
         }
         .ignoresSafeArea(.keyboard)
 
-        .alert(notiManager.isGranted ? "챌린지를 시작하시겠습니까?" : "알림을 허용해주세요", isPresented: $isShowingAlert, actions: {
+        .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
             Button("시작하기") {
                 Task{
                     if !notiManager.isGranted {
-                        notiManager.openSetting()
+                        let challenge = Challenge(
+                            id: UUID().uuidString,
+                            gameTitle: gameSettingViewModel.title,
+                            limitMoney: Int(gameSettingViewModel.targetMoney)!,
+                            startDate: String(gameSettingViewModel.startDate) ,
+                            endDate: String(gameSettingViewModel.endDate),
+                            inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
+                        await fireStoreViewModel.addMultiGame(challenge)
+                        guard let myInfo = fireStoreViewModel.myInfo else { return }
+                        print(realtimeViewModel.inviteFriendArray)
+                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                        dismiss()
                     } else {
                         print("도전장 보내짐?")
                         let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)

@@ -72,6 +72,9 @@ extension DivideFriendView {
             }
             .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
         }
+        .onTapGesture {
+            self.endTextEditing()
+        }
     }
 }
 
