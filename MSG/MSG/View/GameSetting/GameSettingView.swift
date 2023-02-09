@@ -119,8 +119,10 @@ extension GameSettingView {
                             
                             HStack {
                                 ZStack(alignment: .leading) {
-                                    Text(gameSettingViewModel.targetMoney.insertComma)
-                                        .multilineTextAlignment(.leading)
+                                    if !gameSettingViewModel.targetMoney.insertComma.isEmpty {
+                                        Text("\(gameSettingViewModel.targetMoney.insertComma)원")
+                                            .multilineTextAlignment(.leading)
+                                    }
                                     TextField("", text: $gameSettingViewModel.targetMoney)
                                         .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                             Text("1,000만원 미만으로 입력하세요")
@@ -153,15 +155,6 @@ extension GameSettingView {
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    if focusedField == .limitMoney {
-                                        Button("완료") {
-                                            hideKeyboard()
-                                        }
-                                    }
-                                }
-                            }
                         }
                         .frame(width: g.size.width / 1.2, height: g.size.height / 11)
                         
@@ -375,7 +368,9 @@ extension GameSettingView {
             }
         }
         .ignoresSafeArea(.keyboard)
-
+        .onTapGesture {
+            self.endTextEditing()
+        }
         .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
             Button("시작하기") {
                 Task{
@@ -394,7 +389,7 @@ extension GameSettingView {
                         dismiss()
                     } else {
                         print("도전장 보내짐?")
-                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
+                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "상대방이 도전을 수락하면 시작됩니다.", timeInterval: 1, repeats: false)
                         let challenge = Challenge(
                             id: UUID().uuidString,
                             gameTitle: gameSettingViewModel.title,
@@ -409,6 +404,7 @@ extension GameSettingView {
                         realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
                         await notiManager.schedule(localNotification: localNotification)
+                        await notiManager.doSomething()
                         await notiManager.getPendingRequests()
                     }
                 }

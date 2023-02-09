@@ -93,8 +93,11 @@ struct SoloGameSettingView: View {
                             
                             HStack {
                                 ZStack(alignment: .leading) {
-                                    Text(gameSettingViewModel.targetMoney.insertComma)
-                                        .multilineTextAlignment(.leading)
+                                    if !gameSettingViewModel.targetMoney.insertComma.isEmpty {
+                                        Text("\(gameSettingViewModel.targetMoney.insertComma)원")
+                                            .multilineTextAlignment(.leading)
+                                    }
+
                                     TextField("", text: $gameSettingViewModel.targetMoney)
                                         .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                             Text("1,000만원 미만으로 입력하세요")
@@ -126,15 +129,6 @@ struct SoloGameSettingView: View {
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    if focusedField == .limitMoney {
-                                        Button("완료") {
-                                            hideKeyboard()
-                                        }
-                                    }
-                                }
-                            }
                         }
                         .frame(width: g.size.width / 1.2, height: g.size.height / 11)
                         
@@ -263,21 +257,23 @@ struct SoloGameSettingView: View {
                         .padding([.leading, .bottom, .trailing])
                     }
                     .disabled(!gameSettingViewModel.isGameSettingValid)
-                    .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
-                        Button("시작하기") {
-                            Task{
-                                if !notiManager.isGranted {
-                                    let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
-                                    dismiss()
-                                    await fireStoreViewModel.makeSingleGame(singGame)
-                                } else {
-                                    print("도전장 보내짐")
-                                    let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
-                                    let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
-                                    dismiss()
-                                    await fireStoreViewModel.makeSingleGame(singGame)
-                                    await notiManager.schedule(localNotification: localNotification)
-                                    await notiManager.getPendingRequests()
+                        .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
+                            Button("시작하기") {
+                                Task{
+                                    if !notiManager.isGranted {
+                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                                        dismiss()
+                                        await fireStoreViewModel.makeSingleGame(singGame)
+                                    } else {
+                                        print("도전장 보내짐")
+                                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
+                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                                        dismiss()
+                                        await fireStoreViewModel.makeSingleGame(singGame)
+                                        await notiManager.schedule(localNotification: localNotification)
+                                        await notiManager.doSomething()
+                                        await notiManager.getPendingRequests()
+                                    }
                                 }
                             }
                         }
@@ -306,7 +302,10 @@ struct SoloGameSettingView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
-        
+
+        .onTapGesture {
+            self.endTextEditing()
+        }
         .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
             
             Button {
