@@ -67,7 +67,7 @@ struct OnBoardView3: View {
                             
                             Image("Screen3")
                                 .resizable()
-                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
+                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.5)
                                 .cornerRadius(20)
                                 .offset(y: g.size.height / -150)
                         }

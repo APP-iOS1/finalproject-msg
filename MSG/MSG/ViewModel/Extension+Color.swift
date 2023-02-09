@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//MARK: -삭제될 뷰입니다.
 extension Color {
     static let background = Color("Background")
 }
