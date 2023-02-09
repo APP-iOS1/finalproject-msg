@@ -12,7 +12,6 @@ import SwiftUI
 struct ContentView: View {
     //** 코어데이터 -> 로그인 처리 **
     @EnvironmentObject var loginViewModel: LoginViewModel
-    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
@@ -96,7 +95,6 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static let kakaoAuthViewModel = KakaoViewModel()
     static let fireStoreViewModel = FireStoreViewModel()
     static let realtimeViewModel = RealtimeViewModel()
     

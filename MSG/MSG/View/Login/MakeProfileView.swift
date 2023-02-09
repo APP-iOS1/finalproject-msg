@@ -11,7 +11,6 @@ import FirebaseAuth
 struct MakeProfileView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
