@@ -48,6 +48,25 @@ final class FireStoreViewModel: ObservableObject {
         
     }
     
+    @MainActor
+    func initAllItem() async {
+        self.myInfo = nil
+        self.userArray = []
+        self.invitedArray = []
+        self.waitingArray = []
+        self.challengeHistoryArray = []
+        self.challengeHistoryUserList = []
+        self.myFrinedArray = []
+        self.newSingleGameId = ""
+        self.singleGameList = []
+        self.currentGame = nil
+        self.expenditureList = [:]
+        self.expenditure = nil
+        self.totalMoney = 0
+        self.nickNameCheck = false
+        self.checkFightFriend = nil
+    }
+    
     func parsingExpenditure(expenditure: [String:[String]]) -> Int {
         print(#function)
         totalMoney = 0
