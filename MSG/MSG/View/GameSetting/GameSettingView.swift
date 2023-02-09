@@ -83,6 +83,9 @@ extension GameSettingView {
                                         focusedField = .limitMoney
                                     }
                                     .submitLabel(.done)
+                                    .onAppear{
+                                        focusedField = .title
+                                    }
                                 
                                 Spacer()
                                 
