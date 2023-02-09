@@ -11,8 +11,8 @@ final class RealtimeViewModel: ObservableObject {
     @Published var requsetGameArr:[Msg] = []
     
     @Published var inviteFriendIdArray:[String] = []
-    @Published var friendCount: Int = 0
-    @Published var requsetCount: Int = 0
+    @Published var friendCount: Int = 1
+    @Published var requsetCount: Int = 100
         
     
     
