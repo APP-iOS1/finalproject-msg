@@ -55,48 +55,60 @@ struct SettingView: View {
                             .frame(minWidth: g.size.width / 1.5, minHeight: g.size.height / 4)
                         
                         VStack(spacing: 0) {
-                            if profileEditing == true {
                                 VStack {
                                     ZStack {
-                                        HStack{
-                                            Spacer()
-                                            ZStack {
-                                                if selectedItem == nil {
-                                                    PhotosPicker(
-                                                        selection: $selectedItem,
-                                                        matching: .images,
-                                                        photoLibrary: .shared()) {
-                                                            Spacer()
-                                                            Text("사진선택   |")
+                                        // MARK: 프로필 편집 모드 On
+                                        if profileEditing == true {
+                                            HStack {
+                                                Spacer()
+                                                ZStack {
+                                                    // 선택된 이미지가 없는 경우
+                                                    if selectedItem == nil {
+                                                        // 사진 선택 버튼
+                                                        PhotosPicker(
+                                                            selection: $selectedItem,
+                                                            matching: .images,
+                                                            photoLibrary: .shared()) {
+                                                                Spacer()
+                                                                Text("사진선택   |")
+                                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                                            }
+                                                        // 선택된 이미지가 있는 경우
+                                                    } else {
+                                                        // 선택 완료 버튼
+                                                        Button(action: {
+                                                            selectedItem = nil
+                                                            profileEditing = false
+                                                            if let selectedImageData,
+                                                               let uiImage = UIImage(data: selectedImageData) {
+                                                                let userProfile = Msg(id: fireStoreViewModel.myInfo?.id ?? "", nickName: userProfile!.nickName, profileImage: fireStoreViewModel.myInfo?.profileImage ?? "", game: fireStoreViewModel.myInfo?.game ?? "")
+                                                                Task{
+                                                                    await fireStoreViewModel.uploadImageToStorage(userImage: uiImage, user: userProfile)
+                                                                    fireStoreViewModel.myInfo = try await fireStoreViewModel.fetchUserInfo(self.userProfile?.id ?? "")
+                                                                }
+                                                            }
+                                                        }) {
+                                                            Text("   선택완료    |")
                                                                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                                                         }
-                                                    
-                                                } else {
-                                                    Button(action: {
-                                                        profileEditing = false
-                                                        if let selectedImageData,
-                                                           let uiImage = UIImage(data: selectedImageData) {
-                                                            let userProfile = Msg(id: fireStoreViewModel.myInfo?.id ?? "", nickName: userProfile!.nickName, profileImage: fireStoreViewModel.myInfo?.profileImage ?? "", game: fireStoreViewModel.myInfo?.game ?? "")
-                                                            Task{
-                                                                await fireStoreViewModel.uploadImageToStorage(userImage: uiImage, user: userProfile)
-                                                                fireStoreViewModel.myInfo = try await fireStoreViewModel.fetchUserInfo(self.userProfile?.id ?? "")
-                                                            }
-                                                            
-                                                        }
-                                                    }) {
-                                                        Text("   선택완료    |")
-                                                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                                                     }
-                                                    
+                                                }
+                                                
+                                                // 선택 취소 버튼
+                                                Button(action: {
+                                                    selectedItem = nil
+                                                    selectedImageData = nil
+                                                    profileEditing = false
+                                                }) {
+                                                    Text("  취소  ")
+                                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
                                                 }
                                             }
                                             
-                                            Button(action: {
-                                                selectedImageData = nil
-                                                profileEditing = false
-                                            }) {
-                                                Text("  취소  ")
-                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                        // MARK: 프로필 편집 모드 Off
+                                        } else {
+                                            HStack{
+                                                Spacer()
                                             }
                                         }
                                     }
@@ -112,15 +124,18 @@ struct SettingView: View {
                                         }
                                     }
                                     
+                                    // 선택된 이미지 데이터가 없는 경우
                                     if selectedImageData == nil {
+                                        // 유저 프로필 이미지가 없는 경우
                                         if userProfile == nil || userProfile!.profileImage.isEmpty{
                                             Image(systemName: "person.circle")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                        }
-                                        else {
-                                            // 사진 불러오기
+                                            
+                                            // 유저 프로필 이미지가 있는 경우
+                                        } else {
+                                            // 이미지 불러오기
                                             AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
                                                 Image
                                                     .resizable()
@@ -134,65 +149,27 @@ struct SettingView: View {
                                                     .aspectRatio(contentMode: .fill)
                                             }
                                         }
-                                        
-                                    }
-                                    else if profileImage != nil {
-                                        
-                                        Image(uiImage: profileImage!)
-                                            .resizable()
-                                            .clipShape(Circle())
-                                            .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                            .aspectRatio(contentMode: .fill)
-                                        
+                                    // 선택된 이미지 데이터가 있는 경우
                                     } else {
-                                        
-                                        if let selectedImageData,
-                                           let uiImage = UIImage(data: selectedImageData) {
-                                            Image(uiImage: uiImage)
+                                        if profileImage != nil {
+                                            Image(uiImage: profileImage!)
                                                 .resizable()
                                                 .clipShape(Circle())
                                                 .frame(width: g.size.width / 3, height: g.size.height / 7)
                                                 .aspectRatio(contentMode: .fill)
-                                        }
-                                        
-                                    }
-                                }
-                                .frame(height: g.size.height / 6)
-                            } else {
-                                VStack{
-                                    ZStack {
-                                        HStack{ Spacer()
-                                        }
-                                    }
-                                    .padding(.trailing)
-                                    .padding(.top, -g.size.height / 18)
-                                    .padding(.bottom, 5)
-                                    VStack {
-                                        // 조건 써주기
-                                        if userProfile == nil || userProfile!.profileImage.isEmpty{
-                                            Image(systemName: "person.circle")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: g.size.width / 3, height: g.size.height / 7)
                                         } else {
-                                            // 사진 불러오기
-                                            AsyncImage(url: URL(string: userProfile!.profileImage)) { Image in
-                                                Image
+                                            if let selectedImageData,
+                                               let uiImage = UIImage(data: selectedImageData) {
+                                                Image(uiImage: uiImage)
                                                     .resizable()
                                                     .clipShape(Circle())
                                                     .frame(width: g.size.width / 3, height: g.size.height / 7)
                                                     .aspectRatio(contentMode: .fill)
-                                            } placeholder: {
-                                                Image(systemName: "person.circle")
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: g.size.width / 3, height: g.size.height / 7)
                                             }
                                         }
                                     }
                                 }
                                 .frame(height: g.size.height / 6)
-                            }
                             
                             HStack {
                                 Text( userProfile != nil ? userProfile!.nickName : "닉네임")
