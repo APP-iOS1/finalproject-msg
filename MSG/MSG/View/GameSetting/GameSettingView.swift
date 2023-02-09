@@ -153,15 +153,6 @@ extension GameSettingView {
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    if focusedField == .limitMoney {
-                                        Button("완료") {
-                                            hideKeyboard()
-                                        }
-                                    }
-                                }
-                            }
                         }
                         .frame(width: g.size.width / 1.2, height: g.size.height / 11)
                         
@@ -374,7 +365,9 @@ extension GameSettingView {
             }
         }
         .ignoresSafeArea(.keyboard)
-
+        .onTapGesture {
+            self.endTextEditing()
+        }
         .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
             Button("시작하기") {
                 Task{
