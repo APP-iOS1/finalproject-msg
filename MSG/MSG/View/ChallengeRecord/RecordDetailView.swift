@@ -78,7 +78,7 @@ struct RecordDetailView: View {
                             Text(challenge.gameTitle)
                                 .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.largeTitle, color: .color2))
                             Spacer()
-                            NavigationLink(destination: ChartView(expenditure: historyExpenditure ?? Expenditure(id: "", totalMoney: 0, expenditureHistory: [:]))) {
+                            NavigationLink(destination: ChartView(expenditure: historyExpenditure ?? Expenditure(id: "", totalMoney: 0, expenditureHistory: [:]),limitMoney: Float(challenge.limitMoney))) {
                                 Text("상세내역")
                                     .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.subhead, color: .color2))
                                     .frame(width: g.size.width / 6, height: g.size.height / 34)

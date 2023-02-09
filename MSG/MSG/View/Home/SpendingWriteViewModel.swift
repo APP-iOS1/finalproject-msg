@@ -14,6 +14,13 @@ class SpendingWriteViewModel: ObservableObject {
     
     init() {
     }
+    
+    func dataReset(){
+        DispatchQueue.main.async {
+            self.consumeTitle = ""
+            self.consumeMoney = ""
+        }
+    }
     var isTitleValidPublisher: AnyPublisher<Bool,Never>{
         $consumeTitle
             .map{ name in

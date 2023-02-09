@@ -16,6 +16,7 @@ struct AfterChallengeView: View {
     
     func parsingExpenditure(expenditure: [String:[String]]) {
         print(#function)
+    
         fireStoreViewModel.totalMoney = 0
         for (_ , key) in expenditure {
             for moneyHistory in key {
@@ -89,7 +90,8 @@ struct AfterChallengeView: View {
                         Group{
                             
                             if fireStoreViewModel.expenditure != nil {
-                                NavigationLink(destination: ChartView(expenditure: fireStoreViewModel.expenditure!), label: {
+                               
+                                NavigationLink(destination:   ChartView(expenditure: fireStoreViewModel.expenditure!, limitMoney: Float(challenge.limitMoney)), label: {
                                     Text("상세 소비 내역 확인하기")
                                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)
@@ -186,11 +188,7 @@ struct AfterChallengeView: View {
                 .padding()
                 
             }
-            .task {
-                print("(1) : \(fireStoreViewModel.expenditure)")
-                await fireStoreViewModel.fetchExpenditure()
-                print("(1) : \(fireStoreViewModel.expenditure)")
-            }
+            .task { await fireStoreViewModel.fetchExpenditure() }
             .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
                 parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
             })
