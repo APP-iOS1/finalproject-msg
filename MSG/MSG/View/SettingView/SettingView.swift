@@ -249,7 +249,9 @@ struct SettingView: View {
                         }
                         .alert("로그아웃", isPresented: $logoutToggle) {
                             Button("확인", role: .destructive) {
+                                Task {await fireStoreViewModel.initAllItem()}
                                 loginViewModel.signout()
+                                
                             }
                             Button("취소", role: .cancel) {}
                         } message: {
