@@ -161,7 +161,11 @@ struct SpendingWritingView: View {
                                     HStack {
                                         
                                         ZStack(alignment: .leading) {
-                                            Text(spendingViewModel.consumeMoney.insertComma)
+                                            
+                                            if !spendingViewModel.consumeMoney.insertComma.isEmpty {
+                                                Text("\(spendingViewModel.consumeMoney.insertComma)원")
+                                                    .multilineTextAlignment(.leading)
+                                            }
                                             
                                             TextField("", text: $spendingViewModel.consumeMoney)
                                                 .focused($focusField, equals: .consumeMoney)
@@ -392,34 +396,25 @@ struct SpendingWritingView: View {
                     .frame(width: g.size.width / 1.2, height: g.size.height / 1.2)
                     
                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                    .toolbar {
-                        ToolbarItemGroup(placement: .keyboard) {
-                            Button("완료") {
-                                hideKeyboard()
-                            }
-                        }
-                    }
                 }
             }
 
         }
         .ignoresSafeArea(.keyboard)
+        .onTapGesture {
+            self.endTextEditing()
+        }
 
     }
         
 }
 
 extension View {
-    
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-    
     func placeholder<Content: View>(
         when shouldShow: Bool,
         alignment: Alignment = .leading,
         @ViewBuilder placeholder: () -> Content) -> some View {
-            
+
             ZStack(alignment: alignment) {
                 placeholder().opacity(shouldShow ? 1 : 0)
                 self

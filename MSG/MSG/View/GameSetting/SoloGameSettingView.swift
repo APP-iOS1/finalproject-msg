@@ -97,8 +97,11 @@ struct SoloGameSettingView: View {
                             
                             HStack {
                                 ZStack(alignment: .leading) {
-                                    Text(gameSettingViewModel.targetMoney.insertComma)
-                                        .multilineTextAlignment(.leading)
+                                    if !gameSettingViewModel.targetMoney.insertComma.isEmpty {
+                                        Text("\(gameSettingViewModel.targetMoney.insertComma)원")
+                                            .multilineTextAlignment(.leading)
+                                    }
+
                                     TextField("", text: $gameSettingViewModel.targetMoney)
                                         .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                             Text("1,000만원 미만으로 입력하세요")
@@ -130,15 +133,6 @@ struct SoloGameSettingView: View {
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    if focusedField == .limitMoney {
-                                        Button("완료") {
-                                            hideKeyboard()
-                                        }
-                                    }
-                                }
-                            }
                         }
                         .frame(width: g.size.width / 1.2, height: g.size.height / 11)
                         
@@ -308,7 +302,9 @@ struct SoloGameSettingView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
-
+        .onTapGesture {
+            self.endTextEditing()
+        }
         .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
 
             Button {
