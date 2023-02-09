@@ -335,6 +335,7 @@ extension GameSettingView {
                     .frame(width: g.size.width / 1.2, height: g.size.height / 1.7)
                         
                         // MARK: - 초대장 보내기 Button
+                    Spacer()
                     VStack {
                         Button {
                             if trimsTitleTextField.count > 0 && trimTargetMoneyTextField.count > 0 && gameSettingViewModel.daySelection != 5{
