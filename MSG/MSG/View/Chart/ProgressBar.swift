@@ -5,24 +5,19 @@
 //  Created by sehooon on 2023/01/18.
 //
 
-//MARK: -삭제될 뷰입니다.
 import SwiftUI
 
 struct ProgressBar: View {
     
-    
+    var limitMoney: Float = 0
     @Binding var progress:[(tag:String, money:Float)]
     @Binding var percentArr:[(to: Float, from: Float, percent: Float)]
     @Binding var totalMoney: Float
     @Binding var selection:String
     @State private var selectMoney = 0
     @State private var selectPercent = 0
-    @State private var bright:Double = 0.0
-    
     @State private var colorArr:[Color] = [Color("Chart1"), Color("Chart2"), Color("Chart3"), Color("Chart4"), Color("Chart5"), Color("Chart6"), Color("Chart7"),Color("Chart8")]
-    
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    
     
     var body: some View {
         ZStack{
@@ -45,7 +40,8 @@ struct ProgressBar: View {
             VStack{
                 if selection == "" || selection == "전체"{
                     VStack{
-                        Text("모든 지출내역 합산 금액")
+                        Text("\(Int(totalMoney/limitMoney * 100))%")
+                        Text("총 지출 금액")
                             .padding(.bottom, 4)
                         Text("\(Int(totalMoney))원")
                             .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
@@ -53,7 +49,6 @@ struct ProgressBar: View {
                 }else{
                     VStack{
                         Text("\(selectPercent)%")
-                        
                         Text("\(selectMoney)원")
                             .padding()
                             .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
@@ -68,7 +63,7 @@ struct ProgressBar: View {
                 for expenditure in progress{
                     if tagName == expenditure.tag{
                         self.selectMoney = Int(expenditure.money)
-                        self.selectPercent = Int(expenditure.money / totalMoney * 100)
+                        self.selectPercent = Int(expenditure.money / limitMoney * 100)
                         find = true
                         break
                     }
@@ -82,26 +77,19 @@ struct ProgressBar: View {
             ForEach(progress.indices.reversed(),id:\.self){ index in
                 Circle()
                     .trim(from: CGFloat(percentArr[index].from), to: CGFloat(min(percentArr[index].to, 1.0)))
-                //                    .trim(from: 0.0, to: Double(percentage) / Double(limitMoney))
-                //                    .stroke(style: StrokeStyle(lineWidth: 27.0, lineCap: .round, lineJoin: .round))
-                    .stroke(style: StrokeStyle(lineWidth: 27.0, lineCap: .round, lineJoin: .round))
+                    .stroke(lineWidth: 28)
+//                    .stroke(style: StrokeStyle(lineWidth: 27.0, lineCap: .round, lineJoin: .round))
+//                    .shadow(color: selection == progress[index].tag ? .white: .clear, radius:2)
                     .frame(width: 200, height: 200)
-                //                    .foregroundColor(Color("Color2"))
                     .rotationEffect(Angle(degrees: 270.0))
-                //                Circle()
-                
-                
-                //                    .brightness(selection == progress[index].tag ? 0.2 : 0)
                     .foregroundColor(colorArr[index])
-                //                    .frame(width: 250,height: 250)
-                //                    .rotationEffect(Angle(degrees: 270.0))
+                    .opacity(selection == progress[index].tag || selection == "전체" ? 1 : 0.2)
+                    //.foregroundColor(selection == progress[index].tag || selection == "전체" ? colorArr[index] : .clear)
                     .onAppear{
                         withAnimation{
-                            let percent = progress[index].money / totalMoney
+                            let percent = progress[index].money / limitMoney
                             percentArr[index].to = percentArr[index].from + percent
-                            if index < progress.count-1 {
-                                percentArr[index+1].from = percentArr[index].to
-                            }
+                            if index < progress.count-1 { percentArr[index+1].from = percentArr[index].to }
                         }
                     }
             }

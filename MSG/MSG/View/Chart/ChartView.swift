@@ -27,13 +27,14 @@ var category: [Category] = [
 ]
 
 struct ChartView: View {
-    
     var expenditure = Expenditure(id: "", totalMoney: 0, expenditureHistory: [:])
+    @State var limitMoney: Float = 0
     @State private var progressValue: [(tag: String, money: Float)] = []
-    @State private var consumeTags: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
+    @State private var consumeTags: [String] = ["식비","교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
     @State private var percentArr:[(to: Float, from: Float, percent: Float)] = []
     @State private var selection: String = ""
     @State private var totalMoney: Float = 0
+    
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
     private func totalMoney(title: String, money: String, date: Date) -> String {
@@ -66,7 +67,7 @@ struct ChartView: View {
                 
                 VStack{
                     //원형바
-                    ProgressBar(progress: $progressValue, percentArr: $percentArr, totalMoney: $totalMoney, selection: $selection)
+                    ProgressBar(limitMoney: limitMoney, progress: $progressValue, percentArr: $percentArr, totalMoney: $totalMoney, selection: $selection)
                         .padding(.vertical, 6)
                     
                     // 태그 별 선택
@@ -83,13 +84,12 @@ struct ChartView: View {
                             ForEach(category, id: \.self){ item in
                                 Button {
                                     selection = item.tag
-                                    
                                 } label: {
                                     HStack{
                                         Image(systemName: item.icon)
                                         Text("\(item.tag)")
-                                        
                                     }
+                                    .minimumScaleFactor(0.01)
                                     .buttonStyle(.borderless)
                                     .frame(width: g.size.width / 6, height: g.size.height / 20)
                                     .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
@@ -124,6 +124,7 @@ struct ChartView: View {
         .onAppear{
             self.progressValue = self.makeProgressValue(expenditure.expenditureHistory)
             for expenditure in progressValue{ totalMoney += expenditure.money}
+            limitMoney = limitMoney > totalMoney ? limitMoney : totalMoney
             percentArr = Array(repeating: (0,0,0), count: progressValue.count)
         }
     }
