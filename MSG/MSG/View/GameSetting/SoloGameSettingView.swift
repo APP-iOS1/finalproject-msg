@@ -269,7 +269,7 @@ struct SoloGameSettingView: View {
                                         await fireStoreViewModel.makeSingleGame(singGame)
                                     } else {
                                         print("도전장 보내짐")
-                                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "야호", timeInterval: 1, repeats: false)
+                                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "지출을 추가해 기록을 작성해보세요", timeInterval: 1, repeats: false)
                                         let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
                                         dismiss()
                                         await fireStoreViewModel.makeSingleGame(singGame)
