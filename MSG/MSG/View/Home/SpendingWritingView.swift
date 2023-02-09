@@ -110,11 +110,16 @@ struct SpendingWritingView: View {
                                     HStack {
                                         TextField("", text: $spendingViewModel.consumeTitle)
                                             .onSubmit{ self.focusField = .consumeMoney }
+                                            
                                             .focused($focusField, equals: .consumeTitle)
                                             .placeholder(when: spendingViewModel.consumeTitle.isEmpty) {
                                                 Text("11글자 미만으로 내용을 입력하세요")
                                                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color3))
                                             }
+                                            .onAppear{
+                                                focusField = .consumeTitle
+                                            }
+                                        
                                             .frame(width: g.size.width / 1.4, height: g.size.height / 40)
                                             .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                             .onReceive(Just(spendingViewModel.consumeTitle), perform: { _ in
@@ -122,6 +127,8 @@ struct SpendingWritingView: View {
                                                     spendingViewModel.consumeTitle = String(spendingViewModel.consumeTitle.prefix(maxConsumeTitle))
                                                 }
                                             })
+                                            
+                                            
                                         
                                         Spacer()
                                         
@@ -365,6 +372,7 @@ struct SpendingWritingView: View {
                                             spendingViewModel.consumeMoney = ""
                                         }
                                     }
+                                    focusField = .consumeTitle
                                 }label: {
                                     Text("추가하기")
                                         .modifier(spendingViewModel.consumeTitle.isEmpty || selection == 8 || spendingViewModel.consumeMoney.isEmpty ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
