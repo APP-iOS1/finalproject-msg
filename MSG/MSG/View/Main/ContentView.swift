@@ -100,7 +100,6 @@ struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
         ContentView()
-            .environmentObject(kakaoAuthViewModel)
             .environmentObject(fireStoreViewModel)
             .environmentObject(realtimeViewModel)
             .environmentObject(NotificationManager())
