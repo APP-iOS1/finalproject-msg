@@ -139,6 +139,26 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
 //        try? await notificationCenter.add(request)
         await getPendingRequests()
     }
+    
+    func doSomething() async{
+        var dateComponents = DateComponents()
+        dateComponents.hour = 21
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        let content = UNMutableNotificationContent()
+        content.title = "지출을 작성하셨나요?"
+        content.body = "오늘 하루가 지나기 전에 소비내역을 추가해보세요!"
+        
+        let randomIdentifier = UUID().uuidString
+        let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
+        
+        do {
+            try await UNUserNotificationCenter.current().add(request)
+            await getPendingRequests()
+        } catch {
+            print("daily notification error")
+        }
+    }
 //
 //    // --------- 사용자가 작성하는 알림 정보를 처리하기 위한 함수
     func getPendingRequests() async {
@@ -160,9 +180,9 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
 //    }
 //
 //    // ---- 사용자의 모든 푸시 메시지 일괄 삭제 및 스케줄 취소 (로그아웃 할 때 사용)
-//    func removeAllRequest() {
-//        notificationCenter.removeAllPendingNotificationRequests()
-//    }
+    func removeAllRequest() {
+        notificationCenter.removeAllPendingNotificationRequests()
+    }
 //
 //}
 //// MARK: - UserDefaults extention: 기기에 로그인 정보를 담당하는 구조 추가
