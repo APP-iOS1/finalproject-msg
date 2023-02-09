@@ -12,6 +12,13 @@ struct WaitingView: View {
     @State var game: Challenge
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
+    
+    // Button Animation
+    @State var buttonCount: Int = 0
+    @State var timeRunning: Bool = false
+    @State var buttonRunning: Bool = true
+    @State var animationRunning: Bool = true
+    
     var body: some View {
         
         GeometryReader { g in
@@ -59,16 +66,56 @@ struct WaitingView: View {
                             Text("참여 인원")
                                 .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                             Spacer()
-                            Button {
-                                Task {
-                                    await fireStoreViewModel.fetchGame()
-                                    await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
+                            
+                            // MARK: Custom Refresh Button
+                            VStack {
+                                // 버튼이 실행중인 경우
+                                if buttonRunning {
+                                    Button {
+                                        buttonRunning = false
+                                        if buttonCount < 1 {
+                                            buttonCount = 0
+                                            timeRunning = true
+                                            animationRunning = true
+                                        }
+                                        Task {
+                                            await fireStoreViewModel.fetchGame()
+                                            await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
+                                        }
+                                    } label: {
+                                        Image(systemName: "arrow.clockwise.circle.fill")
+                                            .resizable()
+                                            .frame(width: g.size.width / 15.6, height: g.size.height / 27.468)
+                                    }
+                                // 버튼이 실행중이지 않은 경우
+                                } else {
+                                    Image(systemName: "arrow.clockwise.circle.fill")
+                                        .resizable()
+                                        .frame(width: g.size.width / 15.6, height: g.size.height / 27.468)
+                                        .rotationEffect(.degrees(animationRunning ? 0 : 360))
+                                        .opacity(0.6)
+                                        .onAppear {
+                                            withAnimation(Animation.linear(duration: 5)
+                                                .repeatForever(autoreverses: false)) {
+                                                    animationRunning = false
+                                                }
+                                        }
                                 }
-                            } label: {
-                                Image(systemName: "arrow.clockwise.circle.fill")
-                                    .resizable()
-                                    .frame(width: g.size.width / 15.6, height: g.size.height / 27.468)
                             }
+                            .onReceive(timer, perform: { _ in
+                                if timeRunning  {
+                                    if buttonCount == 5 {
+                                        buttonCount = 0
+                                        buttonRunning = true
+                                        timeRunning = false
+                                    } else {
+                                        buttonCount += 1
+                                    }
+                                } else {
+                                    buttonCount = 0
+                                }
+                                
+                            })
                         }
                         .frame(width: g.size.width / 1.3, height: g.size.height / 12)
                         

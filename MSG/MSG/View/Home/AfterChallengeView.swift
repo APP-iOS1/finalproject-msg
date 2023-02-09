@@ -11,6 +11,7 @@ struct AfterChallengeView: View {
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @State private var giveUpGame: Bool = false
+    @EnvironmentObject var notiManager: NotificationManager
     let challenge: Challenge
     
     func parsingExpenditure(expenditure: [String:[String]]) {
@@ -27,8 +28,8 @@ struct AfterChallengeView: View {
             }
         }
     }
-    
     @State private var birthDate = Date()
+    @State private var showingAlert: Bool = false
     var body: some View {
         
         GeometryReader { g in
@@ -101,7 +102,9 @@ struct AfterChallengeView: View {
                                         .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
                                 })
                             } else {
-                                Button{ } label: {
+                                Button{
+                                    self.showingAlert = true
+                                } label: {
                                     Text("상세 소비 내역 확인하기")
                                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)
@@ -113,6 +116,16 @@ struct AfterChallengeView: View {
                                 }
                                 .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                                 .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                                .alert("소비내역없음", isPresented: $showingAlert) {
+                                    Button {
+                                    } label: {
+                                        Text("확인")
+                                    }
+                                } message: {
+                                    Text("지출항목을 추가해 주세요")
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                                }
+
                             }
                             
                             
