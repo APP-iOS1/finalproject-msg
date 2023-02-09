@@ -200,7 +200,6 @@ struct FriendViewCell: View {
                     print(friendViewModel.friendIdArray)
                 }
             }
-            
         }
     }
 }

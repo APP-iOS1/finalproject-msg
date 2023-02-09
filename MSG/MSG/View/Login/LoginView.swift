@@ -15,7 +15,6 @@ import Firebase
 struct LoginView: View {
     
     @EnvironmentObject var loginViewModel: LoginViewModel
-    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
     @State private var showingSheetView: Bool = false
     @State var buttonNumber: Int = 4

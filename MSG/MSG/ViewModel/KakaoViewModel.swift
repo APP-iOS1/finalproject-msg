@@ -10,7 +10,10 @@ import KakaoSDKUser
 import FirebaseAuth
 import Firebase
 import FirebaseCore
+import SwiftUI
 
+
+//MARK: -현재 아무곳에서도 쓰이고 있지 않음
 @MainActor
 class KakaoViewModel: ObservableObject{
     
@@ -20,7 +23,7 @@ class KakaoViewModel: ObservableObject{
     }
     @Published var isLoggedIn: Bool = false
     @Published var userNicName: String = ""
-    
+//    @AppStorage("userLoginType1") var userLoginType: LoginType = .none
     func kakaoLogout() async {
         UserApi.shared.logout {(error) in
             if let error{

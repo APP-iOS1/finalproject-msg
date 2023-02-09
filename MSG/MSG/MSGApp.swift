@@ -27,7 +27,6 @@ struct MSGApp: App {
     }
     @StateObject var friendViewModel = FriendViewModel()
     @StateObject var loginViewModel = LoginViewModel()
-    @StateObject var viewModel = KakaoViewModel()
     @StateObject var fireStoreViewModel = FireStoreViewModel()
     @StateObject var realtimeViewModel = RealtimeViewModel()
     @StateObject var notiManager: NotificationManager = NotificationManager()
@@ -38,7 +37,6 @@ struct MSGApp: App {
                     _ = AuthController.handleOpenUrl(url: url)
                 }
             }
-            .environmentObject(viewModel)
             .environmentObject(loginViewModel)
             .environmentObject(fireStoreViewModel)
             .environmentObject(realtimeViewModel)

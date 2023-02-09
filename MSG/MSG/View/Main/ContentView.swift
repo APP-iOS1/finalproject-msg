@@ -12,7 +12,6 @@ import SwiftUI
 struct ContentView: View {
     //** 코어데이터 -> 로그인 처리 **
     @EnvironmentObject var loginViewModel: LoginViewModel
-    @EnvironmentObject var kakaoAuthViewModel: KakaoViewModel
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
@@ -50,7 +49,7 @@ struct ContentView: View {
                                     case .second:
                                         ChallengeRecordView()
                                     case .third:
-                                        FriendSettingView(selectedTabBar: $selectedTabBar)
+                                        FriendSettingView(selectedTabBar: $selectedTabBar, friendCount: $realtimeViewModel.friendCount, requsetCount: $realtimeViewModel.requsetCount)
                                     case .fourth:
                                         SettingView(darkModeEnabled: $darkModeEnabled, notificationEnabled: $notiManager.isGranted)
                                     }
@@ -96,13 +95,11 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static let kakaoAuthViewModel = KakaoViewModel()
     static let fireStoreViewModel = FireStoreViewModel()
     static let realtimeViewModel = RealtimeViewModel()
     
     static var previews: some View {
         ContentView()
-            .environmentObject(kakaoAuthViewModel)
             .environmentObject(fireStoreViewModel)
             .environmentObject(realtimeViewModel)
             .environmentObject(NotificationManager())

@@ -10,12 +10,13 @@ import SwiftUI
 struct AfterChallengeView: View {
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @State private var giveUpGame: Bool = false
     @EnvironmentObject var notiManager: NotificationManager
-    @State private var deleteSingleGame: Bool = false
     let challenge: Challenge
     
     func parsingExpenditure(expenditure: [String:[String]]) {
         print(#function)
+    
         fireStoreViewModel.totalMoney = 0
         for (_ , key) in expenditure {
             for moneyHistory in key {
@@ -38,49 +39,10 @@ struct AfterChallengeView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 15) {
                         Group{
-                            HStack{
+                            HStack {
                                 Text(challenge.gameTitle)
-//                                    .modifier(TextTitleBold())
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
                                 Spacer()
-                                Button {
-                                    deleteSingleGame.toggle()
-                                } label: {
-                                    Image(systemName: "x.circle.fill")
-                                }
-                                .buttonStyle(.borderless)
-                                .frame(width: g.size.width / 10, height: g.size.height / 10)
-                                .clipShape(Circle())
-                                .padding(4)
-                                .foregroundColor(Color("Color2"))
-                                .background(
-                                    Circle()
-                                        .fill(
-                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                        )
-                                        .foregroundColor(Color("Color1")))
-                                .alert("게임을 포기하시겠습니까?", isPresented: $deleteSingleGame) {
-                                    Button("확인", role: .destructive) {
-                                        Task {
-                                            if let game = fireStoreViewModel.currentGame {
-                                                if !(game.inviteFriend.isEmpty) {
-                                                    await fireStoreViewModel.giveUpMultiGame()
-                                                    
-                                                    notiManager.removeAllRequest()
-                                                } else {
-                                                    await fireStoreViewModel.deleteSingleGame()
-                                                }
-                                                fireStoreViewModel.currentGame = nil
-                                                fireStoreViewModel.expenditure = nil
-                                                fireStoreViewModel.expenditureList = [:]
-                                            }
-                                        }
-                                    }
-                                    Button("취소", role: .cancel) {}
-                                } message: {
-                                    Text("지금까지의 기록한 내역이 초기화 됩니다. 그래도 포기하시겠습니까?")
-                                }
                             }
                             
                             HStack{
@@ -99,10 +61,8 @@ struct AfterChallengeView: View {
                         Group{
                             // 싱글게임 멀티게임 다르게 보여주기
                             if challenge.inviteFriend.isEmpty {
-//                                ProgressBar2(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney,g:g)
                                 ProgressBar2(percentage: $fireStoreViewModel.totalMoney,limitMoney: challenge.limitMoney)
                                     .frame(height:30)
-//                                SingleGameProgressBar(percentage: $fireStoreViewModel.totalMoney, limitMoney: challenge.limitMoney)
                             } else {
                                 ForEach(challenge.inviteFriend,id:\.self) {friend in
                                     MultiProgressBar(friend: friend, limitMoney: challenge.limitMoney)
@@ -118,7 +78,6 @@ struct AfterChallengeView: View {
                             }
                             .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                             .padding(.top)
-//                            Spacer()
                             VStack{
                                 //챌린지 시작날짜~오늘날짜 계산
                                 CountDownView(endDate: Double(challenge.endDate)!)
@@ -126,14 +85,13 @@ struct AfterChallengeView: View {
                             }
                         }
                         .padding(.top, g.size.height / 40)
-//                        Spacer().frame(width: g.size.width / 1.4, height: g.size.height / 34)
-//                        .padding(5)
                         
                         //MARK: - 상세 소비 내역 확인 네비게이션 링크
                         Group{
                             
                             if fireStoreViewModel.expenditure != nil {
-                                NavigationLink(destination: ChartView(expenditure: fireStoreViewModel.expenditure!), label: {
+                               
+                                NavigationLink(destination:   ChartView(expenditure: fireStoreViewModel.expenditure!, limitMoney: Float(challenge.limitMoney)), label: {
                                     Text("상세 소비 내역 확인하기")
                                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)
@@ -175,7 +133,7 @@ struct AfterChallengeView: View {
                             
                             //MARK: - 추가하기 네비게이션 링크
                             NavigationLink(destination: SpendingWritingView(), label: {
-                                Text("추가하기")
+                                Text("지출 추가하기")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                     .frame(width: g.size.width / 1.4, height: g.size.height / 34)
                                     .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
@@ -186,6 +144,38 @@ struct AfterChallengeView: View {
                             })
                             .shadow(color: Color("Shadow3"), radius: 8, x: -9, y: -9)
                             .shadow(color: Color("Shadow"), radius: 8, x: 9, y: 9)
+                            
+                        Button {
+                            giveUpGame.toggle()
+                        } label: {
+                            if let game = fireStoreViewModel.currentGame {
+                                if !(game.inviteFriend.isEmpty) {
+                                    Text("도망가기")
+                                } else {
+                                    Text("포기하기")
+                                }
+                            }
+                        }
+                        .foregroundColor(.red)
+                        .alert("게임을 포기하시겠습니까?", isPresented: $giveUpGame) {
+                            Button("확인", role: .destructive) {
+                                Task {
+                                    if let game = fireStoreViewModel.currentGame {
+                                        if !(game.inviteFriend.isEmpty) {
+                                            await fireStoreViewModel.giveUpMultiGame()
+                                        } else {
+                                            await fireStoreViewModel.deleteSingleGame()
+                                        }
+                                        fireStoreViewModel.currentGame = nil
+                                        fireStoreViewModel.expenditure = nil
+                                        fireStoreViewModel.expenditureList = [:]
+                                    }
+                                }
+                            }
+                            Button("취소", role: .cancel) {}
+                        } message: {
+                            Text("지금까지의 기록한 내역이 초기화 됩니다. 그래도 포기하시겠습니까?")
+                        }
                             
                             Spacer()
                         }
@@ -198,11 +188,7 @@ struct AfterChallengeView: View {
                 .padding()
                 
             }
-            .task {
-                print("(1) : \(fireStoreViewModel.expenditure)")
-                await fireStoreViewModel.fetchExpenditure()
-                print("(1) : \(fireStoreViewModel.expenditure)")
-            }
+            .task { await fireStoreViewModel.fetchExpenditure() }
             .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
                 parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
             })
