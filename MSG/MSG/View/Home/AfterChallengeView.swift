@@ -10,6 +10,7 @@ import SwiftUI
 struct AfterChallengeView: View {
     
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @EnvironmentObject var notiManager: NotificationManager
     @State private var deleteSingleGame: Bool = false
     let challenge: Challenge
     
@@ -65,6 +66,8 @@ struct AfterChallengeView: View {
                                             if let game = fireStoreViewModel.currentGame {
                                                 if !(game.inviteFriend.isEmpty) {
                                                     await fireStoreViewModel.giveUpMultiGame()
+                                                    
+                                                    notiManager.removeAllRequest()
                                                 } else {
                                                     await fireStoreViewModel.deleteSingleGame()
                                                 }

@@ -397,6 +397,7 @@ extension GameSettingView {
                         realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
                         await notiManager.schedule(localNotification: localNotification)
+                        await notiManager.doSomething()
                         await notiManager.getPendingRequests()
                     }
                 }

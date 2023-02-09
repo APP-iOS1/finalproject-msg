@@ -15,6 +15,7 @@ struct GameRequestAlertViewCell: View {
     @State var g: GeometryProxy
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
+    @EnvironmentObject var notiManager: NotificationManager
     
     var body: some View {
         //        GeometryReader { g in
@@ -138,6 +139,7 @@ struct GameRequestAlertViewCell: View {
                         await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
                         // 나를 해당 챌린지에 invite append하는 함수
                         await firestoreViewModel.waitingLogic(data: challengeInfo)
+                        await notiManager.doSomething()
                         
                         selectedTabBar = .first
                     }
