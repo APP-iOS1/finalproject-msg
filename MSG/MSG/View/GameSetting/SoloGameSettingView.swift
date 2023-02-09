@@ -276,11 +276,11 @@ struct SoloGameSettingView: View {
                                     }
                                 }
                             }
+                            Button("취소하기") {
+                                //   dismiss()
+                            }
                         }
-                        Button("취소하기") {
-                            //   dismiss()
-                        }
-                    }, message: {
+                    ,message: {
                         if notiManager.isGranted {
                             Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
                         }
