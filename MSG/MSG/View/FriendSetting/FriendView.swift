@@ -61,15 +61,34 @@ extension FriendView {
                             }
                         }
                         else {
-                            ForEach(friendViewModel.notGamePlayFriend) { user in
-                                FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
-                                    .frame(height: 60)
-                                    .listRowBackground(Color("Color1"))
-                                    .listRowSeparator(.hidden)
+                            if friendViewModel.myFrinedArray.isEmpty {
+                                VStack{
+                                    Text("현재 추가되어있는 친구가 없습니다.")
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
+                                        .frame(width: g.size.width / 1.04, height: g.size.height / 1)
+                                    Text("친구목록에서 친구를 추가해주세요!")
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
+                                        .frame(width: g.size.width / 1.04, height: g.size.height / 1)
+                                }
+                            } else if friendViewModel.notGamePlayFriend.isEmpty {
+                                VStack{
+                                    
+                                    Text("현재 모든 친구가 도전중입니다.")
+                                        .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
+                                        .frame(width: g.size.width / 1.04, height: g.size.height / 1)
+                                }
+                            } else {
+                                
+                                ForEach(friendViewModel.notGamePlayFriend) { user in
+                                    FriendViewCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+                                        .frame(height: 60)
+                                        .listRowBackground(Color("Color1"))
+                                        .listRowSeparator(.hidden)
+                                }
                             }
                         }
                     }
-
+                    
                 }
             }
             .onAppear {
