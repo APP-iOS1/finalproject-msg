@@ -97,8 +97,11 @@ struct SoloGameSettingView: View {
                             
                             HStack {
                                 ZStack(alignment: .leading) {
-                                    Text(gameSettingViewModel.targetMoney.insertComma)
-                                        .multilineTextAlignment(.leading)
+                                    if !gameSettingViewModel.targetMoney.insertComma.isEmpty {
+                                        Text("\(gameSettingViewModel.targetMoney.insertComma)원")
+                                            .multilineTextAlignment(.leading)
+                                    }
+
                                     TextField("", text: $gameSettingViewModel.targetMoney)
                                         .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                             Text("1,000만원 미만으로 입력하세요")

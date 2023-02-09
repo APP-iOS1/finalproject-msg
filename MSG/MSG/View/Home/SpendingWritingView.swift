@@ -161,7 +161,11 @@ struct SpendingWritingView: View {
                                     HStack {
                                         
                                         ZStack(alignment: .leading) {
-                                            Text(spendingViewModel.consumeMoney.insertComma)
+                                            
+                                            if !spendingViewModel.consumeMoney.insertComma.isEmpty {
+                                                Text("\(spendingViewModel.consumeMoney.insertComma)원")
+                                                    .multilineTextAlignment(.leading)
+                                            }
                                             
                                             TextField("", text: $spendingViewModel.consumeMoney)
                                                 .focused($focusField, equals: .consumeMoney)

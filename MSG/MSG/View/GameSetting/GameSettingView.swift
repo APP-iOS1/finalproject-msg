@@ -119,8 +119,10 @@ extension GameSettingView {
                             
                             HStack {
                                 ZStack(alignment: .leading) {
-                                    Text(gameSettingViewModel.targetMoney.insertComma)
-                                        .multilineTextAlignment(.leading)
+                                    if !gameSettingViewModel.targetMoney.insertComma.isEmpty {
+                                        Text("\(gameSettingViewModel.targetMoney.insertComma)원")
+                                            .multilineTextAlignment(.leading)
+                                    }
                                     TextField("", text: $gameSettingViewModel.targetMoney)
                                         .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                             Text("1,000만원 미만으로 입력하세요")
@@ -386,7 +388,7 @@ extension GameSettingView {
                         dismiss()
                     } else {
                         print("도전장 보내짐?")
-                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "도전을 받게되면 시작됩니다.", timeInterval: 1, repeats: false)
+                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "상대방이 도전을 수락하면 시작됩니다.", timeInterval: 1, repeats: false)
                         let challenge = Challenge(
                             id: UUID().uuidString,
                             gameTitle: gameSettingViewModel.title,
