@@ -224,7 +224,7 @@ struct SettingView: View {
                         
                         // 이메일, sms, 공유하기, 시트뷰로 보여주기
                         Button {
-                            buttonAction("https://itunes.apple.com/app/", .share)
+                            buttonAction("https://apps.apple.com/kr/app/msg/id1670628313", .share)
                         } label: {
                             Text("친구초대")
                         }
