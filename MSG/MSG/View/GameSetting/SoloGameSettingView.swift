@@ -61,6 +61,9 @@ struct SoloGameSettingView: View {
                                         focusedField = .limitMoney
                                     }
                                     .submitLabel(.done)
+                                    .onAppear{
+                                        focusedField = .title
+                                    }
                                 
                                 Spacer()
                                 
