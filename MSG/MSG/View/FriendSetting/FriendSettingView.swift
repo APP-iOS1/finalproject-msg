@@ -42,11 +42,11 @@ struct FriendSettingView: View {
                         ZStack {
                             Capsule()
                                 .fill(.red)
-                                .frame(width: g.size.width / 50 * CGFloat(numOfDigits()), height: g.size.height / 30)
+                                .frame(width: g.size.width / 30 * CGFloat(numOfDigits()), height: g.size.height / 35)
                                 .position(CGPoint(x: g.size.width / 1.65, y: g.size.height / 30))
                             Text("\(friendCount)")
                                 .foregroundColor(Color.white)
-                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.caption2, color: FontCustomColor.color2))
                                 .position(CGPoint(x: g.size.width / 1.65, y: g.size.height / 30))
                         }
                     }
@@ -56,11 +56,11 @@ struct FriendSettingView: View {
                         ZStack {
                             Capsule()
                                 .fill(.red)
-                                .frame(width: g.size.width / 50 * CGFloat(numOfDigits()), height: g.size.height / 30)
+                                .frame(width: g.size.width / 30 * CGFloat(numOfDigits()), height: g.size.height / 35)
                                 .position(CGPoint(x: g.size.width / 1.11, y: g.size.height / 30))
                             Text("\(requsetCount)")
                                 .foregroundColor(Color.white)
-                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.caption, color: FontCustomColor.color2))
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.caption2, color: FontCustomColor.color2))
                                 .position(CGPoint(x: g.size.width / 1.11, y: g.size.height / 30))
                         }
                     }
