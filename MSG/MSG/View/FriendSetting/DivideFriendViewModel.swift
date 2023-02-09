@@ -92,7 +92,8 @@ final class DivideFriendViewModel: ObservableObject {
             let id: String = document.documentID
             let docData = document.data()
             let nickName: String = docData["nickName"] as? String ?? ""
-            if (nickName.contains(text.lowercased()) || nickName.contains( text.uppercased())) && (id != Auth.auth().currentUser?.uid) {
+//            nickName.lowercased()
+            if nickName.lowercased().contains(text.lowercased()) && id != Auth.auth().currentUser?.uid {
                 self.searchUserArray.append(id)
             }
         }
