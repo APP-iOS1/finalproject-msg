@@ -14,37 +14,20 @@ struct GameSettingView: View {
         case title
         case limitMoney
     }
-    @FocusState private var focusedField: Field?
     
-    let maxConsumeMoney = Int(7)
-    @EnvironmentObject var notiManager: NotificationManager
-    @StateObject private var gameSettingViewModel = GameSettingViewModel()
-    @State private var isShowingAlert: Bool = false
-    @EnvironmentObject var friendViewModel: FriendViewModel
-    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @State private var selected: Int = 0
-    // Back button 클릭 시, 입력중인 data가 있다면, backBtnAlert
-    @State private var backBtnAlert: Bool = false
     @Environment(\.dismiss) var dismiss
     
-    @State private var summitAlertToggle: Bool = false // 공백문자만 있으면 띄우는 얼럿
+    @FocusState private var focusedField: Field?
+    @EnvironmentObject var notiManager: NotificationManager
+    @EnvironmentObject var friendViewModel: FriendViewModel
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     
-    // 챌린지 기간 설정 시트
-    @State private var showingDaySelection: Bool = false
+    @StateObject private var gameSettingViewModel = GameSettingViewModel()
     
-    // 함께할 친구 추가 시트
-    @State private var findFriendToggle: Bool = false
-    
-    
-    //텍스트필드 공백체크
-    private var trimsTitleTextField: String {
-        gameSettingViewModel.title.trimmingCharacters(in: .whitespaces)
-    }
-    
-    private var trimTargetMoneyTextField: String {
-        gameSettingViewModel.targetMoney.trimmingCharacters(in: .whitespaces)
-    }
+    @State private var backBtnAlert: Bool = false   // 네비게이션 백 버튼 클릭 시, alert
+    @State private var isShowingAlert: Bool = false // 초대장 보내기 버튼 클릭 시, alert
+    @State private var showingDaySelection: Bool = false // 챌린지 기간 설정 시트
+    @State private var findFriendToggle: Bool = false // 함께할 친구 추가 시트
 }
 
 
@@ -137,11 +120,6 @@ extension GameSettingView {
                                         .foregroundColor(Color(.clear))
                                         .kerning(+1.5)
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(gameSettingViewModel.targetMoney), perform: { _ in
-                                            if maxConsumeMoney < gameSettingViewModel.targetMoney.count {
-                                                gameSettingViewModel.targetMoney = String(gameSettingViewModel.targetMoney.prefix(maxConsumeMoney))
-                                            }
-                                        })
                                 }
                                 .frame(width: g.size.width / 1.4, height: g.size.height / 40)
                                 
@@ -185,13 +163,13 @@ extension GameSettingView {
                                 } else {
                                     Text("\(gameSettingViewModel.dayArray[gameSettingViewModel.daySelection])")
                                 }
-                              
+                                
                                 Spacer()
                                 
                                 Button {
                                     showingDaySelection.toggle()
                                 } label: {
-
+                                    
                                     Image(systemName: "chevron.backward")
                                         .rotationEffect(.degrees(-90))
                                         .foregroundColor(gameSettingViewModel.daySelection == 5 ? Color("Color3") : Color("Color2"))
@@ -206,10 +184,7 @@ extension GameSettingView {
                                                 HStack {
                                                     ForEach(gameSettingViewModel.dayArray.indices, id: \.self) { index in
                                                         Button {
-                                                            gameSettingViewModel.daySelection = index
-                                                            gameSettingViewModel.startDate = Date().timeIntervalSince1970
-                                                            gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[index]
-                                                            print("\(gameSettingViewModel.startDate - gameSettingViewModel.endDate)")
+                                                            gameSettingViewModel.selectChallengeDay(index)
                                                         } label: {
                                                             Text("\(gameSettingViewModel.dayArray[index])")
                                                                 .frame(width: g.size.width / 7, height: g.size.height / 20)
@@ -269,25 +244,16 @@ extension GameSettingView {
                             Spacer()
                             
                             HStack {
-                         
+                                // 
                                 if !realtimeViewModel.inviteFriendArray.isEmpty{
                                     ForEach(realtimeViewModel.inviteFriendArray, id: \.self) {friend in
                                         HStack {
-                                           
                                             Text(friend.nickName)
                                                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.footnot, color: FontCustomColor.color1))
                                                 .frame(width: g.size.width / 5, height: g.size.height / 40)
                                                 .padding(6)
                                                 .background(Color("Color2"))
                                                 .cornerRadius(7)
-                                           
-                                               
-//                                            Button {
-//                                                // min
-//                                            } label: {
-//                                                Image(systemName: "minus")
-//                                            }
-                                      
                                         }
                                         .listRowBackground(Color("Color1"))
                                     }
@@ -310,6 +276,7 @@ extension GameSettingView {
                                         .foregroundColor(realtimeViewModel.inviteFriendArray.isEmpty ? Color("Color3") : Color("Color2"))
                                 }
                                 .sheet(isPresented: $findFriendToggle) {
+                                    
                                     FriendView(findFriendToggle: $findFriendToggle)
                                         .presentationDetents([.height(350)])
                                         .presentationDragIndicator(.visible)
@@ -329,19 +296,15 @@ extension GameSettingView {
                         }
                     }
                     .frame(width: g.size.width / 1.2, height: g.size.height / 1.7)
-                        
-                        // MARK: - 초대장 보내기 Button
+                    
+                    // MARK: - 초대장 보내기 Button
                     Spacer()
                     VStack {
                         Button {
-                            if trimsTitleTextField.count > 0 && trimTargetMoneyTextField.count > 0 && gameSettingViewModel.daySelection != 5{
-                                    isShowingAlert = true
-                            } else { //공백문자만 있을 때
-                                summitAlertToggle = true
-                            }
+                            isShowingAlert = true
                         } label: {
                             Text("초대장 보내기")
-                                .modifier(gameSettingViewModel.title.isEmpty || gameSettingViewModel.targetMoney.isEmpty || gameSettingViewModel.daySelection == 5 || realtimeViewModel.inviteFriendArray.isEmpty ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
+                                .modifier(!gameSettingViewModel.isGameSettingValid || realtimeViewModel.inviteFriendArray.isEmpty ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                         }
                         .buttonStyle(.borderless)
                         .frame(width: g.size.width / 1.4, height: g.size.height / 14)
@@ -355,20 +318,16 @@ extension GameSettingView {
                         .disabled(!gameSettingViewModel.isGameSettingValid)
                         .padding([.leading, .bottom, .trailing])
                     }
-                        
-                        Spacer()
-            
+                    
+                    Spacer()
+                    
                 }
                 .frame(width: g.size.width / 1.2, height: g.size.height / 1.2)
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-
+                
                 Spacer()
             }
-            .onAppear {
-                gameSettingViewModel.daySelection = 5
-                gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[0]
-                gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
-            }
+            .onAppear { gameSettingViewModel.resetInputData() }
         }
         .ignoresSafeArea(.keyboard)
         .onTapGesture {
@@ -378,33 +337,17 @@ extension GameSettingView {
             Button("시작하기") {
                 Task{
                     if !notiManager.isGranted {
-                        let challenge = Challenge(
-                            id: UUID().uuidString,
-                            gameTitle: gameSettingViewModel.title,
-                            limitMoney: Int(gameSettingViewModel.targetMoney)!,
-                            startDate: String(gameSettingViewModel.startDate) ,
-                            endDate: String(gameSettingViewModel.endDate),
-                            inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
-                        await fireStoreViewModel.addMultiGame(challenge)
-                        guard let myInfo = fireStoreViewModel.myInfo else { return }
-                        print(realtimeViewModel.inviteFriendArray)
-                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                        await gameSettingViewModel.createMultiChallenge()
+                        // UserInfo 가져오기
+                        // UserUseCase
+                        // realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
                     } else {
                         print("도전장 보내짐?")
                         let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "상대방이 도전을 수락하면 시작됩니다.", timeInterval: 1, repeats: false)
-                        let challenge = Challenge(
-                            id: UUID().uuidString,
-                            gameTitle: gameSettingViewModel.title,
-                            limitMoney: Int(gameSettingViewModel.targetMoney)!,
-                            startDate: String(gameSettingViewModel.startDate) ,
-                            endDate: String(gameSettingViewModel.endDate),
-                            inviteFriend: [], waitingFriend: realtimeViewModel.inviteFriendIdArray)
-                        await fireStoreViewModel.addMultiGame(challenge)
-                        guard let myInfo = fireStoreViewModel.myInfo else { return }
-                        //                            print("myInfo: \(myInfo)")
-                        print(realtimeViewModel.inviteFriendArray)
-                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+                        await gameSettingViewModel.createMultiChallenge()
+                        //[UserUseCase에서 유저정보 가져오기]
+                        //                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
                         await notiManager.schedule(localNotification: localNotification)
                         await notiManager.doSomething()
@@ -434,13 +377,13 @@ extension GameSettingView {
             } label: {
                 Text("확인")
             }
-
+            
         }, message: {
             Text("현재 작성중인 항목이 삭제될 수 있습니다.")
         })
         .navigationBarBackButtonHidden(true)
         .toolbar{
-
+            
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button {
                     backBtnAlert = true
@@ -463,7 +406,5 @@ struct GameSettingView_Previews: PreviewProvider {
             .environmentObject(NotificationManager())
             .environmentObject(FriendViewModel())
             .environmentObject(RealtimeViewModel())
-            .environmentObject(FireStoreViewModel())
-        
     }
 }

@@ -1,0 +1,143 @@
+//
+//  gameSettingViewModel.swift
+//  MSG
+//
+//  Created by sehooon on 2023/01/17.
+//
+
+import SwiftUI
+import Combine
+import FirebaseFirestore
+import Firebase
+import FirebaseStorage
+
+// View Button Click 또는 액션
+protocol GameSettingViewModelInput{
+    func resetInputData() // ViewModelOuput 초기화
+    func createSingleChallenge() async // 싱글 챌린지 생성
+    func createMultiChallenge() async // 멀티 챌린지 생성
+    func selectChallengeDay(_ index: Int) // 날짜 설정 버튼 클릭 ex) [1일, 7일, 10일, 30일, 100일]
+}
+
+// View에 바인딩 되는 요소
+protocol GameSettingViewModelOutput{
+    var day:Double{ get }
+    var title: String{ get }
+    var targetMoney:String{ get }
+    var startDate:Double{ get }
+    var endDate:Double{ get }
+    var isGameSettingValid:Bool{ get }
+    var daySelection: Int{ get }
+    var dayMultiArray:[Double]{ get }
+    var dayArray:[String]{ get }
+}
+
+// View와 ViewModel 사이는 Combine으로 Data Binding 처리
+final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, GameSettingViewModelOutput{
+    func selectChallengeDay(_ index: Int) {
+            daySelection = index
+            startDate = Date().timeIntervalSince1970
+            endDate = startDate + Double(86400) * dayMultiArray[index]
+    }
+    
+
+    //[property]
+    let day:Double = 86400
+    private var publishers = Set<AnyCancellable>()
+    private let challengeUseCase: ChallengeUseCase?
+    private let friendUseCase: FriendUseCase?
+    
+    @Published var title = ""
+    @Published var startDate:Double = Date().timeIntervalSince1970
+    @Published var endDate:Double = Date().timeIntervalSince1970
+    @Published var isGameSettingValid = false
+    @Published var daySelection: Int = 5
+    @Published var dayMultiArray:[Double] = [1,7,10,30,100]
+    @Published var dayArray = ["1일", "7일", "10일", "30일", "100일"]
+    @Published var targetMoney = ""{
+        didSet{
+            if self.targetMoney.count > 7{
+                targetMoney = String(targetMoney.prefix(7))
+            }
+        }
+    }
+    
+    
+    //[init]
+    init(challegeUsecase: ChallengeUseCase? = nil){
+        self.challengeUseCase = DefaultChallengeUseCase(repository: ChallengeRepository(firestoreService: FirebaseService()))
+        self.friendUseCase = FriendUseCase(repo: FriendRepositoryImpl(dataSource: FirebaseService()))
+        isGameSettingValidPublisher.receive(on: RunLoop.main)
+            .assign(to: \.isGameSettingValid, on:self)
+            .store(in: &publishers)
+    }
+    
+    //[method]
+    func fetchMyFriendList() async {
+        
+    }
+    
+    // 싱글 챌린지 생성
+    func createSingleChallenge() async {
+        let challenge = Challenge(id: UUID().uuidString, gameTitle: title, limitMoney: Int(targetMoney)!,
+                                  startDate: String(startDate), endDate: String(endDate), inviteFriend: [], waitingFriend: [])
+        await challengeUseCase?.excuteMakeSingleChallenge(challenge)
+        resetInputData()
+    }
+    
+    // 멀티 챌린지 생성
+    func createMultiChallenge() async {
+        let challenge = Challenge(id: UUID().uuidString, gameTitle: title, limitMoney: Int(targetMoney)!,
+                                  startDate: String(startDate), endDate: String(endDate), inviteFriend: [], waitingFriend: [])
+        await challengeUseCase?.excuteMakeMultiChallenge(challenge)
+        resetInputData()
+    }
+    
+}
+
+extension GameSettingViewModel{
+    func resetInputData (){
+        DispatchQueue.main.async {
+            self.title = ""
+            self.targetMoney = ""
+            self.startDate = Date().timeIntervalSince1970
+            self.endDate  = self.startDate + 86400
+            self.isGameSettingValid = false
+            self.daySelection = 5
+        }
+        
+    }
+    
+    var isTitleValidPublisher: AnyPublisher<Bool,Never>{
+        $title
+            .map{ name in
+                return name.trimSpacingCount >= 1
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    var isTargetMoneyValidPublisher: AnyPublisher<Bool,Never>{
+        $targetMoney
+            .map{ money in
+                return money.trimSpacingCount >= 1 && Int(money) != nil
+            }
+            .eraseToAnyPublisher()
+        
+    }
+    
+    var isDaySelectionValidPublisher: AnyPublisher<Bool,Never>{
+        $daySelection
+            .map{ day in
+                return day != 5
+            }
+            .eraseToAnyPublisher()
+        
+    }
+    
+    var isGameSettingValidPublisher: AnyPublisher<Bool,Never>{
+        Publishers.CombineLatest3(isTitleValidPublisher, isTargetMoneyValidPublisher, isDaySelectionValidPublisher).map{ title, targetMoney, day in
+            return title && targetMoney && day
+        }
+        .eraseToAnyPublisher()
+    }
+}

@@ -340,7 +340,6 @@ final class FireStoreViewModel: ObservableObject {
             .collection("friend")
             .getDocuments { (snapshot, error) in
                 self.userArray.removeAll()
-                
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID

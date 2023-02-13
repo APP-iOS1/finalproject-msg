@@ -14,16 +14,13 @@ struct SoloGameSettingView: View {
         case limitMoney
     }
     @FocusState private var focusedField: Field?
-    let maxConsumeMoney = Int(7)
+    //DI를 어디서 할지.
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
+    @Environment(\.dismiss) var dismiss
+    // 챌린지 기간 설정 시트
     @State private var isShowingAlert: Bool = false
     @State private var backBtnAlert: Bool = false
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    private let dateFormatter = DateFormatter()
-    @Environment(\.dismiss) var dismiss
-    
-    // 챌린지 기간 설정 시트
     @State private var showingDaySelection: Bool = false
     
     var body: some View {
@@ -111,11 +108,6 @@ struct SoloGameSettingView: View {
                                         .foregroundColor(Color(.clear))
                                         .kerning(+1.5)
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(gameSettingViewModel.targetMoney), perform: { _ in
-                                            if maxConsumeMoney < gameSettingViewModel.targetMoney.count {
-                                                gameSettingViewModel.targetMoney = String(gameSettingViewModel.targetMoney.prefix(maxConsumeMoney))
-                                            }
-                                        })
                                 }
                                 .frame(width: g.size.width / 1.4, height: g.size.height / 40)
                                 
@@ -181,10 +173,7 @@ struct SoloGameSettingView: View {
                                                 HStack {
                                                     ForEach(gameSettingViewModel.dayArray.indices, id: \.self) { index in
                                                         Button {
-                                                            gameSettingViewModel.daySelection = index
-                                                            gameSettingViewModel.startDate = Date().timeIntervalSince1970
-                                                            gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[index]
-                                                            print("\(gameSettingViewModel.startDate - gameSettingViewModel.endDate)")
+                                                            gameSettingViewModel.selectChallengeDay(index)
                                                         } label: {
                                                             Text("\(gameSettingViewModel.dayArray[index])")
                                                                 .frame(width: g.size.width / 7, height: g.size.height / 20)
@@ -245,7 +234,7 @@ struct SoloGameSettingView: View {
                             }
                         } label: {
                             Text("시작하기")
-                                .modifier(gameSettingViewModel.title.isEmpty || gameSettingViewModel.targetMoney.isEmpty || gameSettingViewModel.daySelection == 5 ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
+                                .modifier(!gameSettingViewModel.isGameSettingValid ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                         }
                         .buttonStyle(.borderless)
                         .frame(width: g.size.width / 1.4, height: g.size.height / 14)
@@ -264,15 +253,13 @@ struct SoloGameSettingView: View {
                             Button("시작하기") {
                                 Task{
                                     if !notiManager.isGranted {
-                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                                        await gameSettingViewModel.createSingleChallenge()
                                         dismiss()
-                                        await fireStoreViewModel.makeSingleGame(singGame)
                                     } else {
                                         print("도전장 보내짐")
                                         let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "지출을 추가해 기록을 작성해보세요", timeInterval: 1, repeats: false)
-                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
+                                        await gameSettingViewModel.createSingleChallenge()
                                         dismiss()
-                                        await fireStoreViewModel.makeSingleGame(singGame)
                                         await notiManager.schedule(localNotification: localNotification)
                                         await notiManager.doSomething()
                                         await notiManager.getPendingRequests()
@@ -289,19 +276,13 @@ struct SoloGameSettingView: View {
                         }
                     })
                     Spacer()
-                    //                    }
-                    //                    .frame(width: g.size.width / 1.2, height: g.size.height / 1.7)
-                    //
-                    //                    Spacer()
                     
                 }
                 .frame(width: g.size.width / 1.2, height: g.size.height / 1.2)
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
             }
             .onAppear {
-                gameSettingViewModel.daySelection = 5
-                gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[0]
-                gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
+                gameSettingViewModel.resetInputData()
             }
         }
         .ignoresSafeArea(.keyboard)

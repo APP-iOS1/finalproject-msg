@@ -87,9 +87,7 @@ struct FirebaseService {
             let game: String = docData["game"] as? String ?? ""
             let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
             let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
-            if !friend.contains(getUser){
-                friendArray.append(getUser)
-            }
+            if !friend.contains(getUser){friendArray.append(getUser) }
             friendIdArray.append(id)
         }
         return (friendArray,friendIdArray)
@@ -128,6 +126,56 @@ struct FirebaseService {
 
 extension FirebaseService: FriendDataSource {
 
+}
+
+extension FirebaseService: ChallengeDataSource{
+    
+
+    // MARK: - User game에 gameId를 업데이트 하는 메서드
+    func updateUserGame(gameId: String) async {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
+        do{
+            try await database.collection("User").document(userId).updateData([ "game": gameId ])
+        }catch{
+            print("Error #UPDATE USER GAME")
+        }
+    }
+    
+    // MARK: - SingleGame + User game에 String 추가하는 함수
+    func makeSingleGame(_ singleGame: Challenge) async {
+        print(#function)
+        do{
+            try await database.collection("Challenge").document(singleGame.id).setData([
+                "id": singleGame.id,
+                "gameTitle": singleGame.gameTitle,
+                "limitMoney": singleGame.limitMoney,
+                "startDate": singleGame.startDate,
+                "endDate": singleGame.endDate,
+                "inviteFriend": singleGame.inviteFriend
+            ])
+            await updateUserGame(gameId: singleGame.id)
+        }catch{ print("Error #MAKE SINGLE GAME") }
+    }
+    
+    // MARK: - 현재 진행중인 User의 Challenge ID를 가져오는 함수
+    func fetchChallengeId() async -> String? {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return nil }
+        let ref = database.collection("User").document(userId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil }
+            let gameId = docData["game"] as? String ?? ""
+            return gameId
+        } catch {
+            print("catched")
+            return nil
+        }
+    }
+
+    
+    
 }
 
 

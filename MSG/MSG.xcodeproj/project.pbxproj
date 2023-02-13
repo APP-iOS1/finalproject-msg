@@ -54,6 +54,10 @@
 		3602CBCD2999FFC3007D1034 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBCC2999FFC3007D1034 /* FirebaseService.swift */; };
 		3602CBCF299A0099007D1034 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBCE299A0099007D1034 /* FriendViewModel.swift */; };
 		360A1471298360A70058BB9B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A1470298360A70058BB9B /* Utils.swift */; };
+		362DB5EB299A057C00510314 /* ChallengeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362DB5EA299A057C00510314 /* ChallengeUseCase.swift */; };
+		362DB5ED299A05CA00510314 /* ChallengeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362DB5EC299A05CA00510314 /* ChallengeRepository.swift */; };
+		362DB5EF299A064800510314 /* ChallengeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362DB5EE299A064800510314 /* ChallengeDataSource.swift */; };
+		362DB5F1299A066A00510314 /* ChallengeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362DB5F0299A066A00510314 /* ChallengeRepositoryImpl.swift */; };
 		36338AF9298B595A009ABB77 /* DivideFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36338AF8298B595A009ABB77 /* DivideFriendView.swift */; };
 		36338AFB298B5A5D009ABB77 /* DivideFriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36338AFA298B5A5D009ABB77 /* DivideFriendViewModel.swift */; };
 		36338AFD298B5B22009ABB77 /* DivideFriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36338AFC298B5B22009ABB77 /* DivideFriendCell.swift */; };
@@ -147,6 +151,10 @@
 		3602CBCC2999FFC3007D1034 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		3602CBCE299A0099007D1034 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		360A1470298360A70058BB9B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		362DB5EA299A057C00510314 /* ChallengeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeUseCase.swift; sourceTree = "<group>"; };
+		362DB5EC299A05CA00510314 /* ChallengeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRepository.swift; sourceTree = "<group>"; };
+		362DB5EE299A064800510314 /* ChallengeDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDataSource.swift; sourceTree = "<group>"; };
+		362DB5F0299A066A00510314 /* ChallengeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRepositoryImpl.swift; sourceTree = "<group>"; };
 		36338AF8298B595A009ABB77 /* DivideFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivideFriendView.swift; sourceTree = "<group>"; };
 		36338AFA298B5A5D009ABB77 /* DivideFriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivideFriendViewModel.swift; sourceTree = "<group>"; };
 		36338AFC298B5B22009ABB77 /* DivideFriendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivideFriendCell.swift; sourceTree = "<group>"; };
@@ -250,7 +258,6 @@
 			children = (
 				3602CBBD2999FC53007D1034 /* ViewModel */,
 				36B093F82976694F0089E76A /* GameSettingView.swift */,
-				3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */,
 				3699A3C7298762FE00C650FD /* SoloGameSettingView.swift */,
 			);
 			path = GameSetting;
@@ -452,6 +459,7 @@
 		3602CBB42999FA13007D1034 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				362DB5EA299A057C00510314 /* ChallengeUseCase.swift */,
 				3602CBC12999FD88007D1034 /* FriendUseCase.swift */,
 				166009872976335A00E6A546 /* Model */,
 			);
@@ -526,6 +534,7 @@
 		3602CBBD2999FC53007D1034 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -549,6 +558,7 @@
 			isa = PBXGroup;
 			children = (
 				3602CBC42999FF16007D1034 /* FriendRepositoryImpl.swift */,
+				362DB5F0299A066A00510314 /* ChallengeRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -557,6 +567,7 @@
 			isa = PBXGroup;
 			children = (
 				3602CBC72999FF49007D1034 /* FriendRepository.swift */,
+				362DB5EC299A05CA00510314 /* ChallengeRepository.swift */,
 			);
 			path = RepositoryInterface;
 			sourceTree = "<group>";
@@ -566,6 +577,7 @@
 			children = (
 				3602CBCA2999FF99007D1034 /* FriendDataSource.swift */,
 				3602CBCC2999FFC3007D1034 /* FirebaseService.swift */,
+				362DB5EE299A064800510314 /* ChallengeDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -743,6 +755,8 @@
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
 				3602CBCD2999FFC3007D1034 /* FirebaseService.swift in Sources */,
+				362DB5F1299A066A00510314 /* ChallengeRepositoryImpl.swift in Sources */,
+				362DB5EB299A057C00510314 /* ChallengeUseCase.swift in Sources */,
 				3602CBC52999FF16007D1034 /* FriendRepositoryImpl.swift in Sources */,
 				3635276429829C6E0037BD1B /* CustomAlertButton.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
@@ -772,6 +786,7 @@
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
 				36C7BB7D2977B37200A3F999 /* OnBoardView2.swift in Sources */,
 				36338AFD298B5B22009ABB77 /* DivideFriendCell.swift in Sources */,
+				362DB5ED299A05CA00510314 /* ChallengeRepository.swift in Sources */,
 				4C407A74297A5B1900877360 /* LocalNotification.swift in Sources */,
 				16526E87298BA74000ED023A /* GameRequestAlertViewCell.swift in Sources */,
 				1642F3FC298E893D0085FF00 /* MultiProgressBar.swift in Sources */,
@@ -790,6 +805,7 @@
 				C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */,
 				16600963297630C300E6A546 /* MSGApp.swift in Sources */,
 				36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */,
+				362DB5EF299A064800510314 /* ChallengeDataSource.swift in Sources */,
 				36338AFB298B5A5D009ABB77 /* DivideFriendViewModel.swift in Sources */,
 				4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */,
 				634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */,

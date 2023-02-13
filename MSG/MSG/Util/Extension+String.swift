@@ -19,4 +19,11 @@ extension String {
 //        print(Date().timeIntervalSince1970)
         return dateFormatter.string(from: dateCreatedAt)
     }
+
+    //공백 제거 후, 문자열 개수 리턴
+    var trimSpacingCount:Int{
+            return self.trimmingCharacters(in: .whitespaces).count
+        }
+
 }
+
