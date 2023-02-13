@@ -20,7 +20,7 @@ struct SpendingCategory: Identifiable, Hashable {
 
 var spendingCategory: [SpendingCategory] = [
     SpendingCategory(name: "식비", tag: 0, icon: "fork.knife"),
-    SpendingCategory(name: "교통비", tag: 1, icon: "bus"),
+    SpendingCategory(name: "교통", tag: 1, icon: "bus"),
     SpendingCategory(name: "쇼핑", tag: 2, icon: "cart"),
     SpendingCategory(name: "의료", tag: 3, icon: "cross"),
     SpendingCategory(name: "주거", tag: 4, icon: "house"),
@@ -55,7 +55,7 @@ struct SpendingWritingView: View {
         return title + "_" + money + "_" + date.toString()
     }
     
-    let tagArray: [String] = ["식비", "교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
+    let tagArray: [String] = ["식비", "교통", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
     
     let maxConsumeTitle = Int(10)
     let maxConsumeMoney = Int(7)
@@ -236,7 +236,7 @@ struct SpendingWritingView: View {
                                         } else if selection == 1 {
                                             HStack {
                                                 Image(systemName: "bus")
-                                                Text("교통비")
+                                                Text("교통")
                                             }
                                         } else if selection == 2 {
                                             HStack {

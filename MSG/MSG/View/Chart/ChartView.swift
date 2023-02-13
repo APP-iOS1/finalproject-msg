@@ -17,7 +17,7 @@ struct Category: Identifiable, Hashable {
 var category: [Category] = [
     Category(tag: "전체", icon: "circle.grid.cross.fill", color: "Chart1"),
     Category(tag: "식비", icon: "fork.knife", color: "Chart1"),
-    Category(tag: "교통비", icon: "bus", color: "Chart2"),
+    Category(tag: "교통", icon: "bus", color: "Chart2"),
     Category(tag: "쇼핑", icon: "cart", color: "Chart3"),
     Category(tag: "의료", icon: "cross", color: "Chart4"),
     Category(tag: "주거", icon: "house", color: "Chart5"),
@@ -30,7 +30,7 @@ struct ChartView: View {
     var expenditure = Expenditure(id: "", totalMoney: 0, expenditureHistory: [:])
     @State var limitMoney: Float = 0
     @State private var progressValue: [(tag: String, money: Float)] = []
-    @State private var consumeTags: [String] = ["식비","교통비", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
+    @State private var consumeTags: [String] = ["식비","교통", "쇼핑", "의료", "주거", "여가", "금융", "기타"]
     @State private var percentArr:[(to: Float, from: Float, percent: Float)] = []
     @State private var selection: String = ""
     @State private var totalMoney: Float = 0
