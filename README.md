@@ -3,7 +3,7 @@
 <img src="https://user-images.githubusercontent.com/106806428/217210646-70bf1300-0eaa-4e98-8946-1c4494b12f6c.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/106806428/217210658-1f217420-836d-4157-84d3-58357bda5088.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114235515/217546058-fecab6c3-ef59-4aa3-9c9b-3af6b53f3bb8.png" width="230"></img>
 
 <img src="https://user-images.githubusercontent.com/106806428/217210665-67e5609e-7e67-4af3-9ec4-39044d54e856.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/106806428/217210669-280ffb88-6bbf-49a9-96d7-ba90aef04ef5.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/106806428/217210673-6ec5bc11-8e58-4c28-8dc7-0ffb42c8d3e3.png" width="230"></img>
-## 앱소개
+## 앱소개 
 >  ### 앱설명 한줄 <br>
 
 > 간편하게 하루에 한번 기록하며, 나만의 건강한 소비 습관을 만들어 가고싶은 앱을 찾고 계셨나요? <br>
@@ -44,6 +44,11 @@
 - 소비습관을 함께 공유하며 의욕을 높이고 싶은 사람들
 - 내가 매일 얼마를 소비하는지 수시로 알고싶은 사람들
 - 혼자서 지름신을 막기 어려운 사람
+<br>
+<br>
+
+## 앱스토어
+- https://apps.apple.com/kr/app/msg/id1670628313
 <br>
 <br>
 
