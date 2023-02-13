@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
+// MARK: ChallengeRecord Firebase Service(어떤 데이터를 받을 것인가에 대한 정의)
 protocol ChallengeRecordDataSource {
     func fetchPreviousGameHistory() async throws -> [Challenge]
     func fetchChallengeUsersData(_ users: [String], _ challengeId: String) async -> ChallengeUserData?

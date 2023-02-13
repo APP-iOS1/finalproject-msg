@@ -132,7 +132,7 @@ extension FirebaseService: FriendDataSource {
 
 
 //
-
+// MARK: - ChallengeRecord API(실제 데이터 받는 위치)
 extension FirebaseService: ChallengeRecordDataSource {
     // MARK: - 유저 정보를 불러오는 함수
     func fetchUserInfo(_ userId: String) async throws -> Msg? {
