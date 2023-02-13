@@ -12,7 +12,7 @@ struct AlertView: View {
     @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    
+    @StateObject var realtimeService = RealtimeService()
     var body: some View {
         
         GeometryReader { g in
@@ -20,13 +20,13 @@ struct AlertView: View {
                 Color("Color1")
                     .ignoresSafeArea()
                 VStack {
-                    if realtimeViewModel.user.isEmpty {
+                    if realtimeService.user.isEmpty {
                         Text("알람을 모두 확인했습니다.")
                             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                     }
                     else {
                    
-                            List(realtimeViewModel.user, id: \.self) { user in
+                            List(realtimeService.user, id: \.self) { user in
                                 HStack {
                                     VStack {
                                         if user.profileImage.isEmpty{
@@ -94,7 +94,7 @@ struct AlertView: View {
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
             }
             .onAppear {
-                realtimeViewModel.fetchFriendRequest()
+//                realtimeViewModel.fetchFriendRequest()
                 print(realtimeViewModel.user)
             }
         }
