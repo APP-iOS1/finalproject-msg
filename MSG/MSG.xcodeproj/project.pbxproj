@@ -276,7 +276,6 @@
 		163CB2B12999DBF1008506FD /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				163CB2BC2999F394008506FD /* Data */,
 				16600962297630C300E6A546 /* MSGApp.swift */,
 				16600960297630C300E6A546 /* Products */,
 				16573F002977D60B001176F6 /* Frameworks */,
@@ -288,8 +287,16 @@
 			isa = PBXGroup;
 			children = (
 				166009872976335A00E6A546 /* Model */,
+				163CB2B92999DD7C008506FD /* UseCase */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		163CB2B32999DC02008506FD /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		163CB2B42999DC08008506FD /* Resource */ = {
@@ -336,21 +343,12 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		163CB2BC2999F394008506FD /* Data */ = {
+		163CB2B92999DD7C008506FD /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Data;
-			path = MSG/Data;
-			sourceTree = SOURCE_ROOT;
-		};
-		163CB2BD2999F3A8008506FD /* UseCase */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = UseCase;
-			path = MSG/Domain/UseCase;
-			sourceTree = SOURCE_ROOT;
+			path = UseCase;
+			sourceTree = "<group>";
 		};
 		16573F002977D60B001176F6 /* Frameworks */ = {
 			isa = PBXGroup;
@@ -404,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				163CB2B12999DBF1008506FD /* Application */,
+				163CB2B32999DC02008506FD /* Data */,
 				163CB2B22999DBFD008506FD /* Domain */,
 				163CB2B62999DC3B008506FD /* Presentation */,
 				163CB2B52999DC0F008506FD /* Util */,
@@ -456,7 +455,6 @@
 		166009872976335A00E6A546 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				163CB2BD2999F3A8008506FD /* UseCase */,
 				6342C2CF297672D900C24D20 /* KakaoLogin */,
 				1660098C29763AD800E6A546 /* MSG.swift */,
 				4C407A73297A5B1900877360 /* LocalNotification.swift */,
