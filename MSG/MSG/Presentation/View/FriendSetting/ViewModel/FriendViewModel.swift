@@ -55,7 +55,7 @@ class FriendViewModel: ObservableObject, FriendInput, FriendOutput {
     @MainActor
     func getMyFriendArray() async {
         print(#function)
-        let data = await friendUseCase.fetchFriendList(friend: myFrinedArray)
+        let data = await friendUseCase.fetchFriendList()
         myFrinedArray = data.0
         friendIdArray = data.1
     }

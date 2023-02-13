@@ -11,10 +11,10 @@ import Foundation
 struct FriendRepositoryImpl: FriendRepository{
     var dataSource: FriendDataSource
     
-    func getFriend(friend: [Msg]) async throws -> ([Msg], [String]) {
+    func getFriend() async throws -> ([Msg], [String]) {
         print(#function)
         do {
-            let data = try await dataSource.findFriend(friend: friend)
+            let data = try await dataSource.findFriend()
             return data
         }catch {
             print("error")

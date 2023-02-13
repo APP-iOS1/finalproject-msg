@@ -10,7 +10,7 @@ import Foundation
 //MARK: - Usecase protocol
 protocol GetTodos {
     func findSearchUser(text: String) -> [Msg] // 유저검색(1)
-    func fetchFriendList(friend: [Msg]) async throws -> ([Msg],[String]) // 친구 목록 가져오기
+    func fetchFriendList() async throws -> ([Msg],[String]) // 친구 목록 가져오기
     func caseNotGameMyFriend(text: [Msg]) async throws -> [Msg] // 게임을 안하고있는 친구목록 가져오기
     
     
@@ -26,10 +26,10 @@ struct FriendUseCase: GetTodos {
     
     var repo: FriendRepository
     
-    func fetchFriendList(friend: [Msg]) async -> ([Msg],[String]){
+    func fetchFriendList() async -> ([Msg],[String]){
         print(#function)
         do {
-            let friend = try await repo.getFriend(friend: friend)
+            let friend = try await repo.getFriend()
             return friend
         }catch {
             return ([],[])

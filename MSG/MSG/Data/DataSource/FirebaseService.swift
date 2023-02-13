@@ -71,7 +71,7 @@ struct FirebaseService {
         }
     }
     @MainActor
-    func findFriend(friend: [Msg]) async throws -> ([Msg],[String]){
+    func findFriend() async throws -> ([Msg],[String]){
         print("Impl",#function)
         var friendIdArray: [String] = []
         var friendArray: [Msg] = []
@@ -87,7 +87,8 @@ struct FirebaseService {
             let game: String = docData["game"] as? String ?? ""
             let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
             let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
-            if !friend.contains(getUser){friendArray.append(getUser) }
+//            if !friend.contains(getUser){friendArray.append(getUser) }
+            friendArray.append(getUser)
             friendIdArray.append(id)
         }
         return (friendArray,friendIdArray)

@@ -13,7 +13,7 @@ import FirebaseFirestore
 protocol FriendDataSource {
     func findSearchUser(text: String) -> [Msg]
     func findUser1(text: [Msg]) async -> [Msg]
-    func findFriend(friend: [Msg]) async throws -> ([Msg],[String])
+    func findFriend() async throws -> ([Msg],[String])
     func searchUser(text: String) -> [Msg]
     var database: Firestore { get }
 }
