@@ -50,12 +50,11 @@ class RealtimeService: ObservableObject {
     
     func observeAdd() {
         print(#function)
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         self.user.removeAll()
         addObserve()
             .sink { [weak self] (user: Msg?) in
                 if let user, let self {
-                    self.user.insert(postit, at: 0)
+                    self.user.insert(user, at: 0)
                     self.user = Array(Set(self.user))
                     self.friendCount = self.user.count
                 }
@@ -83,7 +82,7 @@ class RealtimeService: ObservableObject {
     
     func observeChanged() {
         print(#function)
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        var index = 0
         self.user.removeAll()
         changeObserve()
             .sink { [weak self] (user: Msg?) in
@@ -95,7 +94,7 @@ class RealtimeService: ObservableObject {
                         }
                         index += 1
                     }
-                    self.user.insert(postit, at: 0)
+                    self.user.insert(user, at: 0)
                     self.friendCount = self.user.count
                 }
             }.store(in: &cancellable)
