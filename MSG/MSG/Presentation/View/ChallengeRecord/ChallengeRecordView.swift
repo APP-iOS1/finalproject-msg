@@ -72,6 +72,6 @@ struct ChallengeRecordView: View {
 struct ChallengeRecordView_Previews: PreviewProvider {
     static var previews: some View {
         ChallengeRecordView()
-            .environmentObject(FireStoreViewModel())
+            .environmentObject(ChallengeRecordViewModel())
     }
 }

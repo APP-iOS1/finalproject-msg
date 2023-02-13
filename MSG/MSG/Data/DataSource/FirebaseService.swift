@@ -264,7 +264,6 @@ extension FirebaseService: ChallengeRecordDataSource {
         do {
             let snapShot = try await ref.getDocument()
             guard let docData = snapShot.data() else { return nil}
-            var expenditureList: [String:[String]] = [:]
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
             let totalMoney = docData["totalMoney"] as? Int ?? 0

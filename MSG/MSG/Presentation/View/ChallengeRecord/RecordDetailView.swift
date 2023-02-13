@@ -10,61 +10,7 @@ import SwiftUI
 struct RecordDetailView: View {
     
     @StateObject var challengeRecordVM = ChallengeRecordViewModel()
-    @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @Binding var challenge: Challenge
-    @State var historyExpenditure: Expenditure?
-    @State private var tagValue: [(tag: String, money: Int)] = []
-    @State private var userValue: [(user:(userName: String, userProfile: String), totalMoney: Int)] = []
-    
-    private func parsingExpenditure(_ expenditureHistory: [String:[String]]) -> [(tag: String, money: Int)]{
-        
-        var maxValue: (tag:String, money: Int) = ("",Int.min)
-        var minValue: (tag:String, money: Int) = ("",Int.max)
-        var maxSum = Int.min
-        var minSum = Int.max
-        
-        for (tag, expenditure) in expenditureHistory{
-            var sum:Int = 0
-            for string in expenditure {
-                let stringArr = string.components(separatedBy: "_")
-                let money = stringArr[1]
-                sum += Int(money)!
-            }
-            if maxSum < sum {
-                maxValue = (tag: tag, money: sum)
-                maxSum = sum
-            }
-            if minSum > sum {
-                minValue = (tag: tag, money: sum)
-                minSum = sum
-            }
-        }
-        return [maxValue, minValue]
-    }
-    
-    private func userValues(_ challengeUsers: [(user:(userName: String, userProfile: String), totalMoney: Int)]) -> [(user:(userName: String, userProfile: String), totalMoney: Int)] {
-        
-        var maxValue: (user:(userName: String, userProfile: String), totalMoney: Int) = (("",""), Int.min)
-        var minValue: (user:(userName: String, userProfile: String), totalMoney: Int) = (("",""), Int.max)
-        var maxSum = Int.min
-        var minSum = Int.max
-        
-        for (user, totalMoney) in challengeUsers {
-            var sum:Int = 0
-            let money = totalMoney
-            sum += money
-            
-            if maxSum < sum {
-                maxValue = (user:(userName: user.userName, userProfile: user.userProfile), totalMoney: sum)
-                maxSum = sum
-            }
-            if minSum > sum {
-                minValue = (user:(userName: user.userName, userProfile: user.userProfile), totalMoney: sum)
-                minSum = sum
-            }
-        }
-        return [maxValue, minValue]
-    }
     
     var body: some View {
         
@@ -78,7 +24,7 @@ struct RecordDetailView: View {
                             Text(challenge.gameTitle)
                                 .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.largeTitle, color: .color2))
                             Spacer()
-                            NavigationLink(destination: ChartView(expenditure: historyExpenditure ?? Expenditure(id: "", totalMoney: 0, expenditureHistory: [:]),limitMoney: Float(challenge.limitMoney))) {
+                            NavigationLink(destination: ChartView(expenditure: challengeRecordVM.historyExpenditure ?? Expenditure(id: "", totalMoney: 0, expenditureHistory: [:]),limitMoney: Float(challenge.limitMoney))) {
                                 Text("상세내역")
                                     .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.subhead, color: .color2))
                                     .frame(width: g.size.width / 6, height: g.size.height / 34)
@@ -175,7 +121,7 @@ struct RecordDetailView: View {
                                     .cornerRadius(20)
                                     .frame(width: g.size.width / 1.1, height: g.size.height / 3)
                                 VStack(spacing: 0){
-                                ForEach(userValue.indices , id: \.self) { index in
+                                    ForEach(challengeRecordVM.userValue.indices , id: \.self) { index in
                                     
                                         HStack {
                                             if index == 0 {
@@ -184,11 +130,11 @@ struct RecordDetailView: View {
                                                         .padding(.trailing)
                                                     VStack {
                                                         VStack {
-                                                            if userValue[index].user.userProfile.isEmpty {
+                                                            if challengeRecordVM.userValue[index].user.userProfile.isEmpty {
                                                                 Image(systemName: "person")
                                                                     .font(.largeTitle)
                                                             } else {
-                                                                AsyncImage(url: URL(string: userValue[index].user.userProfile)!) { Image in
+                                                                AsyncImage(url: URL(string: challengeRecordVM.userValue[index].user.userProfile)!) { Image in
                                                                     Image
                                                                         .resizable()
                                                                 } placeholder: {
@@ -209,7 +155,7 @@ struct RecordDetailView: View {
                                                                 )
                                                                 .foregroundColor(Color("Color1")))
                                                         
-                                                        Text("\(userValue[index].user.userName)")
+                                                        Text("\(challengeRecordVM.userValue[index].user.userName)")
                                                     }
                                                 }
                                             } else {
@@ -218,11 +164,11 @@ struct RecordDetailView: View {
                                                         .padding(.trailing)
                                                     VStack(spacing: 0) {
                                                         VStack {
-                                                            if userValue[index].user.userProfile.isEmpty {
+                                                            if challengeRecordVM.userValue[index].user.userProfile.isEmpty {
                                                                 Image(systemName: "person")
                                                                     .font(.largeTitle)
                                                             } else {
-                                                                AsyncImage(url: URL(string: userValue[index].user.userProfile)!) { Image in
+                                                                AsyncImage(url: URL(string: challengeRecordVM.userValue[index].user.userProfile)!) { Image in
                                                                     Image
                                                                         .resizable()
                                                                 } placeholder: {
@@ -243,7 +189,7 @@ struct RecordDetailView: View {
                                                                 )
                                                                 .foregroundColor(Color("Color1")))
                                                         
-                                                        Text("\(userValue[index].user.userName)")
+                                                        Text("\(challengeRecordVM.userValue[index].user.userName)")
                                                     }
                                                 }
                                             }
@@ -260,7 +206,7 @@ struct RecordDetailView: View {
                                     VStack(alignment: .leading, spacing: 15){
                                         Text("총 사용 금액 :")
                                             .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
-                                        Text("\(firestoreViewModel.challengeHistoryUserList[index].totalMoney)원")
+                                        Text("\(challengeRecordVM.challengeHistoryUserList[index].totalMoney)원")
                                             .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.title3, color: .color2))
                                     }
                                     .minimumScaleFactor(0.5)
@@ -268,7 +214,7 @@ struct RecordDetailView: View {
                                     .frame(minWidth: g.size.width / 1.1, alignment: .leading)
                                 }
                                 
-                                ForEach(tagValue.indices , id: \.self) { index in
+                                ForEach(challengeRecordVM.tagValue.indices , id: \.self) { index in
                                     VStack {
                                         HStack {
                                             if index == 0 {
@@ -296,8 +242,8 @@ struct RecordDetailView: View {
                                                 .cornerRadius(20)
                                                 .frame(width: g.size.width / 1.1, height: g.size.height / 6)
                                             HStack {
-                                                Text("\(tagValue[index].tag)")
-                                                Text("\(tagValue[index].money)원")
+                                                Text("\(challengeRecordVM.tagValue[index].tag)")
+                                                Text("\(challengeRecordVM.tagValue[index].money)원")
                                             }
                                         }
                                     }
@@ -316,9 +262,9 @@ struct RecordDetailView: View {
                     
                     // 과거 지출 기록 가져오기
                     guard let history = await challengeRecordVM.getHistoryExpenditure(gameId: challenge.id) else { return }
-                    historyExpenditure = history
-                    self.tagValue = self.parsingExpenditure(historyExpenditure!.expenditureHistory)
-                    self.userValue = self.userValues(firestoreViewModel.challengeUsers)
+                    challengeRecordVM.historyExpenditure = history
+                    challengeRecordVM.tagValue = challengeRecordVM.parsingExpenditure(challengeRecordVM.historyExpenditure!.expenditureHistory)
+                    challengeRecordVM.userValue = challengeRecordVM.userValues(challengeRecordVM.challengeUsers)
                 }
             }
         }
