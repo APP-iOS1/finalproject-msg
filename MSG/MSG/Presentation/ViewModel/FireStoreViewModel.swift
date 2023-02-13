@@ -564,6 +564,7 @@ final class FireStoreViewModel: ObservableObject {
     // MARK: - 총 사용금액 가져오기
     /// 현재 챌린지에서 사용한 총 금액 가져오는 메서드.
     func fetchTotalMoney(_ challengeId: String, _ userId: String) async -> Int {
+        print(#function)
         let ref = database.collection("Challenge").document(challengeId).collection("expenditure").document(userId)
         do{
             let document = try await ref.getDocument()

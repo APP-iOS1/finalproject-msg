@@ -90,6 +90,12 @@
 		6342C2CB29764EDA00C24D20 /* KakaoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */; };
 		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
 		634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634CE3F6297920D500358E32 /* SegementedControllView.swift */; };
+		635A3D32299A5ACC007F174D /* ChallengeRecordListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D31299A5ACC007F174D /* ChallengeRecordListCell.swift */; };
+		635A3D34299A5BE9007F174D /* ChallengeRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D33299A5BE9007F174D /* ChallengeRecordViewModel.swift */; };
+		635A3D36299A5C8A007F174D /* ChallengeRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D35299A5C8A007F174D /* ChallengeRecordUseCase.swift */; };
+		635A3D38299A5D06007F174D /* ChallengeRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */; };
+		635A3D3A299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */; };
+		635A3D3C299A5DBB007F174D /* ChallengeRecordDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */; };
 		635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */; };
 		635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */; };
 		635D112B298DFE7000C4EDEC /* DarkModeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D112A298DFE7000C4EDEC /* DarkModeToggle.swift */; };
@@ -185,6 +191,12 @@
 		6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoViewModel.swift; sourceTree = "<group>"; };
 		6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		634CE3F6297920D500358E32 /* SegementedControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegementedControllView.swift; sourceTree = "<group>"; };
+		635A3D31299A5ACC007F174D /* ChallengeRecordListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordListCell.swift; sourceTree = "<group>"; };
+		635A3D33299A5BE9007F174D /* ChallengeRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordViewModel.swift; sourceTree = "<group>"; };
+		635A3D35299A5C8A007F174D /* ChallengeRecordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordUseCase.swift; sourceTree = "<group>"; };
+		635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordRepository.swift; sourceTree = "<group>"; };
+		635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordRepositoryImpl.swift; sourceTree = "<group>"; };
+		635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordDataSource.swift; sourceTree = "<group>"; };
 		635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShallowConcaveView.swift; sourceTree = "<group>"; };
 		635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepConcaveView.swift; sourceTree = "<group>"; };
 		635D112A298DFE7000C4EDEC /* DarkModeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeToggle.swift; sourceTree = "<group>"; };
@@ -281,6 +293,7 @@
 			children = (
 				3602CBBB2999FC46007D1034 /* ViewModel */,
 				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
+				635A3D31299A5ACC007F174D /* ChallengeRecordListCell.swift */,
 				4C5B81822977750C00866E3F /* RecordDetailView.swift */,
 			);
 			path = ChallengeRecord;
@@ -452,6 +465,7 @@
 		3602CBB42999FA13007D1034 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				635A3D35299A5C8A007F174D /* ChallengeRecordUseCase.swift */,
 				3602CBC12999FD88007D1034 /* FriendUseCase.swift */,
 				166009872976335A00E6A546 /* Model */,
 			);
@@ -512,6 +526,7 @@
 		3602CBBB2999FC46007D1034 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				635A3D33299A5BE9007F174D /* ChallengeRecordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -549,6 +564,7 @@
 			isa = PBXGroup;
 			children = (
 				3602CBC42999FF16007D1034 /* FriendRepositoryImpl.swift */,
+				635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -557,6 +573,7 @@
 			isa = PBXGroup;
 			children = (
 				3602CBC72999FF49007D1034 /* FriendRepository.swift */,
+				635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */,
 			);
 			path = RepositoryInterface;
 			sourceTree = "<group>";
@@ -566,6 +583,7 @@
 			children = (
 				3602CBCA2999FF99007D1034 /* FriendDataSource.swift */,
 				3602CBCC2999FFC3007D1034 /* FirebaseService.swift */,
+				635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -716,6 +734,7 @@
 			files = (
 				63690D3C298CCF0400B48DA4 /* Extension+View.swift in Sources */,
 				63EC446F297A8366008A7FDE /* Extension+String.swift in Sources */,
+				635A3D3A299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift in Sources */,
 				3602CBC82999FF49007D1034 /* FriendRepository.swift in Sources */,
 				635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */,
 				36338AF9298B595A009ABB77 /* DivideFriendView.swift in Sources */,
@@ -730,15 +749,18 @@
 				63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */,
 				16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */,
 				168CDEF1298CD12200FAA3F4 /* LottieView.swift in Sources */,
+				635A3D34299A5BE9007F174D /* ChallengeRecordViewModel.swift in Sources */,
 				6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */,
 				6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */,
 				63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */,
+				635A3D38299A5D06007F174D /* ChallengeRecordRepository.swift in Sources */,
 				3602CBCF299A0099007D1034 /* FriendViewModel.swift in Sources */,
 				635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */,
 				16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */,
 				36FA49132977746600B26A24 /* ChartView.swift in Sources */,
 				367D709D2980C6890011E601 /* GameRequestAlertView.swift in Sources */,
 				632B7CD129825C8000A3D53C /* CountDownView.swift in Sources */,
+				635A3D3C299A5DBB007F174D /* ChallengeRecordDataSource.swift in Sources */,
 				635D112B298DFE7000C4EDEC /* DarkModeToggle.swift in Sources */,
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
@@ -768,6 +790,7 @@
 				166009932976685200E6A546 /* FriendSettingView.swift in Sources */,
 				3602CBC22999FD88007D1034 /* FriendUseCase.swift in Sources */,
 				4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */,
+				635A3D32299A5ACC007F174D /* ChallengeRecordListCell.swift in Sources */,
 				168AE7A629875EA400D68C1C /* WaitingView.swift in Sources */,
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
 				36C7BB7D2977B37200A3F999 /* OnBoardView2.swift in Sources */,
@@ -792,6 +815,7 @@
 				36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */,
 				36338AFB298B5A5D009ABB77 /* DivideFriendViewModel.swift in Sources */,
 				4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */,
+				635A3D36299A5C8A007F174D /* ChallengeRecordUseCase.swift in Sources */,
 				634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,10 +9,12 @@ import SwiftUI
 
 struct RecordDetailView: View {
     
+    @StateObject var challengeRecordVM = ChallengeRecordViewModel()
     @EnvironmentObject private var firestoreViewModel: FireStoreViewModel
     @Binding var challenge: Challenge
     @State var historyExpenditure: Expenditure?
     @State private var tagValue: [(tag: String, money: Int)] = []
+    @State private var userValue: [(user:(userName: String, userProfile: String), totalMoney: Int)] = []
     
     private func parsingExpenditure(_ expenditureHistory: [String:[String]]) -> [(tag: String, money: Int)]{
         
@@ -39,8 +41,6 @@ struct RecordDetailView: View {
         }
         return [maxValue, minValue]
     }
-    
-    @State private var userValue: [(user:(userName: String, userProfile: String), totalMoney: Int)] = []
     
     private func userValues(_ challengeUsers: [(user:(userName: String, userProfile: String), totalMoney: Int)]) -> [(user:(userName: String, userProfile: String), totalMoney: Int)] {
         
@@ -119,15 +119,15 @@ struct RecordDetailView: View {
                         
                         //챌린지 참여인원에 따른 사용금액 그룹
                         if !challenge.inviteFriend.isEmpty {
-                            ForEach(firestoreViewModel.challengeUsers.indices, id: \.self) { index in
+                            ForEach(challengeRecordVM.challengeUsers.indices, id: \.self) { index in
                                 HStack(spacing: 40) {
                                     VStack(spacing: 0) {
                                         VStack {
-                                            if firestoreViewModel.challengeUsers[index].user.userProfile.isEmpty{
+                                            if challengeRecordVM.challengeUsers[index].user.userProfile.isEmpty{
                                                 Image(systemName: "person")
                                                     .font(.largeTitle)
                                             } else {
-                                                AsyncImage(url: URL(string: firestoreViewModel.challengeUsers[index].user.userProfile)!) { Image in
+                                                AsyncImage(url: URL(string: challengeRecordVM.challengeUsers[index].user.userProfile)!) { Image in
                                                     Image
                                                         .resizable()
                                                 } placeholder: {
@@ -149,11 +149,11 @@ struct RecordDetailView: View {
                                                 )
                                                 .foregroundColor(Color("Color1")))
                                         
-                                        Text("\(firestoreViewModel.challengeUsers[index].user.userName)")
+                                        Text("\(challengeRecordVM.challengeUsers[index].user.userName)")
                                             .modifier(TextModifier(fontWeight: .normal, fontType: FontCustomType.body, color: .color2))
                                         
                                     }
-                                    Text("총 \(firestoreViewModel.challengeUsers[index].totalMoney)원 사용")
+                                    Text("총 \(challengeRecordVM.challengeUsers[index].totalMoney)원 사용")
                                         .modifier(TextModifier(fontWeight: .bold, fontType: FontCustomType.body, color: .color2))
                                 }
                                 .frame(minWidth: g.size.width / 1.1, minHeight: g.size.height / 8, alignment: .leading)
@@ -255,7 +255,7 @@ struct RecordDetailView: View {
                             }
                         } else {
                             VStack {
-                                ForEach(firestoreViewModel.challengeHistoryUserList.indices, id:\.self) { index in
+                                ForEach(challengeRecordVM.challengeHistoryUserList.indices, id:\.self) { index in
                                     
                                     VStack(alignment: .leading, spacing: 15){
                                         Text("총 사용 금액 :")
@@ -310,12 +310,12 @@ struct RecordDetailView: View {
             }
             .onAppear{
                 Task{
-                    await firestoreViewModel.fetchChallengeUsers(challenge.inviteFriend, challenge.id)
+                    await challengeRecordVM.getChallengeUser(users: challenge.inviteFriend, challengeId: challenge.id)
                     // 각 유저별 총액 가져오기
-                    try await firestoreViewModel.fetchChallengeTotalMoney(challenge.id)
+                    try await challengeRecordVM.getChallengeTotalMoney(challengeId: challenge.id)
                     
                     // 과거 지출 기록 가져오기
-                    guard let history = await firestoreViewModel.fetchHistoryExpenditure(challenge.id) else { return }
+                    guard let history = await challengeRecordVM.getHistoryExpenditure(gameId: challenge.id) else { return }
                     historyExpenditure = history
                     self.tagValue = self.parsingExpenditure(historyExpenditure!.expenditureHistory)
                     self.userValue = self.userValues(firestoreViewModel.challengeUsers)
@@ -327,9 +327,9 @@ struct RecordDetailView: View {
     }
 }
 
-//
-//struct RecordDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RecordDetailView(challenge: .constant(Challenge(id: "테스트아이디", gameTitle: "게임해보자", limitMoney: 1000, startDate: "abc", endDate: "def", inviteFriend: ["철수,영희"],waitingFriend: ["철수,영희"])))
-//    }
-//}
+
+struct RecordDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        RecordDetailView(challenge: .constant(Challenge(id: "테스트아이디", gameTitle: "게임해보자", limitMoney: 1000, startDate: "abc", endDate: "def", inviteFriend: ["철수,영희"],waitingFriend: ["철수,영희"])))
+    }
+}
