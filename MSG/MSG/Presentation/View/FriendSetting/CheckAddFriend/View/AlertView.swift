@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct AlertView: View {
-    
-    @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
-    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @StateObject var realtimeService = RealtimeService()
+    @StateObject var checkAddFriendViewModel = CheckAddFriendViewModel()
     var body: some View {
         
         GeometryReader { g in
@@ -60,11 +57,12 @@ struct AlertView: View {
                                     
                                     Spacer()
                                     Button {
-                                        fireStoreViewModel.addUserInfo(user: user)
-                                        if let myInfo = realtimeViewModel.myInfo {
-                                            fireStoreViewModel.addUserInfo2(user: user, myInfo: myInfo)
-                                            realtimeViewModel.acceptAddFriend(friend: user)
-                                            Task{ await fireStoreViewModel.deleteWaitingFriend(user.id)}
+                                        Task {
+                                            guard let myInfo = try await checkAddFriendViewModel.myInfo() else {return}
+                                            checkAddFriendViewModel.addBothWithFriend(user: user, me: myInfo)
+                                            checkAddFriendViewModel.acceptAddFriend(friend: user)
+                                            await checkAddFriendViewModel.deleteWaitingFriend(userId: user.id)
+                                            
                                         }
                                         
                                     } label: {
@@ -95,8 +93,6 @@ struct AlertView: View {
             }
             .onAppear {
                 realtimeService.startObserve()
-//                realtimeViewModel.fetchFriendRequest()
-                print(realtimeViewModel.user)
             }
         }
     }

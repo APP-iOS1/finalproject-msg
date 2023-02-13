@@ -163,3 +163,28 @@ extension DatabaseReference {
         }).eraseToAnyPublisher()
     }
 }
+
+
+extension AddFriendDataSourceWithRealTimeDB {
+    func acceptAddFriend(friend: Msg) {
+        print("add Friend id: \(friend.id)")
+        Database.database()
+            .reference()
+            .child("Friend")
+            .child(Auth.auth().currentUser?.uid ?? "")
+            .child(friend.id)
+            .removeValue()
+    }
+}
+
+struct Real: AddFriendDataSourceWithRealTimeDB {
+    func acceptAddFriend(friend: Msg) {
+        print("add Friend id: \(friend.id)")
+        Database.database()
+            .reference()
+            .child("Friend")
+            .child(Auth.auth().currentUser?.uid ?? "")
+            .child(friend.id)
+            .removeValue()
+    }
+}

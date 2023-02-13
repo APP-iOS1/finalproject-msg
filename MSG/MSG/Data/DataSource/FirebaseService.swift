@@ -174,10 +174,86 @@ extension FirebaseService: ChallengeDataSource{
             return nil
         }
     }
+}
 
+//MARK: - AddFriendDataSource
+extension FirebaseService: AddFriendDataSource {
+    func myInfo() async throws -> Msg? {
+        guard let myId = Auth.auth().currentUser?.uid else { return nil }
+        let ref = Firestore.firestore().collection("User").document(myId)
+        let snapshot = try await ref.getDocument()
+        guard let docData = snapshot.data() else { return nil }
+        let nickName = docData["nickName"] as? String ?? ""
+        let profileImage = docData["profileImage"] as? String ?? ""
+        let game = docData["game"] as? String ?? ""
+        let gameHistory = docData["gameHistory"] as? [String] ?? []
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+        return userInfo
+    }
     
+    // MARK: 친구추가
+    /// 둘다 친구를 추가합니다.
+    func addBothWithFriend(user: Msg, me: Msg) {
+        print(#function)
+        
+        //나에게 친구를 추가합니다.
+        database.collection("User")
+            .document(Auth.auth().currentUser?.uid ?? "")
+            .collection("friend")
+            .document(user.id)
+            .setData(["id": user.id,
+                      "nickName": user.nickName,
+                      "profileImage": user.profileImage,
+                      "game": user.game,
+                      "gameHistory": user.gameHistory ?? []
+                     ])
+        
+        //친구에게 나를 추가합니다.
+        database.collection("User")
+            .document(user.id)
+            .collection("friend")
+            .document(Auth.auth().currentUser?.uid ?? "")
+            .setData(["id": me.id,
+                      "nickName": me.nickName,
+                      "profileImage": me.profileImage,
+                      "game": me.game,
+                      "gameHistory": me.gameHistory ?? []
+                     ])
+    }
+    
+    // MARK:  친구 초대 수락 시, WaitingCollection에서 해당 유저 제거
+    func deleteWaitingFriend(userId: String) async {
+        print(#function)
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        guard var waitingFriend = await fetchWaitingFriend(userId) else { return }
+        guard let index = waitingFriend.firstIndex(of: myId) else { return }
+        waitingFriend.remove(at: index)
+        do{
+            try await database.collection("Waiting").document(userId).updateData([ "sendToFriend" : waitingFriend ])
+        }catch{
+                print("Error")
+        }
+    }
+    // MARK:  waitingFriend가져오기
+    func fetchWaitingFriend(_ userId: String) async -> [String]? {
+        print(#function)
+        do{
+            let document = try await database.collection("Waiting").document(userId).getDocument()
+            guard let docData = document.data() else{ return nil }
+            let waitingArr = docData["sendToFriend"] as? [String] ?? []
+            return waitingArr
+        }catch{
+            print("Error!")
+            return nil
+        }
+    }
     
 }
 
+//protocol AddFriendDataSource {
+//    func myInfo() //f
+//    func addUser() // f
+//    func deleteWaitingFriend() // f
+//}
 
 //
