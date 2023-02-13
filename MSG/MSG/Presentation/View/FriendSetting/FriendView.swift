@@ -93,8 +93,8 @@ extension FriendView {
             }
             .onAppear {
                 Task {
-                    try await friendViewModel.findFriend()
-                    friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
+                    await friendViewModel.getMyFriendArray()
+                    try await friendViewModel.getMyFriendForNotGame()
                 }
                 print("== FriendVeiw onAppear ==")
                 

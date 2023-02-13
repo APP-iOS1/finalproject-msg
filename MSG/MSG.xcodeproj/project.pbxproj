@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		161286B7297D227800BC3BDF /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161286B6297D227800BC3BDF /* FriendViewModel.swift */; };
 		161398FC2983F863002A6F16 /* SpendingWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */; };
 		161716B52993857F00CC4901 /* WaitingCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161716B42993857F00CC4901 /* WaitingCountView.swift */; };
 		1642F3FC298E893D0085FF00 /* MultiProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */; };
@@ -48,6 +47,12 @@
 		16DB66D32988A98C009BF8B7 /* Maplestory OTF Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16DB66D12988A98C009BF8B7 /* Maplestory OTF Bold.otf */; };
 		16DB66D52989282B009BF8B7 /* ListBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB66D42989282B009BF8B7 /* ListBackgroundModifier.swift */; };
 		16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FBE6C52976784D001EC518 /* FriendViewCell.swift */; };
+		3602CBC22999FD88007D1034 /* FriendUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBC12999FD88007D1034 /* FriendUseCase.swift */; };
+		3602CBC52999FF16007D1034 /* FriendRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBC42999FF16007D1034 /* FriendRepositoryImpl.swift */; };
+		3602CBC82999FF49007D1034 /* FriendRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBC72999FF49007D1034 /* FriendRepository.swift */; };
+		3602CBCB2999FF99007D1034 /* FriendDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBCA2999FF99007D1034 /* FriendDataSource.swift */; };
+		3602CBCD2999FFC3007D1034 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBCC2999FFC3007D1034 /* FirebaseService.swift */; };
+		3602CBCF299A0099007D1034 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3602CBCE299A0099007D1034 /* FriendViewModel.swift */; };
 		360A1471298360A70058BB9B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A1470298360A70058BB9B /* Utils.swift */; };
 		36338AF9298B595A009ABB77 /* DivideFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36338AF8298B595A009ABB77 /* DivideFriendView.swift */; };
 		36338AFB298B5A5D009ABB77 /* DivideFriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36338AFA298B5A5D009ABB77 /* DivideFriendViewModel.swift */; };
@@ -104,7 +109,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		161286B6297D227800BC3BDF /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingWriteViewModel.swift; sourceTree = "<group>"; };
 		161716B42993857F00CC4901 /* WaitingCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingCountView.swift; sourceTree = "<group>"; };
 		1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProgressBar.swift; sourceTree = "<group>"; };
@@ -136,6 +140,12 @@
 		16DB66D12988A98C009BF8B7 /* Maplestory OTF Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Maplestory OTF Bold.otf"; sourceTree = "<group>"; };
 		16DB66D42989282B009BF8B7 /* ListBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBackgroundModifier.swift; sourceTree = "<group>"; };
 		16FBE6C52976784D001EC518 /* FriendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewCell.swift; sourceTree = "<group>"; };
+		3602CBC12999FD88007D1034 /* FriendUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendUseCase.swift; sourceTree = "<group>"; };
+		3602CBC42999FF16007D1034 /* FriendRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRepositoryImpl.swift; sourceTree = "<group>"; };
+		3602CBC72999FF49007D1034 /* FriendRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRepository.swift; sourceTree = "<group>"; };
+		3602CBCA2999FF99007D1034 /* FriendDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDataSource.swift; sourceTree = "<group>"; };
+		3602CBCC2999FFC3007D1034 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		3602CBCE299A0099007D1034 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		360A1470298360A70058BB9B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		36338AF8298B595A009ABB77 /* DivideFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivideFriendView.swift; sourceTree = "<group>"; };
 		36338AFA298B5A5D009ABB77 /* DivideFriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivideFriendViewModel.swift; sourceTree = "<group>"; };
@@ -168,7 +178,7 @@
 		6310324A2978322900F3A463 /* Extension+NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NavigationController.swift"; sourceTree = "<group>"; };
 		632B7CD029825C8000A3D53C /* CountDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownView.swift; sourceTree = "<group>"; };
 		6342C2C229763B0D00C24D20 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		6342C2C42976446600C24D20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6342C2C42976446600C24D20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6342C2C5297645F100C24D20 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		6342C2C6297648CB00C24D20 /* KakaoAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAppDelegate.swift; sourceTree = "<group>"; };
 		6342C2C829764AA500C24D20 /* KakaoSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSceneDelegate.swift; sourceTree = "<group>"; };
@@ -218,12 +228,12 @@
 		1606CB4C297697C3004DD13B /* FriendSetting */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBBE2999FC58007D1034 /* ViewModel */,
 				1660099629766FCC00E6A546 /* AlertView.swift */,
 				166009922976685200E6A546 /* FriendSettingView.swift */,
 				1660099429766FC000E6A546 /* FriendView.swift */,
 				16FBE6C52976784D001EC518 /* FriendViewCell.swift */,
 				634CE3F6297920D500358E32 /* SegementedControllView.swift */,
-				161286B6297D227800BC3BDF /* FriendViewModel.swift */,
 				367D709C2980C6890011E601 /* GameRequestAlertView.swift */,
 				36352761298299F80037BD1B /* CustomAlertView.swift */,
 				3635276329829C6E0037BD1B /* CustomAlertButton.swift */,
@@ -238,6 +248,7 @@
 		1606CB4D297697E2004DD13B /* GameSetting */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBBD2999FC53007D1034 /* ViewModel */,
 				36B093F82976694F0089E76A /* GameSettingView.swift */,
 				3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */,
 				3699A3C7298762FE00C650FD /* SoloGameSettingView.swift */,
@@ -248,6 +259,7 @@
 		1606CB4E297697F9004DD13B /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBBC2999FC4C007D1034 /* ViewModel */,
 				4C930D6029763CD200EE046D /* AfterChallengeView.swift */,
 				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
 				4C930D5E29763B4300EE046D /* HomeView.swift */,
@@ -267,6 +279,7 @@
 		1606CB4F2976992C004DD13B /* ChallengeRecord */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBBB2999FC46007D1034 /* ViewModel */,
 				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
 				4C5B81822977750C00866E3F /* RecordDetailView.swift */,
 			);
@@ -283,6 +296,7 @@
 		1659E1C22990932F0051AB9D /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBB82999FC23007D1034 /* ViewModel */,
 				16600964297630C300E6A546 /* ContentView.swift */,
 				6362E8CA2989574B0052C488 /* TabBarView.swift */,
 			);
@@ -292,6 +306,7 @@
 		165E321A2977EAE600678A09 /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBB92999FC2F007D1034 /* ViewModel */,
 				165E321B2977EAF500678A09 /* SettingView.swift */,
 				635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */,
 				635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */,
@@ -307,9 +322,9 @@
 		16600956297630C300E6A546 = {
 			isa = PBXGroup;
 			children = (
+				16573F002977D60B001176F6 /* Frameworks */,
 				16600961297630C300E6A546 /* MSG */,
 				16600960297630C300E6A546 /* Products */,
-				16573F002977D60B001176F6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -324,23 +339,12 @@
 		16600961297630C300E6A546 /* MSG */ = {
 			isa = PBXGroup;
 			children = (
-				16DB66CF2988A951009BF8B7 /* Fonts */,
-				C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */,
-				6342C2C42976446600C24D20 /* Info.plist */,
-				166009872976335A00E6A546 /* Model */,
-				166009852976334600E6A546 /* View */,
-				166009862976334C00E6A546 /* ViewModel */,
-				16600962297630C300E6A546 /* MSGApp.swift */,
-				36DB97782976526900A0596F /* ViewModifier.swift */,
-				16573EDA2977AA38001176F6 /* GoogleService-Info.plist */,
-				16600966297630C400E6A546 /* Assets.xcassets */,
-				16600968297630C400E6A546 /* Preview Content */,
-				360A1470298360A70058BB9B /* Utils.swift */,
-				16DB66D42989282B009BF8B7 /* ListBackgroundModifier.swift */,
-				168CDEF0298CD12200FAA3F4 /* LottieView.swift */,
-				168CDEF5298CD1C200FAA3F4 /* ambulance.json */,
-				168CDEF7298CD53900FAA3F4 /* flyingMoney.json */,
-				168CDEF8298CD53900FAA3F4 /* run.json */,
+				3602CBB52999FA20007D1034 /* Applicatin */,
+				3602CBAF2999F9C1007D1034 /* Data */,
+				3602CBB22999F9F9007D1034 /* Domain */,
+				3602CBB32999F9FE007D1034 /* Presentation */,
+				3602CBAE2999F994007D1034 /* Resource */,
+				3602CBB62999FA34007D1034 /* Util */,
 			);
 			path = MSG;
 			sourceTree = "<group>";
@@ -356,6 +360,7 @@
 		166009852976334600E6A546 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBB72999FA8E007D1034 /* LottieView */,
 				1659E1C22990932F0051AB9D /* Main */,
 				165E321A2977EAE600678A09 /* SettingView */,
 				36C7BB762977B37200A3F999 /* OnBoard */,
@@ -377,11 +382,7 @@
 				16573EFE2977D429001176F6 /* FireStoreViewModel.swift */,
 				C0F5FFE3297836D50021FF4F /* LoginVIewModel.swift */,
 				631032482978273300F3A463 /* SystemThemeManager.swift */,
-				6310324A2978322900F3A463 /* Extension+NavigationController.swift */,
 				4C407A75297A5B4B00877360 /* NotificationManager.swift */,
-				63EC446E297A8366008A7FDE /* Extension+String.swift */,
-				16C6753529822E420028A608 /* Extension+Color.swift */,
-				63690D3B298CCF0400B48DA4 /* Extension+View.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -405,6 +406,170 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		3602CBAE2999F994007D1034 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */,
+				168CDEF5298CD1C200FAA3F4 /* ambulance.json */,
+				168CDEF7298CD53900FAA3F4 /* flyingMoney.json */,
+				168CDEF8298CD53900FAA3F4 /* run.json */,
+				6342C2C42976446600C24D20 /* Info.plist */,
+				16573EDA2977AA38001176F6 /* GoogleService-Info.plist */,
+				16600968297630C400E6A546 /* Preview Content */,
+				16DB66CF2988A951009BF8B7 /* Fonts */,
+				16600966297630C400E6A546 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		3602CBAF2999F9C1007D1034 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3602CBC92999FF88007D1034 /* DataSource */,
+				3602CBC32999FEE5007D1034 /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3602CBB22999F9F9007D1034 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				3602CBC62999FF28007D1034 /* RepositoryInterface */,
+				3602CBB42999FA13007D1034 /* UseCase */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		3602CBB32999F9FE007D1034 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				166009862976334C00E6A546 /* ViewModel */,
+				166009852976334600E6A546 /* View */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		3602CBB42999FA13007D1034 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				3602CBC12999FD88007D1034 /* FriendUseCase.swift */,
+				166009872976335A00E6A546 /* Model */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		3602CBB52999FA20007D1034 /* Applicatin */ = {
+			isa = PBXGroup;
+			children = (
+				16600962297630C300E6A546 /* MSGApp.swift */,
+			);
+			path = Applicatin;
+			sourceTree = "<group>";
+		};
+		3602CBB62999FA34007D1034 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				16DB66D42989282B009BF8B7 /* ListBackgroundModifier.swift */,
+				63EC446E297A8366008A7FDE /* Extension+String.swift */,
+				16C6753529822E420028A608 /* Extension+Color.swift */,
+				63690D3B298CCF0400B48DA4 /* Extension+View.swift */,
+				6310324A2978322900F3A463 /* Extension+NavigationController.swift */,
+				36DB97782976526900A0596F /* ViewModifier.swift */,
+				360A1470298360A70058BB9B /* Utils.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		3602CBB72999FA8E007D1034 /* LottieView */ = {
+			isa = PBXGroup;
+			children = (
+				168CDEF0298CD12200FAA3F4 /* LottieView.swift */,
+			);
+			path = LottieView;
+			sourceTree = "<group>";
+		};
+		3602CBB82999FC23007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBB92999FC2F007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBBA2999FC3C007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBBB2999FC46007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBBC2999FC4C007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBBD2999FC53007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBBE2999FC58007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3602CBCE299A0099007D1034 /* FriendViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBBF2999FC5E007D1034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3602CBC32999FEE5007D1034 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				3602CBC42999FF16007D1034 /* FriendRepositoryImpl.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		3602CBC62999FF28007D1034 /* RepositoryInterface */ = {
+			isa = PBXGroup;
+			children = (
+				3602CBC72999FF49007D1034 /* FriendRepository.swift */,
+			);
+			path = RepositoryInterface;
+			sourceTree = "<group>";
+		};
+		3602CBC92999FF88007D1034 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				3602CBCA2999FF99007D1034 /* FriendDataSource.swift */,
+				3602CBCC2999FFC3007D1034 /* FirebaseService.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
 		36C7BB762977B37200A3F999 /* OnBoard */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +586,7 @@
 		36FA491629778F3200B26A24 /* Chart */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBBA2999FC3C007D1034 /* ViewModel */,
 				36FA4914297774C500B26A24 /* ProgressBar.swift */,
 				36FA49122977746600B26A24 /* ChartView.swift */,
 				36FA4917297791A100B26A24 /* ChartCellView.swift */,
@@ -433,6 +599,7 @@
 		6342C2CE297672C000C24D20 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				3602CBBF2999FC5E007D1034 /* ViewModel */,
 				6342C2C229763B0D00C24D20 /* LoginView.swift */,
 				63BC0F8529767608003F2379 /* MakeProfileView.swift */,
 				6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */,
@@ -549,6 +716,7 @@
 			files = (
 				63690D3C298CCF0400B48DA4 /* Extension+View.swift in Sources */,
 				63EC446F297A8366008A7FDE /* Extension+String.swift in Sources */,
+				3602CBC82999FF49007D1034 /* FriendRepository.swift in Sources */,
 				635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */,
 				36338AF9298B595A009ABB77 /* DivideFriendView.swift in Sources */,
 				6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */,
@@ -564,8 +732,8 @@
 				168CDEF1298CD12200FAA3F4 /* LottieView.swift in Sources */,
 				6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */,
 				6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */,
-				161286B7297D227800BC3BDF /* FriendViewModel.swift in Sources */,
 				63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */,
+				3602CBCF299A0099007D1034 /* FriendViewModel.swift in Sources */,
 				635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */,
 				16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */,
 				36FA49132977746600B26A24 /* ChartView.swift in Sources */,
@@ -574,6 +742,8 @@
 				635D112B298DFE7000C4EDEC /* DarkModeToggle.swift in Sources */,
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
+				3602CBCD2999FFC3007D1034 /* FirebaseService.swift in Sources */,
+				3602CBC52999FF16007D1034 /* FriendRepositoryImpl.swift in Sources */,
 				3635276429829C6E0037BD1B /* CustomAlertButton.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
 				168AE7A829875EB600D68C1C /* WaitingViewModel.swift in Sources */,
@@ -593,8 +763,10 @@
 				165541EA298CC47900500895 /* ProgressBar2.swift in Sources */,
 				6342C2CB29764EDA00C24D20 /* KakaoViewModel.swift in Sources */,
 				1660098F2976404400E6A546 /* RealtimeViewModel.swift in Sources */,
+				3602CBCB2999FF99007D1034 /* FriendDataSource.swift in Sources */,
 				1660098D29763AD800E6A546 /* MSG.swift in Sources */,
 				166009932976685200E6A546 /* FriendSettingView.swift in Sources */,
+				3602CBC22999FD88007D1034 /* FriendUseCase.swift in Sources */,
 				4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */,
 				168AE7A629875EA400D68C1C /* WaitingView.swift in Sources */,
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
@@ -749,14 +921,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = MSG/MSG.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MSG/Resource/MSG.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MSG/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"MSG/Resource/Preview Content\"";
 				DEVELOPMENT_TEAM = JY747KU2DH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MSG/Info.plist;
+				INFOPLIST_FILE = MSG/Resource/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MSG;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -787,15 +959,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = MSG/MSG.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MSG/Resource/MSG.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MSG/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"MSG/Resource/Preview Content\"";
 				DEVELOPMENT_TEAM = JY747KU2DH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MSG/Info.plist;
+				INFOPLIST_FILE = MSG/Resource/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MSG;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
