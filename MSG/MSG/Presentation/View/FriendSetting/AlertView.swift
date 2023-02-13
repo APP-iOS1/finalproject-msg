@@ -94,6 +94,7 @@ struct AlertView: View {
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
             }
             .onAppear {
+                realtimeService.startObserve()
 //                realtimeViewModel.fetchFriendRequest()
                 print(realtimeViewModel.user)
             }
