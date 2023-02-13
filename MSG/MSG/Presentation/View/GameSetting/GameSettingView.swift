@@ -9,7 +9,6 @@ import SwiftUI
 import Combine
 
 struct GameSettingView: View {
-    
     enum Field: Hashable {
         case title
         case limitMoney
@@ -19,15 +18,8 @@ struct GameSettingView: View {
     
     @FocusState private var focusedField: Field?
     @EnvironmentObject var notiManager: NotificationManager
-    @EnvironmentObject var friendViewModel: FriendViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
-    
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
-    
-    @State private var backBtnAlert: Bool = false   // 네비게이션 백 버튼 클릭 시, alert
-    @State private var isShowingAlert: Bool = false // 초대장 보내기 버튼 클릭 시, alert
-    @State private var showingDaySelection: Bool = false // 챌린지 기간 설정 시트
-    @State private var findFriendToggle: Bool = false // 함께할 친구 추가 시트
 }
 
 
@@ -61,14 +53,9 @@ extension GameSettingView {
                                     }
                                     .keyboardType(.default)
                                     .focused($focusedField, equals: .title)
-                                    .onSubmit {
-                                        print("submit")
-                                        focusedField = .limitMoney
-                                    }
+                                    .onSubmit { focusedField = .limitMoney }
                                     .submitLabel(.done)
-                                    .onAppear{
-                                        focusedField = .title
-                                    }
+                                    .onAppear{ focusedField = .title }
                                 
                                 Spacer()
                                 
@@ -81,7 +68,6 @@ extension GameSettingView {
                                         Image(systemName: "delete.left.fill")
                                     }
                                 }
-                                
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
                         }
@@ -166,20 +152,20 @@ extension GameSettingView {
                                 
                                 Spacer()
                                 
+                                // MARK: - [날짜 선택 버튼]
                                 Button {
-                                    showingDaySelection.toggle()
+                                    gameSettingViewModel.showingDaySelection.toggle()
                                 } label: {
                                     
                                     Image(systemName: "chevron.backward")
                                         .rotationEffect(.degrees(-90))
                                         .foregroundColor(gameSettingViewModel.daySelection == 5 ? Color("Color3") : Color("Color2"))
                                 }
-                                .sheet(isPresented: $showingDaySelection) {
+                                .sheet(isPresented: $gameSettingViewModel.showingDaySelection) {
                                     ZStack {
                                         Color("Color1").ignoresSafeArea()
                                         VStack {
                                             Spacer()
-                                            
                                             ScrollView(.horizontal, showsIndicators: false) {
                                                 HStack {
                                                     ForEach(gameSettingViewModel.dayArray.indices, id: \.self) { index in
@@ -203,11 +189,9 @@ extension GameSettingView {
                                                 }
                                             }
                                             Spacer()
-                                            
                                             Divider()
-                                            
                                             Button {
-                                                showingDaySelection.toggle()
+                                                gameSettingViewModel.showingDaySelection.toggle()
                                             } label: {
                                                 Text("닫기")
                                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
@@ -244,9 +228,9 @@ extension GameSettingView {
                             Spacer()
                             
                             HStack {
-                                // 
-                                if !realtimeViewModel.inviteFriendArray.isEmpty{
-                                    ForEach(realtimeViewModel.inviteFriendArray, id: \.self) {friend in
+                                //
+                                if !gameSettingViewModel.invitingFriendList.isEmpty{
+                                    ForEach(gameSettingViewModel.invitingFriendList, id: \.self) {friend in
                                         HStack {
                                             Text(friend.nickName)
                                                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.footnot, color: FontCustomColor.color1))
@@ -269,17 +253,59 @@ extension GameSettingView {
                                 Spacer()
                                 
                                 Button {
-                                    findFriendToggle.toggle()
+                                    Task{
+                                        gameSettingViewModel.findFriendToggle.toggle()
+                                        await gameSettingViewModel.fetchMyFriendList()
+                                    }
                                 } label: {
                                     Image(systemName: "chevron.backward")
                                         .rotationEffect(.degrees(-90))
-                                        .foregroundColor(realtimeViewModel.inviteFriendArray.isEmpty ? Color("Color3") : Color("Color2"))
+                                        .foregroundColor(gameSettingViewModel.invitingFriendList.isEmpty ? Color("Color3") : Color("Color2"))
                                 }
-                                .sheet(isPresented: $findFriendToggle) {
-                                    
-                                    FriendView(findFriendToggle: $findFriendToggle)
-                                        .presentationDetents([.height(350)])
-                                        .presentationDragIndicator(.visible)
+                                .sheet(isPresented: $gameSettingViewModel.findFriendToggle) {
+                                    ScrollView{
+                                        ForEach(gameSettingViewModel.displayFriend, id:\.self) { friend in
+                                            HStack{
+                                                VStack {
+                                                    if friend.profileImage.isEmpty{
+                                                        Image(systemName: "person")
+                                                            .font(.largeTitle)
+                                                    }else{
+                                                        AsyncImage(url: URL(string: friend.profileImage)) { Image in
+                                                            Image
+                                                                .resizable()
+                                                        } placeholder: {
+                                                            Image(systemName: "person")
+                                                                .font(.largeTitle)
+                                                        }
+                                                    }
+                                                }
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: g.size.width / 4, height: g.size.height / 11)
+                                                .clipShape(Circle())
+                                                .foregroundColor(Color("Color2"))
+                                                .background(
+                                                    Circle()
+                                                        .fill(
+                                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                                        )
+                                                        .foregroundColor(Color("Color1")))
+                                                Text(friend.nickName)
+                                                Spacer()
+                                                Button {
+                                                    gameSettingViewModel.checkFriend(friend)
+                                                } label: {
+                                                    Image(systemName: gameSettingViewModel.isCheked(friend) ? "checkmark.square.fill" : "square")
+                                                }
+                                                
+                                            }
+                                            .frame(alignment: .leading)
+                                        }
+                                    }
+                                    .padding()
+                                    .presentationDetents([.height(350)])
+                                    .presentationDragIndicator(.visible)
                                 }
                                 
                                 
@@ -301,7 +327,7 @@ extension GameSettingView {
                     Spacer()
                     VStack {
                         Button {
-                            isShowingAlert = true
+                            gameSettingViewModel.isShowingAlert = true
                         } label: {
                             Text("초대장 보내기")
                                 .modifier(!gameSettingViewModel.isGameSettingValid || realtimeViewModel.inviteFriendArray.isEmpty ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
@@ -330,10 +356,8 @@ extension GameSettingView {
             .onAppear { gameSettingViewModel.resetInputData() }
         }
         .ignoresSafeArea(.keyboard)
-        .onTapGesture {
-            self.endTextEditing()
-        }
-        .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
+        .onTapGesture { self.endTextEditing() }
+        .alert("챌린지를 시작하시겠습니까?", isPresented: $gameSettingViewModel.isShowingAlert, actions: {
             Button("시작하기") {
                 Task{
                     if !notiManager.isGranted {
@@ -356,14 +380,13 @@ extension GameSettingView {
                 }
             }
             Button("취소하기") {
-                //   dismiss()
             }
         }, message: {
             if notiManager.isGranted {
                 Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
             }
         })
-        .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
+        .alert("작성을 중단하시겠습니까?", isPresented: $gameSettingViewModel.backBtnAlert, actions: {
             Button {
                 
             } label: {
@@ -373,7 +396,6 @@ extension GameSettingView {
             Button {
                 dismiss()
                 gameSettingViewModel.resetInputData()
-                realtimeViewModel.resetInviteFriend()
             } label: {
                 Text("확인")
             }
@@ -383,14 +405,12 @@ extension GameSettingView {
         })
         .navigationBarBackButtonHidden(true)
         .toolbar{
-            
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button {
-                    backBtnAlert = true
+                    gameSettingViewModel.backBtnAlert = true
                 } label: {
                     Image(systemName:"chevron.backward")
                 }
-                
             }
         }
     }
@@ -404,7 +424,6 @@ struct GameSettingView_Previews: PreviewProvider {
     static var previews: some View {
         GameSettingView()
             .environmentObject(NotificationManager())
-            .environmentObject(FriendViewModel())
             .environmentObject(RealtimeViewModel())
     }
 }
