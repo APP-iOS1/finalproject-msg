@@ -13,13 +13,14 @@ import FirebaseStorage
 
 // View Button Click 또는 액션
 protocol GameSettingViewModelInput{
-    func resetInputData() // ViewModelOuput 초기화
+    func resetInputData() // 백버튼 클릭 및 챌린지 시작 버튼 클릭
     func createSingleChallenge() async // 싱글 챌린지 생성
     func createMultiChallenge() async // 멀티 챌린지 생성
     func selectChallengeDay(_ index: Int) // 날짜 설정 버튼 클릭 ex) [1일, 7일, 10일, 30일, 100일]
+    func checkFriend(_ friend: Msg) // 챌린지를 함께할 친구 추가하기
 }
 
-// View에 바인딩 되는 요소
+// View에 바인딩 되는 요소 및 프로퍼티
 protocol GameSettingViewModelOutput{
     var day:Double{ get }
     var title: String{ get }
@@ -30,10 +31,12 @@ protocol GameSettingViewModelOutput{
     var daySelection: Int{ get }
     var dayMultiArray:[Double]{ get }
     var dayArray:[String]{ get }
+    var invitingFriendList:[Msg] { get }
+    var waitingFriendList:[Msg] { get }
 }
 
-// View와 ViewModel 사이는 Combine으로 Data Binding 처리
 final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, GameSettingViewModelOutput{
+
     func selectChallengeDay(_ index: Int) {
             daySelection = index
             startDate = Date().timeIntervalSince1970
@@ -48,12 +51,22 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
     private let friendUseCase: FriendUseCase?
     
     @Published var title = ""
-    @Published var startDate:Double = Date().timeIntervalSince1970
-    @Published var endDate:Double = Date().timeIntervalSince1970
-    @Published var isGameSettingValid = false
     @Published var daySelection: Int = 5
+    @Published var isGameSettingValid = false
+    @Published var waitingFriendList: [Msg] = []
+    @Published var invitingFriendList: [Msg] = []
+    @Published var displayFriend: [Msg] = []
     @Published var dayMultiArray:[Double] = [1,7,10,30,100]
     @Published var dayArray = ["1일", "7일", "10일", "30일", "100일"]
+    @Published var startDate:Double = Date().timeIntervalSince1970
+    @Published var endDate:Double = Date().timeIntervalSince1970
+    
+    @Published var backBtnAlert: Bool = false   // 네비게이션 백 버튼 클릭 시, alert
+    @Published var isShowingAlert: Bool = false // 초대장 보내기 버튼 클릭 시, alert
+    @Published var showingDaySelection: Bool = false // 챌린지 기간 설정 시트
+    @Published var findFriendToggle: Bool = false // 함께할 친구 추가 시트
+    @Published var friendAlert:Bool = false // 추가한 친구가 3명 초과한 경우, alert
+    
     @Published var targetMoney = ""{
         didSet{
             if self.targetMoney.count > 7{
@@ -73,8 +86,35 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
     }
     
     //[method]
+    func isCheked(_ friend: Msg) -> Bool { return invitingFriendList.contains(friend) }
+    
+    // 
+    func checkFriend(_ friend: Msg){
+        if invitingFriendList.contains(friend){
+            invitingFriendList.remove(at: invitingFriendList.firstIndex(of: friend)!)
+        }else{
+            if invitingFriendList.count > 3{
+                friendAlert = true
+            }else{
+                invitingFriendList.append(friend)
+            }
+        }
+    }
+    
+    // 친구목록 가져오기
     func fetchMyFriendList() async {
-        
+        do{
+            guard let friendInfo =  await friendUseCase?.fetchFriendList() else {
+                print("NONOFriend")
+                return }
+            guard let myFriend = try await friendUseCase?.caseNotGameMyFriend(text: friendInfo.0) else {
+                print("NO Friend")
+                return
+            }
+            DispatchQueue.main.async { self.displayFriend = myFriend }
+        }catch{
+            print("Error FETCH MTFRIENDLIST")
+        }
     }
     
     // 싱글 챌린지 생성

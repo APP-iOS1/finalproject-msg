@@ -14,14 +14,9 @@ struct SoloGameSettingView: View {
         case limitMoney
     }
     @FocusState private var focusedField: Field?
-    //DI를 어디서 할지.
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
     @Environment(\.dismiss) var dismiss
-    // 챌린지 기간 설정 시트
-    @State private var isShowingAlert: Bool = false
-    @State private var backBtnAlert: Bool = false
-    @State private var showingDaySelection: Bool = false
     
     var body: some View {
         
@@ -155,7 +150,7 @@ struct SoloGameSettingView: View {
                                 Spacer()
                                 
                                 Button {
-                                    showingDaySelection.toggle()
+                                    gameSettingViewModel.showingDaySelection.toggle()
                                 } label: {
                                     
                                     Image(systemName: "chevron.backward")
@@ -163,7 +158,7 @@ struct SoloGameSettingView: View {
                                         .foregroundColor(gameSettingViewModel.daySelection == 5 ? Color("Color3") : Color("Color2"))
                                     
                                 }
-                                .sheet(isPresented: $showingDaySelection) {
+                                .sheet(isPresented: $gameSettingViewModel.showingDaySelection) {
                                     ZStack {
                                         Color("Color1").ignoresSafeArea()
                                         VStack {
@@ -196,7 +191,7 @@ struct SoloGameSettingView: View {
                                             Divider()
                                             
                                             Button {
-                                                showingDaySelection.toggle()
+                                                gameSettingViewModel.showingDaySelection.toggle()
                                             } label: {
                                                 Text("닫기")
                                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
@@ -230,7 +225,7 @@ struct SoloGameSettingView: View {
                     VStack {
                         Button {
                             if gameSettingViewModel.daySelection != 5 {
-                                isShowingAlert = true
+                                gameSettingViewModel.isShowingAlert = true
                             }
                         } label: {
                             Text("시작하기")
@@ -249,7 +244,7 @@ struct SoloGameSettingView: View {
                         .padding([.leading, .bottom, .trailing])
                     }
                     .disabled(!gameSettingViewModel.isGameSettingValid)
-                        .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
+                    .alert("챌린지를 시작하시겠습니까?", isPresented: $gameSettingViewModel.isShowingAlert, actions: {
                             Button("시작하기") {
                                 Task{
                                     if !notiManager.isGranted {
@@ -290,7 +285,7 @@ struct SoloGameSettingView: View {
         .onTapGesture {
             self.endTextEditing()
         }
-        .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
+        .alert("작성을 중단하시겠습니까?", isPresented: $gameSettingViewModel.backBtnAlert, actions: {
             
             Button {
                 
@@ -312,7 +307,7 @@ struct SoloGameSettingView: View {
         .toolbar{
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button {
-                    backBtnAlert = true
+                    gameSettingViewModel.backBtnAlert = true
                 } label: {
                     Image(systemName:"chevron.backward")
                 }
@@ -326,6 +321,5 @@ struct SoloGameSettingView_Previews: PreviewProvider {
     static var previews: some View {
         SoloGameSettingView()
             .environmentObject(NotificationManager())
-            .environmentObject(FireStoreViewModel())
     }
 }

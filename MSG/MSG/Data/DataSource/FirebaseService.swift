@@ -78,8 +78,11 @@ struct FirebaseService {
         //            self.myFrinedArray.removeAll()
         //            self.friendIdArray.removeAll()
         guard let userId = Auth.auth().currentUser?.uid else{ return ([],[])  }
+        // 유저 컬렉션 -> 프렌드컬렉션 ->  친구들 최신화가 안된 친구들, 즉 게임중인지 모름.
         let snapshot = try await database.collection("User").document(userId).collection("friend").getDocuments()
         for document in snapshot.documents{
+            //func fetchUserInfo()
+            
             let id: String = document.documentID
             let docData = document.data()
             let nickName: String = docData["nickName"] as? String ?? ""
@@ -256,4 +259,4 @@ extension FirebaseService: AddFriendDataSource {
 //    func deleteWaitingFriend() // f
 //}
 
-//
+

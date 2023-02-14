@@ -16,8 +16,6 @@ final class RealtimeViewModel: ObservableObject {
     @Published var friendCount: Int = 0
     @Published var requsetCount: Int = 0
         
-    
-    
     //친구 요청 수락
     private var friendRequestReference: DatabaseReference? {
         guard let uid = Auth.auth().currentUser?.uid else { return nil}

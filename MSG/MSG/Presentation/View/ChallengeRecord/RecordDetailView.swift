@@ -39,9 +39,7 @@ struct RecordDetailView: View {
         }
         return [maxValue, minValue]
     }
-    
     @State private var userValue: [(user:(userName: String, userProfile: String), totalMoney: Int)] = []
-    
     private func userValues(_ challengeUsers: [(user:(userName: String, userProfile: String), totalMoney: Int)]) -> [(user:(userName: String, userProfile: String), totalMoney: Int)] {
         
         var maxValue: (user:(userName: String, userProfile: String), totalMoney: Int) = (("",""), Int.min)
