@@ -107,6 +107,11 @@
 		63AC1FE8298FC8A4004E24F1 /* NotificationToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC1FE7298FC8A4004E24F1 /* NotificationToggle.swift */; };
 		63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */; };
 		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
+		63C9872A299B21DE008B1DE7 /* notebook.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98727299B21DD008B1DE7 /* notebook.json */; };
+		63C9872B299B21DE008B1DE7 /* winner.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98728299B21DD008B1DE7 /* winner.json */; };
+		63C9872E299B21E5008B1DE7 /* videoGames.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C9872C299B21E5008B1DE7 /* videoGames.json */; };
+		63C98731299B2209008B1DE7 /* moneyChart.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98730299B2209008B1DE7 /* moneyChart.json */; };
+		63C98735299B25E3008B1DE7 /* finance.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98734299B25E3008B1DE7 /* finance.json */; };
 		63EC446F297A8366008A7FDE /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EC446E297A8366008A7FDE /* Extension+String.swift */; };
 		C025163129789952000E0219 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C025163029789952000E0219 /* GoogleSignIn */; };
 		C025163329789952000E0219 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C025163229789952000E0219 /* GoogleSignInSwift */; };
@@ -208,6 +213,11 @@
 		63AC1FE7298FC8A4004E24F1 /* NotificationToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationToggle.swift; sourceTree = "<group>"; };
 		63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGameProgressBar.swift; sourceTree = "<group>"; };
 		63BC0F8529767608003F2379 /* MakeProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeProfileView.swift; sourceTree = "<group>"; };
+		63C98727299B21DD008B1DE7 /* notebook.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notebook.json; sourceTree = "<group>"; };
+		63C98728299B21DD008B1DE7 /* winner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = winner.json; sourceTree = "<group>"; };
+		63C9872C299B21E5008B1DE7 /* videoGames.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = videoGames.json; sourceTree = "<group>"; };
+		63C98730299B2209008B1DE7 /* moneyChart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = moneyChart.json; sourceTree = "<group>"; };
+		63C98734299B25E3008B1DE7 /* finance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = finance.json; sourceTree = "<group>"; };
 		63EC446E297A8366008A7FDE /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 		C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MSG.entitlements; sourceTree = "<group>"; };
@@ -423,6 +433,11 @@
 			isa = PBXGroup;
 			children = (
 				C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */,
+				63C98734299B25E3008B1DE7 /* finance.json */,
+				63C98730299B2209008B1DE7 /* moneyChart.json */,
+				63C9872C299B21E5008B1DE7 /* videoGames.json */,
+				63C98728299B21DD008B1DE7 /* winner.json */,
+				63C98727299B21DD008B1DE7 /* notebook.json */,
 				168CDEF5298CD1C200FAA3F4 /* ambulance.json */,
 				168CDEF7298CD53900FAA3F4 /* flyingMoney.json */,
 				168CDEF8298CD53900FAA3F4 /* run.json */,
@@ -717,8 +732,13 @@
 				16DB66D22988A98C009BF8B7 /* Maplestory OTF Light.otf in Resources */,
 				16DB66D32988A98C009BF8B7 /* Maplestory OTF Bold.otf in Resources */,
 				1660096A297630C400E6A546 /* Preview Assets.xcassets in Resources */,
+				63C9872E299B21E5008B1DE7 /* videoGames.json in Resources */,
+				63C9872A299B21DE008B1DE7 /* notebook.json in Resources */,
+				63C98731299B2209008B1DE7 /* moneyChart.json in Resources */,
 				168CDEF9298CD53900FAA3F4 /* flyingMoney.json in Resources */,
 				16573EDB2977AA38001176F6 /* GoogleService-Info.plist in Resources */,
+				63C98735299B25E3008B1DE7 /* finance.json in Resources */,
+				63C9872B299B21DE008B1DE7 /* winner.json in Resources */,
 				168CDEFA298CD53900FAA3F4 /* run.json in Resources */,
 				168CDEF6298CD1C200FAA3F4 /* ambulance.json in Resources */,
 				16600967297630C400E6A546 /* Assets.xcassets in Resources */,

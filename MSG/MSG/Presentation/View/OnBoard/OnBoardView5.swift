@@ -65,11 +65,13 @@ struct OnBoardView5: View {
                                 .frame(width: g.size.width / 1.04, height: g.size.height / 1.40)
                                 .offset(y: g.size.height / -48.5)
                             VStack{
-                                Image("Screen5")
-                                    .resizable()
+                                LottieView(filename: "winner")
                                     .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
-                                    .cornerRadius(20)
-                                    .offset(y: g.size.height / -150)
+//                                Image("Screen5")
+//                                    .resizable()
+//                                    .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
+//                                    .cornerRadius(20)
+//                                    .offset(y: g.size.height / -150)
                             }
                         }
                     }
