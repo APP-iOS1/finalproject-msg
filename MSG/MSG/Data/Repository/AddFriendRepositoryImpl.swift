@@ -30,6 +30,9 @@ struct AddFriendRepositoryImpl: AddFriendRepository {
     func acceptAddFriend(friend: Msg) {
         dataSourceRealTimeDB.acceptAddFriend(friend: friend)
     }
+    func sendFriendRequest(to: Msg, from: Msg) {
+        dataSourceRealTimeDB.sendFriendRequest(to: to, from: from)
+    }
     
     
 }

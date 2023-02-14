@@ -16,5 +16,6 @@ protocol AddFriendDataSource {
 }
 //MARK: Realtime
 protocol AddFriendDataSourceWithRealTimeDB {
-    func acceptAddFriend(friend: Msg)
+    func acceptAddFriend(friend: Msg) //친구요청을 수락합니다
+    func sendFriendRequest(to: Msg, from: Msg) //친구요청을 보냅니다
 }

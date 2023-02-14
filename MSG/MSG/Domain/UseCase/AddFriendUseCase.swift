@@ -13,6 +13,7 @@ protocol AddFriend {
     func deleteWaitingFriend(userId: String) async
     
     func acceptAddFriend(friend: Msg)
+    func sendFriendRequest(to: Msg, from: Msg)
 }
 
 struct AddFriendUseCase: AddFriend {
@@ -36,7 +37,9 @@ struct AddFriendUseCase: AddFriend {
     func acceptAddFriend(friend: Msg){
         repo.acceptAddFriend(friend: friend)
     }
-    
+    func sendFriendRequest(to: Msg, from: Msg) {
+        repo.sendFriendRequest(to: to, from: from)
+    }
     
     
 }

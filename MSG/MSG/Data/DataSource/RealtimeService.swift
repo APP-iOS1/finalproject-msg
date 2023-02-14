@@ -139,7 +139,6 @@ class RealtimeService: ObservableObject {
                 }
             }.store(in: &cancellable)
     }
-    
 }
 
 
@@ -164,19 +163,6 @@ extension DatabaseReference {
     }
 }
 
-
-extension AddFriendDataSourceWithRealTimeDB {
-    func acceptAddFriend(friend: Msg) {
-        print("add Friend id: \(friend.id)")
-        Database.database()
-            .reference()
-            .child("Friend")
-            .child(Auth.auth().currentUser?.uid ?? "")
-            .child(friend.id)
-            .removeValue()
-    }
-}
-
 struct Real: AddFriendDataSourceWithRealTimeDB {
     func acceptAddFriend(friend: Msg) {
         print("add Friend id: \(friend.id)")
@@ -186,5 +172,20 @@ struct Real: AddFriendDataSourceWithRealTimeDB {
             .child(Auth.auth().currentUser?.uid ?? "")
             .child(friend.id)
             .removeValue()
+    }
+    //초대보내기
+    func sendFriendRequest(to: Msg, from: Msg) {
+        print(#function)
+        let dict: [String: Any] = [
+            "id": from.id,
+            "nickName": from.nickName,
+            "profileImage": from.profileImage,
+            "game": from.game,
+            "gameHistory": from.gameHistory ?? []
+        ]
+        Database.database()
+        .reference()
+        .child("Friend")
+        .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue(dict)
     }
 }

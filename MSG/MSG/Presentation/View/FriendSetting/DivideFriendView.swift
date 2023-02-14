@@ -11,7 +11,6 @@ struct DivideFriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @StateObject var friendViewModel = DivideFriendViewModel()
-    @Binding var findFriendToggle: Bool
     @State var checked = false
 }
 
@@ -52,7 +51,7 @@ extension DivideFriendView {
                     
                     ScrollView {
                             ForEach(friendViewModel.baseUserArray) { user in
-                                DivideFriendCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
+                                DivideFriendCell(user: user, friendViewModel: friendViewModel,checked: $checked)
                                     .frame(height: 60)
                                     .listRowBackground(Color("Color1"))
                                     .listRowSeparator(.hidden)
@@ -63,9 +62,10 @@ extension DivideFriendView {
             .onAppear {
                 Task {
                     friendViewModel.subscribe()
-                    try await friendViewModel.findFriend()
-                    friendViewModel.baseUserArray = await friendViewModel.makeProfile(friendViewModel.myFrinedArray) ?? []
-                    friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
+                    print("View: 현재 send입니다:",friendViewModel.sendToFriendArray)
+                    try await friendViewModel.getMyFriend()
+                    friendViewModel.baseUserArray = await friendViewModel.makeProfile(friendViewModel.myFriendArray) ?? []
+//                    await friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
                 }
                 print("== FriendVeiw onAppear ==")
                 
@@ -80,6 +80,6 @@ extension DivideFriendView {
 
 struct DivideFriendView_Previews: PreviewProvider {
     static var previews: some View {
-        DivideFriendView(findFriendToggle: .constant(false))
+        DivideFriendView()
     }
 }

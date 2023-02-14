@@ -10,10 +10,11 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 
+
+
 //MARK: - API
 // 실제 데이터를 받아오는 위치
 struct FirebaseService {
-    
     var database: Firestore = Firestore.firestore()
     
     func findSearchUser(text: String) -> [Msg] {
@@ -42,8 +43,8 @@ struct FirebaseService {
         return searchUserArray
     }
     func findUser1(text: [Msg]) async -> [Msg]{
-        print(#function)
-        print("input Value:",text)
+//        print(#function)
+//        print("input Value:",text)
         //        notGamePlayFriend.removeAll()
         var notGamePlayFriend: [Msg] = []
         do {
@@ -72,7 +73,7 @@ struct FirebaseService {
     }
     @MainActor
     func findFriend() async throws -> ([Msg],[String]){
-        print("Impl",#function)
+//        print("Impl",#function)
         var friendIdArray: [String] = []
         var friendArray: [Msg] = []
         //            self.myFrinedArray.removeAll()
@@ -98,7 +99,7 @@ struct FirebaseService {
     }
     
     func searchUser(text: String) -> [Msg]{
-        print(#function)
+//        print(#function)
         var searchUserArray: [Msg] = []
         database
             .collection("User")
@@ -253,6 +254,119 @@ extension FirebaseService: AddFriendDataSource {
     
 }
 
+extension FirebaseService: DivideFriendDataSource {
+    // MARK: - 입력받은 친구목록 아이디들로 실제 프로필 받아오는 메서드.
+    func makeProfile(_ userIdArray:[String]) async -> [Msg]? {
+        var friendArray:[Msg] = []
+        for friend in userIdArray{
+            do{
+                let user = try await fetchUserInfo(friend)
+                if user != nil { friendArray.append(user!) }
+            }catch{
+                return nil
+            }
+        }
+        return friendArray
+    }
+    
+    // MARK: -
+    func fetchUserInfo(_ userId: String) async throws -> Msg? {
+        print(#function)
+        guard (Auth.auth().currentUser != nil) else { return nil}
+        let ref = database.collection("User").document(userId)
+        let snapshot = try await ref.getDocument()
+        guard let docData = snapshot.data() else { return nil }
+        let nickName = docData["nickName"] as? String ?? ""
+        let profileImage = docData["profileImage"] as? String ?? ""
+        let game = docData["game"] as? String ?? ""
+        let gameHistory = docData["gameHistory"] as? [String] ?? []
+//        let friend = docData["friend"] as? [String] ?? []
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+        return userInfo
+    }
+
+
+    
+    // MARK: - 모든 유저에서, 내가 입력한 닉네임의 유저찾기
+    /// 검색할 유저 닉네임 입력 시, 해당 닉네임이 포함된 유저 목록 가져오는 메서드.
+    @MainActor
+    func findUser(text: String) async throws -> [String] {
+//        print(#function)
+//        self.searchUserArray.removeAll()
+        var searchUserArray: [String] = []
+        let snapShots = try await database.collection("User").getDocuments()
+        for document in snapShots.documents{
+            let id: String = document.documentID
+            let docData = document.data()
+            let nickName: String = docData["nickName"] as? String ?? ""
+//            nickName.lowercased()
+            if nickName.lowercased().contains(text.lowercased()) && id != Auth.auth().currentUser?.uid {
+                searchUserArray.append(id)
+            }
+        }
+        return searchUserArray
+    }
+    
+    
+    func findUser1(text: [Msg]) -> [Msg] {
+//        print(#function)
+//        notGamePlayFriend.removeAll()
+        var notGamePlayFriend: [Msg] = []
+        database
+            .collection("User")
+            .getDocuments { (snapshot, error) in
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let id: String = document.documentID
+                        let docData = document.data()
+                        let nickName: String = docData["nickName"] as? String ?? ""
+                        let profileImage: String = docData["profileImage"] as? String ?? ""
+                        let game: String = docData["game"] as? String ?? ""
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+                        for i in text {
+                            if i.id == id && game.isEmpty {
+                                notGamePlayFriend.append(getUser)
+                            }
+                        }
+                    }
+                    notGamePlayFriend = Array(Set(notGamePlayFriend))
+                    
+                }
+            }
+        return notGamePlayFriend
+    }
+
+    
+    
+    // MARK: - 친구 요청을 보낸 경우, 수락했는지 확인하는 리스너
+//    func subscribe() -> [String]{
+//        print(#function)
+//        var listener: ListenerRegistration?
+//        var sendToFriendArray: [String] = []
+//        guard let uid = Auth.auth().currentUser?.uid else { return []}
+//        let ref = database.collection("Waiting").document(uid)
+//        listener = ref.addSnapshotListener { querySnapshot, error in
+//            guard let document = querySnapshot  else { return }
+//            guard let docData = document.data() else { return }
+//            sendToFriendArray = docData["sendToFriend"] as? [String] ?? []
+////            Task { try await self.findFriend() }
+//            print("== check subscribe == :",sendToFriendArray)
+////            print("외안되")
+//        }
+//        return sendToFriendArray
+//    }
+    
+    
+    // MARK: -  친구에게 친구초대 보낼 경우, sendToFriendArray에 해당 유저 넣기
+    /// 친구가 친구수락을 받을때까지, sendToFriendArray에 친구 아이디 저장
+    func uploadSendToFriend(_ userId: String, sendToFriendArray: [String]){
+        print(#function)
+//        var sendToFriendArray: [String] = []
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        database.collection("Waiting").document(uid).setData([ "sendToFriend": sendToFriendArray + [userId] ])
+    }
+}
 //protocol AddFriendDataSource {
 //    func myInfo() //f
 //    func addUser() // f

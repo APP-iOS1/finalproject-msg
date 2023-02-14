@@ -11,5 +11,8 @@ protocol AddFriendRepository {
     func myInfo() async throws -> Msg?
     func addBothWithFriend(user: Msg, me: Msg)
     func deleteWaitingFriend(userId: String) async
+    
+    //RealTime
     func acceptAddFriend(friend: Msg)
+    func sendFriendRequest(to: Msg, from: Msg)
 }
