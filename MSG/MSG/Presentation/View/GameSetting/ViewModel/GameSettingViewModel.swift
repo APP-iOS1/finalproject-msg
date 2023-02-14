@@ -107,11 +107,16 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
             guard let friendInfo =  await friendUseCase?.fetchFriendList() else {
                 print("NONOFriend")
                 return }
+            //MARK: - 여기서 데이터를 못받아옴
             guard let myFriend = try await friendUseCase?.caseNotGameMyFriend(text: friendInfo.0) else {
                 print("NO Friend")
                 return
             }
-            DispatchQueue.main.async { self.displayFriend = myFriend }
+            print(myFriend)
+            DispatchQueue.main.async {
+                print("왜 못받아:",self.displayFriend)
+                self.displayFriend = friendInfo.0.filter {$0.game.isEmpty} //MARK: - 그래서 이렇게 수정했는데 확인좀
+            }
         }catch{
             print("Error FETCH MTFRIENDLIST")
         }

@@ -13,6 +13,7 @@ struct DivideFriendCell: View {
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @ObservedObject var friendViewModel: DivideFriendViewModel
+    @Binding var findFriendToggle: Bool
     @Binding var checked: Bool
     @State var listsToggle: Bool = false // 친구 체크박스 토글
     @State var friendAlert: Bool = false

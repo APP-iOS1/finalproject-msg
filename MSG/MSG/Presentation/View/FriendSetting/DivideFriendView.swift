@@ -11,6 +11,7 @@ struct DivideFriendView: View {
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @StateObject var friendViewModel = DivideFriendViewModel()
+    @Binding var findFriendToggle: Bool
     @State var checked = false
 }
 
@@ -51,7 +52,7 @@ extension DivideFriendView {
                     
                     ScrollView {
                             ForEach(friendViewModel.baseUserArray) { user in
-                                DivideFriendCell(user: user, friendViewModel: friendViewModel,checked: $checked)
+                                DivideFriendCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle, checked: $checked)
                                     .frame(height: 60)
                                     .listRowBackground(Color("Color1"))
                                     .listRowSeparator(.hidden)
@@ -80,6 +81,6 @@ extension DivideFriendView {
 
 struct DivideFriendView_Previews: PreviewProvider {
     static var previews: some View {
-        DivideFriendView()
+        DivideFriendView(findFriendToggle: .constant(false))
     }
 }

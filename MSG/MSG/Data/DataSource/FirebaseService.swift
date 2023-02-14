@@ -60,11 +60,12 @@ struct FirebaseService {
                 for i in text {
                     if i.id == id && game.isEmpty {
                         notGamePlayFriend.append(getUser)
+                        print("getUser:",getUser)
                     }
                 }
                 notGamePlayFriend = Array(Set(notGamePlayFriend))
             }
-            //            print("스토어에서 데이터:",notGamePlayFriend)
+            print("스토어에서 데이터:",notGamePlayFriend)
             return notGamePlayFriend
         } catch {
             print("error!")
