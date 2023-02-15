@@ -148,6 +148,25 @@ extension FirebaseService: ChallengeDataSource{
         }
     }
     
+    func makeMultiGame(_ multiGame:Challenge) async{
+        print(#function)
+        guard let hostId = Auth.auth().currentUser?.uid else { return }
+        do{
+            try await database.collection("Challenge").document(multiGame.id).setData([
+                "id": multiGame.id,
+                "gameTitle": multiGame.gameTitle,
+                "limitMoney": multiGame.limitMoney,
+                "startDate": multiGame.startDate,
+                "endDate": multiGame.endDate,
+                "inviteFriend": [hostId],
+                "waitingFriend" : multiGame.waitingFriend
+            ])
+            await updateUserGame(gameId: multiGame.id)
+        }catch{
+            print("Error #MAKE MULTI Game")
+        }
+    }
+    
     // MARK: - SingleGame + User game에 String 추가하는 함수
     func makeSingleGame(_ singleGame: Challenge) async {
         print(#function)

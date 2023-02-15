@@ -23,5 +23,5 @@ struct DefaultChallengeUseCase: ChallengeUseCase{
     init(repository: ChallengeRepositoryInterface) { self.repository = repository }
     //[method]
     func excuteMakeSingleChallenge(_ challenge: Challenge)  async { await repository.creatSingleChallenge(challenge) }
-    func excuteMakeMultiChallenge(_ challenge: Challenge) async { }
+    func excuteMakeMultiChallenge(_ challenge: Challenge) async { await repository.creatMultiChallenge(challenge)}
 }
