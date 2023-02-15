@@ -527,7 +527,7 @@ extension FirebaseService: GameRequestDataSourceWithFirebase {
 
     }
     
-    func doSomeThing(data: Challenge) async {
+    func doSomeThing(data: Challenge) async -> Challenge? {
         let ref = database.collection("Challenge").document(data.id)
         do{
             try await ref.setData([
@@ -539,9 +539,11 @@ extension FirebaseService: GameRequestDataSourceWithFirebase {
                 "inviteFriend": data.inviteFriend + [(Auth.auth().currentUser?.uid ?? "")],
                 "waitingFriend": data.waitingFriend
             ])
-            self.currentGame = data
+//            self.currentGame = data
+            return data
         }catch{
             print("게임 추가 에러..")
+            return nil
         }
     }
     

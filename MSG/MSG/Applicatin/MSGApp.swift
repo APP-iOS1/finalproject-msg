@@ -30,6 +30,7 @@ struct MSGApp: App {
     @StateObject var fireStoreViewModel = FireStoreViewModel()
     @StateObject var realtimeViewModel = RealtimeViewModel()
     @StateObject var notiManager: NotificationManager = NotificationManager()
+    @StateObject var realtimeService = RealtimeService()
     var body: some Scene {
         WindowGroup {
             ContentView().onOpenURL { url in
@@ -42,6 +43,7 @@ struct MSGApp: App {
             .environmentObject(realtimeViewModel)
             .environmentObject(notiManager)
             .environmentObject(friendViewModel)
+            .environmentObject(realtimeService)
             
             
         }

@@ -17,6 +17,8 @@ struct GameRequestAlertViewCell: View {
     @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
     @EnvironmentObject var notiManager: NotificationManager
     
+    @ObservedObject var gameRequestViewModel: GameRequestViewModel
+    @EnvironmentObject var realtimeService: RealtimeService
     var body: some View {
         //        GeometryReader { g in
         HStack{
@@ -57,7 +59,7 @@ struct GameRequestAlertViewCell: View {
                     await MainActor.run {
                         self.sendUser = sendUser
                     }
-                    challengeInfo = await firestoreViewModel.fetchChallengeInformation(self.sendUser.game)
+                    challengeInfo = await gameRequestViewModel.fetchChallengeInformation(self.sendUser.game)
                     isPresent = true
                 }
             } label: {
@@ -116,9 +118,9 @@ struct GameRequestAlertViewCell: View {
                     CustomAlertButton(title: Text("거절"), color: Color("Color1")) {
                         isPresent = false
                         Task {
-                            await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
+                            await gameRequestViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
                             //리얼타임에 삭제하는 함수임
-                            await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
+                            await gameRequestViewModel.acceptGameRequest(friend: self.sendUser)
                         }
                         print("도전")
                     }
@@ -130,15 +132,15 @@ struct GameRequestAlertViewCell: View {
                     //2.Auth.auth()…asdas를 통해서 해당 배열에 있다면 invitedFriend로 append해주고
                     //3.waitingFriend에는 그 아이디가 없어져야 함…
                     Task {
-                        challengeInfo = await firestoreViewModel.fetchChallengeInformation(self.sendUser.game)
-                        await firestoreViewModel.acceptGame(self.sendUser.game)
+                        challengeInfo = await gameRequestViewModel.fetchChallengeInformation(self.sendUser.game)
+                        await gameRequestViewModel.acceptGame(self.sendUser.game)
 
                         //1. 내가포함된 모든게임에서 나를 waiting배열에서 지운다
-                        await firestoreViewModel.notAllowChallegeStep1(data: realtimeViewModel.requsetGameArr)
+                        await gameRequestViewModel.notAllowChallegeStep1(data: realtimeService.requsetGameArr)
                         //리얼타임에 삭제하는 함수임
-                        await realtimeViewModel.acceptGameRequest(friend: self.sendUser)
+                        await gameRequestViewModel.acceptGameRequest(friend: self.sendUser)
                         // 나를 해당 챌린지에 invite append하는 함수
-                        await firestoreViewModel.waitingLogic(data: challengeInfo)
+                        await gameRequestViewModel.waitingLogic(data: challengeInfo)
                         await notiManager.doSomething()
                         
                         selectedTabBar = .first
@@ -151,16 +153,15 @@ struct GameRequestAlertViewCell: View {
         }
         .onAppear{
             Task{
-                challengeInfo = await firestoreViewModel.fetchChallengeInformation(self.sendUser.game)
-                realtimeViewModel.fetchFriendRequest()
+                challengeInfo = await gameRequestViewModel.fetchChallengeInformation(self.sendUser.game)
+                realtimeService.fetchRequest()
                 if let challengeInfo {
                     // 도전장을 보낸지 5분이 지났다면
                     if Double(challengeInfo.startDate)! + 300.0 < Double(Date().timeIntervalSince1970) {
                         //챌린지 삭제
-                        await realtimeViewModel.afterFiveMinuteDeleteChallenge(friend: self.sendUser)
+                        await gameRequestViewModel.afterFiveMinuteDeleteChallenge(friend: self.sendUser)
                         //내 waiting 배열에서도 삭제
-                        firestoreViewModel.notAllowChallegeStep2(data: challengeInfo)
-                        
+                            await gameRequestViewModel.notAllowChallegeStep2(data: challengeInfo)
                     }
                 }
             }

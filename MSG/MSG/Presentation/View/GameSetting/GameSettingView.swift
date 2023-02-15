@@ -279,7 +279,7 @@ extension GameSettingView {
                         await gameSettingViewModel.createMultiChallenge()
                         // UserInfo 가져오기
                         // UserUseCase
-                        // realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
+//                         realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
                     } else {
                         print("도전장 보내짐?")
