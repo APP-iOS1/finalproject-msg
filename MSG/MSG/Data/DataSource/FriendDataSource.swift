@@ -17,10 +17,3 @@ protocol FriendDataSource {
     func searchUser(text: String) -> [Msg]
     var database: Firestore { get }
 }
-
-protocol DivideFriendDataSource {
-    func makeProfile(_ userIdArray:[String]) async -> [Msg]?
-    func fetchUserInfo(_ userId: String) async throws -> Msg?
-    func findUser(text: String) async throws -> [String]
-    func uploadSendToFriend(_ userId: String, sendToFriendArray: [String])
-}

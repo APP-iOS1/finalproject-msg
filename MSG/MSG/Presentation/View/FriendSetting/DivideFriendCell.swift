@@ -61,13 +61,13 @@ struct DivideFriendCell: View {
                     Spacer()
                     //언제 추가를 해야할까?
                     //1. 친구가 아니면 추가가 떠야함
-                    if !friendViewModel.myFriendArray.contains(user.id) {
+                    if !friendViewModel.myFrinedArray.contains(user.id) {
                         Button {
-                            Task {
-                                if let myInfo = await friendViewModel.getMyInfo() {
-                                    friendViewModel.sendFriendRequest(to: user, from: myInfo)
-                                    friendViewModel.uploadSendToFriend(user.id, sendToFriendArray: [])
-                                }
+                            if realtimeViewModel.myInfo != nil{
+                                let myInfo = realtimeViewModel.myInfo!
+                                realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
+                                friendViewModel.uploadSendToFriend(user.id)
+                                print(myInfo)
                             }
                         } label: {
                             Text( friendViewModel.sendToFriendArray.contains(user.id) ? "대기중" : "추가" )
@@ -106,6 +106,10 @@ struct DivideFriendCell: View {
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                 .buttonStyle(.bordered)
                 .frame(alignment: .leading)
+            }
+            .onAppear {
+                print("appear")
+                print(friendViewModel.friendIdArray)
             }
         }
     }

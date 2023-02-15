@@ -354,14 +354,15 @@ final class RealtimeViewModel: ObservableObject {
             }
     }
     //내정보를 저장할 어딘가가 필요하다....
-    func sendFriendRequest(to: Msg, from: Msg) {
+    func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
         print(#function)
         let dict: [String: Any] = [
-            "id": from.id,
-            "nickName": from.nickName,
-            "profileImage": from.profileImage,
-            "game": from.game,
+            "id": from.id,// ㅇ
+            "nickName": from.nickName, //ㅇ
+            "profileImage": from.profileImage, //ㅇ
+            "game": from.game, //ㅇ
             "gameHistory": from.gameHistory ?? []
+//            "friend": from.friend ?? [],
         ]
         Database.database()
         .reference()

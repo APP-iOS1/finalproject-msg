@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct AlertView: View {
-    @StateObject var realtimeService = RealtimeService()
-    @StateObject var checkAddFriendViewModel = CheckAddFriendViewModel()
+    
+    @State private var testArray: [String] = ["닉네임여섯글","김기분굿","김뽀삐"]
+    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
+    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    
     var body: some View {
         
         GeometryReader { g in
@@ -17,13 +20,13 @@ struct AlertView: View {
                 Color("Color1")
                     .ignoresSafeArea()
                 VStack {
-                    if realtimeService.user.isEmpty {
+                    if realtimeViewModel.user.isEmpty {
                         Text("알람을 모두 확인했습니다.")
                             .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title, color: FontCustomColor.color2))
                     }
                     else {
                    
-                            List(realtimeService.user, id: \.self) { user in
+                            List(realtimeViewModel.user, id: \.self) { user in
                                 HStack {
                                     VStack {
                                         if user.profileImage.isEmpty{
@@ -57,12 +60,11 @@ struct AlertView: View {
                                     
                                     Spacer()
                                     Button {
-                                        Task {
-                                            guard let myInfo = try await checkAddFriendViewModel.myInfo() else {return}
-                                            checkAddFriendViewModel.addBothWithFriend(user: user, me: myInfo)
-                                            checkAddFriendViewModel.acceptAddFriend(friend: user)
-                                            await checkAddFriendViewModel.deleteWaitingFriend(userId: user.id)
-                                            
+                                        fireStoreViewModel.addUserInfo(user: user)
+                                        if let myInfo = realtimeViewModel.myInfo {
+                                            fireStoreViewModel.addUserInfo2(user: user, myInfo: myInfo)
+                                            realtimeViewModel.acceptAddFriend(friend: user)
+                                            Task{ await fireStoreViewModel.deleteWaitingFriend(user.id)}
                                         }
                                         
                                     } label: {
@@ -92,7 +94,8 @@ struct AlertView: View {
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
             }
             .onAppear {
-                realtimeService.startObserve()
+                realtimeViewModel.fetchFriendRequest()
+                print(realtimeViewModel.user)
             }
         }
     }

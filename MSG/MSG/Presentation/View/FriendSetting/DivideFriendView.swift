@@ -52,7 +52,7 @@ extension DivideFriendView {
                     
                     ScrollView {
                             ForEach(friendViewModel.baseUserArray) { user in
-                                DivideFriendCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle, checked: $checked)
+                                DivideFriendCell(user: user, friendViewModel: friendViewModel,findFriendToggle: $findFriendToggle,checked: $checked)
                                     .frame(height: 60)
                                     .listRowBackground(Color("Color1"))
                                     .listRowSeparator(.hidden)
@@ -63,10 +63,9 @@ extension DivideFriendView {
             .onAppear {
                 Task {
                     friendViewModel.subscribe()
-                    print("View: 현재 send입니다:",friendViewModel.sendToFriendArray)
-                    try await friendViewModel.getMyFriend()
-                    friendViewModel.baseUserArray = await friendViewModel.makeProfile(friendViewModel.myFriendArray) ?? []
-//                    await friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
+                    try await friendViewModel.findFriend()
+                    friendViewModel.baseUserArray = await friendViewModel.makeProfile(friendViewModel.myFrinedArray) ?? []
+                    friendViewModel.findUser1(text: fireStoreViewModel.myFrinedArray)
                 }
                 print("== FriendVeiw onAppear ==")
                 
