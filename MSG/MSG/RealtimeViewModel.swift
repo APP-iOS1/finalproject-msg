@@ -2,6 +2,8 @@ import Foundation
 import FirebaseDatabase
 import FirebaseAuth
 
+//View
+
 final class RealtimeViewModel: ObservableObject {
     @Published var user: [Msg] = []
 //    @Published var user: [UserInfo] = []
@@ -14,8 +16,6 @@ final class RealtimeViewModel: ObservableObject {
     @Published var friendCount: Int = 0
     @Published var requsetCount: Int = 0
         
-    
-    
     //친구 요청 수락
     private var friendRequestReference: DatabaseReference? {
         guard let uid = Auth.auth().currentUser?.uid else { return nil}
@@ -354,15 +354,14 @@ final class RealtimeViewModel: ObservableObject {
             }
     }
     //내정보를 저장할 어딘가가 필요하다....
-    func sendFriendRequest(to: Msg, from: Msg, isFriend: Bool) {
+    func sendFriendRequest(to: Msg, from: Msg) {
         print(#function)
         let dict: [String: Any] = [
-            "id": from.id,// ㅇ
-            "nickName": from.nickName, //ㅇ
-            "profileImage": from.profileImage, //ㅇ
-            "game": from.game, //ㅇ
+            "id": from.id,
+            "nickName": from.nickName,
+            "profileImage": from.profileImage,
+            "game": from.game,
             "gameHistory": from.gameHistory ?? []
-//            "friend": from.friend ?? [],
         ]
         Database.database()
         .reference()

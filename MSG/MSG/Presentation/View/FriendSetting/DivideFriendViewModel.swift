@@ -10,22 +10,43 @@ import FirebaseFirestore
 import FirebaseAuth
 import Combine
 
+
+protocol DivideFriendViewModelInput {
+    func makeProfile(_ userIdArray:[String]) async -> [Msg]?
+    func fetchUserInfo(_ userId: String) async throws -> Msg?
+    func findUser(text: String) async throws
+    func uploadSendToFriend(_ userId: String, sendToFriendArray: [String])
+    func subscribe()
+}
+
+
 final class DivideFriendViewModel: ObservableObject {
     //
+    let divideFriendUseCase = DivideFriendUseCase(repo: DivideFriendRepositoryImpl(dataSource: FirebaseService()))
+    let friendUseCase = FriendUseCase(repo: FriendRepositoryImpl(dataSource: FirebaseService()))
+    let addFriendUseCase = AddFriendUseCase(repo: AddFriendRepositoryImpl(dataSourceRealTimeDB: Real(), dataSourceFireBase: FirebaseService()))
     @Published var baseUserArray: [Msg] = [] // 화면에 보여지는 실제 목록
-    @Published var myFrinedArray: [String] = [] // 현재 추가되어있는 친구목록
+    @Published var myFriendArray: [String] = [] // 현재 추가되어있는 친구목록
     @Published var searchUserArray: [String] = [] // 검색 결과로 나온 유저 목록
     @Published var sendToFriendArray:[String] = [] // 친구에게
-    @Published var inviteFriendArray: [Msg] = []
+//    @Published var inviteFriendArray: [Msg] = []
     @Published var text = ""
-    @Published var notGamePlayFriend: [Msg] = []
+//    @Published var notGamePlayFriend: [Msg] = []
     @Published var friendIdArray: [String] = []
     @Published var listener: ListenerRegistration?
     @Published var displayFriendArray:[Msg] = []
     let database = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
     //검색 -> 결과가 나오는데 -> 내친구가 게임중이면 친구가아님
+    
     init() {
+        doSomething()
+    }
+}
+
+extension DivideFriendViewModel: DivideFriendViewModelInput {
+    
+    func doSomething() {
         $text
             .debounce(for: .milliseconds(800), scheduler: RunLoop.main)
             .sink { _ in
@@ -39,97 +60,36 @@ final class DivideFriendViewModel: ObservableObject {
                     }
                 } else {
                     Task{
-                        let profile = await self.makeProfile(self.myFrinedArray) ?? []
+                        let profile = await self.makeProfile(self.myFriendArray) ?? []
                         DispatchQueue.main.async { self.baseUserArray = profile }
                     }
                 }
             }.store(in: &cancellables)
     }
     
-    
-    
-    
-    // MARK: - 입력받은 친구목록 아이디들로 실제 프로필 받아오는 메서드.
-    func makeProfile(_ userIdArray:[String]) async -> [Msg]? {
-        var friendArray:[Msg] = []
-        for friend in userIdArray{
-            do{
-                let user = try await fetchUserInfo(friend)
-                if user != nil { friendArray.append(user!) }
-            }catch{
-                return nil
-            }
-        }
-        return friendArray
+    func makeProfile(_ userIdArray: [String]) async -> [Msg]? {
+        let data = await divideFriendUseCase.makeProfile(userIdArray)
+        return data
     }
     
-    // MARK: -
     func fetchUserInfo(_ userId: String) async throws -> Msg? {
-        print(#function)
-        guard (Auth.auth().currentUser != nil) else { return nil}
-        let ref = database.collection("User").document(userId)
-        let snapshot = try await ref.getDocument()
-        guard let docData = snapshot.data() else { return nil }
-        let nickName = docData["nickName"] as? String ?? ""
-        let profileImage = docData["profileImage"] as? String ?? ""
-        let game = docData["game"] as? String ?? ""
-        let gameHistory = docData["gameHistory"] as? [String] ?? []
-//        let friend = docData["friend"] as? [String] ?? []
-        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
-        return userInfo
+        if let data = try? await divideFriendUseCase.fetchUserInfo(userId) {
+            return data
+        }
+        return nil
     }
-
-
     
-    // MARK: - 모든 유저에서, 내가 입력한 닉네임의 유저찾기
-    /// 검색할 유저 닉네임 입력 시, 해당 닉네임이 포함된 유저 목록 가져오는 메서드.
-    @MainActor
     func findUser(text: String) async throws {
-        print(#function)
-        self.searchUserArray.removeAll()
-        let snapShots = try await database.collection("User").getDocuments()
-        for document in snapShots.documents{
-            let id: String = document.documentID
-            let docData = document.data()
-            let nickName: String = docData["nickName"] as? String ?? ""
-//            nickName.lowercased()
-            if nickName.lowercased().contains(text.lowercased()) && id != Auth.auth().currentUser?.uid {
-                self.searchUserArray.append(id)
+        //searchUserArray
+        if let data = try? await divideFriendUseCase.findUser(text: text) {
+            await MainActor.run {
+                self.searchUserArray = data
             }
         }
     }
     
     
-    func findUser1(text: [Msg]){
-        print(#function)
-        notGamePlayFriend.removeAll()
-        database
-            .collection("User")
-            .getDocuments { (snapshot, error) in
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        let nickName: String = docData["nickName"] as? String ?? ""
-                        let profileImage: String = docData["profileImage"] as? String ?? ""
-                        let game: String = docData["game"] as? String ?? ""
-                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
-                        for i in text {
-                            if i.id == id && game.isEmpty {
-                                self.notGamePlayFriend.append(getUser)
-                            }
-                        }
-                    }
-                    self.notGamePlayFriend = Array(Set(self.notGamePlayFriend))
-                    
-                }
-            }
-    }
-
-    
-    
-    // MARK: - 친구 요청을 보낸 경우, 수락했는지 확인하는 리스너
+    //분리실패
     func subscribe(){
         print(#function)
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -138,32 +98,33 @@ final class DivideFriendViewModel: ObservableObject {
             guard let document = querySnapshot  else { return }
             guard let docData = document.data() else { return }
             self.sendToFriendArray = docData["sendToFriend"] as? [String] ?? []
-            Task { try await self.findFriend() }
+            Task { await self.getMyFriend() }
             print(self.sendToFriendArray)
             print("외안되")
         }
     }
     
-    
-    // MARK: -  친구에게 친구초대 보낼 경우, sendToFriendArray에 해당 유저 넣기
-    /// 친구가 친구수락을 받을때까지, sendToFriendArray에 친구 아이디 저장
-    func uploadSendToFriend(_ userId: String){
-        print(#function)
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        database.collection("Waiting").document(uid).setData([ "sendToFriend": self.sendToFriendArray + [userId] ])
+    func uploadSendToFriend(_ userId: String, sendToFriendArray: [String]) {
+        divideFriendUseCase.uploadSendToFriend(userId, sendToFriendArray: self.sendToFriendArray)
     }
     
-    // MARK: - 친구 목록 가져오기
-    @MainActor
-    func findFriend() async throws {
-        print(#function)
-        self.myFrinedArray.removeAll()
-        self.friendIdArray.removeAll()
-        guard let userId = Auth.auth().currentUser?.uid else{ return  }
-        let snapshot = try await database.collection("User").document(userId).collection("friend").getDocuments()
-        for document in snapshot.documents{
-            let id: String = document.documentID
-            if !self.myFrinedArray.contains(id){ self.myFrinedArray.append(id) }
+    func getMyInfo() async -> Msg?{
+        if let data = try? await addFriendUseCase.myInfo() {
+            return data
+        }
+        return nil
+    }
+    func sendFriendRequest(to: Msg, from: Msg) {
+        addFriendUseCase.sendFriendRequest(to: to, from: from)
+    }
+    
+    func getMyFriend() async{
+        await MainActor.run {
+            self.myFriendArray.removeAll()
+        }
+        let data = await friendUseCase.fetchFriendList()
+        await MainActor.run {
+            self.myFriendArray = data.1
         }
     }
 }

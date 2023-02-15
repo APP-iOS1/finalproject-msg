@@ -11,10 +11,10 @@ import Foundation
 struct FriendRepositoryImpl: FriendRepository{
     var dataSource: FriendDataSource
     
-    func getFriend(friend: [Msg]) async throws -> ([Msg], [String]) {
+    func getFriend() async throws -> ([Msg], [String]) {
         print(#function)
         do {
-            let data = try await dataSource.findFriend(friend: friend)
+            let data = try await dataSource.findFriend()
             return data
         }catch {
             print("error")
@@ -37,4 +37,32 @@ struct FriendRepositoryImpl: FriendRepository{
         let data = dataSource.searchUser(text: text)
         return data
     }
+}
+
+struct DivideFriendRepositoryImpl: DivideFriendRepository {
+    var dataSource: DivideFriendDataSource
+    
+    func makeProfile(_ userIdArray: [String]) async -> [Msg]? {
+        let data = await dataSource.makeProfile(userIdArray)
+        return data
+    }
+    
+    func fetchUserInfo(_ userId: String) async throws -> Msg? {
+        if let data = try? await dataSource.fetchUserInfo(userId) {
+            return data
+        }
+        return nil
+    }
+    
+    func findUser(text: String) async throws -> [String] {
+        if let data = try? await dataSource.findUser(text: text) {
+            return data
+        }
+        return []
+    }
+    
+    func uploadSendToFriend(_ userId: String, sendToFriendArray: [String]) {
+        dataSource.uploadSendToFriend(userId, sendToFriendArray: sendToFriendArray)
+    }
+
 }

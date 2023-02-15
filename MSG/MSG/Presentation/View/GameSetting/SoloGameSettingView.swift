@@ -14,17 +14,9 @@ struct SoloGameSettingView: View {
         case limitMoney
     }
     @FocusState private var focusedField: Field?
-    let maxConsumeMoney = Int(7)
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
     @EnvironmentObject var notiManager: NotificationManager
-    @State private var isShowingAlert: Bool = false
-    @State private var backBtnAlert: Bool = false
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    private let dateFormatter = DateFormatter()
     @Environment(\.dismiss) var dismiss
-    
-    // 챌린지 기간 설정 시트
-    @State private var showingDaySelection: Bool = false
     
     var body: some View {
         
@@ -63,14 +55,10 @@ struct SoloGameSettingView: View {
                                 
                                 Spacer()
                                 
-                                if gameSettingViewModel.title.isEmpty {
-                                    Image(systemName: "delete.left")
-                                } else {
-                                    Button {
-                                        gameSettingViewModel.title = ""
-                                    } label: {
-                                        Image(systemName: "delete.left.fill")
-                                    }
+                                Button {
+                                    gameSettingViewModel.title = ""
+                                } label: {
+                                    Image(systemName: gameSettingViewModel.title.isEmpty ?  "delete.left" : "delete.left.fill")
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
@@ -100,7 +88,7 @@ struct SoloGameSettingView: View {
                                         Text("\(gameSettingViewModel.targetMoney.insertComma)원")
                                             .multilineTextAlignment(.leading)
                                     }
-
+                                    
                                     TextField("", text: $gameSettingViewModel.targetMoney)
                                         .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                             Text("1,000만원 미만으로 입력하세요")
@@ -111,24 +99,14 @@ struct SoloGameSettingView: View {
                                         .foregroundColor(Color(.clear))
                                         .kerning(+1.5)
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(gameSettingViewModel.targetMoney), perform: { _ in
-                                            if maxConsumeMoney < gameSettingViewModel.targetMoney.count {
-                                                gameSettingViewModel.targetMoney = String(gameSettingViewModel.targetMoney.prefix(maxConsumeMoney))
-                                            }
-                                        })
                                 }
                                 .frame(width: g.size.width / 1.4, height: g.size.height / 40)
                                 
                                 Spacer()
-                                
-                                if gameSettingViewModel.targetMoney.isEmpty {
-                                    Image(systemName: "delete.left")
-                                } else {
-                                    Button {
-                                        gameSettingViewModel.targetMoney = ""
-                                    } label: {
-                                        Image(systemName: "delete.left.fill")
-                                    }
+                                Button {
+                                    gameSettingViewModel.targetMoney = ""
+                                } label: {
+                                    Image(systemName: gameSettingViewModel.targetMoney.isEmpty ? "delete.left" : "delete.left.fill")
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
@@ -163,7 +141,7 @@ struct SoloGameSettingView: View {
                                 Spacer()
                                 
                                 Button {
-                                    showingDaySelection.toggle()
+                                    gameSettingViewModel.showingDaySelection.toggle()
                                 } label: {
                                     
                                     Image(systemName: "chevron.backward")
@@ -171,53 +149,11 @@ struct SoloGameSettingView: View {
                                         .foregroundColor(gameSettingViewModel.daySelection == 5 ? Color("Color3") : Color("Color2"))
                                     
                                 }
-                                .sheet(isPresented: $showingDaySelection) {
-                                    ZStack {
-                                        Color("Color1").ignoresSafeArea()
-                                        VStack {
-                                            Spacer()
-                                            
-                                            ScrollView(.horizontal, showsIndicators: false) {
-                                                HStack {
-                                                    ForEach(gameSettingViewModel.dayArray.indices, id: \.self) { index in
-                                                        Button {
-                                                            gameSettingViewModel.daySelection = index
-                                                            gameSettingViewModel.startDate = Date().timeIntervalSince1970
-                                                            gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[index]
-                                                            print("\(gameSettingViewModel.startDate - gameSettingViewModel.endDate)")
-                                                        } label: {
-                                                            Text("\(gameSettingViewModel.dayArray[index])")
-                                                                .frame(width: g.size.width / 7, height: g.size.height / 20)
-                                                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                                                .padding(8)
-                                                                .background(Color("Color1"))
-                                                                .cornerRadius(10)
-                                                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                                                .foregroundColor( gameSettingViewModel.daySelection == index ? Color("Color2") : Color("Color3"))
-                                                        }
-                                                        .frame(width: g.size.width / 4.3, height: g.size.height / 15)
-                                                    }
-                                                    .frame(maxHeight: .infinity)
-                                                }
-                                            }
-                                            Spacer()
-                                            
-                                            Divider()
-                                            
-                                            Button {
-                                                showingDaySelection.toggle()
-                                            } label: {
-                                                Text("닫기")
-                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
-                                            }
-                                            
-                                        } // VStack
+                                .sheet(isPresented: $gameSettingViewModel.showingDaySelection) {
+                                    DateSheetView(gameSettingViewModel: gameSettingViewModel, parentScreen: g) // ZStack
                                         .frame(height: g.size.height / 6)
                                         .presentationDetents([.height(g.size.height / 6)])
                                         .interactiveDismissDisabled(true)
-                                    } // ZStack
                                 } // sheet
                                 
                             }
@@ -240,12 +176,10 @@ struct SoloGameSettingView: View {
                     Spacer()
                     VStack {
                         Button {
-                            if gameSettingViewModel.daySelection != 5 {
-                                isShowingAlert = true
-                            }
+                                gameSettingViewModel.isShowingAlert = true
                         } label: {
                             Text("시작하기")
-                                .modifier(gameSettingViewModel.title.isEmpty || gameSettingViewModel.targetMoney.isEmpty || gameSettingViewModel.daySelection == 5 ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
+                                .modifier(!gameSettingViewModel.isGameSettingValid ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                         }
                         .buttonStyle(.borderless)
                         .frame(width: g.size.width / 1.4, height: g.size.height / 14)
@@ -260,56 +194,48 @@ struct SoloGameSettingView: View {
                         .padding([.leading, .bottom, .trailing])
                     }
                     .disabled(!gameSettingViewModel.isGameSettingValid)
-                        .alert("챌린지를 시작하시겠습니까?", isPresented: $isShowingAlert, actions: {
-                            Button("시작하기") {
-                                Task{
-                                    if !notiManager.isGranted {
-                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
-                                        dismiss()
-                                        await fireStoreViewModel.makeSingleGame(singGame)
-                                    } else {
-                                        print("도전장 보내짐")
-                                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "지출을 추가해 기록을 작성해보세요", timeInterval: 1, repeats: false)
-                                        let singGame = Challenge(id: UUID().uuidString, gameTitle: gameSettingViewModel.title, limitMoney: Int(gameSettingViewModel.targetMoney) ?? 0, startDate:  String(gameSettingViewModel.startDate), endDate:  String(gameSettingViewModel.endDate), inviteFriend: [], waitingFriend: [])
-                                        dismiss()
-                                        await fireStoreViewModel.makeSingleGame(singGame)
-                                        await notiManager.schedule(localNotification: localNotification)
-                                        await notiManager.doSomething()
-                                        await notiManager.getPendingRequests()
-                                    }
+                    .alert("챌린지를 시작하시겠습니까?", isPresented: $gameSettingViewModel.isShowingAlert, actions: {
+                        Button("시작하기") {
+                            Task{
+                                if !notiManager.isGranted {
+                                    await gameSettingViewModel.createSingleChallenge()
+                                    dismiss()
+                                } else {
+                                    print("도전장 보내짐")
+                                    let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "지출을 추가해 기록을 작성해보세요", timeInterval: 1, repeats: false)
+                                    await gameSettingViewModel.createSingleChallenge()
+                                    dismiss()
+                                    await notiManager.schedule(localNotification: localNotification)
+                                    await notiManager.doSomething()
+                                    await notiManager.getPendingRequests()
                                 }
                             }
-                            Button("취소하기") {
-                                //   dismiss()
-                            }
                         }
-                    ,message: {
+                        Button("취소하기") {
+                            //   dismiss()
+                        }
+                    }
+                           ,message: {
                         if notiManager.isGranted {
                             Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
                         }
                     })
                     Spacer()
-                    //                    }
-                    //                    .frame(width: g.size.width / 1.2, height: g.size.height / 1.7)
-                    //
-                    //                    Spacer()
                     
                 }
                 .frame(width: g.size.width / 1.2, height: g.size.height / 1.2)
                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
             }
             .onAppear {
-                gameSettingViewModel.daySelection = 5
-                gameSettingViewModel.startDate = Date().timeIntervalSince1970 + gameSettingViewModel.dayMultiArray[0]
-                gameSettingViewModel.endDate = gameSettingViewModel.startDate + Double(86400) * gameSettingViewModel.dayMultiArray[0]
+                gameSettingViewModel.resetInputData()
             }
         }
         .ignoresSafeArea(.keyboard)
-
+        
         .onTapGesture {
             self.endTextEditing()
         }
-        .alert("작성을 중단하시겠습니까?", isPresented: $backBtnAlert, actions: {
+        .alert("작성을 중단하시겠습니까?", isPresented: $gameSettingViewModel.backBtnAlert, actions: {
             
             Button {
                 
@@ -331,7 +257,7 @@ struct SoloGameSettingView: View {
         .toolbar{
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button {
-                    backBtnAlert = true
+                    gameSettingViewModel.backBtnAlert = true
                 } label: {
                     Image(systemName:"chevron.backward")
                 }
@@ -345,6 +271,5 @@ struct SoloGameSettingView_Previews: PreviewProvider {
     static var previews: some View {
         SoloGameSettingView()
             .environmentObject(NotificationManager())
-            .environmentObject(FireStoreViewModel())
     }
 }

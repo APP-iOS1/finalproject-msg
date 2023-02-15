@@ -11,7 +11,7 @@ struct RecordDetailView: View {
     
     @StateObject var challengeRecordVM = ChallengeRecordViewModel()
     @Binding var challenge: Challenge
-    
+
     var body: some View {
         
         GeometryReader { g in
