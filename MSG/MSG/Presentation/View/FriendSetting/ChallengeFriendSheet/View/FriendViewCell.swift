@@ -19,96 +19,6 @@ struct FriendViewCell: View {
     
     var body: some View {
         GeometryReader { g in
-
-            // MARK: 친구 리스트
-            if !findFriendToggle {
-                ZStack {
-                    Color("Color1")
-                        .ignoresSafeArea()
-                    
-                    HStack {
-                        VStack {
-                            if user.profileImage.isEmpty{
-                                Image(systemName: "person")
-                                    .font(.largeTitle)
-                            }else{
-                                AsyncImage(url: URL(string: user.profileImage)) { Image in
-                                    Image
-                                        .resizable()
-                                } placeholder: {
-                                    Image(systemName: "person")
-                                        .font(.largeTitle)
-                                }
-                            }
-                        }
-
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: g.size.width * 0.3, height: g.size.height * 0.9)
-                        .clipShape(Circle())
-                        .padding(4)
-                        .foregroundColor(Color("Color2"))
-                        .background(
-                            Circle()
-                                .fill(
-                                    .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                    .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                )
-                                .foregroundColor(Color("Color1")))
-                        
-                        Text(user.nickName)
-                        
-                        Spacer()
-                        //언제 추가를 해야할까?
-                        //1. 친구가 아니면 추가가 떠야함
-                        if !friendViewModel.friendIdArray.contains(user.id) {
-                            Button {
-                                if let myInfo = realtimeViewModel.myInfo {
-                                    realtimeViewModel.sendFriendRequest(to: user, from: myInfo, isFriend: true)
-                                    print(myInfo)
-                                    
-                                }
-                            } label: {
-                                Text("추가")
-                            }
-                            .buttonStyle(.borderless)
-                            .frame(width: g.size.width / 9, height: g.size.height / 13)
-                            .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                            .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                            .padding(16)
-                            .background(Color("Color1"))
-                            .cornerRadius(10)
-                            .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                            .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                            .padding(.trailing)
-                        }else {
-                            if !user.game.isEmpty {
-                              
-                                Text("도전중")
-                                .minimumScaleFactor(0.5)
-                                .frame(width: g.size.width / 9, height: g.size.height / 13)
-                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                .padding(16)
-                                .background(Color("Color1"))
-                                .cornerRadius(10)
-                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                .padding(.trailing)
-                            }
-                        }
-                        
-                    }
-                    .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
-                    .buttonStyle(.bordered)
-                    .frame(alignment: .leading)
-                }
-                .onAppear {
-                    print("appear")
-                    print(friendViewModel.friendIdArray)
-                }
-                
-                // MARK: 챌린지 친구 찾기 시트 리스트
-            } else {
                 ZStack {
                     Color("Color1")
                         .ignoresSafeArea()
@@ -195,11 +105,7 @@ struct FriendViewCell: View {
 
                 }
                 .padding()
-                .onAppear {
-                    print("appear")
-                    print(friendViewModel.friendIdArray)
-                }
-            }
+            
         }
     }
 }
