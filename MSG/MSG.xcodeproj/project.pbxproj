@@ -102,6 +102,12 @@
 		6342C2CB29764EDA00C24D20 /* KakaoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */; };
 		6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */; };
 		634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634CE3F6297920D500358E32 /* SegementedControllView.swift */; };
+		635A3D32299A5ACC007F174D /* ChallengeRecordListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D31299A5ACC007F174D /* ChallengeRecordListCell.swift */; };
+		635A3D34299A5BE9007F174D /* ChallengeRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D33299A5BE9007F174D /* ChallengeRecordViewModel.swift */; };
+		635A3D36299A5C8A007F174D /* ChallengeRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D35299A5C8A007F174D /* ChallengeRecordUseCase.swift */; };
+		635A3D38299A5D06007F174D /* ChallengeRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */; };
+		635A3D3A299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */; };
+		635A3D3C299A5DBB007F174D /* ChallengeRecordDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */; };
 		635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */; };
 		635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */; };
 		635D112B298DFE7000C4EDEC /* DarkModeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D112A298DFE7000C4EDEC /* DarkModeToggle.swift */; };
@@ -113,6 +119,11 @@
 		63AC1FE8298FC8A4004E24F1 /* NotificationToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC1FE7298FC8A4004E24F1 /* NotificationToggle.swift */; };
 		63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */; };
 		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
+		63C9872A299B21DE008B1DE7 /* notebook.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98727299B21DD008B1DE7 /* notebook.json */; };
+		63C9872B299B21DE008B1DE7 /* winner.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98728299B21DD008B1DE7 /* winner.json */; };
+		63C9872E299B21E5008B1DE7 /* videoGames.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C9872C299B21E5008B1DE7 /* videoGames.json */; };
+		63C98731299B2209008B1DE7 /* moneyChart.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98730299B2209008B1DE7 /* moneyChart.json */; };
+		63C98735299B25E3008B1DE7 /* finance.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98734299B25E3008B1DE7 /* finance.json */; };
 		63EC446F297A8366008A7FDE /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EC446E297A8366008A7FDE /* Extension+String.swift */; };
 		C025163129789952000E0219 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C025163029789952000E0219 /* GoogleSignIn */; };
 		C025163329789952000E0219 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C025163229789952000E0219 /* GoogleSignInSwift */; };
@@ -209,6 +220,12 @@
 		6342C2CA29764EDA00C24D20 /* KakaoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoViewModel.swift; sourceTree = "<group>"; };
 		6342C2CC297665D600C24D20 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		634CE3F6297920D500358E32 /* SegementedControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegementedControllView.swift; sourceTree = "<group>"; };
+		635A3D31299A5ACC007F174D /* ChallengeRecordListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordListCell.swift; sourceTree = "<group>"; };
+		635A3D33299A5BE9007F174D /* ChallengeRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordViewModel.swift; sourceTree = "<group>"; };
+		635A3D35299A5C8A007F174D /* ChallengeRecordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordUseCase.swift; sourceTree = "<group>"; };
+		635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordRepository.swift; sourceTree = "<group>"; };
+		635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordRepositoryImpl.swift; sourceTree = "<group>"; };
+		635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordDataSource.swift; sourceTree = "<group>"; };
 		635D1126298DFD3000C4EDEC /* ShallowConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShallowConcaveView.swift; sourceTree = "<group>"; };
 		635D1128298DFDB000C4EDEC /* DeepConcaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepConcaveView.swift; sourceTree = "<group>"; };
 		635D112A298DFE7000C4EDEC /* DarkModeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeToggle.swift; sourceTree = "<group>"; };
@@ -220,6 +237,11 @@
 		63AC1FE7298FC8A4004E24F1 /* NotificationToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationToggle.swift; sourceTree = "<group>"; };
 		63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGameProgressBar.swift; sourceTree = "<group>"; };
 		63BC0F8529767608003F2379 /* MakeProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeProfileView.swift; sourceTree = "<group>"; };
+		63C98727299B21DD008B1DE7 /* notebook.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notebook.json; sourceTree = "<group>"; };
+		63C98728299B21DD008B1DE7 /* winner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = winner.json; sourceTree = "<group>"; };
+		63C9872C299B21E5008B1DE7 /* videoGames.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = videoGames.json; sourceTree = "<group>"; };
+		63C98730299B2209008B1DE7 /* moneyChart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = moneyChart.json; sourceTree = "<group>"; };
+		63C98734299B25E3008B1DE7 /* finance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = finance.json; sourceTree = "<group>"; };
 		63EC446E297A8366008A7FDE /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRecordView.swift; sourceTree = "<group>"; };
 		C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MSG.entitlements; sourceTree = "<group>"; };
@@ -305,6 +327,7 @@
 			children = (
 				3602CBBB2999FC46007D1034 /* ViewModel */,
 				C0F5FFC3297669AA0021FF4F /* ChallengeRecordView.swift */,
+				635A3D31299A5ACC007F174D /* ChallengeRecordListCell.swift */,
 				4C5B81822977750C00866E3F /* RecordDetailView.swift */,
 			);
 			path = ChallengeRecord;
@@ -485,6 +508,11 @@
 			isa = PBXGroup;
 			children = (
 				C0F5FFCE2977B7FF0021FF4F /* MSG.entitlements */,
+				63C98734299B25E3008B1DE7 /* finance.json */,
+				63C98730299B2209008B1DE7 /* moneyChart.json */,
+				63C9872C299B21E5008B1DE7 /* videoGames.json */,
+				63C98728299B21DD008B1DE7 /* winner.json */,
+				63C98727299B21DD008B1DE7 /* notebook.json */,
 				168CDEF5298CD1C200FAA3F4 /* ambulance.json */,
 				168CDEF7298CD53900FAA3F4 /* flyingMoney.json */,
 				168CDEF8298CD53900FAA3F4 /* run.json */,
@@ -528,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				362DB5EA299A057C00510314 /* ChallengeUseCase.swift */,
+				635A3D35299A5C8A007F174D /* ChallengeRecordUseCase.swift */,
 				3602CBC12999FD88007D1034 /* FriendUseCase.swift */,
 				16941F9C299A6EEF003C06C6 /* AddFriendUseCase.swift */,
 				166009872976335A00E6A546 /* Model */,
@@ -589,6 +618,7 @@
 		3602CBBB2999FC46007D1034 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				635A3D33299A5BE9007F174D /* ChallengeRecordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -628,6 +658,7 @@
 				3602CBC42999FF16007D1034 /* FriendRepositoryImpl.swift */,
 				362DB5F0299A066A00510314 /* ChallengeRepositoryImpl.swift */,
 				16941FA0299A700B003C06C6 /* AddFriendRepositoryImpl.swift */,
+				635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -638,6 +669,7 @@
 				3602CBC72999FF49007D1034 /* FriendRepository.swift */,
 				362DB5EC299A05CA00510314 /* ChallengeRepository.swift */,
 				16941F9E299A6FED003C06C6 /* AddFriendRepository.swift */,
+				635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */,
 			);
 			path = RepositoryInterface;
 			sourceTree = "<group>";
@@ -650,6 +682,7 @@
 				362DB5EE299A064800510314 /* ChallengeDataSource.swift */,
 				163CB2CB299A27E4008506FD /* RealtimeService.swift */,
 				16941FA2299A70BC003C06C6 /* AddFriendDataSource.swift */,
+				635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -783,8 +816,13 @@
 				16DB66D22988A98C009BF8B7 /* Maplestory OTF Light.otf in Resources */,
 				16DB66D32988A98C009BF8B7 /* Maplestory OTF Bold.otf in Resources */,
 				1660096A297630C400E6A546 /* Preview Assets.xcassets in Resources */,
+				63C9872E299B21E5008B1DE7 /* videoGames.json in Resources */,
+				63C9872A299B21DE008B1DE7 /* notebook.json in Resources */,
+				63C98731299B2209008B1DE7 /* moneyChart.json in Resources */,
 				168CDEF9298CD53900FAA3F4 /* flyingMoney.json in Resources */,
 				16573EDB2977AA38001176F6 /* GoogleService-Info.plist in Resources */,
+				63C98735299B25E3008B1DE7 /* finance.json in Resources */,
+				63C9872B299B21DE008B1DE7 /* winner.json in Resources */,
 				168CDEFA298CD53900FAA3F4 /* run.json in Resources */,
 				168CDEF6298CD1C200FAA3F4 /* ambulance.json in Resources */,
 				16600967297630C400E6A546 /* Assets.xcassets in Resources */,
@@ -800,6 +838,7 @@
 			files = (
 				63690D3C298CCF0400B48DA4 /* Extension+View.swift in Sources */,
 				63EC446F297A8366008A7FDE /* Extension+String.swift in Sources */,
+				635A3D3A299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift in Sources */,
 				3602CBC82999FF49007D1034 /* FriendRepository.swift in Sources */,
 				635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */,
 				163CB2CC299A27E4008506FD /* RealtimeService.swift in Sources */,
@@ -816,9 +855,11 @@
 				63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */,
 				16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */,
 				168CDEF1298CD12200FAA3F4 /* LottieView.swift in Sources */,
+				635A3D34299A5BE9007F174D /* ChallengeRecordViewModel.swift in Sources */,
 				6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */,
 				6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */,
 				63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */,
+				635A3D38299A5D06007F174D /* ChallengeRecordRepository.swift in Sources */,
 				3602CBCF299A0099007D1034 /* FriendViewModel.swift in Sources */,
 				635D1127298DFD3000C4EDEC /* ShallowConcaveView.swift in Sources */,
 				16FBE6C62976784D001EC518 /* FriendViewCell.swift in Sources */,
@@ -826,6 +867,7 @@
 				16941FA3299A70BC003C06C6 /* AddFriendDataSource.swift in Sources */,
 				367D709D2980C6890011E601 /* GameRequestAlertView.swift in Sources */,
 				632B7CD129825C8000A3D53C /* CountDownView.swift in Sources */,
+				635A3D3C299A5DBB007F174D /* ChallengeRecordDataSource.swift in Sources */,
 				635D112B298DFE7000C4EDEC /* DarkModeToggle.swift in Sources */,
 				1660099729766FCC00E6A546 /* AlertView.swift in Sources */,
 				4C930D5F29763B4300EE046D /* HomeView.swift in Sources */,
@@ -860,6 +902,7 @@
 				166009932976685200E6A546 /* FriendSettingView.swift in Sources */,
 				3602CBC22999FD88007D1034 /* FriendUseCase.swift in Sources */,
 				4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */,
+				635A3D32299A5ACC007F174D /* ChallengeRecordListCell.swift in Sources */,
 				168AE7A629875EA400D68C1C /* WaitingView.swift in Sources */,
 				1660099529766FC000E6A546 /* FriendView.swift in Sources */,
 				36C7BB7D2977B37200A3F999 /* OnBoardView2.swift in Sources */,
@@ -888,6 +931,7 @@
 				362DB5EF299A064800510314 /* ChallengeDataSource.swift in Sources */,
 				36338AFB298B5A5D009ABB77 /* DivideFriendViewModel.swift in Sources */,
 				4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */,
+				635A3D36299A5C8A007F174D /* ChallengeRecordUseCase.swift in Sources */,
 				634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

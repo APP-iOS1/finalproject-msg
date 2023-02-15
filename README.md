@@ -52,6 +52,11 @@
 <br>
 <br>
 
+## 유튜브
+- https://www.youtube.com/watch?v=Vo0hOk74MMU
+<br>
+<br>
+
 ## ⭐️ 주요 기능 및 동작화면 
 
 |<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/0.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/1.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/2.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/3.gif"></img>|
