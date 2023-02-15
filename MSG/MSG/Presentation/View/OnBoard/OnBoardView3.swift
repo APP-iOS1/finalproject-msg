@@ -65,11 +65,14 @@ struct OnBoardView3: View {
                                 .frame(width: g.size.width / 1.04, height: g.size.height / 1.40)
                                 .offset(y: g.size.height / -48.5)
                             
-                            Image("Screen3")
-                                .resizable()
-                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.5)
-                                .cornerRadius(20)
-                                .offset(y: g.size.height / -150)
+                            LottieView(filename: "moneyChart")
+                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.7)
+                            
+//                            Image("Screen3")
+//                                .resizable()
+//                                .frame(width: g.size.width / 1.1 , height: g.size.height / 1.5)
+//                                .cornerRadius(20)
+//                                .offset(y: g.size.height / -150)
                         }
                     }
                     .padding(.bottom, 110)
