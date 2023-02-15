@@ -98,10 +98,11 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
         if invitingFriendList.contains(friend){
             invitingFriendList.remove(at: invitingFriendList.firstIndex(of: friend)!)
         }else{
-            if invitingFriendList.count > 3{
+            if invitingFriendList.count >= 3{
                 friendAlert = true
             }else{
                 invitingFriendList.append(friend)
+                print(invitingFriendList)
             }
         }
     }

@@ -15,10 +15,8 @@ struct GameSettingView: View {
     }
     
     @Environment(\.dismiss) var dismiss
-    
     @FocusState private var focusedField: Field?
     @EnvironmentObject var notiManager: NotificationManager
-    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @StateObject private var gameSettingViewModel = GameSettingViewModel()
 }
 
@@ -247,7 +245,7 @@ extension GameSettingView {
                             gameSettingViewModel.isShowingAlert = true
                         } label: {
                             Text("초대장 보내기")
-                                .modifier(!gameSettingViewModel.isGameSettingValid || realtimeViewModel.inviteFriendArray.isEmpty ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
+                                .modifier(!gameSettingViewModel.isGameSettingValid || gameSettingViewModel.invitingFriendList.isEmpty ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                         }
                         .buttonStyle(.borderless)
                         .frame(width: g.size.width / 1.4, height: g.size.height / 14)
@@ -258,7 +256,7 @@ extension GameSettingView {
                         .cornerRadius(10)
                         .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
                         .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                        .disabled(!gameSettingViewModel.isGameSettingValid)
+                        .disabled(!gameSettingViewModel.isGameSettingValid || gameSettingViewModel.invitingFriendList.isEmpty)
                         .padding([.leading, .bottom, .trailing])
                     }
                     
@@ -341,6 +339,5 @@ struct GameSettingView_Previews: PreviewProvider {
     static var previews: some View {
         GameSettingView()
             .environmentObject(NotificationManager())
-            .environmentObject(RealtimeViewModel())
     }
 }

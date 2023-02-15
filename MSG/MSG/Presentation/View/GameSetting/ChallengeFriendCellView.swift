@@ -14,10 +14,6 @@ struct ChallengeFriendCellView: View{
     var body: some View{
         HStack{
             VStack {
-                if friend.profileImage.isEmpty{
-                    Image(systemName: "person")
-                        .font(.largeTitle)
-                }else{
                     AsyncImage(url: URL(string: friend.profileImage)) { Image in
                         Image
                             .resizable()
@@ -25,7 +21,6 @@ struct ChallengeFriendCellView: View{
                         Image(systemName: "person")
                             .font(.largeTitle)
                     }
-                }
             }
             .aspectRatio(contentMode: .fill)
             .frame(width: parentScreen.size.width / 4, height: parentScreen.size.height / 11)
@@ -45,6 +40,9 @@ struct ChallengeFriendCellView: View{
             } label: {
                 Image(systemName: gameSettingViewModel.isCheked(friend) ? "checkmark.square.fill" : "square")
             }
+        }
+        .alert("최대 3명까지 초대가 가능합니다.", isPresented:$gameSettingViewModel.friendAlert) {
+            Button {} label: { Text("확인") }
         }
         .frame(alignment: .leading)
     }
