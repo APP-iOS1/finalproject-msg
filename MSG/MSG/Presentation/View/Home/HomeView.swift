@@ -10,21 +10,21 @@ import FirebaseAuth
 
 struct HomeView: View {
     
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @ObservedObject var challengeViewModel: ChallengeViewModel
     
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
         ZStack {
-            if let game = fireStoreViewModel.currentGame {
+            if let game = challengeViewModel.currentGame {
                 if game.waitingFriend.isEmpty {
-                    AfterChallengeView(challenge: fireStoreViewModel.currentGame!)
+                    AfterChallengeView(challengeViewModel: AppDI.shared.challengeViewModel)
                 } else {
-                    WaitingView(game: fireStoreViewModel.currentGame!)
+                    WaitingView(game: challengeViewModel.currentGame!)
                         .refreshable {
-                            await fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
-                            await fireStoreViewModel.fetchGame()
+                            await challengeViewModel.findUser(inviteId: challengeViewModel.currentGame!.inviteFriend,waitingId: challengeViewModel.currentGame!.waitingFriend)
+                            await challengeViewModel.fetchGame()
                         }
                 }
                 
@@ -34,15 +34,18 @@ struct HomeView: View {
         }
         .onAppear {
             Task {
-                guard let user = try! await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
+                guard let user = try! await challengeViewModel.challengefetchUserInfo(Auth.auth().currentUser?.uid ?? "")  else {return}
                 if !(user.game.isEmpty) {
-                    await fireStoreViewModel.fetchGame()
+                    await challengeViewModel.fetchGameReturn()
                 }
+                
+                print(user.game)
+                print("홈뷰 온어피어 : \(challengeViewModel.currentGame)")
             }
       
         }
         .onReceive(timer) { _ in
-            guard let game = fireStoreViewModel.currentGame  else { return }
+            guard let game = challengeViewModel.currentGame  else { return }
 //            print("끝나는시간:",game.endDate)
 //            let now = Date().timeIntervalSinceNow
 //            print("현재시간:", now)
@@ -50,8 +53,8 @@ struct HomeView: View {
                 self.timer.upstream.connect().cancel()
                 print("멈췄습니다!")
                 Task {
-                    await fireStoreViewModel.addGameHistory()
-                    fireStoreViewModel.currentGame = nil
+                    await challengeViewModel.addGameHistory()
+                    challengeViewModel.currentGame = nil
                 }
             }
         }

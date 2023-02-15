@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - ChallengeRecord ViewModel Input
 protocol ChallengeRecordViewInput {
+    func challengeRecordfetchUserInfo(_ userId: String) async throws -> Msg?
     func getChallengeHistory() async throws
     func getUserData(user: [String], challengeId: String) async -> ChallengeUserData?
     func getChallengeUser(users: [String], challengeId: String) async
@@ -26,7 +27,7 @@ protocol ChallengeRecordViewOutput {
 }
 
 final class ChallengeRecordViewModel: ObservableObject, ChallengeRecordViewInput, ChallengeRecordViewOutput {
-    
+  
     var challengeRecordUseCase = ChallengeRecordUseCase(challengeRepository: ChallengeRecordRepositoryImpl(dataSource: FirebaseService()))
     typealias ChallengeUserData = [(user:(userName: String, userProfile: String), totalMoney: Int)]
     @Published var challengeHistoryArray : [Challenge] = []
@@ -35,6 +36,11 @@ final class ChallengeRecordViewModel: ObservableObject, ChallengeRecordViewInput
     @Published var tagValue: [(tag: String, money: Int)] = []
     @Published var userValue: [(user:(userName: String, userProfile: String), totalMoney: Int)] = []
     @Published var historyExpenditure: Expenditure?
+    
+    func challengeRecordfetchUserInfo(_ userId: String) async throws -> Msg? {
+        let data = try await challengeRecordUseCase.challengeRecordfetchUserInfo(userId)
+        return data
+    }
     
     // MARK: - 이전 챌린지기록을 모두 가져오는 함수
     @MainActor

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BeforeChallengeView: View {
 
-    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
+    @StateObject var challengeViewModel: ChallengeViewModel = ChallengeViewModel()
     
     var body: some View {
         
@@ -121,13 +121,13 @@ extension BeforeChallengeView {
             }
         }
         .onAppear{
-            firebaseViewModel.findFriend()
+            challengeViewModel.findFriend()
         }
     }
 }
-
-struct BeforeChallengeView_Previews: PreviewProvider {
-    static var previews: some View {
-        BeforeChallengeView()
-    }
-}
+//
+//struct BeforeChallengeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BeforeChallengeView(challengeViewModel: ChallengeViewModel())
+//    }
+//}

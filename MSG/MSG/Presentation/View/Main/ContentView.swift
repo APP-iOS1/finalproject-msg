@@ -40,7 +40,7 @@ struct ContentView: View {
                                 VStack(spacing: 0) {
                                     switch selectedTabBar {
                                     case .first:
-                                        HomeView()
+                                        HomeView(challengeViewModel: AppDI.shared.challengeViewModel)
                                             .onAppear{
                                                 Task{
                                                     try? await notiManager.requestAuthorization()
