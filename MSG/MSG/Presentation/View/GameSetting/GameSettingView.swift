@@ -58,16 +58,11 @@ extension GameSettingView {
                                     .onAppear{ focusedField = .title }
                                 
                                 Spacer()
-                                
-                                if gameSettingViewModel.title.isEmpty {
-                                    Image(systemName: "delete.left")
-                                } else {
                                     Button {
                                         gameSettingViewModel.title = ""
                                     } label: {
-                                        Image(systemName: "delete.left.fill")
+                                        Image(systemName: gameSettingViewModel.title.isEmpty ? "delete.left" : "delete.left.fill")
                                     }
-                                }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
                         }
@@ -100,7 +95,6 @@ extension GameSettingView {
                                             Text("1,000만원 미만으로 입력하세요")
                                                 .kerning(0)
                                                 .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color3))
-                                            
                                         }
                                         .focused($focusedField, equals: .limitMoney)
                                         .foregroundColor(Color(.clear))
@@ -108,18 +102,12 @@ extension GameSettingView {
                                         .keyboardType(.numberPad)
                                 }
                                 .frame(width: g.size.width / 1.4, height: g.size.height / 40)
-                                
                                 Spacer()
-                                
-                                if gameSettingViewModel.targetMoney.isEmpty {
-                                    Image(systemName: "delete.left")
-                                } else {
                                     Button {
                                         gameSettingViewModel.targetMoney = ""
                                     } label: {
-                                        Image(systemName: "delete.left.fill")
+                                        Image(systemName: gameSettingViewModel.targetMoney.isEmpty ?  "delete.left" : "delete.left.fill")
                                     }
-                                }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
                         }
@@ -156,52 +144,16 @@ extension GameSettingView {
                                 Button {
                                     gameSettingViewModel.showingDaySelection.toggle()
                                 } label: {
-                                    
                                     Image(systemName: "chevron.backward")
                                         .rotationEffect(.degrees(-90))
                                         .foregroundColor(gameSettingViewModel.daySelection == 5 ? Color("Color3") : Color("Color2"))
                                 }
                                 .sheet(isPresented: $gameSettingViewModel.showingDaySelection) {
-                                    ZStack {
-                                        Color("Color1").ignoresSafeArea()
-                                        VStack {
-                                            Spacer()
-                                            ScrollView(.horizontal, showsIndicators: false) {
-                                                HStack {
-                                                    ForEach(gameSettingViewModel.dayArray.indices, id: \.self) { index in
-                                                        Button {
-                                                            gameSettingViewModel.selectChallengeDay(index)
-                                                        } label: {
-                                                            Text("\(gameSettingViewModel.dayArray[index])")
-                                                                .frame(width: g.size.width / 7, height: g.size.height / 20)
-                                                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                                                .padding(8)
-                                                                .background(Color("Color1"))
-                                                                .cornerRadius(10)
-                                                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                                                .foregroundColor( gameSettingViewModel.daySelection == index ? Color("Color2") : Color("Color3"))
-                                                        }
-                                                        .frame(width: g.size.width / 4.3, height: g.size.height / 15)
-                                                    }
-                                                    .frame(maxHeight: .infinity)
-                                                }
-                                            }
-                                            Spacer()
-                                            Divider()
-                                            Button {
-                                                gameSettingViewModel.showingDaySelection.toggle()
-                                            } label: {
-                                                Text("닫기")
-                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
-                                            }
-                                            
-                                        } // VStack
+                                    DateSheetView(gameSettingViewModel: gameSettingViewModel, parentScreen: g)
                                         .frame(height: g.size.height / 6)
                                         .presentationDetents([.height(g.size.height / 6)])
                                         .interactiveDismissDisabled(true)
-                                    } // ZStack
+                                    // ZStack
                                 } // sheet
                                 
                             }
@@ -265,42 +217,7 @@ extension GameSettingView {
                                 .sheet(isPresented: $gameSettingViewModel.findFriendToggle) {
                                     ScrollView{
                                         ForEach(gameSettingViewModel.displayFriend, id:\.self) { friend in
-                                            HStack{
-                                                VStack {
-                                                    if friend.profileImage.isEmpty{
-                                                        Image(systemName: "person")
-                                                            .font(.largeTitle)
-                                                    }else{
-                                                        AsyncImage(url: URL(string: friend.profileImage)) { Image in
-                                                            Image
-                                                                .resizable()
-                                                        } placeholder: {
-                                                            Image(systemName: "person")
-                                                                .font(.largeTitle)
-                                                        }
-                                                    }
-                                                }
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: g.size.width / 4, height: g.size.height / 11)
-                                                .clipShape(Circle())
-                                                .foregroundColor(Color("Color2"))
-                                                .background(
-                                                    Circle()
-                                                        .fill(
-                                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                                        )
-                                                        .foregroundColor(Color("Color1")))
-                                                Text(friend.nickName)
-                                                Spacer()
-                                                Button {
-                                                    gameSettingViewModel.checkFriend(friend)
-                                                } label: {
-                                                    Image(systemName: gameSettingViewModel.isCheked(friend) ? "checkmark.square.fill" : "square")
-                                                }
-                                                
-                                            }
-                                            .frame(alignment: .leading)
+                                            ChallengeFriendCellView(gameSettingViewModel: gameSettingViewModel, friend: friend, parentScreen: g)
                                         }
                                     }
                                     .padding()

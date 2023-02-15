@@ -55,14 +55,10 @@ struct SoloGameSettingView: View {
                                 
                                 Spacer()
                                 
-                                if gameSettingViewModel.title.isEmpty {
-                                    Image(systemName: "delete.left")
-                                } else {
-                                    Button {
-                                        gameSettingViewModel.title = ""
-                                    } label: {
-                                        Image(systemName: "delete.left.fill")
-                                    }
+                                Button {
+                                    gameSettingViewModel.title = ""
+                                } label: {
+                                    Image(systemName: gameSettingViewModel.title.isEmpty ?  "delete.left" : "delete.left.fill")
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
@@ -92,7 +88,7 @@ struct SoloGameSettingView: View {
                                         Text("\(gameSettingViewModel.targetMoney.insertComma)원")
                                             .multilineTextAlignment(.leading)
                                     }
-
+                                    
                                     TextField("", text: $gameSettingViewModel.targetMoney)
                                         .placeholder(when: gameSettingViewModel.targetMoney.isEmpty) {
                                             Text("1,000만원 미만으로 입력하세요")
@@ -107,15 +103,10 @@ struct SoloGameSettingView: View {
                                 .frame(width: g.size.width / 1.4, height: g.size.height / 40)
                                 
                                 Spacer()
-                                
-                                if gameSettingViewModel.targetMoney.isEmpty {
-                                    Image(systemName: "delete.left")
-                                } else {
-                                    Button {
-                                        gameSettingViewModel.targetMoney = ""
-                                    } label: {
-                                        Image(systemName: "delete.left.fill")
-                                    }
+                                Button {
+                                    gameSettingViewModel.targetMoney = ""
+                                } label: {
+                                    Image(systemName: gameSettingViewModel.targetMoney.isEmpty ? "delete.left" : "delete.left.fill")
                                 }
                             }
                             .frame(width: g.size.width / 1.2, height: g.size.height / 30)
@@ -159,49 +150,10 @@ struct SoloGameSettingView: View {
                                     
                                 }
                                 .sheet(isPresented: $gameSettingViewModel.showingDaySelection) {
-                                    ZStack {
-                                        Color("Color1").ignoresSafeArea()
-                                        VStack {
-                                            Spacer()
-                                            
-                                            ScrollView(.horizontal, showsIndicators: false) {
-                                                HStack {
-                                                    ForEach(gameSettingViewModel.dayArray.indices, id: \.self) { index in
-                                                        Button {
-                                                            gameSettingViewModel.selectChallengeDay(index)
-                                                        } label: {
-                                                            Text("\(gameSettingViewModel.dayArray[index])")
-                                                                .frame(width: g.size.width / 7, height: g.size.height / 20)
-                                                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                                                .padding(8)
-                                                                .background(Color("Color1"))
-                                                                .cornerRadius(10)
-                                                                .shadow(color: Color("Shadow3"), radius: 6, x: -7, y: -7)
-                                                                .shadow(color: Color("Shadow"), radius: 6, x: 7, y: 7)
-                                                                .foregroundColor( gameSettingViewModel.daySelection == index ? Color("Color2") : Color("Color3"))
-                                                        }
-                                                        .frame(width: g.size.width / 4.3, height: g.size.height / 15)
-                                                    }
-                                                    .frame(maxHeight: .infinity)
-                                                }
-                                            }
-                                            Spacer()
-                                            
-                                            Divider()
-                                            
-                                            Button {
-                                                gameSettingViewModel.showingDaySelection.toggle()
-                                            } label: {
-                                                Text("닫기")
-                                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
-                                            }
-                                            
-                                        } // VStack
+                                    DateSheetView(gameSettingViewModel: gameSettingViewModel, parentScreen: g) // ZStack
                                         .frame(height: g.size.height / 6)
                                         .presentationDetents([.height(g.size.height / 6)])
                                         .interactiveDismissDisabled(true)
-                                    } // ZStack
                                 } // sheet
                                 
                             }
@@ -224,9 +176,7 @@ struct SoloGameSettingView: View {
                     Spacer()
                     VStack {
                         Button {
-                            if gameSettingViewModel.daySelection != 5 {
                                 gameSettingViewModel.isShowingAlert = true
-                            }
                         } label: {
                             Text("시작하기")
                                 .modifier(!gameSettingViewModel.isGameSettingValid ? TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color3) : TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
@@ -245,27 +195,27 @@ struct SoloGameSettingView: View {
                     }
                     .disabled(!gameSettingViewModel.isGameSettingValid)
                     .alert("챌린지를 시작하시겠습니까?", isPresented: $gameSettingViewModel.isShowingAlert, actions: {
-                            Button("시작하기") {
-                                Task{
-                                    if !notiManager.isGranted {
-                                        await gameSettingViewModel.createSingleChallenge()
-                                        dismiss()
-                                    } else {
-                                        print("도전장 보내짐")
-                                        let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "지출을 추가해 기록을 작성해보세요", timeInterval: 1, repeats: false)
-                                        await gameSettingViewModel.createSingleChallenge()
-                                        dismiss()
-                                        await notiManager.schedule(localNotification: localNotification)
-                                        await notiManager.doSomething()
-                                        await notiManager.getPendingRequests()
-                                    }
+                        Button("시작하기") {
+                            Task{
+                                if !notiManager.isGranted {
+                                    await gameSettingViewModel.createSingleChallenge()
+                                    dismiss()
+                                } else {
+                                    print("도전장 보내짐")
+                                    let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "지출을 추가해 기록을 작성해보세요", timeInterval: 1, repeats: false)
+                                    await gameSettingViewModel.createSingleChallenge()
+                                    dismiss()
+                                    await notiManager.schedule(localNotification: localNotification)
+                                    await notiManager.doSomething()
+                                    await notiManager.getPendingRequests()
                                 }
                             }
-                            Button("취소하기") {
-                                //   dismiss()
-                            }
                         }
-                    ,message: {
+                        Button("취소하기") {
+                            //   dismiss()
+                        }
+                    }
+                           ,message: {
                         if notiManager.isGranted {
                             Text("챌린지가 시작되면 내용 변경이 불가능합니다.")
                         }
@@ -281,7 +231,7 @@ struct SoloGameSettingView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
-
+        
         .onTapGesture {
             self.endTextEditing()
         }

@@ -33,6 +33,11 @@ protocol GameSettingViewModelOutput{
     var dayArray:[String]{ get }
     var invitingFriendList:[Msg] { get }
     var waitingFriendList:[Msg] { get }
+    var backBtnAlert: Bool {get}   // 네비게이션 백 버튼 클릭 시, alert
+    var isShowingAlert: Bool{get} // 초대장 보내기 버튼 클릭 시, alert
+    var showingDaySelection: Bool{get} // 챌린지 기간 설정 시트
+    var findFriendToggle: Bool{get} // 함께할 친구 추가 시트
+    var friendAlert:Bool{get} // 추가한 친구가 3명 초과한 경우, alert
 }
 
 final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, GameSettingViewModelOutput{
@@ -104,13 +109,8 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
     // 친구목록 가져오기
     func fetchMyFriendList() async {
         do{
-            guard let friendInfo =  await friendUseCase?.fetchFriendList() else {
-                print("NONOFriend")
-                return }
-            guard let myFriend = try await friendUseCase?.caseNotGameMyFriend(text: friendInfo.0) else {
-                print("NO Friend")
-                return
-            }
+            guard let friendInfo =  await friendUseCase?.fetchFriendList() else { return }
+            guard let myFriend = try await friendUseCase?.caseNotGameMyFriend(text: friendInfo.0) else { return }
             DispatchQueue.main.async { self.displayFriend = myFriend }
         }catch{
             print("Error FETCH MTFRIENDLIST")

@@ -65,6 +65,8 @@
 		3635276429829C6E0037BD1B /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3635276329829C6E0037BD1B /* CustomAlertButton.swift */; };
 		3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */; };
 		367D709D2980C6890011E601 /* GameRequestAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367D709C2980C6890011E601 /* GameRequestAlertView.swift */; };
+		368FC46C299B736A00C68275 /* DateSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368FC46B299B736A00C68275 /* DateSheetView.swift */; };
+		368FC46E299B737900C68275 /* ChallengeFriendCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368FC46D299B737900C68275 /* ChallengeFriendCellView.swift */; };
 		3699A3C8298762FE00C650FD /* SoloGameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3699A3C7298762FE00C650FD /* SoloGameSettingView.swift */; };
 		36B093F92976694F0089E76A /* GameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093F82976694F0089E76A /* GameSettingView.swift */; };
 		36B093FC29766FD80089E76A /* SpendingWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B093FA29766FB30089E76A /* SpendingWritingView.swift */; };
@@ -162,6 +164,8 @@
 		3635276329829C6E0037BD1B /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
 		3663DF3F29763C51004C1CA6 /* GameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingViewModel.swift; sourceTree = "<group>"; };
 		367D709C2980C6890011E601 /* GameRequestAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRequestAlertView.swift; sourceTree = "<group>"; };
+		368FC46B299B736A00C68275 /* DateSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSheetView.swift; sourceTree = "<group>"; };
+		368FC46D299B737900C68275 /* ChallengeFriendCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFriendCellView.swift; sourceTree = "<group>"; };
 		3699A3C7298762FE00C650FD /* SoloGameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoloGameSettingView.swift; sourceTree = "<group>"; };
 		36B093F82976694F0089E76A /* GameSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSettingView.swift; sourceTree = "<group>"; };
 		36B093FA29766FB30089E76A /* SpendingWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingWritingView.swift; sourceTree = "<group>"; };
@@ -259,6 +263,8 @@
 				3602CBBD2999FC53007D1034 /* ViewModel */,
 				36B093F82976694F0089E76A /* GameSettingView.swift */,
 				3699A3C7298762FE00C650FD /* SoloGameSettingView.swift */,
+				368FC46B299B736A00C68275 /* DateSheetView.swift */,
+				368FC46D299B737900C68275 /* ChallengeFriendCellView.swift */,
 			);
 			path = GameSetting;
 			sourceTree = "<group>";
@@ -734,6 +740,7 @@
 				6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */,
 				6362E8CB2989574B0052C488 /* TabBarView.swift in Sources */,
 				63691A3D299210E4007CC706 /* LicenseItem.swift in Sources */,
+				368FC46C299B736A00C68275 /* DateSheetView.swift in Sources */,
 				36FA4918297791A100B26A24 /* ChartCellView.swift in Sources */,
 				36C7BB822977B37200A3F999 /* OnBoardView5.swift in Sources */,
 				3699A3C8298762FE00C650FD /* SoloGameSettingView.swift in Sources */,
@@ -768,6 +775,7 @@
 				C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */,
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
 				360A1471298360A70058BB9B /* Utils.swift in Sources */,
+				368FC46E299B737900C68275 /* ChallengeFriendCellView.swift in Sources */,
 				36C7BB7E2977B37200A3F999 /* OnBoardView4.swift in Sources */,
 				4C407A76297A5B4B00877360 /* NotificationManager.swift in Sources */,
 				36C7BB7F2977B37200A3F999 /* OnBoardView1.swift in Sources */,
