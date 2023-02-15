@@ -307,36 +307,6 @@ extension FirebaseService: DivideFriendDataSource {
         }
         return searchUserArray
     }
-    
-    
-    func findUser1(text: [Msg]) -> [Msg] {
-//        print(#function)
-//        notGamePlayFriend.removeAll()
-        var notGamePlayFriend: [Msg] = []
-        database
-            .collection("User")
-            .getDocuments { (snapshot, error) in
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        let nickName: String = docData["nickName"] as? String ?? ""
-                        let profileImage: String = docData["profileImage"] as? String ?? ""
-                        let game: String = docData["game"] as? String ?? ""
-                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
-                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
-                        for i in text {
-                            if i.id == id && game.isEmpty {
-                                notGamePlayFriend.append(getUser)
-                            }
-                        }
-                    }
-                    notGamePlayFriend = Array(Set(notGamePlayFriend))
-                    
-                }
-            }
-        return notGamePlayFriend
-    }
 
     
     

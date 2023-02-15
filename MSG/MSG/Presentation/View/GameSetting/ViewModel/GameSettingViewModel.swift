@@ -115,7 +115,7 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
             print(myFriend)
             DispatchQueue.main.async {
                 print("왜 못받아:",self.displayFriend)
-                self.displayFriend = friendInfo.0.filter {$0.game.isEmpty} //MARK: - 그래서 이렇게 수정했는데 확인좀
+                self.displayFriend = myFriend //MARK: - 그래서 이렇게 수정했는데 확인좀
             }
         }catch{
             print("Error FETCH MTFRIENDLIST")
