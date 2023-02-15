@@ -47,7 +47,6 @@ class RealtimeService: ObservableObject {
             self?.db.removeObserver(withHandle: handle)
         }).eraseToAnyPublisher()
     }
-    
     func observeAdd() {
         print(#function)
         self.user.removeAll()
@@ -60,7 +59,7 @@ class RealtimeService: ObservableObject {
                 }
             }.store(in: &cancellable)
     }
-//MARK: - Change Observe
+    //MARK: - Change Observe
     func changeObserve() -> AnyPublisher<Msg?, Never> {
         let uid = Auth.auth().currentUser!.uid
         let subject = CurrentValueSubject<Msg?, Never>(nil)
@@ -79,7 +78,6 @@ class RealtimeService: ObservableObject {
             self?.db.removeObserver(withHandle: handle)
         }).eraseToAnyPublisher()
     }
-    
     func observeChanged() {
         print(#function)
         var index = 0
@@ -99,8 +97,7 @@ class RealtimeService: ObservableObject {
                 }
             }.store(in: &cancellable)
     }
-//MARK: - Delete Observe
-    
+    //MARK: - Delete Observe
     func deleteObserve() -> AnyPublisher<Msg?, Never> {
         let uid = Auth.auth().currentUser!.uid
         let subject = CurrentValueSubject<Msg?, Never>(nil)
@@ -119,7 +116,6 @@ class RealtimeService: ObservableObject {
             self?.db.removeObserver(withHandle: handle)
         }).eraseToAnyPublisher()
     }
-    
     func observeDelete() {
         print(#function)
         var index = 0
@@ -138,6 +134,105 @@ class RealtimeService: ObservableObject {
                     self.friendCount = self.user.count
                 }
             }.store(in: &cancellable)
+    }
+    
+    func fetchGameRequest() async{
+        print(#function)
+        guard let gameRequestReference else {
+            print("guard문으로 리턴됨")
+            return
+        }
+        gameRequestReference
+            .observe(.childAdded) { [weak self] snapshot in
+                guard
+                    let self = self,
+                    var json = snapshot.value as? [String:Any]
+                else {
+                    print("나가짐")
+                    return
+                }
+                
+                print("Add Observe:",json)
+                json["id"] = snapshot.key
+                do {
+                    let userData = try JSONSerialization.data(withJSONObject: json)
+                    print("add postitData:",userData)
+                    let user = try self.decoder.decode(Msg.self, from: userData)
+                    print("받음:",user)
+                    if !self.requsetGameArr.contains(user){
+                        self.requsetGameArr.insert(user, at: 0)
+                        self.requsetCount = self.requsetGameArr.count
+                    }
+                } catch {
+                    print("AddError")
+                    print("an error occurred", error)
+                }
+        }
+        
+        gameRequestReference
+            .observe(.childChanged) { [weak self] snapshot in
+                guard
+                    let self = self,
+                    var json = snapshot.value as? [String:Any]
+                else {
+                    return
+                }
+                print("Changed Observe:",json)
+                json["id"] = snapshot.key
+                
+                do {
+                    let postitData = try JSONSerialization.data(withJSONObject: json)
+                    print("change의 do문:",postitData)
+                    let postit = try self.decoder.decode(Msg.self, from: postitData)
+                    print(postit)
+
+                    var index = 0
+                    for postitItem in self.requsetGameArr {
+                        if (postit.id == postitItem.id) {
+                            print(postitItem.id)
+                            self.requsetGameArr.remove(at: index)
+                        }
+                        index += 1
+                    }
+                    self.requsetGameArr.insert(postit, at: 0)
+                    self.requsetCount = self.requsetGameArr.count
+                } catch {
+                    print("ChangeError")
+                    print("an error occurred", error)
+                }
+        }
+        
+        gameRequestReference
+            .observe(.childRemoved) {  [weak self] snapshot in
+                guard
+                    let self = self,
+                    var json = snapshot.value as? [String: Any]
+                else {
+                    return
+                }
+                print("Delete Observe:",json)
+                json["id"] = snapshot.key
+                
+                do {
+                    let postitData = try JSONSerialization.data(withJSONObject: json)
+                    print("remove의 do문:",postitData)
+                    let postit = try self.decoder.decode(Msg.self, from: postitData)
+                    print(postit)
+                    
+                    var index = 0
+                    for postitItem in self.requsetGameArr {
+                        if (postit.id == postitItem.id) {
+                            print(postitItem.id)
+                            self.requsetGameArr.remove(at: index)
+                        }
+                        index += 1
+                    }
+                    self.requsetCount = self.requsetGameArr.count
+                } catch {
+                    print("removeError")
+                    print("an error occurred", error)
+                }
+            }
     }
 }
 
@@ -188,4 +283,39 @@ struct Real: AddFriendDataSourceWithRealTimeDB {
         .child("Friend")
         .child(to.id).child(Auth.auth().currentUser?.uid ?? "").setValue(dict)
     }
+}
+
+extension Real: GameRequestDataSourceWithRealtimeDB {
+    
+    func acceptGameRequest(friend: Msg) async{
+        print("add Friend id: \(friend.id)")
+        try! await Database.database()
+            .reference()
+            .child("Game")
+            .child(Auth.auth().currentUser?.uid ?? "")
+//            .child(friend.id)
+            .removeValue()
+    }
+    
+    func afterFiveMinuteDeleteChallenge(friend: Msg) async{
+        print("add Friend id: \(friend.id)")
+        try! await Database.database()
+            .reference()
+            .child("Game")
+            .child(Auth.auth().currentUser?.uid ?? "")
+            .child(friend.id)
+            .removeValue()
+    }
+    
+    func afterFiveMinuteDeleteChallenge(friend: String) async{
+        print("add Friend id: \(friend)")
+        try! await Database.database()
+            .reference()
+            .child("Game")
+            .child(friend)
+            .child(Auth.auth().currentUser?.uid ?? "")
+            .removeValue()
+    }
+    
+    
 }
