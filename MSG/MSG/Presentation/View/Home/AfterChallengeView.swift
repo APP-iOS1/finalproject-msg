@@ -9,26 +9,10 @@ import SwiftUI
 
 struct AfterChallengeView: View {
     
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @ObservedObject var challengeViewModel: ChallengeViewModel
     @State private var giveUpGame: Bool = false
     @EnvironmentObject var notiManager: NotificationManager
-    let challenge: Challenge
     
-    func parsingExpenditure(expenditure: [String:[String]]) {
-        print(#function)
-    
-        fireStoreViewModel.totalMoney = 0
-        for (_ , key) in expenditure {
-            for moneyHistory in key {
-                for i in moneyHistory.components(separatedBy: "_") {
-                    if let money = Int(i) {
-                        fireStoreViewModel.totalMoney += money
-                        print(money)
-                    }
-                }
-            }
-        }
-    }
     @State private var birthDate = Date()
     @State private var showingAlert: Bool = false
     var body: some View {
@@ -40,18 +24,18 @@ struct AfterChallengeView: View {
                     VStack(spacing: 15) {
                         Group{
                             HStack {
-                                Text(challenge.gameTitle)
+                                Text(challengeViewModel.currentGame!.gameTitle)
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
                                 Spacer()
                             }
                             
                             HStack{
-                                Text("제한 금액 : \(challenge.limitMoney)원")
+                                Text("제한 금액 : \(challengeViewModel.currentGame!.limitMoney)원")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                                 Spacer()
                             }
                             HStack{
-                                Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
+                                Text("\(challengeViewModel.currentGame!.startDate.createdDate) ~ \(challengeViewModel.currentGame!.endDate.createdDate)")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                     .padding(.bottom)
                                 Spacer()
@@ -60,18 +44,18 @@ struct AfterChallengeView: View {
                         
                         Group{
                             // 싱글게임 멀티게임 다르게 보여주기
-                            if challenge.inviteFriend.isEmpty {
-                                ProgressBar2(percentage: $fireStoreViewModel.totalMoney,limitMoney: challenge.limitMoney)
+                            if challengeViewModel.currentGame!.inviteFriend.isEmpty {
+                                ProgressBar2(percentage: $challengeViewModel.totalMoney,limitMoney: challengeViewModel.currentGame!.limitMoney)
                                     .frame(height:30)
                             } else {
-                                ForEach(challenge.inviteFriend,id:\.self) {friend in
-                                    MultiProgressBar(friend: friend, limitMoney: challenge.limitMoney)
+                                ForEach(challengeViewModel.currentGame!.inviteFriend,id:\.self) {friend in
+                                    MultiProgressBar(friend: friend, limitMoney: challengeViewModel.currentGame!.limitMoney)
                                 }
                             }
                             Spacer()
                             HStack{
                                 Text("지금까지")
-                                Text("\(fireStoreViewModel.expenditure?.totalMoney ?? 0)원")
+                                Text("\(challengeViewModel.expenditure?.totalMoney ?? 0)원")
                                     .underline()
                                 Text("사용")
                                 
@@ -80,7 +64,7 @@ struct AfterChallengeView: View {
                             .padding(.top)
                             VStack{
                                 //챌린지 시작날짜~오늘날짜 계산
-                                CountDownView(endDate: Double(challenge.endDate)!)
+                                CountDownView(endDate: Double(challengeViewModel.currentGame!.endDate)!)
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                             }
                         }
@@ -89,9 +73,9 @@ struct AfterChallengeView: View {
                         //MARK: - 상세 소비 내역 확인 네비게이션 링크
                         Group{
                             
-                            if fireStoreViewModel.expenditure != nil {
+                            if challengeViewModel.expenditure != nil {
                                
-                                NavigationLink(destination:   ChartView(expenditure: fireStoreViewModel.expenditure!, limitMoney: Float(challenge.limitMoney)), label: {
+                                NavigationLink(destination:   ChartView(expenditure: challengeViewModel.expenditure!, limitMoney: Float(challengeViewModel.currentGame!.limitMoney)), label: {
                                     Text("상세 소비 내역 확인하기")
                                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)
@@ -148,7 +132,7 @@ struct AfterChallengeView: View {
                         Button {
                             giveUpGame.toggle()
                         } label: {
-                            if let game = fireStoreViewModel.currentGame {
+                            if let game = challengeViewModel.currentGame {
                                 if !(game.inviteFriend.isEmpty) {
                                     Text("도망가기")
                                 } else {
@@ -160,15 +144,15 @@ struct AfterChallengeView: View {
                         .alert("게임을 포기하시겠습니까?", isPresented: $giveUpGame) {
                             Button("확인", role: .destructive) {
                                 Task {
-                                    if let game = fireStoreViewModel.currentGame {
+                                    if let game = challengeViewModel.currentGame {
                                         if !(game.inviteFriend.isEmpty) {
-                                            await fireStoreViewModel.giveUpMultiGame()
+                                            await challengeViewModel.giveUpMultiGame()
                                         } else {
-                                            await fireStoreViewModel.deleteSingleGame()
+                                            await challengeViewModel.deleteSingleGame()
                                         }
-                                        fireStoreViewModel.currentGame = nil
-                                        fireStoreViewModel.expenditure = nil
-                                        fireStoreViewModel.expenditureList = [:]
+                                        challengeViewModel.currentGame = nil
+                                        challengeViewModel.expenditure = nil
+                                        challengeViewModel.expenditureList = [:]
                                     }
                                 }
                             }
@@ -188,10 +172,15 @@ struct AfterChallengeView: View {
                 .padding()
                 
             }
-            .task { await fireStoreViewModel.fetchExpenditure() }
-            .onChange(of: fireStoreViewModel.expenditureList, perform: { newValue in
-                parsingExpenditure(expenditure: fireStoreViewModel.expenditureList)
+            .task { await challengeViewModel.fetchExpenditure() }
+            .onChange(of: challengeViewModel.expenditureList, perform: { newValue in
+                challengeViewModel.parsingExpenditure(expenditure: challengeViewModel.expenditureList)
             })
+            .onAppear {
+                Task {
+                    await challengeViewModel.fetchGame()
+                }
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - ChallengeRecord Repository
 struct ChallengeRecordRepositoryImpl: ChallengeRecordRepository {
-    
+
     var dataSource: ChallengeRecordDataSource
     typealias ChallengeUserData = [(user:(userName: String, userProfile: String), totalMoney: Int)]
     
@@ -24,6 +24,11 @@ struct ChallengeRecordRepositoryImpl: ChallengeRecordRepository {
             return []
         }
     }
+    func challengeRecordfetchUserInfo(_ userId: String) async throws -> Msg? {
+        let data = try await dataSource.challengeRecordfetchUserInfo(userId)
+        return data
+    }
+    
     
     // MARK: - 챌린지 참가자 (유저 정보, 지출) 가져오기
     func getUserData(user: [String], challengeId: String) async -> ChallengeUserData? {

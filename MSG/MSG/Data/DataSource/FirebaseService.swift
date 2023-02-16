@@ -128,6 +128,287 @@ struct FirebaseService {
     
 }
 
+extension FirebaseService: ChallengeViewDataSource {
+    func parsingExpenditure(expenditure: [String : [String]]) {
+        var totalMoney = 0
+        for (_ , key) in expenditure {
+            for moneyHistory in key {
+                for i in moneyHistory.components(separatedBy: "_") {
+                    if let money = Int(i) {
+                        totalMoney += money
+                        print(money)
+                    }
+                }
+            }
+        }
+    }
+    
+    func findUser(inviteId: [String], waitingId: [String]) async {
+        print(#function)
+        var invitedArray: [Msg] = []
+        var waitingArray: [Msg] = []
+        
+        invitedArray.removeAll()
+        waitingArray.removeAll()
+        do{
+            let snapshot = try await database.collection("User").getDocuments()
+            for document in snapshot.documents{
+                let id: String = document.documentID
+                let docData = document.data()
+                let nickName: String = docData["nickName"] as? String ?? ""
+                let profileImage: String = docData["profileImage"] as? String ?? ""
+                let game: String = docData["game"] as? String ?? ""
+                let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+//                let friend: [String] = docData["friend"] as? [String] ?? []
+                let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+                for i in inviteId {
+                    if getUser.id == i {
+                        invitedArray.append(getUser)
+                    }
+                }
+                for i in waitingId {
+                    if getUser.id == i {
+                        waitingArray.append(getUser)
+                    }
+                }
+            }
+        } catch{
+            print("Faile Find User")
+        }
+        
+    }
+    
+    func findFriend() {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return }
+        var myFriendArray: [Msg] = []
+        var userArray: [Msg] = []
+        database
+            .collection("User")
+            .document(userId)
+            .collection("friend")
+            .getDocuments { (snapshot, error) in
+                userArray.removeAll()
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let id: String = document.documentID
+                        print("id:\(id)")
+                        let docData = document.data()
+                        let nickName: String = docData["nickName"] as? String ?? ""
+                        let profileImage: String = docData["profileImage"] as? String ?? ""
+                        let game: String = docData["game"] as? String ?? ""
+                        let gameHistory: [String] = docData["gameHistory"] as? [String] ?? []
+//                        let friend: [String] = docData["friend"] as? [String] ?? []
+                        
+                        let getUser: Msg = Msg(id: id, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+                        print("findFriend:", myFriendArray)
+                        myFriendArray.append(getUser)
+                    }
+                    myFriendArray = Array(Set(myFriendArray))
+                }
+            }
+    }
+    
+    // MARK: - Challenge Collection에서 진행중인 게임 정보 가져오기
+    func fetchGame() async {
+        print(#function)
+        
+//        var currentGame: Challenge?
+        
+        guard let gameId = await fetchGameId() else { return }
+        // == Document Empty 예상 발생지 ==
+        let ref = database.collection("Challenge").document(gameId)
+        do {
+            print("do 문에 들어왔습니다")
+            let snapShot = try await ref.getDocument()
+            print("정상적이라면 여기까지 출력이 됩니다")
+            guard let docData = snapShot.data() else { return }
+            let id = docData["id"] as? String ?? ""
+            let gameTitle = docData["gameTitle"] as? String ?? ""
+            let limitMoney = docData["limitMoney"] as? Int ?? 0
+            let startDate = docData["startDate"] as? String ?? ""
+            let endDate = docData["endDate"] as? String ?? ""
+            let inviteFriend = docData["inviteFriend"] as? [String] ?? []
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
+            let currentGame = challenge
+//            print(self.invitedArray)
+//            print(self.waitingArray)
+        } catch {
+            print("catched")
+        }
+    }
+    
+    func fetchGameReturn() async -> Challenge? {
+        print(#function)
+        
+//        var currentGame: Challenge?
+        
+        guard let gameId = await fetchGameId() else { return nil }
+        // == Document Empty 예상 발생지 ==
+        let ref = database.collection("Challenge").document(gameId)
+        do {
+            print("do 문에 들어왔습니다")
+            let snapShot = try await ref.getDocument()
+            print("정상적이라면 여기까지 출력이 됩니다")
+            guard let docData = snapShot.data() else { return nil }
+            let id = docData["id"] as? String ?? ""
+            let gameTitle = docData["gameTitle"] as? String ?? ""
+            let limitMoney = docData["limitMoney"] as? Int ?? 0
+            let startDate = docData["startDate"] as? String ?? ""
+            let endDate = docData["endDate"] as? String ?? ""
+            let inviteFriend = docData["inviteFriend"] as? [String] ?? []
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle: gameTitle, limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
+            let currentGame = challenge
+            return currentGame
+//            print(self.invitedArray)
+//            print(self.waitingArray)
+        } catch {
+            print("catched")
+        }
+        return nil
+    }
+    
+    // MARK: - User game에 String 가져오는 함수
+    func fetchGameId() async -> String? {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return nil }
+        let ref = database.collection("User").document(userId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil }
+            let gameId = docData["game"] as? String ?? ""
+            return gameId
+        } catch {
+            print("catched")
+            return nil
+        }
+    }
+    
+    // MARK: - 유저 정보를 불러오는 함수
+    /// userId를 통해, 유저 정보를 가져온다.
+    func challengefetchUserInfo(_ userId: String) async throws -> Msg? {
+        print(#function)
+        guard (Auth.auth().currentUser != nil) else { return nil}
+        let ref = database.collection("User").document(userId)
+        let snapshot = try await ref.getDocument()
+        guard let docData = snapshot.data() else { return nil }
+        let nickName = docData["nickName"] as? String ?? ""
+        let profileImage = docData["profileImage"] as? String ?? ""
+        let game = docData["game"] as? String ?? ""
+        let gameHistory = docData["gameHistory"] as? [String] ?? []
+//        let friend = docData["friend"] as? [String] ?? []
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+        return userInfo
+    }
+    
+    //MARK: - 진행이 끝난 게임을 gameHistory에 담아주는 함수
+    func addGameHistory() async {
+        // 히스토리의 배열을 불러와야하고
+        guard let myInfo = try! await challengefetchUserInfo(Auth.auth().currentUser?.uid ?? "") else {return}
+        let endGame = myInfo.game
+        guard let myHistory = myInfo.gameHistory else{ return }
+        var history = myHistory
+        if !endGame.isEmpty{ history.append(endGame) }
+//        myHistory.append(myGame)
+        // 불러온 배열에 내 게임id를 append해줘야 함
+        try! await database.collection("User").document(myInfo.id).setData([
+            "id": myInfo.id,
+            "game": "",
+            "gameHistory": history,
+            "nickName": myInfo.nickName,
+            "profileImage": myInfo.profileImage
+        ])
+    }
+    
+    // MARK: - MultiGame 중도포기(개인)
+    func giveUpMultiGame() async {
+        print(#function)
+        await deleteGameExpenditure()
+        // 1. 게임 아이디에 맞는 지출 내역불러와서 삭제
+        // 2. 멀티게임에 접근해서 친구목록에 내 아이디 삭제
+        // 3. 유저의 게임에 아이디 삭제
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        guard let gameId = await fetchGameId() else { return }
+        let ref = database.collection("Challenge").document(gameId)
+        
+        do {
+            try await ref.updateData(["inviteFriend" : FieldValue.arrayRemove([userId])])
+            print("멀티 게임 중도 포기 완료")
+        } catch {
+            print("멀티 게임 중도 포기 실패")
+        }
+        await deleteGameId()
+    }
+    
+    // MARK: - Game 지출 내역 전체 삭제
+    func deleteGameExpenditure() async {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return }
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            try await database.collection("Challenge").document(gameId).collection("expenditure").document(userId).delete()
+            print("지출 내역 삭제")
+        } catch {
+            print("지출 내역 삭제 실패")
+        }
+    }
+    
+    
+    // MARK: - GameId 삭제
+    func deleteGameId() async {
+        print(#function)
+        
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        do {
+            try await database.collection("User").document(userId).updateData([ "game": "" ])
+            let myInfo = try await fetchUserInfo(userId)
+            print("게임아이디 삭제 완료")
+        } catch {
+            print("게임아이디 삭제 실패")
+        }
+    }
+    
+    // MARK: - SingleGame 중도포기(삭제)
+    func deleteSingleGame() async {
+        print(#function)
+        await deleteGameExpenditure()
+        guard let gameId = await fetchGameId() else { return }
+        do {
+            try await database.collection("Challenge").document(gameId).delete()
+            print("삭제 완료")
+        } catch {
+            print("삭제 실패")
+        }
+        await deleteGameId()
+    }
+    
+    // MARK: - 지출 기록 가져오기
+    /// 현재 유저의 지출기록을 가져온다.
+    func fetchExpenditure() async {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return }
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(userId)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return print("실패해쒀")}
+            let id = docData["id"] as? String ?? ""
+            let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
+            let totalMoney = docData["totalMoney"] as? Int ?? 0
+            let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
+            let expenditureList = expenditure.expenditureHistory
+//            self.expenditure = expenditure
+            print(expenditureList)
+            print(expenditure)
+        } catch {
+            print("catched")
+        }
+    }
+}
+
 //
 
 extension FirebaseService: FriendDataSource {
@@ -370,7 +651,20 @@ extension FirebaseService: DivideFriendDataSource {
 // MARK: - ChallengeRecord API(실제 데이터 받는 위치)
 extension FirebaseService: ChallengeRecordDataSource {
     // MARK: - 유저 정보를 불러오는 함수
-
+    func challengeRecordfetchUserInfo(_ userId: String) async throws -> Msg? {
+        print(#function)
+        guard (Auth.auth().currentUser != nil) else { return nil}
+        let ref = database.collection("User").document(userId)
+        let snapshot = try await ref.getDocument()
+        guard let docData = snapshot.data() else { return nil }
+        let nickName = docData["nickName"] as? String ?? ""
+        let profileImage = docData["profileImage"] as? String ?? ""
+        let game = docData["game"] as? String ?? ""
+        let gameHistory = docData["gameHistory"] as? [String] ?? []
+        //        let friend = docData["friend"] as? [String] ?? []
+        let userInfo = Msg(id: snapshot.documentID, nickName: nickName, profileImage: profileImage, game: game, gameHistory: gameHistory)
+        return userInfo
+    }
     
     // MARK: - 총 사용금액 가져오기
     func fetchTotalMoney(_ challengeId: String, _ userId: String) async -> Int {

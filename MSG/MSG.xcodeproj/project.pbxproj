@@ -95,6 +95,12 @@
 		4C407A76297A5B4B00877360 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C407A75297A5B4B00877360 /* NotificationManager.swift */; };
 		4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B81822977750C00866E3F /* RecordDetailView.swift */; };
 		4C65CFEC2978D02700BAD069 /* MultiGameProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C65CFEB2978D02700BAD069 /* MultiGameProgressBar.swift */; };
+		4C8CA574299C91EC004A1F9C /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA573299C91EC004A1F9C /* ChallengeViewModel.swift */; };
+		4C8CA578299C9914004A1F9C /* ChallengeViewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA577299C9914004A1F9C /* ChallengeViewUseCase.swift */; };
+		4C8CA57A299C99CF004A1F9C /* ChallengeViewRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA579299C99CF004A1F9C /* ChallengeViewRepository.swift */; };
+		4C8CA57C299C9BCE004A1F9C /* ChallengeViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA57B299C9BCE004A1F9C /* ChallengeViewDataSource.swift */; };
+		4C8CA57E299C9F7D004A1F9C /* ChallengeViewRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA57D299C9F7D004A1F9C /* ChallengeViewRepositoryImpl.swift */; };
+		4C8CA580299CCCA9004A1F9C /* AppDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA57F299CCCA9004A1F9C /* AppDI.swift */; };
 		4C930D5F29763B4300EE046D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D5E29763B4300EE046D /* HomeView.swift */; };
 		4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6029763CD200EE046D /* AfterChallengeView.swift */; };
 		4C930D6329763CF000EE046D /* BeforeChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C930D6229763CF000EE046D /* BeforeChallengeView.swift */; };
@@ -216,6 +222,12 @@
 		4C407A75297A5B4B00877360 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4C5B81822977750C00866E3F /* RecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailView.swift; sourceTree = "<group>"; };
 		4C65CFEB2978D02700BAD069 /* MultiGameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiGameProgressBar.swift; sourceTree = "<group>"; };
+		4C8CA573299C91EC004A1F9C /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
+		4C8CA577299C9914004A1F9C /* ChallengeViewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewUseCase.swift; sourceTree = "<group>"; };
+		4C8CA579299C99CF004A1F9C /* ChallengeViewRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewRepository.swift; sourceTree = "<group>"; };
+		4C8CA57B299C9BCE004A1F9C /* ChallengeViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewDataSource.swift; sourceTree = "<group>"; };
+		4C8CA57D299C9F7D004A1F9C /* ChallengeViewRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewRepositoryImpl.swift; sourceTree = "<group>"; };
+		4C8CA57F299CCCA9004A1F9C /* AppDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDI.swift; sourceTree = "<group>"; };
 		4C930D5E29763B4300EE046D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4C930D6029763CD200EE046D /* AfterChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterChallengeView.swift; sourceTree = "<group>"; };
 		4C930D6229763CF000EE046D /* BeforeChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeChallengeView.swift; sourceTree = "<group>"; };
@@ -591,6 +603,7 @@
 			isa = PBXGroup;
 			children = (
 				362DB5EA299A057C00510314 /* ChallengeUseCase.swift */,
+				4C8CA577299C9914004A1F9C /* ChallengeViewUseCase.swift */,
 				635A3D35299A5C8A007F174D /* ChallengeRecordUseCase.swift */,
 				3602CBC12999FD88007D1034 /* FriendUseCase.swift */,
 				16941F9C299A6EEF003C06C6 /* AddFriendUseCase.swift */,
@@ -604,6 +617,7 @@
 			isa = PBXGroup;
 			children = (
 				16600962297630C300E6A546 /* MSGApp.swift */,
+				4C8CA57F299CCCA9004A1F9C /* AppDI.swift */,
 			);
 			path = Applicatin;
 			sourceTree = "<group>";
@@ -662,6 +676,7 @@
 		3602CBBC2999FC4C007D1034 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4C8CA573299C91EC004A1F9C /* ChallengeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -693,6 +708,7 @@
 			children = (
 				3602CBC42999FF16007D1034 /* FriendRepositoryImpl.swift */,
 				362DB5F0299A066A00510314 /* ChallengeRepositoryImpl.swift */,
+				4C8CA57D299C9F7D004A1F9C /* ChallengeViewRepositoryImpl.swift */,
 				16941FA0299A700B003C06C6 /* AddFriendRepositoryImpl.swift */,
 				635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */,
 				1611113A299C95900002AD92 /* GameRequestRepositoryImpl.swift */,
@@ -705,6 +721,7 @@
 			children = (
 				3602CBC72999FF49007D1034 /* FriendRepository.swift */,
 				362DB5EC299A05CA00510314 /* ChallengeRepository.swift */,
+				4C8CA579299C99CF004A1F9C /* ChallengeViewRepository.swift */,
 				16941F9E299A6FED003C06C6 /* AddFriendRepository.swift */,
 				635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */,
 				16111138299C956C0002AD92 /* GameRequestRepository.swift */,
@@ -718,6 +735,7 @@
 				3602CBCA2999FF99007D1034 /* FriendDataSource.swift */,
 				3602CBCC2999FFC3007D1034 /* FirebaseService.swift */,
 				362DB5EE299A064800510314 /* ChallengeDataSource.swift */,
+				4C8CA57B299C9BCE004A1F9C /* ChallengeViewDataSource.swift */,
 				163CB2CB299A27E4008506FD /* RealtimeService.swift */,
 				16941FA2299A70BC003C06C6 /* AddFriendDataSource.swift */,
 				635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */,
@@ -875,6 +893,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C8CA57E299C9F7D004A1F9C /* ChallengeViewRepositoryImpl.swift in Sources */,
 				63690D3C298CCF0400B48DA4 /* Extension+View.swift in Sources */,
 				63EC446F297A8366008A7FDE /* Extension+String.swift in Sources */,
 				635A3D3A299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift in Sources */,
@@ -885,6 +904,7 @@
 				6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */,
 				6362E8CB2989574B0052C488 /* TabBarView.swift in Sources */,
 				63691A3D299210E4007CC706 /* LicenseItem.swift in Sources */,
+				4C8CA574299C91EC004A1F9C /* ChallengeViewModel.swift in Sources */,
 				368FC46C299B736A00C68275 /* DateSheetView.swift in Sources */,
 				36FA4918297791A100B26A24 /* ChartCellView.swift in Sources */,
 				36C7BB822977B37200A3F999 /* OnBoardView5.swift in Sources */,
@@ -892,6 +912,7 @@
 				631032492978273300F3A463 /* SystemThemeManager.swift in Sources */,
 				6342C2CD297665D600C24D20 /* PrivacyPolicyView.swift in Sources */,
 				63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */,
+				4C8CA57A299C99CF004A1F9C /* ChallengeViewRepository.swift in Sources */,
 				16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */,
 				168CDEF1298CD12200FAA3F4 /* LottieView.swift in Sources */,
 				635A3D34299A5BE9007F174D /* ChallengeRecordViewModel.swift in Sources */,
@@ -964,6 +985,7 @@
 				16C6753629822E420028A608 /* Extension+Color.swift in Sources */,
 				36C7BB812977B37200A3F999 /* OnBoardTapView.swift in Sources */,
 				161398FC2983F863002A6F16 /* SpendingWriteViewModel.swift in Sources */,
+				4C8CA578299C9914004A1F9C /* ChallengeViewUseCase.swift in Sources */,
 				36DB97792976526900A0596F /* ViewModifier.swift in Sources */,
 				165541E8298CC19600500895 /* ChallengeProgressView.swift in Sources */,
 				63AC1FE8298FC8A4004E24F1 /* NotificationToggle.swift in Sources */,
@@ -973,8 +995,10 @@
 				36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */,
 				16941FA1299A700B003C06C6 /* AddFriendRepositoryImpl.swift in Sources */,
 				362DB5EF299A064800510314 /* ChallengeDataSource.swift in Sources */,
+				4C8CA580299CCCA9004A1F9C /* AppDI.swift in Sources */,
 				36338AFB298B5A5D009ABB77 /* DivideFriendViewModel.swift in Sources */,
 				4C930D6129763CD200EE046D /* AfterChallengeView.swift in Sources */,
+				4C8CA57C299C9BCE004A1F9C /* ChallengeViewDataSource.swift in Sources */,
 				635A3D36299A5C8A007F174D /* ChallengeRecordUseCase.swift in Sources */,
 				634CE3F7297920D500358E32 /* SegementedControllView.swift in Sources */,
 			);

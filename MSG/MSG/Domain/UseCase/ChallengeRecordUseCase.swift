@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - ChallengeRecord Usecase protocol
 protocol ChallengeRecordUse {
+    func challengeRecordfetchUserInfo(_ userId: String) async throws -> Msg?
     func getChallengeHistory() async throws -> [Challenge]
     func getUserData(user: [String], challengeId: String) async -> ChallengeUserData?
     func getChallengeUser(users: [String], challengeId: String) async -> ChallengeUserData
@@ -22,6 +23,11 @@ struct ChallengeRecordUseCase: ChallengeRecordUse {
     
     var challengeRepository: ChallengeRecordRepository
     typealias ChallengeUserData = [(user:(userName: String, userProfile: String), totalMoney: Int)]
+    
+    func challengeRecordfetchUserInfo(_ userId: String) async throws -> Msg? {
+        let data = try await challengeRepository.challengeRecordfetchUserInfo(userId)
+        return data
+    }
     
     // MARK: - 이전 챌린지기록을 모두 가져오는 함수
     func getChallengeHistory() async throws -> [Challenge] {
