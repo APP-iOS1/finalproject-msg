@@ -18,5 +18,10 @@
 import SwiftUI
 
 class WaitingViewModel: ObservableObject {
-    
+    //fetchGame
+    //fireStoreViewModel.findUser(inviteId: fireStoreViewModel.currentGame!.inviteFriend,waitingId: fireStoreViewModel.currentGame!.waitingFriend)
+    //fireStoreViewModel.fetchGame()
+    //                        await realtimeViewModel.afterFiveMinuteDeleteChallenge(friend: user)
 }
+//await fireStoreViewModel.addMultiGameDeleteWaitUserFiveMinute(fireStoreViewModel.currentGame!)
+

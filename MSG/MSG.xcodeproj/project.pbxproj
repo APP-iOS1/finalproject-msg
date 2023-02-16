@@ -326,6 +326,7 @@
 		1606CB4E297697F9004DD13B /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1621CD4C299DC183003224C0 /* Waiting */,
 				3602CBBC2999FC4C007D1034 /* ViewModel */,
 				4C930D6029763CD200EE046D /* AfterChallengeView.swift */,
 				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
@@ -335,10 +336,7 @@
 				63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */,
 				161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */,
 				632B7CD029825C8000A3D53C /* CountDownView.swift */,
-				168AE7A529875EA400D68C1C /* WaitingView.swift */,
-				168AE7A729875EB600D68C1C /* WaitingViewModel.swift */,
 				165541E7298CC19600500895 /* ChallengeProgressView.swift */,
-				161716B42993857F00CC4901 /* WaitingCountView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -376,6 +374,32 @@
 			isa = PBXGroup;
 			children = (
 				16111134299C92B90002AD92 /* GameRequestViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1621CD4C299DC183003224C0 /* Waiting */ = {
+			isa = PBXGroup;
+			children = (
+				1621CD4E299DC193003224C0 /* ViewModel */,
+				1621CD4D299DC18F003224C0 /* View */,
+				168AE7A529875EA400D68C1C /* WaitingView.swift */,
+				161716B42993857F00CC4901 /* WaitingCountView.swift */,
+			);
+			path = Waiting;
+			sourceTree = "<group>";
+		};
+		1621CD4D299DC18F003224C0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1621CD4E299DC193003224C0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				168AE7A729875EB600D68C1C /* WaitingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
