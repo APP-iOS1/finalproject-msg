@@ -429,6 +429,25 @@ extension FirebaseService: ChallengeDataSource{
         }
     }
     
+    func makeMultiGame(_ multiGame:Challenge) async{
+        print(#function)
+        guard let hostId = Auth.auth().currentUser?.uid else { return }
+        do{
+            try await database.collection("Challenge").document(multiGame.id).setData([
+                "id": multiGame.id,
+                "gameTitle": multiGame.gameTitle,
+                "limitMoney": multiGame.limitMoney,
+                "startDate": multiGame.startDate,
+                "endDate": multiGame.endDate,
+                "inviteFriend": [hostId],
+                "waitingFriend" : multiGame.waitingFriend
+            ])
+            await updateUserGame(gameId: multiGame.id)
+        }catch{
+            print("Error #MAKE MULTI Game")
+        }
+    }
+    
     // MARK: - SingleGame + User game에 String 추가하는 함수
     func makeSingleGame(_ singleGame: Challenge) async {
         print(#function)
@@ -771,4 +790,119 @@ extension FirebaseService: ChallengeRecordDataSource {
             return nil
         }
     }
+}
+
+extension FirebaseService: GameRequestDataSourceWithFirebase {
+    
+    func acceptGame(_ gameId: String) async {
+        print(#function)
+        guard let userId = Auth.auth().currentUser?.uid else{ return  }
+        let ref = database.collection("User").document(userId)
+        do{
+            try await ref.updateData([
+                "game" : gameId
+            ])
+            print("game에 참여하였습니다!")
+        }catch{
+            print("에러")
+            
+        }
+    }
+    func fetchChallengeInformation(_ challengeId: String) async -> Challenge? {
+        print(#function)
+        let ref = database.collection("Challenge").document(challengeId)
+        do{
+            let document =  try await ref.getDocument()
+            guard let docData = document.data() else { return nil}
+            let id = docData["id"] as? String ?? ""
+            let gameTitle = docData["gameTitle"] as? String ?? ""
+            let limitMoney = docData["limitMoney"] as? Int ?? 0
+            let startDate = docData["startDate"] as? String ?? ""
+            let endDate = docData["endDate"] as? String ?? ""
+            let inviteFriend = docData["inviteFriend"] as? [String] ?? []
+            let waitingFriend = docData["waitingFriend"] as? [String] ?? []
+            let challenge = Challenge(id: id, gameTitle:gameTitle , limitMoney: limitMoney, startDate: startDate, endDate: endDate, inviteFriend: inviteFriend, waitingFriend: waitingFriend)
+            return challenge
+        } catch{
+            print("Error")
+            return nil
+        }
+        
+    }
+    
+    func waitingLogic(data: Challenge?) async {
+        print(#function)
+        //패치해서 따끈한걸 받아와서 올려주기
+        guard let data else {return}
+        //새로 받는함수 추가
+        guard let inviteGame = await fetchChallengeInformation(data.id) else { return }
+        await doSomeThing(data: inviteGame)
+
+    }
+    
+    func doSomeThing(data: Challenge) async -> Challenge? {
+        let ref = database.collection("Challenge").document(data.id)
+        do{
+            try await ref.setData([
+                "id": data.id,
+                "gameTitle": data.gameTitle,
+                "limitMoney": data.limitMoney,
+                "startDate": data.startDate,
+                "endDate": data.endDate,
+                "inviteFriend": data.inviteFriend + [(Auth.auth().currentUser?.uid ?? "")],
+                "waitingFriend": data.waitingFriend
+            ])
+//            self.currentGame = data
+            return data
+        }catch{
+            print("게임 추가 에러..")
+            return nil
+        }
+    }
+    
+    func notAllowChallegeStep1(data: [Msg]?) async {
+        print(#function)
+        print("data 체크중입니다:",data)
+        //패치해서 따끈한걸 받아와서 올려주기
+        guard let data else {
+            print("리턴문에 들어옴")
+            return
+            
+        }
+        //새로 받는함수 추가
+        for eachGame in data {
+            print("for문에 들어옴:",eachGame.nickName)
+            guard let inviteGame = await fetchChallengeInformation(eachGame.game) else { return }
+            notAllowChallegeStep2(data: inviteGame)
+        }
+
+    }
+    
+    func notAllowChallegeStep2(data: Challenge) {
+        print(#function)
+        let ref = database.collection("Challenge").document(data.id)
+        
+        let firstIndex = data.waitingFriend.firstIndex { value in
+            value == Auth.auth().currentUser?.uid
+        }
+        var array = data.waitingFriend
+        print(array[firstIndex!])
+        array.remove(at: firstIndex!)
+        do{
+            try ref.setData([
+                "id": data.id,
+                "gameTitle": data.gameTitle,
+                "limitMoney": data.limitMoney,
+                "startDate": data.startDate,
+                "endDate": data.endDate,
+                "inviteFriend": data.inviteFriend,
+                "waitingFriend": array
+            ])
+            print("배열값:",array)
+        }catch{
+            print("게임 거절 에러..")
+        }
+    }
+    
+    
 }

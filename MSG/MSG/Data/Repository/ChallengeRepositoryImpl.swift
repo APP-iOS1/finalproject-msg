@@ -17,6 +17,8 @@ struct ChallengeRepository: ChallengeRepositoryInterface{
     func creatSingleChallenge(_ challenge: Challenge)  async {
         await firestoreService.makeSingleGame(challenge)
     } // 싱글 챌린지 만들기
-    func creatMultiChallenge() { } // 멀티 챌린지 만들기
+    func creatMultiChallenge(_ challenge: Challenge) async {
+        await firestoreService.makeMultiGame(challenge)
+    }
     
 }
