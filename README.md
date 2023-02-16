@@ -72,7 +72,7 @@
 <br>
 
 ## MSG Architecture🛠
-<img width="1500" alt="image" src="https://user-images.githubusercontent.com/108966759/219245974-71707963-688d-49fa-8688-d52f80a7dc24.png">
+<img width="1200" alt="image" src="https://user-images.githubusercontent.com/108966759/219245974-71707963-688d-49fa-8688-d52f80a7dc24.png">
 
 <br>
 <br>
