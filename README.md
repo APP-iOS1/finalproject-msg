@@ -63,10 +63,16 @@
 <br>
 <br>
 
-## UI 흐름도 및 아키텍쳐
+## UI 흐름도
 |<img src="https://user-images.githubusercontent.com/66459715/212446413-9aa9e540-5d80-42b4-b32e-9501727ea4eb.png" width="800"></img>|<img src="https://user-images.githubusercontent.com/66459715/212446416-b0edc9c0-3b0c-41bb-829e-9ad17aa863b0.png" width="800"></img>|
 |:-:|:-:|
 |`프로토타입`|`UI Flow`|
+
+<br>
+<br>
+
+## MSG Architecture🛠
+<img width="1500" alt="image" src="https://user-images.githubusercontent.com/108966759/219245974-71707963-688d-49fa-8688-d52f80a7dc24.png">
 
 <br>
 <br>
