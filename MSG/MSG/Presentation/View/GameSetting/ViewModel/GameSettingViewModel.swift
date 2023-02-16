@@ -54,12 +54,15 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
     private var publishers = Set<AnyCancellable>()
     private let challengeUseCase: ChallengeUseCase?
     private let friendUseCase: FriendUseCase?
+    private let challengeRequestUseCase: GameRequestUseCase?
+    private let addFriendUseCase: AddFriendUseCase?
     
     @Published var title = ""
     @Published var daySelection: Int = 5
     @Published var isGameSettingValid = false
     @Published var waitingFriendList: [Msg] = []
     @Published var invitingFriendList: [Msg] = []
+    @Published var invitingFriendIdList:[String] = []
     @Published var displayFriend: [Msg] = []
     @Published var dayMultiArray:[Double] = [1,7,10,30,100]
     @Published var dayArray = ["1일", "7일", "10일", "30일", "100일"]
@@ -85,6 +88,8 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
     init(challegeUsecase: ChallengeUseCase? = nil){
         self.challengeUseCase = DefaultChallengeUseCase(repository: ChallengeRepository(firestoreService: FirebaseService()))
         self.friendUseCase = FriendUseCase(repo: FriendRepositoryImpl(dataSource: FirebaseService()))
+        self.challengeRequestUseCase = GameRequestUseCase(repo: GameRequestRepositoryImpl(dataSourceFirebase: FirebaseService(), dataSourceRealtimeDB: Real()))
+        self.addFriendUseCase = AddFriendUseCase(repo: AddFriendRepositoryImpl(dataSourceRealTimeDB: Real(), dataSourceFireBase: FirebaseService()))
         isGameSettingValidPublisher.receive(on: RunLoop.main)
             .assign(to: \.isGameSettingValid, on:self)
             .store(in: &publishers)
@@ -97,11 +102,13 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
     func checkFriend(_ friend: Msg){
         if invitingFriendList.contains(friend){
             invitingFriendList.remove(at: invitingFriendList.firstIndex(of: friend)!)
+            invitingFriendIdList.remove(at: invitingFriendIdList.firstIndex(of: friend.id)!)
         }else{
             if invitingFriendList.count >= 3{
                 friendAlert = true
             }else{
                 invitingFriendList.append(friend)
+                invitingFriendIdList.append(friend.id)
                 print(invitingFriendList)
             }
         }
@@ -129,9 +136,15 @@ final class GameSettingViewModel:ObservableObject, GameSettingViewModelInput, Ga
     // 멀티 챌린지 생성
     func createMultiChallenge() async {
         let challenge = Challenge(id: UUID().uuidString, gameTitle: title, limitMoney: Int(targetMoney)!,
-                                  startDate: String(startDate), endDate: String(endDate), inviteFriend: [], waitingFriend: [])
+                                  startDate: String(startDate), endDate: String(endDate), inviteFriend: [], waitingFriend: invitingFriendIdList)
         await challengeUseCase?.excuteMakeMultiChallenge(challenge)
-        resetInputData()
+        do{
+            guard let myInfo = try await addFriendUseCase?.myInfo() else { return }
+            challengeRequestUseCase?.sendFightRequest(to: invitingFriendList, from: myInfo, isFight: false)
+            resetInputData()
+        } catch{
+            
+        }
     }
     
 }

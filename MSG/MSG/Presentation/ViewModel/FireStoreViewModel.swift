@@ -843,12 +843,6 @@ final class FireStoreViewModel: ObservableObject {
     
     func doSomeThing(data: Challenge) async {
         let ref = database.collection("Challenge").document(data.id)
-//
-//        let firstIndex = data.waitingFriend.firstIndex { value in
-//            value == Auth.auth().currentUser?.uid
-//        }
-//        var array = data.waitingFriend
-//        array.remove(at: firstIndex!)
         do{
             try await ref.setData([
                 "id": data.id,

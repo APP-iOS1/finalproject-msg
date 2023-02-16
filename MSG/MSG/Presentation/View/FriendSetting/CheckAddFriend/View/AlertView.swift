@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AlertView: View {
-    @StateObject var realtimeService = RealtimeService()
+    @EnvironmentObject var realtimeService: RealtimeService
     @StateObject var checkAddFriendViewModel = CheckAddFriendViewModel()
     var body: some View {
         

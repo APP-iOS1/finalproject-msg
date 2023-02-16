@@ -277,16 +277,11 @@ extension GameSettingView {
                 Task{
                     if !notiManager.isGranted {
                         await gameSettingViewModel.createMultiChallenge()
-                        // UserInfo 가져오기
-                        // UserUseCase
-                        // realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
                     } else {
                         print("도전장 보내짐?")
                         let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "상대방이 도전을 수락하면 시작됩니다.", timeInterval: 1, repeats: false)
                         await gameSettingViewModel.createMultiChallenge()
-                        //[UserUseCase에서 유저정보 가져오기]
-                        //                        realtimeViewModel.sendFightRequest(to: realtimeViewModel.inviteFriendArray, from: myInfo, isFight: true)
                         dismiss()
                         await notiManager.schedule(localNotification: localNotification)
                         await notiManager.doSomething()

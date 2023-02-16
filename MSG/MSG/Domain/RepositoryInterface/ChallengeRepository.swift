@@ -9,5 +9,5 @@ import Foundation
 
 protocol ChallengeRepositoryInterface{
     func creatSingleChallenge(_ challenge: Challenge) async
-    func creatMultiChallenge() async
+    func creatMultiChallenge(_ challenge: Challenge) async
 }
