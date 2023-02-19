@@ -18,7 +18,7 @@ protocol ChallengeUse {
     // AfterChallengeView
     func giveUpMultiGame() async // MultiGame 중도포기(개인)
     func deleteSingleGame() async // SingleGame 중도포기(삭제)
-    func fetchExpenditure() async // 현재 유저의 지출기록을 가져오기
+    func fetchExpenditure() async -> Expenditure?// 현재 유저의 지출기록을 가져오기
     func parsingExpenditure(expenditure: [String:[String]])
     
     // BeforeChallengeView
@@ -62,8 +62,9 @@ struct ChallengeViewUseCase: ChallengeUse {
         await challengeViewRepository.deleteSingleGame()
     }
     
-    func fetchExpenditure() async {
-        await challengeViewRepository.fetchExpenditure()
+    func fetchExpenditure() async -> Expenditure?{
+        let data = await challengeViewRepository.fetchExpenditure()
+        return data
     }
     
     func parsingExpenditure(expenditure: [String : [String]]) {

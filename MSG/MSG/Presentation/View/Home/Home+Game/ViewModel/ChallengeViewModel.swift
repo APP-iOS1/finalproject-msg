@@ -39,6 +39,7 @@ protocol ChallengeViewOutput {
 final class ChallengeViewModel: ObservableObject, ChallengeViewInput, ChallengeViewOutput {
 
     var challengeUseCase = ChallengeViewUseCase(challengeViewRepository: ChallengeViewRepositoryImpl(firestoreService: FirebaseService()))
+    var addExpenditureUseCase = AddExpenditureUseCase(repo: AddExpenditureRepositoryImpl(dataSource: FirebaseService()))
     
     @Published var userArray: [Msg] = []
     @Published var invitedArray: [Msg] = []
@@ -87,7 +88,11 @@ final class ChallengeViewModel: ObservableObject, ChallengeViewInput, ChallengeV
     }
     
     func fetchExpenditure() async {
-        await challengeUseCase.fetchExpenditure()
+        guard let data = await challengeUseCase.fetchExpenditure() else { return }
+        await MainActor.run {
+            self.expenditure = data
+            self.expenditureList = data.expenditureHistory
+        }
     }
     
     func parsingExpenditure(expenditure: [String : [String]]) {
@@ -96,6 +101,11 @@ final class ChallengeViewModel: ObservableObject, ChallengeViewInput, ChallengeV
     
     func findFriend() {
         challengeUseCase.findFriend()
+    }
+    
+    func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async {
+        print("== ViewModel ==")
+        await addExpenditureUseCase.addExpenditure(user: user, tagName: tagName, convert: convert, addMoney: addMoney)
     }
     
     

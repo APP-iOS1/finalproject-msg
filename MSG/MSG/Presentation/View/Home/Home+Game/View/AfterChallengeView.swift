@@ -116,7 +116,7 @@ struct AfterChallengeView: View {
                             
                             
                             //MARK: - 추가하기 네비게이션 링크
-                            NavigationLink(destination: SpendingWritingView(), label: {
+                            NavigationLink(destination: SpendingWritingView(challengeViewModel:challengeViewModel), label: {
                                 Text("지출 추가하기")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                     .frame(width: g.size.width / 1.4, height: g.size.height / 34)

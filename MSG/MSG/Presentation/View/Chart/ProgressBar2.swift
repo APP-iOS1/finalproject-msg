@@ -79,18 +79,18 @@ struct ProgressBar2: View {
             }
             
         }
-        .onAppear {
-            Task {
-                await fireStoreViewModel.fetchExpenditure()
-                print("나눔결과:",percentage / limitMoney)
-                print("percentage:",percentage)
-                print("totalMoney:",fireStoreViewModel.totalMoney)
-                print("limitMoney:",limitMoney)
-                //                print("나눔결과")
-                //                self.totalMoney = fireStoreViewModel.totalMoney
-                //                                print("percengate:\(self.totalMoney), limitMoney:\(self.limitMoney)")
-            }
-        }
+//        .onAppear {
+//            Task {
+//                await fireStoreViewModel.fetchExpenditure()
+//                print("나눔결과:",percentage / limitMoney)
+//                print("percentage:",percentage)
+//                print("totalMoney:",fireStoreViewModel.totalMoney)
+//                print("limitMoney:",limitMoney)
+//                //                print("나눔결과")
+//                //                self.totalMoney = fireStoreViewModel.totalMoney
+//                //                                print("percengate:\(self.totalMoney), limitMoney:\(self.limitMoney)")
+//            }
+//        }
     }
 }
 

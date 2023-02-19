@@ -44,8 +44,9 @@ struct ChallengeViewRepositoryImpl: ChallengeViewRepository {
         await firestoreService.deleteSingleGame()
     }
     
-    func fetchExpenditure() async {
-        await firestoreService.fetchExpenditure()
+    func fetchExpenditure() async -> Expenditure?{
+        let data = await firestoreService.fetchExpenditure()
+        return data
     }
     
     func parsingExpenditure(expenditure: [String : [String]]) {
