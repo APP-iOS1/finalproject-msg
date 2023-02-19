@@ -19,7 +19,7 @@ struct HomeView: View {
         ZStack {
             if let game = challengeViewModel.currentGame {
                 if game.waitingFriend.isEmpty {
-                    AfterChallengeView(challengeViewModel: AppDI.shared.challengeViewModel)
+                    AfterChallengeView(challengeViewModel: AppDI.shared.challengeViewModel, challenge: challengeViewModel.currentGame!)
                 } else {
                     WaitingView(game: challengeViewModel.currentGame!)
                         .refreshable {
