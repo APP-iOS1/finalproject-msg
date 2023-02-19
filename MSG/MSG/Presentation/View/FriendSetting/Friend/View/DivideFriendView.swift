@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct DivideFriendView: View {
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @EnvironmentObject var realtimeViewModel: RealtimeViewModel
     @StateObject var friendViewModel = DivideFriendViewModel()
     @Binding var findFriendToggle: Bool
     @State var checked = false

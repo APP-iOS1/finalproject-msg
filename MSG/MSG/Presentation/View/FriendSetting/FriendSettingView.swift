@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FriendSettingView: View {
     @Binding var selectedTabBar: SelectedTab
-    @EnvironmentObject var firebaseViewModel: FireStoreViewModel
     @State var selection: Int = 0
     let titles: [String] = ["친구", "친구요청", "도전장"]
     

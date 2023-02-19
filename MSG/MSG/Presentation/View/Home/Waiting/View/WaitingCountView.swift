@@ -11,8 +11,9 @@ import SwiftUI
 
 struct WaitingCountView: View {
     
-    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
+//    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+//    @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
+    @ObservedObject var waitingViewModel: WaitingViewModel
     @State var timeRemaining = 3024000
     var endDate: Double = 0.0
     
@@ -38,12 +39,13 @@ struct WaitingCountView: View {
             }else{
                 Task {
                     self.timer.upstream.connect().cancel()
-                    await fireStoreViewModel.fetchGame()
-                    guard let waitingArray = fireStoreViewModel.currentGame else { return }
+                    await waitingViewModel.fetchGame()
+                    guard let waitingArray = waitingViewModel.currentGame else { return }
                     for user in waitingArray.waitingFriend {
-                        await realtimeViewModel.afterFiveMinuteDeleteChallenge(friend: user)
+                        await waitingViewModel.afterFiveMinuteDeleteChallenge(friend: user)
                     }
-                    await fireStoreViewModel.addMultiGameDeleteWaitUserFiveMinute(fireStoreViewModel.currentGame!)
+                    let data = await waitingViewModel.addMultiGameDeleteWaitUserFiveMinute(waitingViewModel.currentGame!)
+                    waitingViewModel.currentGame = data
 //                    afterFiveMinuteDeleteChallenge
                 }
             }
@@ -54,8 +56,8 @@ struct WaitingCountView: View {
     }
 }
 
-struct WaitingCountView_Previews: PreviewProvider {
-    static var previews: some View {
-        WaitingCountView()
-    }
-}
+//struct WaitingCountView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WaitingCountView()
+//    }
+//}

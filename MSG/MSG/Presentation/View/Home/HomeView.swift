@@ -19,12 +19,12 @@ struct HomeView: View {
         ZStack {
             if let game = challengeViewModel.currentGame {
                 if game.waitingFriend.isEmpty {
-                    AfterChallengeView(challengeViewModel: AppDI.shared.challengeViewModel)
+                    AfterChallengeView(challengeViewModel: AppDI.shared.challengeViewModel, challenge: challengeViewModel.currentGame!)
                 } else {
-                    WaitingView(game: challengeViewModel.currentGame!)
+                    WaitingView(challengeViewModel: challengeViewModel)
                         .refreshable {
                             await challengeViewModel.findUser(inviteId: challengeViewModel.currentGame!.inviteFriend,waitingId: challengeViewModel.currentGame!.waitingFriend)
-                            await challengeViewModel.fetchGame()
+                            await challengeViewModel.fetchGameReturn()
                         }
                 }
                 
@@ -38,7 +38,6 @@ struct HomeView: View {
                 if !(user.game.isEmpty) {
                     await challengeViewModel.fetchGameReturn()
                 }
-                
                 print(user.game)
                 print("홈뷰 온어피어 : \(challengeViewModel.currentGame)")
             }

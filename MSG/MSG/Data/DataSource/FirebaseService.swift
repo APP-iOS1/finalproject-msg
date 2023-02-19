@@ -143,7 +143,7 @@ extension FirebaseService: ChallengeViewDataSource {
         }
     }
     
-    func findUser(inviteId: [String], waitingId: [String]) async {
+    func findUser(inviteId: [String], waitingId: [String]) async -> ([Msg],[Msg]) {
         print(#function)
         var invitedArray: [Msg] = []
         var waitingArray: [Msg] = []
@@ -172,8 +172,10 @@ extension FirebaseService: ChallengeViewDataSource {
                     }
                 }
             }
+            return (invitedArray,waitingArray)
         } catch{
             print("Faile Find User")
+            return ([],[])
         }
         
     }
@@ -905,4 +907,29 @@ extension FirebaseService: GameRequestDataSourceWithFirebase {
     }
     
     
+}
+
+extension FirebaseService: WaitingDataSource {
+    func addMultiGameDeleteWaitUserFiveMinute(_ challenge: Challenge) async -> Challenge? {
+        print(#function)
+        await updateUserGame(gameId: challenge.id)
+        let ref = database.collection("Challenge").document(challenge.id)
+        do{
+            try await ref.setData([
+
+                "id": challenge.id,
+                "gameTitle": challenge.gameTitle,
+                "limitMoney": challenge.limitMoney,
+                "startDate": challenge.startDate,
+                "endDate": challenge.endDate,
+                "inviteFriend": challenge.inviteFriend,
+                "waitingFriend": []
+            ])
+            let data = challenge
+            return data
+        }catch{
+            print("게임 추가 에러..")
+            return nil
+        }
+    }
 }

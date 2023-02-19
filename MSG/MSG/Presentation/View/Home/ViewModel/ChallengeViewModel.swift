@@ -53,9 +53,11 @@ final class ChallengeViewModel: ObservableObject, ChallengeViewInput, ChallengeV
         self.challengeUseCase = ChallengeViewUseCase(challengeViewRepository: ChallengeViewRepositoryImpl(firestoreService: FirebaseService()))
     }
     
-    
+    @MainActor
     func findUser(inviteId: [String], waitingId: [String]) async {
-        await challengeUseCase.findUser(inviteId: inviteId, waitingId: waitingId)
+        let data = await challengeUseCase.findUser(inviteId: inviteId, waitingId: waitingId)
+        self.invitedArray = data.0
+        self.waitingArray = data.1
     }
     
     func fetchGame() async {

@@ -12,7 +12,7 @@ struct AfterChallengeView: View {
     @ObservedObject var challengeViewModel: ChallengeViewModel
     @State private var giveUpGame: Bool = false
     @EnvironmentObject var notiManager: NotificationManager
-    
+    let challenge: Challenge
     @State private var birthDate = Date()
     @State private var showingAlert: Bool = false
     var body: some View {
@@ -24,18 +24,18 @@ struct AfterChallengeView: View {
                     VStack(spacing: 15) {
                         Group{
                             HStack {
-                                Text(challengeViewModel.currentGame!.gameTitle)
+                                Text(challenge.gameTitle)
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
                                 Spacer()
                             }
                             
                             HStack{
-                                Text("제한 금액 : \(challengeViewModel.currentGame!.limitMoney)원")
+                                Text("제한 금액 : \(challenge.limitMoney)원")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                                 Spacer()
                             }
                             HStack{
-                                Text("\(challengeViewModel.currentGame!.startDate.createdDate) ~ \(challengeViewModel.currentGame!.endDate.createdDate)")
+                                Text("\(challenge.startDate.createdDate) ~ \(challenge.endDate.createdDate)")
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                     .padding(.bottom)
                                 Spacer()
@@ -44,12 +44,12 @@ struct AfterChallengeView: View {
                         
                         Group{
                             // 싱글게임 멀티게임 다르게 보여주기
-                            if challengeViewModel.currentGame!.inviteFriend.isEmpty {
-                                ProgressBar2(percentage: $challengeViewModel.totalMoney,limitMoney: challengeViewModel.currentGame!.limitMoney)
+                            if challenge.inviteFriend.isEmpty {
+                                ProgressBar2(percentage: $challengeViewModel.totalMoney,limitMoney: challenge.limitMoney)
                                     .frame(height:30)
                             } else {
-                                ForEach(challengeViewModel.currentGame!.inviteFriend,id:\.self) {friend in
-                                    MultiProgressBar(friend: friend, limitMoney: challengeViewModel.currentGame!.limitMoney)
+                                ForEach(challenge.inviteFriend,id:\.self) {friend in
+                                    MultiProgressBar(friend: friend, limitMoney: challenge.limitMoney)
                                 }
                             }
                             Spacer()
@@ -64,7 +64,7 @@ struct AfterChallengeView: View {
                             .padding(.top)
                             VStack{
                                 //챌린지 시작날짜~오늘날짜 계산
-                                CountDownView(endDate: Double(challengeViewModel.currentGame!.endDate)!)
+                                CountDownView(endDate: Double(challenge.endDate)!)
                                     .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                             }
                         }
@@ -75,7 +75,7 @@ struct AfterChallengeView: View {
                             
                             if challengeViewModel.expenditure != nil {
                                
-                                NavigationLink(destination:   ChartView(expenditure: challengeViewModel.expenditure!, limitMoney: Float(challengeViewModel.currentGame!.limitMoney)), label: {
+                                NavigationLink(destination:   ChartView(expenditure: challengeViewModel.expenditure!, limitMoney: Float(challenge.limitMoney)), label: {
                                     Text("상세 소비 내역 확인하기")
                                         .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.body, color: FontCustomColor.color2))
                                         .frame(width: g.size.width / 1.4, height: g.size.height / 34)

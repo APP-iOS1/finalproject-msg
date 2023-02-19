@@ -11,8 +11,9 @@ struct ChallengeViewRepositoryImpl: ChallengeViewRepository {
 
     let firestoreService: ChallengeViewDataSource
     
-    func findUser(inviteId: [String], waitingId: [String]) async {
-        await firestoreService.findUser(inviteId: inviteId, waitingId: waitingId)
+    func findUser(inviteId: [String], waitingId: [String]) async -> ([Msg],[Msg]) {
+        let data = await firestoreService.findUser(inviteId: inviteId, waitingId: waitingId)
+        return data
     }
     
     func fetchGame() async {
