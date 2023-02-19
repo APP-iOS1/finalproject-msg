@@ -17,11 +17,15 @@
 		163CB2CC299A27E4008506FD /* RealtimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163CB2CB299A27E4008506FD /* RealtimeService.swift */; };
 		1642F3FC298E893D0085FF00 /* MultiProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */; };
 		16526E87298BA74000ED023A /* GameRequestAlertViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16526E86298BA74000ED023A /* GameRequestAlertViewCell.swift */; };
-		165541E8298CC19600500895 /* ChallengeProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165541E7298CC19600500895 /* ChallengeProgressView.swift */; };
 		165541EA298CC47900500895 /* ProgressBar2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165541E9298CC47900500895 /* ProgressBar2.swift */; };
 		16573EDB2977AA38001176F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16573EDA2977AA38001176F6 /* GoogleService-Info.plist */; };
 		16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16573EFE2977D429001176F6 /* FireStoreViewModel.swift */; };
 		16573F022977D60B001176F6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 16573F012977D60B001176F6 /* FirebaseFirestore */; };
+		165B151C29A2873500F44274 /* ExpenditureDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151B29A2873500F44274 /* ExpenditureDataSource.swift */; };
+		165B151E29A28EE800F44274 /* ExpenditureRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151D29A28EE800F44274 /* ExpenditureRepository.swift */; };
+		165B152029A28F0200F44274 /* ExpenditureRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151F29A28F0200F44274 /* ExpenditureRepositoryImpl.swift */; };
+		165B152229A28F5A00F44274 /* ExpenditureUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B152129A28F5A00F44274 /* ExpenditureUseCase.swift */; };
+		165B152929A2991600F44274 /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B152829A2991600F44274 /* ProgressViewModel.swift */; };
 		165E321C2977EAF500678A09 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E321B2977EAF500678A09 /* SettingView.swift */; };
 		16600963297630C300E6A546 /* MSGApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16600962297630C300E6A546 /* MSGApp.swift */; };
 		16600965297630C300E6A546 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16600964297630C300E6A546 /* ContentView.swift */; };
@@ -98,7 +102,6 @@
 		4C407A74297A5B1900877360 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C407A73297A5B1900877360 /* LocalNotification.swift */; };
 		4C407A76297A5B4B00877360 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C407A75297A5B4B00877360 /* NotificationManager.swift */; };
 		4C5B81832977750C00866E3F /* RecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B81822977750C00866E3F /* RecordDetailView.swift */; };
-		4C65CFEC2978D02700BAD069 /* MultiGameProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C65CFEB2978D02700BAD069 /* MultiGameProgressBar.swift */; };
 		4C8CA574299C91EC004A1F9C /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA573299C91EC004A1F9C /* ChallengeViewModel.swift */; };
 		4C8CA578299C9914004A1F9C /* ChallengeViewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA577299C9914004A1F9C /* ChallengeViewUseCase.swift */; };
 		4C8CA57A299C99CF004A1F9C /* ChallengeViewRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8CA579299C99CF004A1F9C /* ChallengeViewRepository.swift */; };
@@ -132,7 +135,6 @@
 		63691A3D299210E4007CC706 /* LicenseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63691A3C299210E4007CC706 /* LicenseItem.swift */; };
 		63691A4929921274007CC706 /* LicenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63691A4829921274007CC706 /* LicenseDetailView.swift */; };
 		63AC1FE8298FC8A4004E24F1 /* NotificationToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC1FE7298FC8A4004E24F1 /* NotificationToggle.swift */; };
-		63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */; };
 		63BC0F8629767608003F2379 /* MakeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC0F8529767608003F2379 /* MakeProfileView.swift */; };
 		63C9872A299B21DE008B1DE7 /* notebook.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98727299B21DD008B1DE7 /* notebook.json */; };
 		63C9872B299B21DE008B1DE7 /* winner.json in Resources */ = {isa = PBXBuildFile; fileRef = 63C98728299B21DD008B1DE7 /* winner.json */; };
@@ -157,10 +159,14 @@
 		163CB2CB299A27E4008506FD /* RealtimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeService.swift; sourceTree = "<group>"; };
 		1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProgressBar.swift; sourceTree = "<group>"; };
 		16526E86298BA74000ED023A /* GameRequestAlertViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRequestAlertViewCell.swift; sourceTree = "<group>"; };
-		165541E7298CC19600500895 /* ChallengeProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeProgressView.swift; sourceTree = "<group>"; };
 		165541E9298CC47900500895 /* ProgressBar2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar2.swift; sourceTree = "<group>"; };
 		16573EDA2977AA38001176F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16573EFE2977D429001176F6 /* FireStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreViewModel.swift; sourceTree = "<group>"; };
+		165B151B29A2873500F44274 /* ExpenditureDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureDataSource.swift; sourceTree = "<group>"; };
+		165B151D29A28EE800F44274 /* ExpenditureRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureRepository.swift; sourceTree = "<group>"; };
+		165B151F29A28F0200F44274 /* ExpenditureRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureRepositoryImpl.swift; sourceTree = "<group>"; };
+		165B152129A28F5A00F44274 /* ExpenditureUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureUseCase.swift; sourceTree = "<group>"; };
+		165B152829A2991600F44274 /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProgressViewModel.swift; path = MSG/Presentation/View/Chart/ViewModel/ProgressViewModel.swift; sourceTree = SOURCE_ROOT; };
 		165E321B2977EAF500678A09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		1660095F297630C300E6A546 /* MSG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MSG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16600962297630C300E6A546 /* MSGApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSGApp.swift; sourceTree = "<group>"; };
@@ -229,7 +235,6 @@
 		4C407A73297A5B1900877360 /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		4C407A75297A5B4B00877360 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4C5B81822977750C00866E3F /* RecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailView.swift; sourceTree = "<group>"; };
-		4C65CFEB2978D02700BAD069 /* MultiGameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiGameProgressBar.swift; sourceTree = "<group>"; };
 		4C8CA573299C91EC004A1F9C /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
 		4C8CA577299C9914004A1F9C /* ChallengeViewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewUseCase.swift; sourceTree = "<group>"; };
 		4C8CA579299C99CF004A1F9C /* ChallengeViewRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewRepository.swift; sourceTree = "<group>"; };
@@ -265,7 +270,6 @@
 		63691A3C299210E4007CC706 /* LicenseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseItem.swift; sourceTree = "<group>"; };
 		63691A4829921274007CC706 /* LicenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseDetailView.swift; sourceTree = "<group>"; };
 		63AC1FE7298FC8A4004E24F1 /* NotificationToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationToggle.swift; sourceTree = "<group>"; };
-		63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGameProgressBar.swift; sourceTree = "<group>"; };
 		63BC0F8529767608003F2379 /* MakeProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeProfileView.swift; sourceTree = "<group>"; };
 		63C98727299B21DD008B1DE7 /* notebook.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notebook.json; sourceTree = "<group>"; };
 		63C98728299B21DD008B1DE7 /* winner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = winner.json; sourceTree = "<group>"; };
@@ -332,17 +336,9 @@
 		1606CB4E297697F9004DD13B /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				165B152529A291F000F44274 /* Home+Game */,
 				1621CD4C299DC183003224C0 /* Waiting */,
 				3602CBBC2999FC4C007D1034 /* ViewModel */,
-				4C930D6029763CD200EE046D /* AfterChallengeView.swift */,
-				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
-				4C930D5E29763B4300EE046D /* HomeView.swift */,
-				36B093FA29766FB30089E76A /* SpendingWritingView.swift */,
-				4C65CFEB2978D02700BAD069 /* MultiGameProgressBar.swift */,
-				63B99D30297E32640038BAB4 /* SingleGameProgressBar.swift */,
-				161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */,
-				632B7CD029825C8000A3D53C /* CountDownView.swift */,
-				165541E7298CC19600500895 /* ChallengeProgressView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -425,6 +421,45 @@
 				6362E8CA2989574B0052C488 /* TabBarView.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		165B152529A291F000F44274 /* Home+Game */ = {
+			isa = PBXGroup;
+			children = (
+				165B152729A2920000F44274 /* View */,
+				165B152629A291FA00F44274 /* ViewModel */,
+			);
+			path = "Home+Game";
+			sourceTree = "<group>";
+		};
+		165B152629A291FA00F44274 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */,
+				4C8CA573299C91EC004A1F9C /* ChallengeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		165B152729A2920000F44274 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				36B093FA29766FB30089E76A /* SpendingWritingView.swift */,
+				4C930D6029763CD200EE046D /* AfterChallengeView.swift */,
+				4C930D6229763CF000EE046D /* BeforeChallengeView.swift */,
+				4C930D5E29763B4300EE046D /* HomeView.swift */,
+				632B7CD029825C8000A3D53C /* CountDownView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		165B152A29A2991F00F44274 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				165541E9298CC47900500895 /* ProgressBar2.swift */,
+				1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		165E321A2977EAE600678A09 /* SettingView */ = {
@@ -665,6 +700,7 @@
 				16941F9C299A6EEF003C06C6 /* AddFriendUseCase.swift */,
 				16111136299C92F50002AD92 /* GameRequestUseCase.swift */,
 				16AE425B29A2355800317072 /* WaitingUseCase.swift */,
+				165B152129A28F5A00F44274 /* ExpenditureUseCase.swift */,
 				166009872976335A00E6A546 /* Model */,
 			);
 			path = UseCase;
@@ -718,6 +754,7 @@
 		3602CBBA2999FC3C007D1034 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				165B152829A2991600F44274 /* ProgressViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -733,7 +770,6 @@
 		3602CBBC2999FC4C007D1034 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4C8CA573299C91EC004A1F9C /* ChallengeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -770,6 +806,7 @@
 				635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */,
 				1611113A299C95900002AD92 /* GameRequestRepositoryImpl.swift */,
 				16AE425F29A2362700317072 /* WaitingRepositoryImpl.swift */,
+				165B151F29A28F0200F44274 /* ExpenditureRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -784,6 +821,7 @@
 				635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */,
 				16111138299C956C0002AD92 /* GameRequestRepository.swift */,
 				16AE425D29A235E200317072 /* WaitingRepository.swift */,
+				165B151D29A28EE800F44274 /* ExpenditureRepository.swift */,
 			);
 			path = RepositoryInterface;
 			sourceTree = "<group>";
@@ -800,6 +838,7 @@
 				635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */,
 				1611113C299C95B90002AD92 /* GameRequestDataSource.swift */,
 				16AE426129A2363600317072 /* WaitingDataSource.swift */,
+				165B151B29A2873500F44274 /* ExpenditureDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -820,12 +859,11 @@
 		36FA491629778F3200B26A24 /* Chart */ = {
 			isa = PBXGroup;
 			children = (
+				165B152A29A2991F00F44274 /* View */,
 				3602CBBA2999FC3C007D1034 /* ViewModel */,
 				36FA4914297774C500B26A24 /* ProgressBar.swift */,
 				36FA49122977746600B26A24 /* ChartView.swift */,
 				36FA4917297791A100B26A24 /* ChartCellView.swift */,
-				165541E9298CC47900500895 /* ProgressBar2.swift */,
-				1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -959,9 +997,11 @@
 				635A3D3A299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift in Sources */,
 				3602CBC82999FF49007D1034 /* FriendRepository.swift in Sources */,
 				635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */,
+				165B152029A28F0200F44274 /* ExpenditureRepositoryImpl.swift in Sources */,
 				163CB2CC299A27E4008506FD /* RealtimeService.swift in Sources */,
 				36338AF9298B595A009ABB77 /* DivideFriendView.swift in Sources */,
 				6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */,
+				165B151E29A28EE800F44274 /* ExpenditureRepository.swift in Sources */,
 				6362E8CB2989574B0052C488 /* TabBarView.swift in Sources */,
 				63691A3D299210E4007CC706 /* LicenseItem.swift in Sources */,
 				16AE425C29A2355800317072 /* WaitingUseCase.swift in Sources */,
@@ -981,7 +1021,6 @@
 				6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */,
 				6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */,
 				1611113D299C95B90002AD92 /* GameRequestDataSource.swift in Sources */,
-				63B99D31297E32640038BAB4 /* SingleGameProgressBar.swift in Sources */,
 				635A3D38299A5D06007F174D /* ChallengeRecordRepository.swift in Sources */,
 				3602CBCF299A0099007D1034 /* FriendViewModel.swift in Sources */,
 				16111139299C956C0002AD92 /* GameRequestRepository.swift in Sources */,
@@ -1004,12 +1043,12 @@
 				3635276429829C6E0037BD1B /* CustomAlertButton.swift in Sources */,
 				36C7BB802977B37200A3F999 /* OnBoardView3.swift in Sources */,
 				168AE7A829875EB600D68C1C /* WaitingViewModel.swift in Sources */,
-				4C65CFEC2978D02700BAD069 /* MultiGameProgressBar.swift in Sources */,
 				1691C0A52991E830009D75EF /* DeleteUserView.swift in Sources */,
 				1611113B299C95900002AD92 /* GameRequestRepositoryImpl.swift in Sources */,
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,
 				36B093F92976694F0089E76A /* GameSettingView.swift in Sources */,
 				C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */,
+				165B152929A2991600F44274 /* ProgressViewModel.swift in Sources */,
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
 				360A1471298360A70058BB9B /* Utils.swift in Sources */,
 				368FC46E299B737900C68275 /* ChallengeFriendCellView.swift in Sources */,
@@ -1051,12 +1090,13 @@
 				161398FC2983F863002A6F16 /* SpendingWriteViewModel.swift in Sources */,
 				4C8CA578299C9914004A1F9C /* ChallengeViewUseCase.swift in Sources */,
 				36DB97792976526900A0596F /* ViewModifier.swift in Sources */,
-				165541E8298CC19600500895 /* ChallengeProgressView.swift in Sources */,
 				63AC1FE8298FC8A4004E24F1 /* NotificationToggle.swift in Sources */,
 				6310324B2978322900F3A463 /* Extension+NavigationController.swift in Sources */,
 				C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */,
 				16600963297630C300E6A546 /* MSGApp.swift in Sources */,
+				165B152229A28F5A00F44274 /* ExpenditureUseCase.swift in Sources */,
 				36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */,
+				165B151C29A2873500F44274 /* ExpenditureDataSource.swift in Sources */,
 				16941FA1299A700B003C06C6 /* AddFriendRepositoryImpl.swift in Sources */,
 				362DB5EF299A064800510314 /* ChallengeDataSource.swift in Sources */,
 				4C8CA580299CCCA9004A1F9C /* AppDI.swift in Sources */,

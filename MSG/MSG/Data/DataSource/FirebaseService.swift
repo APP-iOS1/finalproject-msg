@@ -129,7 +129,7 @@ struct FirebaseService {
 }
 
 extension FirebaseService: ChallengeViewDataSource {
-    func parsingExpenditure(expenditure: [String : [String]]) {
+    func parsingExpenditure(expenditure: [String : [String]]) -> Int{
         var totalMoney = 0
         for (_ , key) in expenditure {
             for moneyHistory in key {
@@ -141,6 +141,7 @@ extension FirebaseService: ChallengeViewDataSource {
                 }
             }
         }
+        return totalMoney
     }
     
     func findUser(inviteId: [String], waitingId: [String]) async -> ([Msg],[Msg]) {
@@ -281,6 +282,7 @@ extension FirebaseService: ChallengeViewDataSource {
             let snapShot = try await ref.getDocument()
             guard let docData = snapShot.data() else { return nil }
             let gameId = docData["game"] as? String ?? ""
+            print(gameId)
             return gameId
         } catch {
             print("catched")
@@ -389,24 +391,30 @@ extension FirebaseService: ChallengeViewDataSource {
     
     // MARK: - 지출 기록 가져오기
     /// 현재 유저의 지출기록을 가져온다.
-    func fetchExpenditure() async {
+    func fetchExpenditure() async -> Expenditure?{
         print(#function)
-        guard let gameId = await fetchGameId() else { return }
-        guard let userId = Auth.auth().currentUser?.uid else { return }
+        guard let gameId = await fetchGameId() else { return nil}
+        guard let userId = Auth.auth().currentUser?.uid else { return nil}
         let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(userId)
         do {
             let snapShot = try await ref.getDocument()
-            guard let docData = snapShot.data() else { return print("실패해쒀")}
+            guard let docData = snapShot.data() else {
+                print("else로 리턴됨")
+                return nil
+                
+            }
             let id = docData["id"] as? String ?? ""
             let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
             let totalMoney = docData["totalMoney"] as? Int ?? 0
             let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
             let expenditureList = expenditure.expenditureHistory
 //            self.expenditure = expenditure
-            print(expenditureList)
             print(expenditure)
+            return expenditure
+            print(expenditureList)
         } catch {
             print("catched")
+            return nil
         }
     }
 }
@@ -929,6 +937,63 @@ extension FirebaseService: WaitingDataSource {
             return data
         }catch{
             print("게임 추가 에러..")
+            return nil
+        }
+    }
+}
+
+extension FirebaseService: ExpenditureDataSource {
+    //내정보를 받아올 것이 필요함 myInfo
+    func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async {
+        print("Service")
+        var data: [String: [String]] = [:]
+        let data1 = await fetchExpenditure()
+        if data1 == nil {
+            data = [:]
+        }else {
+            data = data1!.expenditureHistory
+        }
+        let money = await fetchTotalMoney(user.game, user.id)
+        if let _ = data[tagName]{
+            data[tagName]!.append(convert)
+            print(data)
+        }else{
+            data[tagName] = [convert]
+            print("else")
+        }
+        do{
+            try await database.collection("Challenge")
+                .document(user.game) //게임의 아이디값
+                .collection("expenditure")
+                .document(user.id) // 나의 아이디값
+                .setData(["id": user.id,
+                          "totalMoney": money + addMoney,
+                          "addDay": Date(),
+                          "expenditureHistory": data
+                         ])
+            print(data)
+        }catch{
+            print("실패!!")
+        }
+    }
+    
+    func fetchExpenditure(uid: String) async -> Expenditure? {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return nil }
+        let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(uid)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil}
+            let id = docData["id"] as? String ?? ""
+            let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
+            let totalMoney = docData["totalMoney"] as? Int ?? 0
+            let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
+            return expenditure
+//            expenditureList = expenditure.expenditureHistory
+//            print(expenditure.id)
+//            return expenditureList
+        } catch {
+            print("Error! fetchExpenditure")
             return nil
         }
     }

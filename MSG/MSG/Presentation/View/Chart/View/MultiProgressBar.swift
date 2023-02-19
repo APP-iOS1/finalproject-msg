@@ -13,6 +13,7 @@ struct MultiProgressBar: View {
     @State var expenditure: Expenditure?
     @State var user: Msg?
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @StateObject var progressViewModel = ProgressViewModel()
     @State var percentage: Int = 0
     let limitMoney: Int
     //start Color
@@ -96,8 +97,8 @@ struct MultiProgressBar: View {
             
         }
         .task {
-            self.user = try! await fireStoreViewModel.fetchUserInfo(friend)
-            expenditure = await fireStoreViewModel.fetchExpenditure(friend)
+            self.user = try! await progressViewModel.fetchUserInfo(uid: friend)
+            expenditure = await progressViewModel.fetchExpenditure(uid: friend)
             percentage = expenditure?.totalMoney ?? 0
             print("percentage:",percentage)
         }

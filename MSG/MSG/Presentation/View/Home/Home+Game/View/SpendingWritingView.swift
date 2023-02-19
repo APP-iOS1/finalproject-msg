@@ -40,10 +40,10 @@ struct SpendingWritingView: View {
    
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
-    
     @FocusState private var focusField: FocusField?
     
     @StateObject var spendingViewModel = SpendingWriteViewModel()
+    @ObservedObject var challengeViewModel: ChallengeViewModel
 
     @State private var isValid = false
     
@@ -365,8 +365,10 @@ struct SpendingWritingView: View {
                                         keepWriting.toggle()
                                         Task{
                                             let convert = convertTextLogic(title: spendingViewModel.consumeTitle, money: spendingViewModel.consumeMoney, date: Date())
-                                            let user = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser!.uid)
-                                            await fireStoreViewModel.addExpenditure(user: user!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
+//                                            let user = try await fireStoreViewModel.fetchUserInfo(Auth.auth().currentUser!.uid)
+                                            let user = try await challengeViewModel.challengefetchUserInfo(Auth.auth().currentUser!.uid)
+//                                            await fireStoreViewModel.addExpenditure(user: user!,tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
+                                            await challengeViewModel.addExpenditure(user: user!, tagName: tagArray[selection], convert: convert, addMoney: Int(spendingViewModel.consumeMoney)!)
                                             spendingViewModel.dataReset()
                                             selection = 8
                                             
@@ -417,60 +419,11 @@ struct SpendingWritingView: View {
         
 }
 
-extension View {
-    func placeholder<Content: View>(
-        when shouldShow: Bool,
-        alignment: Alignment = .leading,
-        @ViewBuilder placeholder: () -> Content) -> some View {
 
-            ZStack(alignment: alignment) {
-                placeholder().opacity(shouldShow ? 1 : 0)
-                self
-            }
-        }
-}
-
-extension String {
-    var insertComma: String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        if let _ = self.range(of: ".") {
-            let numberArray = self.components(separatedBy: ".")
-            if numberArray.count == 1 {
-                var numberString = numberArray[0]
-                if numberString.isEmpty {
-                    numberString = "0"
-                }
-                guard let doubleValue = Double(numberString)
-                else { return self }
-                return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
-            } else if numberArray.count == 2 {
-                var numberString = numberArray[0]
-                if numberString.isEmpty {
-                    numberString = "0"
-                }
-                guard let doubleValue = Double(numberString)
-                else {
-                    return self
-                }
-                return (numberFormatter.string(from: NSNumber(value: doubleValue)) ?? numberString) + ".\(numberArray[1])"
-            }
-        }
-        else {
-            guard let doubleValue = Double(self)
-            else {
-                return self
-            }
-            return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
-        }
-        return self
-    }
-}
-
-struct SpendingWritingView_Previews: PreviewProvider {
-    static var previews: some View {
-        SpendingWritingView()
-            .environmentObject(FireStoreViewModel())
-        
-    }
-}
+//struct SpendingWritingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SpendingWritingView()
+//            .environmentObject(FireStoreViewModel())
+//        
+//    }
+//}
