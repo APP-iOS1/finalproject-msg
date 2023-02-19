@@ -7,16 +7,21 @@
 
 import Foundation
 
-protocol AddExpenditure {
+protocol AllExpenditure {
     func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async
+    func fetchExpenditure(uid: String) async -> Expenditure?
 }
 
-struct AddExpenditureUseCase: AddExpenditure {
-    let repo: AddExpenditureRepository
+struct ExpenditureUseCase: AllExpenditure {
+    let repo: ExpenditureRepository
     
     func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async {
         print("== UseCase ==")
         await repo.addExpenditure(user: user, tagName: tagName, convert: convert, addMoney: addMoney)
+    }
+    func fetchExpenditure(uid: String) async -> Expenditure? {
+        let data = await repo.fetchExpenditure(uid: uid)
+        return data
     }
     
 }

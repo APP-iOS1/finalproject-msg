@@ -39,7 +39,7 @@ protocol ChallengeViewOutput {
 final class ChallengeViewModel: ObservableObject, ChallengeViewInput, ChallengeViewOutput {
 
     var challengeUseCase = ChallengeViewUseCase(challengeViewRepository: ChallengeViewRepositoryImpl(firestoreService: FirebaseService()))
-    var addExpenditureUseCase = AddExpenditureUseCase(repo: AddExpenditureRepositoryImpl(dataSource: FirebaseService()))
+    var addExpenditureUseCase = ExpenditureUseCase(repo: ExpenditureRepositoryImpl(dataSource: FirebaseService()))
     
     @Published var userArray: [Msg] = []
     @Published var invitedArray: [Msg] = []
@@ -95,8 +95,9 @@ final class ChallengeViewModel: ObservableObject, ChallengeViewInput, ChallengeV
         }
     }
     
-    func parsingExpenditure(expenditure: [String : [String]]) {
-        challengeUseCase.parsingExpenditure(expenditure: expenditure)
+    func parsingExpenditure(expenditure: [String : [String]]){
+        let data = challengeUseCase.parsingExpenditure(expenditure: expenditure)
+        self.totalMoney = data
     }
     
     func findFriend() {

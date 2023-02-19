@@ -7,10 +7,17 @@
 
 import Foundation
 
-struct AddExpenditureRepositoryImpl: AddExpenditureRepository {
-    let dataSource: AddExpenditureDataSource
+struct ExpenditureRepositoryImpl: ExpenditureRepository {
+    let dataSource: ExpenditureDataSource
+    
     func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async {
         print("== Impl ==")
         await dataSource.addExpenditure(user: user, tagName: tagName, convert: convert, addMoney: addMoney)
+    }
+    func fetchExpenditure(uid: String) async -> Expenditure? {
+        if let data = await dataSource.fetchExpenditure(uid: uid) {
+            return data
+        }
+        return nil
     }
 }

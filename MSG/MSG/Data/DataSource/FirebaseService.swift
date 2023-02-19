@@ -129,7 +129,7 @@ struct FirebaseService {
 }
 
 extension FirebaseService: ChallengeViewDataSource {
-    func parsingExpenditure(expenditure: [String : [String]]) {
+    func parsingExpenditure(expenditure: [String : [String]]) -> Int{
         var totalMoney = 0
         for (_ , key) in expenditure {
             for moneyHistory in key {
@@ -141,6 +141,7 @@ extension FirebaseService: ChallengeViewDataSource {
                 }
             }
         }
+        return totalMoney
     }
     
     func findUser(inviteId: [String], waitingId: [String]) async -> ([Msg],[Msg]) {
@@ -941,7 +942,7 @@ extension FirebaseService: WaitingDataSource {
     }
 }
 
-extension FirebaseService: AddExpenditureDataSource {
+extension FirebaseService: ExpenditureDataSource {
     //내정보를 받아올 것이 필요함 myInfo
     func addExpenditure(user: Msg, tagName: String, convert: String, addMoney: Int) async {
         print("Service")
@@ -973,6 +974,27 @@ extension FirebaseService: AddExpenditureDataSource {
             print(data)
         }catch{
             print("실패!!")
+        }
+    }
+    
+    func fetchExpenditure(uid: String) async -> Expenditure? {
+        print(#function)
+        guard let gameId = await fetchGameId() else { return nil }
+        let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(uid)
+        do {
+            let snapShot = try await ref.getDocument()
+            guard let docData = snapShot.data() else { return nil}
+            let id = docData["id"] as? String ?? ""
+            let expenditureHistory = docData["expenditureHistory"] as? [String: [String]] ?? [:]
+            let totalMoney = docData["totalMoney"] as? Int ?? 0
+            let expenditure = Expenditure(id: id, totalMoney: totalMoney, expenditureHistory: expenditureHistory)
+            return expenditure
+//            expenditureList = expenditure.expenditureHistory
+//            print(expenditure.id)
+//            return expenditureList
+        } catch {
+            print("Error! fetchExpenditure")
+            return nil
         }
     }
 }

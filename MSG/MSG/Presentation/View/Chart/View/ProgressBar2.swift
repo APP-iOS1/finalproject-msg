@@ -10,6 +10,7 @@ import SwiftUI
 struct ProgressBar2: View {
 //    @State var percent: CGFloat = 51
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
+    @ObservedObject var challengeViewModel: ChallengeViewModel
     @Binding var percentage: Int
     let limitMoney: Int
     var color1 = Color(#colorLiteral(red: 0, green: 1, blue: 0, alpha: 1))
@@ -79,18 +80,19 @@ struct ProgressBar2: View {
             }
             
         }
-//        .onAppear {
-//            Task {
-//                await fireStoreViewModel.fetchExpenditure()
-//                print("나눔결과:",percentage / limitMoney)
-//                print("percentage:",percentage)
-//                print("totalMoney:",fireStoreViewModel.totalMoney)
-//                print("limitMoney:",limitMoney)
-//                //                print("나눔결과")
-//                //                self.totalMoney = fireStoreViewModel.totalMoney
-//                //                                print("percengate:\(self.totalMoney), limitMoney:\(self.limitMoney)")
-//            }
-//        }
+        .onAppear {
+            Task {
+                await challengeViewModel.fetchExpenditure()
+//                await progressViewModel.fet
+                print("나눔결과:",percentage / limitMoney)
+                print("percentage:",percentage)
+                print("totalMoney:",challengeViewModel.totalMoney)
+                print("limitMoney:",limitMoney)
+                //                print("나눔결과")
+                //                self.totalMoney = fireStoreViewModel.totalMoney
+                //                                print("percengate:\(self.totalMoney), limitMoney:\(self.limitMoney)")
+            }
+        }
     }
 }
 

@@ -45,7 +45,7 @@ struct AfterChallengeView: View {
                         Group{
                             // 싱글게임 멀티게임 다르게 보여주기
                             if challenge.inviteFriend.isEmpty {
-                                ProgressBar2(percentage: $challengeViewModel.totalMoney,limitMoney: challenge.limitMoney)
+                                ProgressBar2(challengeViewModel: challengeViewModel,percentage: $challengeViewModel.totalMoney,limitMoney: challenge.limitMoney)
                                     .frame(height:30)
                             } else {
                                 ForEach(challenge.inviteFriend,id:\.self) {friend in

@@ -447,7 +447,7 @@ final class FireStoreViewModel: ObservableObject {
     
     // MARK: - 선택 유저 지출 기록 가져오기
     /// 특정 유저의 지출 기록을 가져온다.
-    func fetchExpenditure(_ uid: String) async -> Expenditure?  {
+    func fetchExpenditure(_ uid: String) async -> Expenditure? {
         print(#function)
         guard let gameId = await fetchGameId() else { return nil }
         let ref = database.collection("Challenge").document(gameId).collection("expenditure").document(uid)

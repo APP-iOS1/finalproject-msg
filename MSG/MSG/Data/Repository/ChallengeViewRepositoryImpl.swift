@@ -49,8 +49,9 @@ struct ChallengeViewRepositoryImpl: ChallengeViewRepository {
         return data
     }
     
-    func parsingExpenditure(expenditure: [String : [String]]) {
-        firestoreService.parsingExpenditure(expenditure: expenditure)
+    func parsingExpenditure(expenditure: [String : [String]]) -> Int {
+        let data = firestoreService.parsingExpenditure(expenditure: expenditure)
+        return data
     }
     
     func findFriend() {

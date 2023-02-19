@@ -21,10 +21,11 @@
 		16573EDB2977AA38001176F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16573EDA2977AA38001176F6 /* GoogleService-Info.plist */; };
 		16573EFF2977D429001176F6 /* FireStoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16573EFE2977D429001176F6 /* FireStoreViewModel.swift */; };
 		16573F022977D60B001176F6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 16573F012977D60B001176F6 /* FirebaseFirestore */; };
-		165B151C29A2873500F44274 /* AddExpenditureDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151B29A2873500F44274 /* AddExpenditureDataSource.swift */; };
-		165B151E29A28EE800F44274 /* AddExpenditureRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151D29A28EE800F44274 /* AddExpenditureRepository.swift */; };
-		165B152029A28F0200F44274 /* AddExpenditureRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151F29A28F0200F44274 /* AddExpenditureRepositoryImpl.swift */; };
-		165B152229A28F5A00F44274 /* AddExpenditureUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B152129A28F5A00F44274 /* AddExpenditureUseCase.swift */; };
+		165B151C29A2873500F44274 /* ExpenditureDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151B29A2873500F44274 /* ExpenditureDataSource.swift */; };
+		165B151E29A28EE800F44274 /* ExpenditureRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151D29A28EE800F44274 /* ExpenditureRepository.swift */; };
+		165B152029A28F0200F44274 /* ExpenditureRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B151F29A28F0200F44274 /* ExpenditureRepositoryImpl.swift */; };
+		165B152229A28F5A00F44274 /* ExpenditureUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B152129A28F5A00F44274 /* ExpenditureUseCase.swift */; };
+		165B152929A2991600F44274 /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B152829A2991600F44274 /* ProgressViewModel.swift */; };
 		165E321C2977EAF500678A09 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E321B2977EAF500678A09 /* SettingView.swift */; };
 		16600963297630C300E6A546 /* MSGApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16600962297630C300E6A546 /* MSGApp.swift */; };
 		16600965297630C300E6A546 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16600964297630C300E6A546 /* ContentView.swift */; };
@@ -161,10 +162,11 @@
 		165541E9298CC47900500895 /* ProgressBar2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar2.swift; sourceTree = "<group>"; };
 		16573EDA2977AA38001176F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16573EFE2977D429001176F6 /* FireStoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreViewModel.swift; sourceTree = "<group>"; };
-		165B151B29A2873500F44274 /* AddExpenditureDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenditureDataSource.swift; sourceTree = "<group>"; };
-		165B151D29A28EE800F44274 /* AddExpenditureRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenditureRepository.swift; sourceTree = "<group>"; };
-		165B151F29A28F0200F44274 /* AddExpenditureRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenditureRepositoryImpl.swift; sourceTree = "<group>"; };
-		165B152129A28F5A00F44274 /* AddExpenditureUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenditureUseCase.swift; sourceTree = "<group>"; };
+		165B151B29A2873500F44274 /* ExpenditureDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureDataSource.swift; sourceTree = "<group>"; };
+		165B151D29A28EE800F44274 /* ExpenditureRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureRepository.swift; sourceTree = "<group>"; };
+		165B151F29A28F0200F44274 /* ExpenditureRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureRepositoryImpl.swift; sourceTree = "<group>"; };
+		165B152129A28F5A00F44274 /* ExpenditureUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureUseCase.swift; sourceTree = "<group>"; };
+		165B152829A2991600F44274 /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProgressViewModel.swift; path = MSG/Presentation/View/Chart/ViewModel/ProgressViewModel.swift; sourceTree = SOURCE_ROOT; };
 		165E321B2977EAF500678A09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		1660095F297630C300E6A546 /* MSG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MSG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16600962297630C300E6A546 /* MSGApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSGApp.swift; sourceTree = "<group>"; };
@@ -451,6 +453,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		165B152A29A2991F00F44274 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				165541E9298CC47900500895 /* ProgressBar2.swift */,
+				1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		165E321A2977EAE600678A09 /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -689,7 +700,7 @@
 				16941F9C299A6EEF003C06C6 /* AddFriendUseCase.swift */,
 				16111136299C92F50002AD92 /* GameRequestUseCase.swift */,
 				16AE425B29A2355800317072 /* WaitingUseCase.swift */,
-				165B152129A28F5A00F44274 /* AddExpenditureUseCase.swift */,
+				165B152129A28F5A00F44274 /* ExpenditureUseCase.swift */,
 				166009872976335A00E6A546 /* Model */,
 			);
 			path = UseCase;
@@ -743,6 +754,7 @@
 		3602CBBA2999FC3C007D1034 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				165B152829A2991600F44274 /* ProgressViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -794,7 +806,7 @@
 				635A3D39299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift */,
 				1611113A299C95900002AD92 /* GameRequestRepositoryImpl.swift */,
 				16AE425F29A2362700317072 /* WaitingRepositoryImpl.swift */,
-				165B151F29A28F0200F44274 /* AddExpenditureRepositoryImpl.swift */,
+				165B151F29A28F0200F44274 /* ExpenditureRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -809,7 +821,7 @@
 				635A3D37299A5D06007F174D /* ChallengeRecordRepository.swift */,
 				16111138299C956C0002AD92 /* GameRequestRepository.swift */,
 				16AE425D29A235E200317072 /* WaitingRepository.swift */,
-				165B151D29A28EE800F44274 /* AddExpenditureRepository.swift */,
+				165B151D29A28EE800F44274 /* ExpenditureRepository.swift */,
 			);
 			path = RepositoryInterface;
 			sourceTree = "<group>";
@@ -826,7 +838,7 @@
 				635A3D3B299A5DBB007F174D /* ChallengeRecordDataSource.swift */,
 				1611113C299C95B90002AD92 /* GameRequestDataSource.swift */,
 				16AE426129A2363600317072 /* WaitingDataSource.swift */,
-				165B151B29A2873500F44274 /* AddExpenditureDataSource.swift */,
+				165B151B29A2873500F44274 /* ExpenditureDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -847,12 +859,11 @@
 		36FA491629778F3200B26A24 /* Chart */ = {
 			isa = PBXGroup;
 			children = (
+				165B152A29A2991F00F44274 /* View */,
 				3602CBBA2999FC3C007D1034 /* ViewModel */,
 				36FA4914297774C500B26A24 /* ProgressBar.swift */,
 				36FA49122977746600B26A24 /* ChartView.swift */,
 				36FA4917297791A100B26A24 /* ChartCellView.swift */,
-				165541E9298CC47900500895 /* ProgressBar2.swift */,
-				1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -986,11 +997,11 @@
 				635A3D3A299A5D66007F174D /* ChallengeRecordRepositoryImpl.swift in Sources */,
 				3602CBC82999FF49007D1034 /* FriendRepository.swift in Sources */,
 				635D1129298DFDB000C4EDEC /* DeepConcaveView.swift in Sources */,
-				165B152029A28F0200F44274 /* AddExpenditureRepositoryImpl.swift in Sources */,
+				165B152029A28F0200F44274 /* ExpenditureRepositoryImpl.swift in Sources */,
 				163CB2CC299A27E4008506FD /* RealtimeService.swift in Sources */,
 				36338AF9298B595A009ABB77 /* DivideFriendView.swift in Sources */,
 				6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */,
-				165B151E29A28EE800F44274 /* AddExpenditureRepository.swift in Sources */,
+				165B151E29A28EE800F44274 /* ExpenditureRepository.swift in Sources */,
 				6362E8CB2989574B0052C488 /* TabBarView.swift in Sources */,
 				63691A3D299210E4007CC706 /* LicenseItem.swift in Sources */,
 				16AE425C29A2355800317072 /* WaitingUseCase.swift in Sources */,
@@ -1037,6 +1048,7 @@
 				3663DF4029763C51004C1CA6 /* GameSettingViewModel.swift in Sources */,
 				36B093F92976694F0089E76A /* GameSettingView.swift in Sources */,
 				C0F5FFE4297836D50021FF4F /* LoginVIewModel.swift in Sources */,
+				165B152929A2991600F44274 /* ProgressViewModel.swift in Sources */,
 				16600965297630C300E6A546 /* ContentView.swift in Sources */,
 				360A1471298360A70058BB9B /* Utils.swift in Sources */,
 				368FC46E299B737900C68275 /* ChallengeFriendCellView.swift in Sources */,
@@ -1082,9 +1094,9 @@
 				6310324B2978322900F3A463 /* Extension+NavigationController.swift in Sources */,
 				C0F5FFC4297669AA0021FF4F /* ChallengeRecordView.swift in Sources */,
 				16600963297630C300E6A546 /* MSGApp.swift in Sources */,
-				165B152229A28F5A00F44274 /* AddExpenditureUseCase.swift in Sources */,
+				165B152229A28F5A00F44274 /* ExpenditureUseCase.swift in Sources */,
 				36FA4915297774C500B26A24 /* ProgressBar.swift in Sources */,
-				165B151C29A2873500F44274 /* AddExpenditureDataSource.swift in Sources */,
+				165B151C29A2873500F44274 /* ExpenditureDataSource.swift in Sources */,
 				16941FA1299A700B003C06C6 /* AddFriendRepositoryImpl.swift in Sources */,
 				362DB5EF299A064800510314 /* ChallengeDataSource.swift in Sources */,
 				4C8CA580299CCCA9004A1F9C /* AppDI.swift in Sources */,
