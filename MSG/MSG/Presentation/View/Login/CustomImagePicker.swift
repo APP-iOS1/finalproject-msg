@@ -49,6 +49,7 @@ struct CustomImagePicker<Content: View>: View {
                         showCropView.toggle()
                     }
                 }
+                Button("취소", role: .cancel) {}
             }
             .fullScreenCover(isPresented: $showCropView) {
                 profileImage = nil
