@@ -131,7 +131,7 @@ struct SettingView: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                                .aspectRatio(contentMode: .fill)
+                                                .aspectRatio(contentMode: .fit)
                                         }
                                     }
                                     // 선택된 이미지 데이터가 있는 경우
@@ -141,13 +141,13 @@ struct SettingView: View {
                                             .resizable()
                                             .clipShape(Circle())
                                             .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                            .aspectRatio(contentMode: .fill)
+                                            .aspectRatio(contentMode: .fit)
                                     } else {
                                         Image(systemName: "person.circle")
                                             .resizable()
                                             .clipShape(Circle())
                                             .frame(width: g.size.width / 3, height: g.size.height / 7)
-                                            .aspectRatio(contentMode: .fill)
+                                            .aspectRatio(contentMode: .fit)
                                     }
                                 }
                             }
