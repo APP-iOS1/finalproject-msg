@@ -14,7 +14,6 @@ struct SettingView: View {
     @Binding var darkModeEnabled: Bool
     @State private var logoutToggle: Bool = false
     @State private var deleteToggle: Bool = false
-    @Binding var notificationEnabled: Bool
     @State private var text: String = ""
     @State private var profileEditing: Bool = false
     @State private var selectedItem: PhotosPickerItem? = nil
@@ -316,6 +315,6 @@ struct SettingView: View {
 
 struct SettignView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView(darkModeEnabled: .constant(false), notificationEnabled: .constant(true))
+        SettingView(darkModeEnabled: .constant(false))
     }
 }

@@ -51,7 +51,7 @@ struct ContentView: View {
                                     case .third:
                                         FriendSettingView(selectedTabBar: $selectedTabBar, friendCount: $realtimeViewModel.friendCount, requsetCount: $realtimeViewModel.requsetCount)
                                     case .fourth:
-                                        SettingView(darkModeEnabled: $darkModeEnabled, notificationEnabled: $notiManager.isGranted)
+                                        SettingView(darkModeEnabled: $darkModeEnabled)
                                     }
                                     TabBarView(selectedTabBar: $selectedTabBar, friendCount: $realtimeViewModel.friendCount, requsetCount: $realtimeViewModel.requsetCount )
                                         .frame(width: g.size.width, height: g.size.height / 10)
