@@ -71,15 +71,6 @@
 
 <br>
 <br>
-<br>
-
-## UI 흐름도 및 아키텍쳐
-|<img src="https://user-images.githubusercontent.com/66459715/212446413-9aa9e540-5d80-42b4-b32e-9501727ea4eb.png" width="800"></img>|<img src="https://user-images.githubusercontent.com/66459715/212446416-b0edc9c0-3b0c-41bb-829e-9ad17aa863b0.png" width="800"></img>|
-|:-:|:-:|
-|`프로토타입`|`UI Flow`|
-
-<br>
-<br>
 
 ## 기술 스택
 
@@ -93,21 +84,16 @@
 - Realtimebase: 친구추가 및 도전장 신청
 
 ### 🧭 Lottie
-- //
+- 금액 사용에 따른 상태바의 애니메이션
 
 ### Combine
-- //
+- 타이머에 따른 상태값 처리
+- 텍스트필드 유효성 검사
+- debounce를 활용한 데이터 입력 후 검색로직
+- Firebase Realtime
 
 <br>
 <br>
-
-## 트러블 슈팅
-
-- 추후 이슈를 해결하면서 작성 예정
-
-<br>
-<br>
-
 
 ## 📂 프로젝트 관련문서
 📌 <a href="https://www.notion.so/MSG-Money-Save-Game-57d8b96197c54a90bd26444d3af07efe">MSG Notion</a> <br>
