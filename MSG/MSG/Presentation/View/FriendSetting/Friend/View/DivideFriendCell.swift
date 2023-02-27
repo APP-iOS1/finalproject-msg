@@ -42,7 +42,7 @@ struct DivideFriendCell: View {
                             }
                         }
                     }
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: .fit)
                     .frame(width: g.size.width * 0.3, height: g.size.height * 0.9)
                     .clipShape(Circle())
                     

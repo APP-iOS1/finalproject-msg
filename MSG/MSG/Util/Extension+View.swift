@@ -26,3 +26,23 @@ extension View {
             }
         }
 }
+
+// 사진 크기 조절
+extension View {
+    @ViewBuilder
+    func cropImagePicker(options: [Crop], show: Binding<Bool>, croppedImage: Binding<UIImage?>) -> some View {
+        CustomImagePicker(options: options, show: show, croppedImage: croppedImage) {
+            self
+        }
+    }
+    
+    @ViewBuilder
+    func frame(_ size: CGSize) -> some View {
+        self
+            .frame(width: size.width, height: size.height)
+    }
+    
+    func haptics(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        UIImpactFeedbackGenerator(style: style).impactOccurred()
+    }
+}

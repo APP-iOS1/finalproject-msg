@@ -12,9 +12,8 @@ struct MakeProfileView: View {
     @EnvironmentObject var loginViewModel: LoginViewModel
     @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
     
-    @State private var selectedPhotoItem: PhotosPickerItem? = nil
-    @State private var selectedImageData: Data? = nil
     @State private var profileImage: UIImage? = nil
+    @State private var showPicker: Bool = false
     
     @State private var nickNameText: String = ""
     @Environment(\.presentationMode) var presentationMode
@@ -27,46 +26,46 @@ struct MakeProfileView: View {
                 Color("Color1").ignoresSafeArea()
                 VStack {
                     // 앱 이름
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("MSG")
-                                    .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
-                                
-                                Spacer()
-                                
-                                Button {
-                                    deleteLogin.toggle()
-                                } label: {
-                                    Image(systemName: "x.circle.fill")
-                                }
-                                .buttonStyle(.borderless)
-                                .frame(width: g.size.width / 15, height: g.size.height / 30)
-                                .clipShape(Circle())
-                                .padding(4)
-                                .foregroundColor(Color("Color2"))
-                                .background(
-                                    Circle()
-                                        .fill(
-                                            .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
-                                            .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
-                                        )
-                                        .foregroundColor(Color("Color1")))
-                                .alert("정보입력을 취소하시겠습니까?", isPresented: $deleteLogin) {
-                                    Button("확인", role: .destructive) {
-                                            loginViewModel.currentUser = nil
-                                    }
-                                    Button("취소", role: .cancel) {}
-                                } message: {
-                                    Text("지금까지 입력된 정보가 사라집니다. 그래도 하시겠습니까?")
-                                }
-                            }
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("MSG")
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.largeTitle, color: FontCustomColor.color2))
                             
-                            Text("Money Save Game")
-                                .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.subhead, color: FontCustomColor.color2))
+                            Spacer()
+                            
+                            Button {
+                                deleteLogin.toggle()
+                            } label: {
+                                Image(systemName: "x.circle.fill")
+                            }
+                            .buttonStyle(.borderless)
+                            .frame(width: g.size.width / 15, height: g.size.height / 30)
+                            .clipShape(Circle())
+                            .padding(4)
+                            .foregroundColor(Color("Color2"))
+                            .background(
+                                Circle()
+                                    .fill(
+                                        .shadow(.inner(color: Color("Shadow2"),radius: 5, x:3, y: 3))
+                                        .shadow(.inner(color: Color("Shadow3"), radius:5, x: -3, y: -3))
+                                    )
+                                    .foregroundColor(Color("Color1")))
+                            .alert("정보입력을 취소하시겠습니까?", isPresented: $deleteLogin) {
+                                Button("확인", role: .destructive) {
+                                    loginViewModel.currentUser = nil
+                                }
+                                Button("취소", role: .cancel) {}
+                            } message: {
+                                Text("지금까지 입력된 정보가 사라집니다. 그래도 하시겠습니까?")
+                            }
                         }
-                        .frame(width: g.size.width / 1.1, alignment: .leading)
-                        .frame(minHeight: g.size.height / 7)
-                   
+                        
+                        Text("Money Save Game")
+                            .modifier(TextModifier(fontWeight: FontCustomWeight.normal, fontType: FontCustomType.subhead, color: FontCustomColor.color2))
+                    }
+                    .frame(width: g.size.width / 1.1, alignment: .leading)
+                    .frame(minHeight: g.size.height / 7)
+                    
                     VStack {
                         // 닉네임
                         HStack {
@@ -141,16 +140,11 @@ struct MakeProfileView: View {
                             Text("프로필 사진")
                                 .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title3, color: FontCustomColor.color2))
                             Spacer()
-                            PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                            
+                            Button {
+                                showPicker.toggle()
+                            } label: {
                                 Text("선택하기")
-                            }
-                            .onChange(of: selectedPhotoItem) { newItem in
-                                Task {
-                                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                        selectedImageData = data
-                                        if let image = UIImage(data: selectedImageData!) { profileImage = image}
-                                    }
-                                }
                             }
                         }
                         .frame(width: g.size.width / 1.1)
@@ -171,7 +165,7 @@ struct MakeProfileView: View {
                                 .frame(width: g.size.width / 1.1, height: g.size.height / 3)
                             
                             // 사진을 선택했을 경우 변경하기
-                            if selectedImageData == nil {
+                            if profileImage == nil {
                                 Image(systemName: "person.circle")
                                     .resizable()
                                     .scaledToFit()
@@ -231,6 +225,7 @@ struct MakeProfileView: View {
         .onTapGesture {
             self.endTextEditing()
         }
+        .cropImagePicker(options: [.circle], show: $showPicker, croppedImage: $profileImage)
     }
 }
 
