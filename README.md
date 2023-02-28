@@ -1,9 +1,9 @@
-# MSG (Money Save Game) <img src="https://user-images.githubusercontent.com/106806428/217212599-7d6e1709-9f8f-4545-9d14-571ef8cb729f.png" width=80px height=80px></img><img src="https://user-images.githubusercontent.com/114235515/217546301-5ca07a5c-c6f0-4bbf-aef1-3eaebb52a36d.png" width=80px height=80px></img> 
+# MSG (Money Save Game) <img src="https://user-images.githubusercontent.com/106806428/217212599-7d6e1709-9f8f-4545-9d14-571ef8cb729f.png" width=40px height=40px></img><img src="https://user-images.githubusercontent.com/114235515/217546301-5ca07a5c-c6f0-4bbf-aef1-3eaebb52a36d.png" width=40px height=40px></img> 
 
-<img src="https://user-images.githubusercontent.com/106806428/217210646-70bf1300-0eaa-4e98-8946-1c4494b12f6c.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/106806428/217210658-1f217420-836d-4157-84d3-58357bda5088.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114235515/217546058-fecab6c3-ef59-4aa3-9c9b-3af6b53f3bb8.png" width="230"></img>
+<img src="https://user-images.githubusercontent.com/114235515/218916615-62fbaf1a-4d8a-4788-ba0f-61304c6ce32c.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114235515/218916645-fe8afeab-d8ae-4b05-9123-773fdb6c205d.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114235515/218916691-be6b6d5b-1dfd-49ce-a9a4-56ab64097905.png" width="230"></img>
 
-<img src="https://user-images.githubusercontent.com/106806428/217210665-67e5609e-7e67-4af3-9ec4-39044d54e856.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/106806428/217210669-280ffb88-6bbf-49a9-96d7-ba90aef04ef5.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/106806428/217210673-6ec5bc11-8e58-4c28-8dc7-0ffb42c8d3e3.png" width="230"></img>
-## 앱소개
+<img src="https://user-images.githubusercontent.com/114235515/218916762-81eb8859-da73-4066-b617-1a22379dc012.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114235515/218916777-a7fe2ff6-c328-42cf-9387-c1f0e9e08de8.png" width="230"></img>&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114235515/218916781-2339fc14-0a0d-46a0-ba16-dfa4684a42e9.png" width="230"></img>
+## 앱소개 
 >  ### 앱설명 한줄 <br>
 
 > 간편하게 하루에 한번 기록하며, 나만의 건강한 소비 습관을 만들어 가고싶은 앱을 찾고 계셨나요? <br>
@@ -47,19 +47,28 @@
 <br>
 <br>
 
+## 앱스토어
+- https://apps.apple.com/kr/app/msg/id1670628313
+<br>
+<br>
+
+## 유튜브
+- https://www.youtube.com/watch?v=Vo0hOk74MMU
+<br>
+<br>
+
 ## ⭐️ 주요 기능 및 동작화면 
 
-|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/0.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/1.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/2.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/3.gif"></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/0.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/1.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/2.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/3.gif"></img>|
 |:-:|:-:|:-:|:-:|
 |`온보딩`|`로그인`|`회원가입 프로필`|`싱글게임`|
-|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/4.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/5.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/6.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/7.gif"></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/4.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/5.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/6.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/7.gif"></img>|
 |`소비 내역 추가`|`소비 내역 확인`|`게임 포기`|`싱글게임 기록`|
-|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/8.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/9.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/10.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/11.gif"></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/8.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/9.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/10.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/11.gif"></img>|
 |`친구 검색`|`친구요청 및 도전장`|`멀티게임`|`웨이팅`|
-|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/12.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/13.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/14.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/main/MoneySaveGameGif/15.gif"></img>|
+|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/12.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/13.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/14.gif"></img>|<img src="https://github.com/APPSCHOOL1-REPO/finalproject-msg/blob/dev(1.0.1)/MoneySaveGameGif(1.0.1)/15.gif"></img>|
 |`멀티게임 기록`|`다크모드`|`프로필편집 및 로그아웃`|`회원탈퇴`|
 
-<br>
 <br>
 <br>
 
@@ -67,7 +76,6 @@
 ## MSG Architecture🛠
 <img width="1200" alt="image" src="https://user-images.githubusercontent.com/108966759/219245974-71707963-688d-49fa-8688-d52f80a7dc24.png">
 
-<br>
 <br>
 
 ## 기술 스택
@@ -82,20 +90,16 @@
 - Realtimebase: 친구추가 및 도전장 신청
 
 ### 🧭 Lottie
-- 금액 사용상태에 따른 애니메이션 사용
+- 금액 사용에 따른 상태바의 애니메이션
 
 ### Combine
-- 타이머를 이용한 데이터 상태값 처리
-- 유효성 검사
+- 타이머에 따른 상태값 처리
+- 텍스트필드 유효성 검사
+- debounce를 활용한 데이터 입력 후 검색로직
 - Firebase Realtime
 
 <br>
 <br>
-
-
-<br>
-<br>
-
 
 ## 📂 프로젝트 관련문서
 📌 <a href="https://www.notion.so/MSG-Money-Save-Game-57d8b96197c54a90bd26444d3af07efe">MSG Notion</a> <br>
