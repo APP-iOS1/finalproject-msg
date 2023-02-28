@@ -14,7 +14,7 @@ enum Crop: Equatable {
     func name() -> String {
         switch self {
         case .circle:
-            return "자르기"
+            return "사진 크기 조절"
         }
     }
     

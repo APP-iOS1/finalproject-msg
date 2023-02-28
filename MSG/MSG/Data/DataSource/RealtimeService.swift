@@ -137,7 +137,7 @@ class RealtimeService: ObservableObject {
     }
     func observeDelete() {
         print(#function)
-        var index = 0
+//        var index = 0
         guard let uid = Auth.auth().currentUser?.uid else { return }
         self.user.removeAll()
         deleteObserve()
@@ -145,9 +145,9 @@ class RealtimeService: ObservableObject {
                 if let user, let self {
                     for postitItem in self.user {
                         if (user.id == postitItem.id) {
-                            self.user.remove(at: index)
+                            self.user.remove(at: self.user.firstIndex(of: postitItem)!)
                         }
-                        index += 1
+//                        index += 1
                     }
                     self.user = Array(Set(self.user))
                     self.friendCount = self.user.count

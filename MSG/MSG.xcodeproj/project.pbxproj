@@ -14,6 +14,7 @@
 		1611113D299C95B90002AD92 /* GameRequestDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611113C299C95B90002AD92 /* GameRequestDataSource.swift */; };
 		161398FC2983F863002A6F16 /* SpendingWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */; };
 		161716B52993857F00CC4901 /* WaitingCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161716B42993857F00CC4901 /* WaitingCountView.swift */; };
+		162A574429AD8AA3000FCBB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 162A574329AD8AA3000FCBB9 /* GoogleService-Info.plist */; };
 		163CB2CC299A27E4008506FD /* RealtimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163CB2CB299A27E4008506FD /* RealtimeService.swift */; };
 		1642F3FC298E893D0085FF00 /* MultiProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */; };
 		16526E87298BA74000ED023A /* GameRequestAlertViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16526E86298BA74000ED023A /* GameRequestAlertViewCell.swift */; };
@@ -116,7 +117,6 @@
 		63200F8129A743D3003D705A /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63200F8029A743D3003D705A /* CustomImagePicker.swift */; };
 		63200F8329A75109003D705A /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63200F8229A75109003D705A /* CropView.swift */; };
 		632B7CD129825C8000A3D53C /* CountDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632B7CD029825C8000A3D53C /* CountDownView.swift */; };
-		633708C529A8E52900DC67A6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 633708C429A8E52900DC67A6 /* GoogleService-Info.plist */; };
 		6342C2C329763B0D00C24D20 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C229763B0D00C24D20 /* LoginView.swift */; };
 		6342C2C7297648CB00C24D20 /* KakaoAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C6297648CB00C24D20 /* KakaoAppDelegate.swift */; };
 		6342C2C929764AA500C24D20 /* KakaoSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6342C2C829764AA500C24D20 /* KakaoSceneDelegate.swift */; };
@@ -159,6 +159,7 @@
 		1611113C299C95B90002AD92 /* GameRequestDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRequestDataSource.swift; sourceTree = "<group>"; };
 		161398FB2983F863002A6F16 /* SpendingWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingWriteViewModel.swift; sourceTree = "<group>"; };
 		161716B42993857F00CC4901 /* WaitingCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingCountView.swift; sourceTree = "<group>"; };
+		162A574329AD8AA3000FCBB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		163CB2CB299A27E4008506FD /* RealtimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeService.swift; sourceTree = "<group>"; };
 		1642F3FB298E893D0085FF00 /* MultiProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiProgressBar.swift; sourceTree = "<group>"; };
 		16526E86298BA74000ED023A /* GameRequestAlertViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRequestAlertViewCell.swift; sourceTree = "<group>"; };
@@ -252,7 +253,6 @@
 		63200F8029A743D3003D705A /* CustomImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
 		63200F8229A75109003D705A /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 		632B7CD029825C8000A3D53C /* CountDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownView.swift; sourceTree = "<group>"; };
-		633708C429A8E52900DC67A6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6342C2C229763B0D00C24D20 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		6342C2C42976446600C24D20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6342C2C5297645F100C24D20 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -661,7 +661,7 @@
 				168CDEF7298CD53900FAA3F4 /* flyingMoney.json */,
 				168CDEF8298CD53900FAA3F4 /* run.json */,
 				6342C2C42976446600C24D20 /* Info.plist */,
-				633708C429A8E52900DC67A6 /* GoogleService-Info.plist */,
+				162A574329AD8AA3000FCBB9 /* GoogleService-Info.plist */,
 				16600968297630C400E6A546 /* Preview Content */,
 				16DB66CF2988A951009BF8B7 /* Fonts */,
 				16600966297630C400E6A546 /* Assets.xcassets */,
@@ -984,12 +984,12 @@
 				63C9872A299B21DE008B1DE7 /* notebook.json in Resources */,
 				63C98731299B2209008B1DE7 /* moneyChart.json in Resources */,
 				168CDEF9298CD53900FAA3F4 /* flyingMoney.json in Resources */,
+				162A574429AD8AA3000FCBB9 /* GoogleService-Info.plist in Resources */,
 				63C98735299B25E3008B1DE7 /* finance.json in Resources */,
 				63C9872B299B21DE008B1DE7 /* winner.json in Resources */,
 				168CDEFA298CD53900FAA3F4 /* run.json in Resources */,
 				168CDEF6298CD1C200FAA3F4 /* ambulance.json in Resources */,
 				16600967297630C400E6A546 /* Assets.xcassets in Resources */,
-				633708C529A8E52900DC67A6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

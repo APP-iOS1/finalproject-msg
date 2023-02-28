@@ -231,7 +231,7 @@ struct WaitingView: View {
                 }
             }
 //            .onReceive(timer) { _ in
-//                guard let game = fireStoreViewModel.currentGame  else { return }
+//                guard let game = waitingViewModel.currentGame  else { return }
 //    //            print("끝나는시간:",game.endDate)
 //    //            let now = Date().timeIntervalSinceNow
 //    //            print("현재시간:", now)
