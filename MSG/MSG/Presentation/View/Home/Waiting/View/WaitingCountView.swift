@@ -14,6 +14,7 @@ struct WaitingCountView: View {
 //    @EnvironmentObject var fireStoreViewModel: FireStoreViewModel
 //    @EnvironmentObject private var realtimeViewModel: RealtimeViewModel
     @ObservedObject var waitingViewModel: WaitingViewModel
+    @ObservedObject var challengeViewModel: ChallengeViewModel
     @State var timeRemaining = 3024000
     var endDate: Double = 0.0
     
@@ -38,6 +39,7 @@ struct WaitingCountView: View {
                 self.timeRemaining -= 1
             }else{
                 Task {
+                    print("시간종료 후 게임시작되야함")
                     self.timer.upstream.connect().cancel()
                     await waitingViewModel.fetchGame()
                     guard let waitingArray = waitingViewModel.currentGame else { return }
@@ -46,6 +48,9 @@ struct WaitingCountView: View {
                     }
                     let data = await waitingViewModel.addMultiGameDeleteWaitUserFiveMinute(waitingViewModel.currentGame!)
                     waitingViewModel.currentGame = data
+                    challengeViewModel.currentGame = data
+//                    await challengeViewModel.fetchGameReturn()
+                    print("현재게임",waitingViewModel.currentGame)
 //                    afterFiveMinuteDeleteChallenge
                 }
             }

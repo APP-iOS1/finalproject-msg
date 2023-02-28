@@ -61,7 +61,7 @@ struct WaitingView: View {
                         
                             Divider()
                             .frame(width: g.size.width / 1.3, height: g.size.height / 15)
-                        WaitingCountView(waitingViewModel: waitingViewModel, endDate: Double(waitingViewModel.currentGame!.startDate)! + 300.0)
+                        WaitingCountView(waitingViewModel: waitingViewModel, challengeViewModel: challengeViewModel, endDate: Double(waitingViewModel.currentGame!.startDate)! + 300.0)
                         
                             // MARK: 참여 인원 & refreshable 버튼
                             HStack {
