@@ -112,11 +112,12 @@ struct AppleButton: View {
                 HStack {
                     Image(systemName: "applelogo")
                         .resizable()
-                        .frame(width: g.size.width / 16, height: g.size.height / 8.6347)
+                        .frame(width: g.size.width / 28, height: g.size.height / 15.415)
                         .aspectRatio(contentMode: .fit)
                     
-                    Text("Apple Sign in")
+                    Text("Sign in with Apple")
                         .font(.callout)
+                        .bold()
                         .lineLimit(1)
                 }
                 .foregroundColor(.white)
@@ -165,11 +166,12 @@ struct GoogleButton: View {
                 HStack {
                     Image("GoogleIcon")
                         .resizable()
-                        .frame(width: g.size.width / 16, height: g.size.height / 8.6347)
+                        .frame(width: g.size.width / 28, height: g.size.height / 15.415)
                         .aspectRatio(contentMode: .fit)
                     
-                    Text("Google Sign in")
+                    Text("Sign in with Google")
                         .font(.callout)
+                        .bold()
                         .lineLimit(1)
                 }
                 .foregroundColor(.black)
@@ -216,11 +218,12 @@ struct KakaoButton: View {
                 HStack {
                     Image("KakaoIcon")
                         .resizable()
-                        .frame(width: g.size.width / 16, height: g.size.height / 8.6347)
+                        .frame(width: g.size.width / 28, height: g.size.height / 15.415)
                         .aspectRatio(contentMode: .fit)
                     
-                    Text("Kakao Sign in")
+                    Text("Sign in with Kakao")
                         .font(.callout)
+                        .bold()
                         .lineLimit(1)
                     
                 }

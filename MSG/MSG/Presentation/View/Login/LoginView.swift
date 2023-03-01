@@ -60,12 +60,13 @@ struct LoginView: View {
                                     HStack {
                                         Image(systemName: "applelogo")
                                             .resizable()
-                                            .frame(width: g.size.width / 16, height: g.size.height / 28)
+                                            .frame(width: g.size.width / 28, height: g.size.height / 50)
                                             .aspectRatio(contentMode: .fit)
                                         
-                                        Text("Apple Sign in")
+                                        Text("Sign in with Apple")
                                             .font(.callout)
                                             .lineLimit(1)
+                                            .bold()
                                     }
                                     .foregroundColor(.white)
                                     .frame(width: g.size.width / 1.8, height: g.size.height / 17, alignment: .center)
@@ -117,11 +118,12 @@ struct LoginView: View {
                                     HStack {
                                         Image("GoogleIcon")
                                             .resizable()
-                                            .frame(width: g.size.width / 16, height: g.size.height / 28)
+                                            .frame(width: g.size.width / 28, height: g.size.height / 50)
                                             .aspectRatio(contentMode: .fit)
                                         
-                                        Text("Google Sign in")
+                                        Text("Sign in with Google")
                                             .font(.callout)
+                                            .bold()
                                             .lineLimit(1)
                                     }
                                     .foregroundColor(.black)
@@ -169,11 +171,12 @@ struct LoginView: View {
                                     HStack {
                                         Image("KakaoIcon")
                                             .resizable()
-                                            .frame(width: g.size.width / 16, height: g.size.height / 28)
+                                            .frame(width: g.size.width / 28, height: g.size.height / 50)
                                             .aspectRatio(contentMode: .fit)
                                         
-                                        Text("Kakao Sign in")
+                                        Text("Sign in with Kakao")
                                             .font(.callout)
+                                            .bold()
                                             .lineLimit(1)
                                         
                                     }
@@ -204,6 +207,7 @@ struct LoginView: View {
                             
                             // MARK: 앱 이름
                             Text("Money Save Game")
+                                .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
                            
                         }
                         .frame(width: g.size.width, height: g.size.height / 2.1)
@@ -434,7 +438,6 @@ struct LoginView: View {
             .fullScreenCover(isPresented: $isFirstLaunching) {
                 OnBoardTapView(isFirstLaunching: $isFirstLaunching)
             }
-            .modifier(TextModifier(fontWeight: FontCustomWeight.bold, fontType: FontCustomType.title2, color: FontCustomColor.color2))
         }
 
     }
