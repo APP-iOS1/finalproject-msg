@@ -205,9 +205,10 @@ struct SoloGameSettingView: View {
                                     let localNotification = LocalNotification(identifier: UUID().uuidString, title: "챌린지가 시작되었습니다!", body: "지출을 추가해 기록을 작성해보세요", timeInterval: 1, repeats: false)
                                     await gameSettingViewModel.createSingleChallenge()
                                     dismiss()
+                                    notiManager.removeAllRequest()
                                     await notiManager.schedule(localNotification: localNotification)
                                     await notiManager.doSomething()
-                                    await notiManager.getPendingRequests()
+//                                    await notiManager.getPendingRequests()
                                 }
                             }
                         }
