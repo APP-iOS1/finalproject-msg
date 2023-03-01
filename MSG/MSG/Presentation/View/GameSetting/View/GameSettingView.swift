@@ -283,9 +283,10 @@ extension GameSettingView {
                         let localNotification = LocalNotification(identifier: UUID().uuidString, title: "도전장을 보냈습니다.", body: "상대방이 도전을 수락하면 시작됩니다.", timeInterval: 1, repeats: false)
                         await gameSettingViewModel.createMultiChallenge()
                         dismiss()
+                        notiManager.removeAllRequest()
                         await notiManager.schedule(localNotification: localNotification)
                         await notiManager.doSomething()
-                        await notiManager.getPendingRequests()
+//                        await notiManager.getPendingRequests()
                     }
                 }
             }
