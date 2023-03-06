@@ -53,7 +53,7 @@
 <br>
 
 ## 유튜브
-- https://www.youtube.com/watch?v=Vo0hOk74MMU
+- https://youtu.be/Z1caZ_T2S6s
 <br>
 <br>
 
